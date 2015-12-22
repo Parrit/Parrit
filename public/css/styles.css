@@ -1,5 +1,5 @@
 body {
-	background: black;
+background-color: #286090
 }
 
 .dropzone {
@@ -27,7 +27,7 @@ body {
   padding: 2em 0.5em;
 
   color: #fff;
-  background-color: #29e;
+  background-color: #337AB7;
   border: solid 2px #fff;
 
   -webkit-transform: translate(0px, 0px);
@@ -42,7 +42,7 @@ body {
 }
 
 .workspace {
-	background-color: pink;
+	background-color:white;
 	margin-top: 1em;
 	min-height: 50em;
 }
