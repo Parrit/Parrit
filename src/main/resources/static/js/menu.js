@@ -11,4 +11,16 @@ $(document).ready(function() {
 	$("#no-move").click(function(){
 		$(".draggable").addClass("no-draggable").removeClass("draggable");
 	});
+	
+	$("#save").click(function(){
+		var htmlContents = $('.workspace').html();
+		$.ajax({
+			  url: 'http://parrit-data.cfapps.io/workspaces/1',
+			  type: 'PUT',
+			  data: {"htmlContents":htmlContents},
+			  success: function(data) {
+			    alert('Load was performed.');
+			  }
+			});
+	});
 });
