@@ -1,3 +1,17 @@
+$.postJSON = function(url, data, callback) {
+    return jQuery.ajax({
+    headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' 
+    },
+    'type': 'POST',
+    'url': url,
+    'data': JSON.stringify(data),
+    'dataType': 'json',
+    'success': callback
+    });
+};
+
 $(document).ready(function() {
 	$(".menu button").click(function(){
 		$(".menu button").removeClass("active");
@@ -14,13 +28,8 @@ $(document).ready(function() {
 	
 	$("#save").click(function(){
 		var htmlContents = $('.workspace').html();
-		$.ajax({
-			  url: 'http://parrit-data.cfapps.io/workspaces/1',
-			  type: 'PUT',
-			  data: {"htmlContents":htmlContents},
-			  success: function(data) {
-			    alert('Load was performed.');
-			  }
-			});
+//		htmlContents = htmlContents.replace(/\"/g,'\\"');
+		var payload = {"htmlContents":htmlContents};
+		$.postJSON("/workspace", payload, function() {console.log("Inserted new workspace")});
 	});
 });
