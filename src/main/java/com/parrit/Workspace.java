@@ -21,4 +21,12 @@ public class Workspace {
 	public Workspace(String htmlContents) {
 		this.htmlContents = htmlContents;
 	}
+	
+	public String getHTMLContents() {
+		return this.htmlContents;
+	}
+	
+	public void setHTMLContents(String contents) {
+		this.htmlContents = contents;
+	}
 }

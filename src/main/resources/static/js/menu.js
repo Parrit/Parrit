@@ -13,7 +13,7 @@ $.postJSON = function(url, data, callback) {
 };
 
 $(document).ready(function() {
-	$(".menu button").click(function(){
+	$(".menu button activatable").click(function(){
 		$(".menu button").removeClass("active");
 		$(this).addClass("active");
 	});

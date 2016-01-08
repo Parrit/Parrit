@@ -1,92 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<!-- Favicon stuff??? -->
-<link rel="shortcut icon" th:href="@{static/favicon.ico}">
-<!-- End Favicon -->
-  <title>Parrit</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="js/interact.js"></script>
-  <script src="js/drag-drop.js"></script>
-  <script src="js/menu.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 1500px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height: auto;} 
-    }
-  </style>
-  
-  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-</head>
-<body>
-
-<div class="container-fluid">
-  <div class="row content">
-    <div class="col-sm-3 sidenav">
-      <h4>Parrit</h4>
-      <ul class="nav nav-pills nav-stacked menu">
-        <li><button id="move" type="button" class="active btn btn-primary btn-block">Move</button></li>
-        <li><button id="no-move" type="button" class="btn btn-primary btn-block">Don't Move</button></li>
-        <li><button id="save" type="button" class="btn btn-success btn-block">Save</button></li>
-      </ul><br>
-    </div>
-
-    <div class="col-sm-9 dark">
-	    <div class="container-fluid workspace">
-		    <h3 class="text-center">Floating</h3>
-		    
-		    <!-- Devs -->
-		    <div class="yes-drop draggable drag-drop">Tim</div>
-			<div class="draggable drag-drop">Anthony</div>
-			<div class="draggable drag-drop">Gaurav</div>
-			<div class="draggable drag-drop">Marianna</div>
-			<div class="draggable drag-drop">Tony</div>
-			<div class="draggable drag-drop">Pete</div>
-			<div class="draggable drag-drop">Jared</div>
-			<div class="draggable drag-drop">Fonzie</div>
-			<div class="draggable drag-drop">Brian</div>
-			<div class="draggable drag-drop">Kea</div>
-			
-			<!-- Spaces -->
-			<div class="dropzone well">Wellesley</div>
-			<div class="dropzone well">Pico2</div>
-			<div class="dropzone well">Manchester</div>
-			<div class="dropzone well">Larchmont</div>
-			<div class="dropzone well">Culver</div>
-			<div class="dropzone well">Out of Office</div>
-	    </div>
-    </div>
-  </div>
-</div>
-
-<footer class="container-fluid">
-  <p>Footer Text</p>
-</footer>
-
-</body>
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="1; url=/main">
+        <script type="text/javascript">
+            window.location.href = "/main"
+        </script>
+        <title>Page Redirection</title>
+    </head>
+    <body>
+        <!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
+        If you are not redirected automatically, follow the <a href='/main'>link to example</a>
+    </body>
 </html>
