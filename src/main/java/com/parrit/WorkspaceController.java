@@ -11,10 +11,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 @RestController
 public class WorkspaceController {
 
-	@Autowired 
     WorkspaceRepository repository;
+	
+	@Autowired
+	public WorkspaceController(WorkspaceRepository repository) {
+		this.repository = repository;
+	}
 
     @RequestMapping(path = "/workspace", method = RequestMethod.POST, consumes = {"application/json"})
+	public
     void save( @RequestBody JsonNode jsonData) {
     	String htmlContents = jsonData.path("htmlContents").asText();
     	
@@ -27,6 +32,7 @@ public class WorkspaceController {
     	}
     }
     
+    public
     Workspace retrieve() {
     	Workspace workspace = repository.findOne(1L);
     	if (workspace == null) {
