@@ -11,9 +11,8 @@
   <link rel="stylesheet" href="css/styles.css"></link>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="js/interact.js"></script>
-  <script src="js/drag-drop.js"></script>
-  <script src="js/menu.js"></script>
+  <script src="js/src/interact.js"></script>
+  <script src="js/src/drag-drop.js"></script>
   <style>
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 1500px}
@@ -49,36 +48,11 @@
   <div class="row content">
     <div class="col-sm-3 sidenav">
       <h4>Parrit</h4>
-      <ul class="nav nav-pills nav-stacked menu">
-        <li><button id="move" type="button" class="active btn btn-primary btn-block activatable">Move</button></li>
-        <li><button id="no-move" type="button" class="btn btn-primary btn-block activatable">Don't Move</button></li>
-        <li><button id="save" type="button" class="btn btn-success btn-block">Save</button></li>
-      </ul><br></br>
+      <div id="menu"></div>
     </div>
 
     <div class="col-sm-9 dark">
 	    <div class="container-fluid workspace" th:utext="${workspaceHTML}">
-<!-- 		    <h3 class="text-center">Floating</h3>
-		    
-		    Devs
-		    <div class="yes-drop draggable drag-drop">Tim</div>
-			<div class="draggable drag-drop">Anthony</div>
-			<div class="draggable drag-drop">Gaurav</div>
-			<div class="draggable drag-drop">Marianna</div>
-			<div class="draggable drag-drop">Tony</div>
-			<div class="draggable drag-drop">Pete</div>
-			<div class="draggable drag-drop">Jared</div>
-			<div class="draggable drag-drop">Fonzie</div>
-			<div class="draggable drag-drop">Brian</div>
-			<div class="draggable drag-drop">Kea</div>
-			
-			Spaces
-			<div class="dropzone well">Wellesley</div>
-			<div class="dropzone well">Pico2</div>
-			<div class="dropzone well">Manchester</div>
-			<div class="dropzone well">Larchmont</div>
-			<div class="dropzone well">Culver</div>
-			<div class="dropzone well">Out of Office</div> -->
 	    </div>
     </div>
   </div>
@@ -87,6 +61,6 @@
 <footer class="container-fluid">
   <p>Footer Text</p>
 </footer>
-
+<script src="built/bundle.js"></script>
 </body>
 </html>
