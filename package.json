@@ -1,0 +1,14 @@
+{
+  "name": "parrit",
+  "version": "0.2.0",
+  "description": "A digital pairing board with a recommendation engine for pairing",
+  "author": "Anthony Dreessen <anthonydreessen@gmail.com>",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pinwheeler/Parrit"
+  },
+  "license": "MIT"
+}
