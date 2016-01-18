@@ -65,7 +65,7 @@ var SuccessButton = React.createClass({
 });
 
 function run() {
-	ReactDOM.render(<Menu />, document.getElementById('menu'));
+	ReactDOM.render(React.createElement(Menu), document.getElementById('menu'));
 }
 
 var loadedStates = ['complete', 'loaded', 'interactive'];

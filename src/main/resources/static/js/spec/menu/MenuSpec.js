@@ -1,5 +1,5 @@
 describe("Menu", function() {
-	var Menu = require('../../src/menu');
+	require('../../../main.js');
 	var menu
 
 	beforeEach(function() {
