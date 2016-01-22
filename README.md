@@ -1,8 +1,6 @@
 # Parrit
 Software development pairing management
 
-Hosted Instance: http://parrit.cfapps.io
-
 # Tech Stack
 - Maven
 - Spring.io
