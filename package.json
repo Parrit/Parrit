@@ -10,5 +10,21 @@
     "type": "git",
     "url": "https://github.com/Pinwheeler/Parrit"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "jquery": "*",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "jsdom": "*",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-requirejs": "^0.2.3",
+    "requirejs": "^2.1.22"
+  }
 }
