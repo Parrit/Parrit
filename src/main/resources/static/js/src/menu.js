@@ -1,6 +1,34 @@
 //menu.js
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Redux = require('redux');
+
+var menuReducer = function(state, action) {
+	switch action.type {
+		case 'MOVE':
+			return { 
+				hit_save: false,
+				can_move: true
+			};
+		case 'DONT_MOVE':
+			return { 
+				hit_save: false,
+				can_move: false
+			};
+		case 'SAVE':
+			return { 
+				hit_save: true,
+				can_move: state.can_move;
+			};
+		default:
+			return {
+				hit_save: false,
+				can_move: true
+			};
+	}
+}
+
+var menuStore =  Redux.createStore(menuReducer);
 
 var Menu = React.createClass({
 	render: function() {
