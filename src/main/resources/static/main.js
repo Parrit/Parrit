@@ -1,10 +1,10 @@
 // main.js
 var React = require('react');
 var ReactDOM = require('react-dom');
-var App = require('./js/src/app.js');
+var ReactClasses = require('./js/src/reactClasses.js');
 
 function run() {
-	ReactDOM.render(React.createElement(App), document.getElementById('app'));
+	ReactDOM.render(React.createElement(ReactClasses.App), document.getElementById('app'));
 }
 
 var loadedStates = ['complete', 'loaded', 'interactive'];

@@ -2,6 +2,7 @@ target/
 node_modules/
 .mvn/
 .settings/
+src/main/resources/static/built/
 
 .DS_Store
 **/.DS_Store

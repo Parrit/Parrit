@@ -1,50 +1,5 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Redux = require('redux');
-
-// ****************** //
-//      Reducers      //
-// ****************** //
-
-var workspaceReducer = function(state, action) {
-	var a = {
-		stations: [
-		    {
-		    	name: 'Unallocated',
-		    	people: []
-		    }
-		]
-	};
-};
-
-var appReducer = function(state, action) {
-	if (typeof state === 'undefined') {
-		state = {
-			can_move: true,
-			workspace: this.workspaceReducer(state, action)
-		};
-	}
-
-	switch (action.type) {
-		case "SET_MOVE":
-			return {
-				can_move: action.can_move,
-				workspace: this.workspaceReducer(state, action)
-			};
-		default:
-			return state;
-	}
-};
-
-// ****************** //
-//       Stores       //
-// ****************** //
-
-var appStore = Redux.createStore(appReducer);
-
-// ****************** //
-//   React Classes    //
-// ****************** //
 
 var App = React.createClass({
 	render: function() {
@@ -64,6 +19,11 @@ var App = React.createClass({
 	}
 });
 
+var Workspace = React.createClass({
+	render: function() {
+		return React.createElement('div');
+	}
+});
 
 var Menu = React.createClass({
 	render: function() {
@@ -99,12 +59,6 @@ var SuccessButton = React.createClass({
   }
 });
 
-
-// ***************** //
-//      Exports      //
-// ***************** //
-
 module.exports = {
-	workspaceReducer: workspaceReducer,
-	appReducer: appReducer
+	App: App
 };
