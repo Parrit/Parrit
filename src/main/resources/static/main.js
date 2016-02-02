@@ -1,18 +1,18 @@
 // main.js
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Provider = require('react-redux').Provider;
+var ReactRedux = require('react-redux');
 var Redux = require('redux');
 
-var ReactClasses = require('./js/src/reactClasses.js');
+var App = require('./js/src/components/App.js');
 var appReducer = require('./js/src/reducers/appReducer.js');
 
 var appStore = Redux.createStore(appReducer);
 
 function run() {
 	ReactDOM.render(
-		React.createElement(Provider, {store: appStore},
-			React.createElement(ReactClasses.App)
+		React.createElement(ReactRedux.Provider, {store: appStore},
+			React.createElement(App)
 		),
 		document.getElementById('app')
 	);
