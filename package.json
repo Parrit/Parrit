@@ -17,19 +17,12 @@
     "jquery": "*",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
-    "redux": "^3.2.0",
-    "requirejs": "^2.1.22"
+    "redux": "^3.2.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
     "deep-freeze": "0.0.1",
     "envify": "~1.2.0",
-    "jasmine-core": "^2.4.1",
-    "jasmine-react": "^1.1.0",
-    "jsdom": "*",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-jasmine": "^0.3.6",
-    "karma-requirejs": "^0.2.3"
+    "jasmine-core": "^2.4.1"
   }
 }
