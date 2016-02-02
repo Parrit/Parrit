@@ -1,5 +1,5 @@
 var deepFreeze = require('deep-freeze');
-var settingsReducer = require('../src/settingsReducer.js');
+var settingsReducer = require('../../src/reducers/settingsReducer.js');
 
 describe("settingsReducer", function() {
 
