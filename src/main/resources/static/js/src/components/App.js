@@ -1,22 +1,20 @@
 var React = require('react');
-var Workspace = require('./Workspace.js');
 var MenuContainer = require('../containers/menuContainer.js');
+var WorkspaceContainer = require('../containers/WorkspaceContainer.js');
 
 var App = React.createClass({
 	render: function() {
-		return React.createElement('div', {className: "container-fluid"},
-            React.createElement('div', {className:"row content"},
-                        React.createElement('div', {className:"col-sm-3 sidenav"},
-							React.createElement('h4', null, "Parrit"),
-							React.createElement(MenuContainer)
-						),
-						React.createElement('div', {className:"col-sm-9 dark"},
-							React.createElement('div', {className:"container-fluid workspace"},
-								React.createElement(Workspace)
-							)
-						)
-					)
-		);
+		return <div className="container-fluid">
+			<div className="row content">
+				<div className="col-sm-3 sidenav">
+					<h4>Parrit</h4>
+					<MenuContainer/>
+				</div>
+				<div className="col-sm-9 dark">
+					<WorkspaceContainer/>
+				</div>
+			</div>
+		</div>
 	}
 });
 

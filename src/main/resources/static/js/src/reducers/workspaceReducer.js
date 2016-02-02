@@ -1,9 +1,15 @@
 var workspaceReducer = function(state, action) {
 	return {
-		stations: [
+		spaces: [
 		    {
 		    	name: 'Unallocated',
-		    	people: []
+		    	people: [{
+		    		name: 'Joe'
+		    	}, {
+		    		name: 'Tony'
+		    	}, {
+		    		name: 'Nick'
+		    	}]
 		    }
 		]
 	};

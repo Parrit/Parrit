@@ -9,10 +9,16 @@ describe("appReducer", function() {
 				canMove: true
 			},
 			workspace: {
-				stations: [
+				spaces: [
 				    {
 				    	name: 'Unallocated',
-				    	people: []
+				    	people: [{
+				    		name: 'Joe'
+				    	}, {
+				    		name: 'Tony'
+				    	}, {
+				    		name: 'Nick'
+				    	}]
 				    }
 				]
 			}
