@@ -6,4 +6,5 @@ before_script:
   - npm install
 
 script:
-  - rake spec
+  - mvn test
+  - node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json
