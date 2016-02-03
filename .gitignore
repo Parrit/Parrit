@@ -9,4 +9,7 @@ src/main/resources/static/built/
 .DS_Store
 **/.DS_Store
 parrit.iml
+Parrit.iml
 .project
+.classpath
+.springBeans
