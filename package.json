@@ -24,6 +24,7 @@
     "browserify": "^13.0.0",
     "deep-freeze": "0.0.1",
     "envify": "~1.2.0",
+    "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1"
   }
 }

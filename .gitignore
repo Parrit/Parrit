@@ -4,6 +4,9 @@
 target/
 node_modules/
 src/main/resources/static/built/
+.idea/
 
 .DS_Store
 **/.DS_Store
+parrit.iml
+.project
