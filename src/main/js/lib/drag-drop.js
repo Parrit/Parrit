@@ -1,3 +1,5 @@
+var interact = require('./interact.js');
+
 // target elements with the "draggable" class
 interact('.draggable')
   .draggable({
@@ -43,7 +45,7 @@ interact('.draggable')
 
   // this is used later in the resizing and gesture demos
   window.dragMoveListener = dragMoveListener;
-  
+
   /* The dragging code for '.draggable' from the demo above
    * applies to this demo as well so it doesn't have to be repeated. */
 

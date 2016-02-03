@@ -1,11 +1,14 @@
-// main.js
+require('./lib/interact.js');
+require('./lib/drag-drop.js');
+require('./lib/drag-drop-override.js');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactRedux = require('react-redux');
 var Redux = require('redux');
 
-var App = require('./js/src/components/App.js');
-var appReducer = require('./js/src/reducers/appReducer.js');
+var App = require('./components/App.js');
+var appReducer = require('./reducers/appReducer.js');
 
 var appStore = Redux.createStore(appReducer);
 

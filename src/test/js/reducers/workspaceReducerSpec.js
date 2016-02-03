@@ -1,4 +1,4 @@
-var workspaceReducer = require('../../src/reducers/workspaceReducer.js');
+var workspaceReducer = require('../../../main/js/reducers/workspaceReducer.js');
 
 describe("workspaceReducer", function() {
 	it("should get the default state", function() {

@@ -1,9 +1,0 @@
-{
-    "spec_dir": "src/main/resources/static/js/spec",
-    "spec_files": [
-		"**/*[sS]pec.js"
-    ],
-    "helpers": [
-      "helpers/**/*.js"
-    ]
-}
