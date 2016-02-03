@@ -3,6 +3,8 @@ node_modules/
 .mvn/
 .settings/
 src/main/resources/static/built/
+.idea/
 
 .DS_Store
 **/.DS_Store
+parrit.iml
