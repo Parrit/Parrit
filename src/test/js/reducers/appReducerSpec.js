@@ -22,8 +22,4 @@ describe("appReducer", function() {
 			appReducer(stateBefore, action)
 		).toEqual(stateAfter);
 	});
-
-	it("should fail", function() {
-		expect(false).toBe(true);
-	});
 });
