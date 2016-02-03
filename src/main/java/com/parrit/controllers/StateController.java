@@ -2,13 +2,15 @@ package com.parrit.controllers;
 
 import com.parrit.repositories.StateRepository;
 import com.parrit.entities.State;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StateController {
@@ -20,96 +22,115 @@ public class StateController {
 		this.stateRepository = repository;
 	}
 
+    @RequestMapping(path = "/state", method = RequestMethod.GET)
+	public ResponseEntity<State> get(@RequestParam long id) {
+        State state = stateRepository.findOne(id);
+        if(state == null) {
+            state = new State();
+            state.setId(id);
+            state.setJsonContent(defaultJsonContent());
+            stateRepository.save(state);
+        }
+        return new ResponseEntity<>(state, HttpStatus.OK);
+    }
+
     @RequestMapping(path = "/state", method = RequestMethod.POST, consumes = {"application/json"})
 	public void save(@RequestBody State state) {
-        System.out.println(state);
     	stateRepository.save(state);
     }
 
-    private JSONObject defaultStateJSON() {
-        JSONObject settings = new JSONObject();
-        settings.put("canMove", true);
+    private Map<Object, Object> defaultJsonContent() {
+        Map<Object, Object> defaultTimPerson = new HashMap<>();
+        defaultTimPerson.put("name", "Tim");
+        Map<Object, Object> defaultAnthonyPerson = new HashMap<>();
+        defaultAnthonyPerson.put("name", "Anthony");
+        Map<Object, Object> defaultGauravPerson = new HashMap<>();
+        defaultGauravPerson.put("name", "Gaurav");
+        Map<Object, Object> defaultMariannaPerson = new HashMap<>();
+        defaultMariannaPerson.put("name", "Marianna");
+        Map<Object, Object> defaultTonyPerson = new HashMap<>();
+        defaultTonyPerson.put("name", "Tony");
+        Map<Object, Object> defaultPetePerson = new HashMap<>();
+        defaultPetePerson.put("name", "Pete");
+        Map<Object, Object> defaultJaredPerson = new HashMap<>();
+        defaultJaredPerson.put("name", "Jared");
+        Map<Object, Object> defaultFonziePerson = new HashMap<>();
+        defaultFonziePerson.put("name", "Fonzie");
+        Map<Object, Object> defaultBrianPerson = new HashMap<>();
+        defaultBrianPerson.put("name", "Brian");
+        Map<Object, Object> defaultKeaPerson = new HashMap<>();
+        defaultKeaPerson.put("name", "Kea");
+        Map<Object, Object> defaultLancePerson = new HashMap<>();
+        defaultLancePerson.put("name", "Lance");
+        Map<Object, Object> defaultLizPerson = new HashMap<>();
+        defaultLizPerson.put("name", "Liz");
+        Map<Object, Object> defaultSreePerson = new HashMap<>();
+        defaultSreePerson.put("name", "Sree");
 
-        JSONObject Tim = new JSONObject();
-        Tim.put("name", "Tim");
-        JSONObject Anthony = new JSONObject();
-        Anthony.put("name", "Anthony");
-        JSONObject Gaurav = new JSONObject();
-        Gaurav.put("name", "Gaurav");
-        JSONObject Marianna = new JSONObject();
-        Marianna.put("name", "Marianna");
-        JSONObject Tony = new JSONObject();
-        Tony.put("name", "Tony");
-        JSONObject Pete = new JSONObject();
-        Pete.put("name", "Pete");
-        JSONObject Jared = new JSONObject();
-        Jared.put("name", "Jared");
-        JSONObject Fonzie = new JSONObject();
-        Fonzie.put("name", "Fonzie");
-        JSONObject Brian = new JSONObject();
-        Brian.put("name", "Brian");
-        JSONObject Kea = new JSONObject();
-        Kea.put("name", "Kea");
-        JSONObject Lance = new JSONObject();
-        Lance.put("name", "Lance");
-        JSONObject Liz = new JSONObject();
-        Liz.put("name", "Liz");
-        JSONObject Sree = new JSONObject();
-        Sree.put("name", "Sree");
+        List<Map<Object, Object>> defaultFloatingPeople = new ArrayList<>();
+        defaultFloatingPeople.add(defaultTimPerson);
+        defaultFloatingPeople.add(defaultAnthonyPerson);
+        defaultFloatingPeople.add(defaultGauravPerson);
+        defaultFloatingPeople.add(defaultMariannaPerson);
+        defaultFloatingPeople.add(defaultTonyPerson);
+        defaultFloatingPeople.add(defaultPetePerson);
+        defaultFloatingPeople.add(defaultJaredPerson);
+        defaultFloatingPeople.add(defaultFonziePerson);
+        defaultFloatingPeople.add(defaultBrianPerson);
+        defaultFloatingPeople.add(defaultKeaPerson);
+        defaultFloatingPeople.add(defaultLancePerson);
+        defaultFloatingPeople.add(defaultLizPerson);
+        defaultFloatingPeople.add(defaultSreePerson);
 
-        JSONArray people = new JSONArray();
-        people.add(Tim);
-        people.add(Anthony);
-        people.add(Gaurav);
-        people.add(Marianna);
-        people.add(Tony);
-        people.add(Pete);
-        people.add(Jared);
-        people.add(Fonzie);
-        people.add(Brian);
-        people.add(Kea);
-        people.add(Lance);
-        people.add(Liz);
-        people.add(Sree);
+        Map<Object, Object> defaultFloatingStation = new HashMap<>();
+        defaultFloatingStation.put("name", "Floating");
+        defaultFloatingStation.put("people", defaultFloatingPeople);
+        Map<Object, Object> defaultDesignStation = new HashMap<>();
+        defaultDesignStation.put("name", "Design");
+        defaultDesignStation.put("people", new ArrayList<>());
+        Map<Object, Object> defaultProductStation = new HashMap<>();
+        defaultProductStation.put("name", "Product");
+        defaultProductStation.put("people", new ArrayList<>());
+        Map<Object, Object> defaultWellesleyStation = new HashMap<>();
+        defaultWellesleyStation.put("name", "Wellesley");
+        defaultWellesleyStation.put("people", new ArrayList<>());
+        Map<Object, Object> defaultPico2Station = new HashMap<>();
+        defaultPico2Station.put("name", "Pico2");
+        defaultPico2Station.put("people", new ArrayList<>());
+        Map<Object, Object> defaultManchesterStation = new HashMap<>();
+        defaultManchesterStation.put("name", "Manchester");
+        defaultManchesterStation.put("people", new ArrayList<>());
+        Map<Object, Object> defaultLarchmontStation = new HashMap<>();
+        defaultLarchmontStation.put("name", "Larchmont");
+        defaultLarchmontStation.put("people", new ArrayList<>());
+        Map<Object, Object> defaultCulverStation = new HashMap<>();
+        defaultCulverStation.put("name", "Culver");
+        defaultCulverStation.put("people", new ArrayList<>());
+        Map<Object, Object> defaultOut_of_OfficeStation = new HashMap<>();
+        defaultOut_of_OfficeStation.put("name", "Out_of_Office");
+        defaultOut_of_OfficeStation.put("people", new ArrayList<>());
 
-        JSONObject Floating = new JSONObject();
-        Floating.put("name", "Floating");
-        Floating.put("people", people);
-        JSONObject Design = new JSONObject();
-        Design.put("name", "Design");
-        JSONObject Product = new JSONObject();
-        Product.put("name", "Product");
-        JSONObject Wellesley = new JSONObject();
-        Wellesley.put("name", "Wellesley");
-        JSONObject Pico2 = new JSONObject();
-        Pico2.put("name", "Pico2");
-        JSONObject Manchester = new JSONObject();
-        Manchester.put("name", "Manchester");
-        JSONObject Larchmont = new JSONObject();
-        Larchmont.put("name", "Larchmont");
-        JSONObject Culver = new JSONObject();
-        Culver.put("name", "Culver");
-        JSONObject Out_of_Office = new JSONObject();
-        Out_of_Office.put("name", "Out of Office");
+        List<Map<Object, Object>> defaultStationList = new ArrayList<>();
+        defaultStationList.add(defaultFloatingStation);
+        defaultStationList.add(defaultDesignStation);
+        defaultStationList.add(defaultProductStation);
+        defaultStationList.add(defaultWellesleyStation);
+        defaultStationList.add(defaultPico2Station);
+        defaultStationList.add(defaultManchesterStation);
+        defaultStationList.add(defaultLarchmontStation);
+        defaultStationList.add(defaultCulverStation);
+        defaultStationList.add(defaultOut_of_OfficeStation);
 
-        JSONArray stations = new JSONArray();
-        stations.add(Floating);
-        stations.add(Design);
-        stations.add(Product);
-        stations.add(Wellesley);
-        stations.add(Pico2);
-        stations.add(Manchester);
-        stations.add(Larchmont);
-        stations.add(Culver);
-        stations.add(Out_of_Office);
+        Map<Object, Object> defaultWorkspaceMap = new HashMap<>();
+        defaultWorkspaceMap.put("stations", defaultStationList);
 
-        JSONObject workspace =  new JSONObject();
-        workspace.put("stations", stations);
+        Map<Object, Object> defaultSettingsMap = new HashMap<>();
+        defaultSettingsMap.put("canMove", true);
 
-        JSONObject state = new JSONObject();
-        state.put("settings", settings);
-        state.put("workspace", workspace);
+        Map<Object, Object> defaultJsonMap = new HashMap<>();
+        defaultJsonMap.put("settings", defaultSettingsMap);
+        defaultJsonMap.put("workspace", defaultWorkspaceMap);
 
-        return state;
+        return defaultJsonMap;
     }
 }

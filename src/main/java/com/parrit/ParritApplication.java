@@ -25,7 +25,7 @@ public class ParritApplication implements CommandLineRunner {
     	log.info("##### Creating tables... #####");
     	jdbcTemplate.execute("DROP TABLE state IF EXISTS");
     	jdbcTemplate.execute("CREATE TABLE project(id LONG, state_id INT)");
-    	jdbcTemplate.execute("CREATE TABLE state(id LONG, json_content TEXT)");
+    	jdbcTemplate.execute("CREATE TABLE state(id LONG, json_content BLOB)");
         log.info("##### Done creating tables... #####");
     }
 }
