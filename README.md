@@ -17,7 +17,7 @@ Clone into a new repo, cd into that folder
 ```
 $ npm install
 $ rake browserify
-$ rake jasmine
+$ rake spec
 ```
 
 If all of the tests pass, run the project as a spring project using your preferred method
