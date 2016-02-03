@@ -1,6 +1,8 @@
 # Parrit
 Software development pairing management
 
+[![Build Status](https://travis-ci.org/Pinwheeler/Parrit.svg?branch=master)](https://travis-ci.org/Pinwheeler/Parrit)
+
 # Tech Stack
 - Maven
 - Spring.io
@@ -12,9 +14,11 @@ Software development pairing management
 
 Clone into a new repo, cd into that folder
 
-```$ npm install```
-```$ rake browserify```
-```$ rake jasmine```
+```
+$ npm install
+$ rake browserify
+$ rake jasmine
+```
 
 If all of the tests pass, run the project as a spring project using your preferred method
 

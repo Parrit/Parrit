@@ -57,8 +57,4 @@ public class StateControllerTest extends ControllerTestBase {
 
         verify(mockStateRepository).save(expectedState);
     }
-
-    @Test public void thisShouldFail() throws Exception {
-        assert(false);
-    }
 }
