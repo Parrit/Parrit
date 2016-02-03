@@ -1,0 +1,10 @@
+language: java
+jdk:
+  - oraclejdk8
+
+before_script:
+  - npm install
+
+script:
+  - mvn test
+  - node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json
