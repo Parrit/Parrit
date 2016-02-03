@@ -10,7 +10,27 @@ var Redux = require('redux');
 var App = require('./components/App.js');
 var appReducer = require('./reducers/appReducer.js');
 
-var appStore = Redux.createStore(appReducer);
+var appStore = Redux.createStore(appReducer, {
+			settings: {
+				canMove: true
+			},
+			workspace: {
+				spaces: [
+				    {
+				    	name: 'Unallocated',
+				    	people: [{
+				    		name: 'Joe'
+				    	}, {
+				    		name: 'Tony'
+				    	}, {
+				    		name: 'Nick'
+				    	}, {
+				    		name: 'Nina'
+				    	}]
+				    }
+				]
+			}
+		});
 
 function run() {
 	ReactDOM.render(

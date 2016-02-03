@@ -1,7 +1,8 @@
-target/
-node_modules/
 .mvn/
 .settings/
+.idea/
+target/
+node_modules/
 src/main/resources/static/built/
 
 .DS_Store

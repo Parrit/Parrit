@@ -2,19 +2,13 @@ var workspaceReducer = require('../../../main/js/reducers/workspaceReducer.js');
 
 describe("workspaceReducer", function() {
 	it("should get the default state", function() {
-		var stateBefore = {};
+		var stateBefore = undefined;
 		var action = {};
 		var stateAfter = {
 			spaces: [
 			    {
 			    	name: 'Unallocated',
-			    	people: [{
-			    		name: 'Joe'
-			    	}, {
-			    		name: 'Tony'
-			    	}, {
-			    		name: 'Nick'
-			    	}]
+			    	people: []
 			    }
 			]
 		};

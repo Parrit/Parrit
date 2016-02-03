@@ -2,7 +2,7 @@ var appReducer = require('../../../main/js/reducers/appReducer.js');
 
 describe("appReducer", function() {
 	it("should get the default state", function() {
-		var stateBefore = {};
+		var stateBefore = undefined;
 		var action = {};
 		var stateAfter = {
 			settings: {
@@ -12,13 +12,7 @@ describe("appReducer", function() {
 				spaces: [
 				    {
 				    	name: 'Unallocated',
-				    	people: [{
-				    		name: 'Joe'
-				    	}, {
-				    		name: 'Tony'
-				    	}, {
-				    		name: 'Nick'
-				    	}]
+				    	people: []
 				    }
 				]
 			}

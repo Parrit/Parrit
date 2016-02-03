@@ -22,8 +22,10 @@ public class ParritApplication implements CommandLineRunner {
     
     @Override
     public void run(String... strings) throws Exception {
-    	log.info("Creating tables");
-    	jdbcTemplate.execute("DROP TABLE workspaces IF EXISTS");
-    	jdbcTemplate.execute("CREATE TABLE workspaces(id SERIAL, htmlContents TEXT)");
+    	log.info("##### Creating tables... #####");
+    	jdbcTemplate.execute("DROP TABLE state IF EXISTS");
+    	jdbcTemplate.execute("CREATE TABLE project(id LONG, state_id INT)");
+    	jdbcTemplate.execute("CREATE TABLE state(id LONG, json_content TEXT)");
+        log.info("##### Done creating tables... #####");
     }
 }
