@@ -8,3 +8,4 @@ src/main/resources/static/built/
 .DS_Store
 **/.DS_Store
 parrit.iml
+.project
