@@ -23,8 +23,8 @@ public class ParritApplication implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
     	log.info("##### Creating tables... #####");
-    	jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS project(id LONG, state_id INT)");
-    	jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS state(id LONG, json_content BLOB)");
+    	jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS project(id INT, state_id INT)");
+    	jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS state(id INT, json_content BLOB)");
         log.info("##### Done creating tables... #####");
     }
 }
