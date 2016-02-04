@@ -1,17 +1,19 @@
 var React = require('react');
-var MenuContainer = require('../containers/menuContainer.js');
-var WorkspaceContainer = require('../containers/WorkspaceContainer.js');
+var Menu = require('../components/menu.js');
+var Workspace = require('../components/Workspace.js');
 
 var App = React.createClass({
+
+
 	render: function() {
 		return <div className="container-fluid">
 			<div className="row content">
 				<div className="col-sm-3 sidenav">
 					<h4>Parrit</h4>
-					<MenuContainer/>
+					<Menu settings={this.props.settings} enableMove={this.props.enableMove} disableMove={this.props.disableMove}/>
 				</div>
 				<div className="col-sm-9 dark">
-					<WorkspaceContainer/>
+					<Workspace workspace={this.props.workspace}/>
 				</div>
 			</div>
 		</div>

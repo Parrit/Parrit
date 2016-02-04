@@ -1,9 +1,9 @@
 var ReactRedux = require('react-redux');
 var Person = require('../components/Person.js');
 
-var PersonContainer = ReactRedux.connect(getStateSettings, getDispatchFunctions)(Person);
+var PersonContainer = ReactRedux.connect(getState, getDispatchFunctions)(Person);
 
-function getStateSettings(state) {
+function getState(state) {
 	return state.settings;
 }
 

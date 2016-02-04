@@ -25,6 +25,8 @@
     "deep-freeze": "0.0.1",
     "envify": "~1.2.0",
     "jasmine": "^2.4.1",
-    "jasmine-core": "^2.4.1"
+    "jasmine-core": "^2.4.1",
+    "jsdom": "^8.0.2",
+    "react-addons-test-utils": "^0.14.7"
   }
 }
