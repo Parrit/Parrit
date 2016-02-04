@@ -5,7 +5,18 @@ var App = require('../../../main/js/components/App.js');
 describe('App', function() {
     var props = {
         settings: {},
-        workspace: {},
+        workspace: {
+            spaces: [
+                {
+                    name: "Space1",
+                    people: [
+                        {
+                            name: "George"
+                        }
+                    ]
+                }
+            ]
+        },
         enableMove: {},
         disableMove: {}
     };

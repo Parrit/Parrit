@@ -7,11 +7,25 @@ var ReactDOM = require('react-dom');
 var ReactRedux = require('react-redux');
 var Redux = require('redux');
 
-var AppContainer = require('../containers/appContainer.js');
-var appReducer = require('../reducers/appReducer.js');
+var AppContainer = require('./containers/appContainer.js');
+var appReducer = require('./reducers/appReducer.js');
 
 function run() {
-	var appStore = Redux.createStore(appReducer);
+	var appStore = Redux.createStore(appReducer, {
+		settings: {
+			canMove: true
+		},
+		workspace: {
+			spaces: [
+				{
+					name: 'Unallocated',
+					people: [{
+						name: 'Cheeseball'
+					}]
+				}
+			]
+		}
+	});
 
 	ReactDOM.render(
 		React.createElement(ReactRedux.Provider, {store: appStore},
