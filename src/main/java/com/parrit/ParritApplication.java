@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootApplication
-public class ParritApplication implements CommandLineRunner {
+public class ParritApplication  {
 	
 	private static final Logger log = LoggerFactory.getLogger(ParritApplication.class);
 
@@ -19,12 +19,5 @@ public class ParritApplication implements CommandLineRunner {
     
     @Autowired 
     JdbcTemplate jdbcTemplate;
-    
-    @Override
-    public void run(String... strings) throws Exception {
-    	log.info("##### Creating tables... #####");
-    	jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS project(id INT, state_id INT)");
-    	jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS state(id INT, json_content BLOB)");
-        log.info("##### Done creating tables... #####");
-    }
+
 }

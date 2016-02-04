@@ -222,7 +222,6 @@ public class StateControllerTest extends ControllerTestBase {
 
         defaultState = new State();
         defaultState.setId(1L);
-        defaultState.setJsonContent(defaultJsonMap);
 
         exampleStateString = "{\"id\":1,\"jsonContent\":{\"super\":\"man\"}}";
 
@@ -230,7 +229,6 @@ public class StateControllerTest extends ControllerTestBase {
         exampleJsonMap.put("super", "man");
         exampleState = new State();
         exampleState.setId(1L);
-        exampleState.setJsonContent(exampleJsonMap);
     }
 
     @Test
