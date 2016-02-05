@@ -1,6 +1,6 @@
 var React = require('react');
-var Menu = require('../components/menu.js');
-var Workspace = require('../components/Workspace.js');
+var Menu = require('./Menu.js');
+var Workspace = require('./Workspace.js');
 
 var App = React.createClass({
     componentDidMount: function() {
