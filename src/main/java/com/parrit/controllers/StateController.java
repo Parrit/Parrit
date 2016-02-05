@@ -1,16 +1,13 @@
 package com.parrit.controllers;
 
-import com.parrit.repositories.StateRepository;
-import com.parrit.entities.State;
+import com.parrit.entities.*;
+import com.parrit.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class StateController {
@@ -22,12 +19,21 @@ public class StateController {
 		this.stateRepository = repository;
 	}
 
+    @Autowired
+    private SettingsRepository settingsRepository;
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
+    @Autowired
+    private SpaceRepository spaceRepository;
+    @Autowired
+    private PersonRepository personRepository;
+
+
     @RequestMapping(path = "/state", method = RequestMethod.GET)
 	public ResponseEntity<State> get(@RequestParam long id) {
         State state = stateRepository.findOne(id);
         if(state == null) {
-            state = new State();
-            state.setId(id);
+            state = this.defaultState();
             stateRepository.save(state);
         }
         return new ResponseEntity<>(state, HttpStatus.OK);
@@ -38,101 +44,92 @@ public class StateController {
     	stateRepository.save(state);
     }
 
+    private State defaultState() {
+        Person tim      = new Person("Tim");
+        personRepository.save(tim);
+        Person gaurav   = new Person("Gaurav");
+        personRepository.save(gaurav);
+        Person marianna = new Person("Marianna");
+        personRepository.save(marianna);
+        Person tony     = new Person("Tony");
+        personRepository.save(tony);
+        Person pete     = new Person("Pete");
+        personRepository.save(pete);
+        Person jared    = new Person("Jared");
+        personRepository.save(jared);
+        Person fonzie   = new Person("Fonzie");
+        personRepository.save(fonzie);
+        Person brian    = new Person("Brian");
+        personRepository.save(brian);
+        Person kea      = new Person("Kea");
+        personRepository.save(kea);
+        Person lance    = new Person("Lance");
+        personRepository.save(lance);
+        Person liz      = new Person("Liz");
+        personRepository.save(liz);
+        Person sree     = new Person("Sree");
+        personRepository.save(sree);
 
+        List people = new ArrayList();
+        people.add(tim);
+        people.add(gaurav);
+        people.add(marianna);
+        people.add(tony);
+        people.add(pete);
+        people.add(jared);
+        people.add(fonzie);
+        people.add(brian);
+        people.add(kea);
+        people.add(lance);
+        people.add(liz);
+        people.add(sree);
 
+        Space floating    = new Space("Floating");
+        spaceRepository.save(floating);
+        Space design      = new Space("Design");
+        spaceRepository.save(design);
+        Space product     = new Space("Product");
+        spaceRepository.save(product);
+        Space wellesley   = new Space("Wellesley");
+        spaceRepository.save(wellesley);
+        Space pico2       = new Space("Pico2");
+        spaceRepository.save(pico2);
+        Space manchester  = new Space("Manchester");
+        spaceRepository.save(manchester);
+        Space larchmont   = new Space("Larchmont");
+        spaceRepository.save(larchmont);
+        Space culver      = new Space("Culver");
+        spaceRepository.save(culver);
+        Space outOfOffice = new Space("Out of Office");
+        spaceRepository.save(outOfOffice);
 
-//    private Map<Object, Object> defaultJsonContent() {
-//        Map<Object, Object> defaultTimPerson = new HashMap<>();
-//        defaultTimPerson.put("name", "Tim");
-//        Map<Object, Object> defaultAnthonyPerson = new HashMap<>();
-//        defaultAnthonyPerson.put("name", "Anthony");
-//        Map<Object, Object> defaultGauravPerson = new HashMap<>();
-//        defaultGauravPerson.put("name", "Gaurav");
-//        Map<Object, Object> defaultMariannaPerson = new HashMap<>();
-//        defaultMariannaPerson.put("name", "Marianna");
-//        Map<Object, Object> defaultTonyPerson = new HashMap<>();
-//        defaultTonyPerson.put("name", "Tony");
-//        Map<Object, Object> defaultPetePerson = new HashMap<>();
-//        defaultPetePerson.put("name", "Pete");
-//        Map<Object, Object> defaultJaredPerson = new HashMap<>();
-//        defaultJaredPerson.put("name", "Jared");
-//        Map<Object, Object> defaultFonziePerson = new HashMap<>();
-//        defaultFonziePerson.put("name", "Fonzie");
-//        Map<Object, Object> defaultBrianPerson = new HashMap<>();
-//        defaultBrianPerson.put("name", "Brian");
-//        Map<Object, Object> defaultKeaPerson = new HashMap<>();
-//        defaultKeaPerson.put("name", "Kea");
-//        Map<Object, Object> defaultLancePerson = new HashMap<>();
-//        defaultLancePerson.put("name", "Lance");
-//        Map<Object, Object> defaultLizPerson = new HashMap<>();
-//        defaultLizPerson.put("name", "Liz");
-//        Map<Object, Object> defaultSreePerson = new HashMap<>();
-//        defaultSreePerson.put("name", "Sree");
-//
-//        List<Map<Object, Object>> defaultFloatingPeople = new ArrayList<>();
-//        defaultFloatingPeople.add(defaultTimPerson);
-//        defaultFloatingPeople.add(defaultAnthonyPerson);
-//        defaultFloatingPeople.add(defaultGauravPerson);
-//        defaultFloatingPeople.add(defaultMariannaPerson);
-//        defaultFloatingPeople.add(defaultTonyPerson);
-//        defaultFloatingPeople.add(defaultPetePerson);
-//        defaultFloatingPeople.add(defaultJaredPerson);
-//        defaultFloatingPeople.add(defaultFonziePerson);
-//        defaultFloatingPeople.add(defaultBrianPerson);
-//        defaultFloatingPeople.add(defaultKeaPerson);
-//        defaultFloatingPeople.add(defaultLancePerson);
-//        defaultFloatingPeople.add(defaultLizPerson);
-//        defaultFloatingPeople.add(defaultSreePerson);
-//
-//        Map<Object, Object> defaultFloatingStation = new HashMap<>();
-//        defaultFloatingStation.put("name", "Floating");
-//        defaultFloatingStation.put("people", defaultFloatingPeople);
-//        Map<Object, Object> defaultDesignStation = new HashMap<>();
-//        defaultDesignStation.put("name", "Design");
-//        defaultDesignStation.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultProductStation = new HashMap<>();
-//        defaultProductStation.put("name", "Product");
-//        defaultProductStation.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultWellesleyStation = new HashMap<>();
-//        defaultWellesleyStation.put("name", "Wellesley");
-//        defaultWellesleyStation.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultPico2Station = new HashMap<>();
-//        defaultPico2Station.put("name", "Pico2");
-//        defaultPico2Station.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultManchesterStation = new HashMap<>();
-//        defaultManchesterStation.put("name", "Manchester");
-//        defaultManchesterStation.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultLarchmontStation = new HashMap<>();
-//        defaultLarchmontStation.put("name", "Larchmont");
-//        defaultLarchmontStation.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultCulverStation = new HashMap<>();
-//        defaultCulverStation.put("name", "Culver");
-//        defaultCulverStation.put("people", new ArrayList<>());
-//        Map<Object, Object> defaultOut_of_OfficeStation = new HashMap<>();
-//        defaultOut_of_OfficeStation.put("name", "Out_of_Office");
-//        defaultOut_of_OfficeStation.put("people", new ArrayList<>());
-//
-//        List<Map<Object, Object>> defaultStationList = new ArrayList<>();
-//        defaultStationList.add(defaultFloatingStation);
-//        defaultStationList.add(defaultDesignStation);
-//        defaultStationList.add(defaultProductStation);
-//        defaultStationList.add(defaultWellesleyStation);
-//        defaultStationList.add(defaultPico2Station);
-//        defaultStationList.add(defaultManchesterStation);
-//        defaultStationList.add(defaultLarchmontStation);
-//        defaultStationList.add(defaultCulverStation);
-//        defaultStationList.add(defaultOut_of_OfficeStation);
-//
-//        Map<Object, Object> defaultWorkspaceMap = new HashMap<>();
-//        defaultWorkspaceMap.put("stations", defaultStationList);
-//
-//        Map<Object, Object> defaultSettingsMap = new HashMap<>();
-//        defaultSettingsMap.put("canMove", true);
-//
-//        Map<Object, Object> defaultJsonMap = new HashMap<>();
-//        defaultJsonMap.put("settings", defaultSettingsMap);
-//        defaultJsonMap.put("workspace", defaultWorkspaceMap);
-//
-//        return defaultJsonMap;
-//    }
+        List spaces = new ArrayList();
+        spaces.add(floating);
+        spaces.add(design);
+        spaces.add(product);
+        spaces.add(wellesley);
+        spaces.add(pico2);
+        spaces.add(manchester);
+        spaces.add(larchmont);
+        spaces.add(culver);
+        spaces.add(outOfOffice);
+
+        floating.setPeople(people);
+        spaceRepository.save(floating);
+
+        Workspace workspace = new Workspace();
+        workspace.setSpaces(spaces);
+        workspaceRepository.save(workspace);
+
+        Settings settings = new Settings();
+        settings.setCanMove(true);
+        settingsRepository.save(settings);
+
+        State state = new State();
+        state.setWorkspace(workspace);
+        state.setSettings(settings);
+        stateRepository.save(state);
+
+        return state;
+    }
 }

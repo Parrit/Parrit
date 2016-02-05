@@ -11,15 +11,8 @@ public class Person {
 
     private String name;
 
-    @ManyToOne
-    private Space space;
-
-    public Space getSpace() {
-        return space;
-    }
-
-    public void setSpace(Space space) {
-        this.space = space;
+    public Person(String name) {
+        this.name = name;
     }
 
     public Person() {}

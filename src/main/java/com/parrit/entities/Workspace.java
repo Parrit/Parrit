@@ -13,17 +13,6 @@ public class Workspace {
     @OneToMany(targetEntity = Space.class)
     private Collection spaces;
 
-    @OneToOne
-    private State state;
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
     public long getId() {
         return id;
     }

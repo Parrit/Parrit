@@ -15,6 +15,10 @@ public class Space {
 
     private String name;
 
+    public Space(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
