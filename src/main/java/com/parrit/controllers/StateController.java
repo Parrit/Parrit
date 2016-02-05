@@ -85,23 +85,14 @@ public class StateController {
         people.add(sree);
 
         Space floating    = new Space("Floating");
-        spaceRepository.save(floating);
         Space design      = new Space("Design");
-        spaceRepository.save(design);
         Space product     = new Space("Product");
-        spaceRepository.save(product);
         Space wellesley   = new Space("Wellesley");
-        spaceRepository.save(wellesley);
         Space pico2       = new Space("Pico2");
-        spaceRepository.save(pico2);
         Space manchester  = new Space("Manchester");
-        spaceRepository.save(manchester);
         Space larchmont   = new Space("Larchmont");
-        spaceRepository.save(larchmont);
         Space culver      = new Space("Culver");
-        spaceRepository.save(culver);
         Space outOfOffice = new Space("Out of Office");
-        spaceRepository.save(outOfOffice);
 
         List spaces = new ArrayList();
         spaces.add(floating);
@@ -116,6 +107,22 @@ public class StateController {
 
         floating.setPeople(people);
         spaceRepository.save(floating);
+        design.setPeople(new ArrayList());
+        spaceRepository.save(design);
+        product.setPeople(new ArrayList());
+        spaceRepository.save(product);
+        wellesley.setPeople(new ArrayList());
+        spaceRepository.save(wellesley);
+        pico2.setPeople(new ArrayList());
+        spaceRepository.save(pico2);
+        manchester.setPeople(new ArrayList());
+        spaceRepository.save(manchester);
+        larchmont.setPeople(new ArrayList());
+        spaceRepository.save(larchmont);
+        culver.setPeople(new ArrayList());
+        spaceRepository.save(culver);
+        outOfOffice.setPeople(new ArrayList());
+        spaceRepository.save(outOfOffice);
 
         Workspace workspace = new Workspace();
         workspace.setSpaces(spaces);
