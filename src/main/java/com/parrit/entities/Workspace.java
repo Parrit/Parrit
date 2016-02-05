@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Workspace {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @OneToMany(targetEntity = Space.class)

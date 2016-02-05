@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Space {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @OneToMany(targetEntity = Person.class)
@@ -15,6 +15,7 @@ public class Space {
 
     private String name;
 
+    public Space() {}
     public Space(String name) {
         this.name = name;
     }

@@ -60,18 +60,6 @@ public class StateController {
         Person lance    = new Person("Lance");
         Person liz      = new Person("Liz");
         Person sree     = new Person("Sree");
-        personRepository.save(tim);
-        personRepository.save(gaurav);
-        personRepository.save(marianna);
-        personRepository.save(tony);
-        personRepository.save(pete);
-        personRepository.save(jared);
-        personRepository.save(fonzie);
-        personRepository.save(brian);
-        personRepository.save(kea);
-        personRepository.save(lance);
-        personRepository.save(liz);
-        personRepository.save(sree);
 
         List people = new ArrayList();
         people.add(tim);
@@ -117,23 +105,12 @@ public class StateController {
         larchmont.setPeople(new ArrayList());
         culver.setPeople(new ArrayList());
         outOfOffice.setPeople(new ArrayList());
-        spaceRepository.save(floating);
-        spaceRepository.save(design);
-        spaceRepository.save(product);
-        spaceRepository.save(wellesley);
-        spaceRepository.save(pico2);
-        spaceRepository.save(manchester);
-        spaceRepository.save(larchmont);
-        spaceRepository.save(culver);
-        spaceRepository.save(outOfOffice);
 
         Workspace workspace = new Workspace();
         workspace.setSpaces(spaces);
-        workspaceRepository.save(workspace);
 
         Settings settings = new Settings();
         settings.setCanMove(true);
-        settingsRepository.save(settings);
 
         State state = new State();
         state.setWorkspace(workspace);

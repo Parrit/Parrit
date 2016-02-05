@@ -81,6 +81,7 @@ public class StateControllerTest extends ControllerTestBase {
         String returnedState = mvcResult.getResponse().getContentAsString();
         assertThat(returnedState, equalTo(exampleStateString));
 
+        verify(mockStateRepository, never()).save(any(State.class));
         verify(mockStateRepository).findOne(1L);
     }
 
