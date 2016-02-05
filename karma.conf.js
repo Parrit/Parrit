@@ -18,11 +18,12 @@ module.exports = function(config) {
 
         reporters: ['dots'],
 
-        browsers: ['PhantomJS'],
+        browsers: ['Firefox'],
 
         plugins: [
             'karma-browserify',
             'karma-chrome-launcher',
+            'karma-firefox-launcher',
             'karma-jasmine',
             'karma-jasmine-ajax',
             'karma-phantomjs-launcher'
