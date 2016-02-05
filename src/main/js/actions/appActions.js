@@ -13,6 +13,19 @@ function loadStateThunk() {
     };
 }
 
+function saveStateThunk() {
+    return function(dispatch, getState){
+        Axios.post('/state', getState())
+            .then(function(response) {
+                var state = response.data;
+
+                if(state) {
+                    dispatch(loadStateCreator(state));
+                }
+            });
+    }
+}
+
 function loadStateCreator(state) {
     return { type: 'LOAD_STATE', state: state };
 }
@@ -27,6 +40,7 @@ function disableMoveCreator() {
 
 module.exports = {
     loadState: loadStateThunk,
+    saveState: saveStateThunk,
     enableMove: enableMoveCreator,
     disableMove: disableMoveCreator
 };
