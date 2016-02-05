@@ -16,7 +16,7 @@ describe("settingsReducer", function() {
 
 	describe("actions", function() {
 		describe("SET_MOVE", function() {
-			it("should set canove to the passed in value", function() {
+			it("should set canMove to the passed in value", function() {
 				var stateBefore = {
 					canMove: false
 				};
@@ -38,5 +38,36 @@ describe("settingsReducer", function() {
 				).toEqual(stateAfter);
 			});
 		});
+
+        describe("LOAD_STATE", function() {
+            it("should set the state to the passed in 'settings'", function() {
+                var stateBefore = {
+                    canMove: false
+                };
+
+                var action = {
+                    type: "LOAD_STATE",
+                    state: {
+                        blah: {
+                            shoobadooba: "doobadoowa"
+                        },
+                        settings: {
+                            canMove: true
+                        }
+                    }
+                };
+
+                var stateAfter = {
+                    canMove: true
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
 	});
 });

@@ -3,8 +3,9 @@ var Menu = require('../components/menu.js');
 var Workspace = require('../components/Workspace.js');
 
 var App = React.createClass({
-
-
+    componentDidMount: function() {
+        this.props.loadState();
+    },
 	render: function() {
 		return <div className="container-fluid">
 			<div className="row content">

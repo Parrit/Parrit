@@ -10,7 +10,12 @@ var workspaceReducer = function(state, action) {
 		};
 	}
 
-	return state;
+    switch (action.type) {
+        case "LOAD_STATE":
+            return action.state.workspace;
+        default:
+            return state;
+    }
 };
 
 module.exports = workspaceReducer;

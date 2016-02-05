@@ -1,6 +1,6 @@
 module.exports = function(config) {
     config.set({
-        frameworks: [ 'browserify', 'jasmine' ],
+        frameworks: [ 'browserify', 'jasmine-ajax', 'jasmine' ],
 
         files: [
             'src/test/js/**/*.js'
@@ -10,7 +10,7 @@ module.exports = function(config) {
             'src/test/js/**/*.js': [ 'browserify' ]
         },
 
-        logLevel: config.LOG_WARN,
+        logLevel: config.LOG_INFO,
 
         singleRun: true,
 
@@ -18,11 +18,13 @@ module.exports = function(config) {
 
         reporters: ['dots'],
 
-        browsers: ['PhantomJS'],
+        browsers: ['Chrome'],
 
         plugins: [
             'karma-browserify',
+            'karma-chrome-launcher',
             'karma-jasmine',
+            'karma-jasmine-ajax',
             'karma-phantomjs-launcher'
         ],
 

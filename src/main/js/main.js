@@ -6,29 +6,34 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactRedux = require('react-redux');
 var Redux = require('redux');
+var Thunk = require('redux-thunk');
 
 var AppContainer = require('./containers/appContainer.js');
 var appReducer = require('./reducers/appReducer.js');
 
-function run() {
-	var appStore = Redux.createStore(appReducer, {
-		settings: {
-			canMove: true
-		},
-		workspace: {
-			spaces: [
-				{
-					name: 'Unallocated',
-					people: [{
-						name: 'Cheeseball'
-					}]
-				}
-			]
-		}
-	});
+function createStore() {
+    var initialState = {
+        settings: {
+            canMove: true
+        },
+        workspace: {
+            spaces: [
+                {
+                    name: 'Unallocated',
+                    people: [{
+                        name: 'Cheeseball'
+                    }]
+                }
+            ]
+        }
+    };
+    var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
+    return createStoreMW(appReducer, initialState);
+}
 
+function run() {
 	ReactDOM.render(
-		React.createElement(ReactRedux.Provider, {store: appStore},
+		React.createElement(ReactRedux.Provider, {store: createStore()},
 			React.createElement(AppContainer)
 		),
 		document.getElementById('app')
