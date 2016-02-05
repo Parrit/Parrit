@@ -1,6 +1,6 @@
 var ReactRedux = require('react-redux');
-var App = require('../components/App.js');
-var AppActions = require('../actions/appActions.js');
+var App = require('components/App.js');
+var AppActions = require('actions/appActions.js');
 
 var AppContainer = ReactRedux.connect(getState, AppActions)(App);
 

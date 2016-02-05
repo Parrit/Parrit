@@ -1,5 +1,5 @@
 var React = require('react');
-var Space = require('./Space.js');
+var Space = require('components/Space.js');
 
 var Workspace = React.createClass({
 	render: function() {

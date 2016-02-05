@@ -1,6 +1,6 @@
 var React = require('react');
-var PrimaryButton = require('./Buttons.js').PrimaryButton;
-var SuccessButton = require('./Buttons.js').SuccessButton;
+var PrimaryButton = require('components/Buttons.js').PrimaryButton;
+var SuccessButton = require('components/Buttons.js').SuccessButton;
 
 var Menu = React.createClass({
 	render: function() {

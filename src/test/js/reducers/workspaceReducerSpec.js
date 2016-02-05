@@ -1,5 +1,5 @@
 var deepFreeze = require('deep-freeze');
-var workspaceReducer = require('../../../main/js/reducers/workspaceReducer.js');
+var workspaceReducer = require('reducers/workspaceReducer.js');
 
 describe("workspaceReducer", function() {
 	it("should get the default state", function() {

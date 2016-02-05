@@ -30,11 +30,11 @@ module.exports = function(config) {
         ],
 
         browserify: {
+            transform: [ ['babelify', {presets: 'react'}], 'rewireify' ],
             configure: function(bundle) {
                 bundle.on('prebundle', function() {
-                    bundle.transform('babelify', {presets: ["react"]})
-                        .transform('rewireify');
-                });
+                    bundle._mdeps.paths = ['./src/main/js']
+                })
             }
         }
     });

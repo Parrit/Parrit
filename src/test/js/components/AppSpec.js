@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
-var App = require('../../../main/js/components/App.js');
+var App = require('components/App.js');
 
 var Mocker = require('./ComponentMocker.js');
 var MenuMock = Mocker("Menu");

@@ -1,4 +1,4 @@
-var appActions = require('../../../main/js/actions/appActions.js');
+var appActions = require('actions/appActions.js');
 
 describe('appActions', function() {
     beforeEach(function() {

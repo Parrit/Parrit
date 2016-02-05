@@ -1,5 +1,5 @@
 var React = require('react');
-var PersonContainer = require('../containers/personContainer.js');
+var PersonContainer = require('containers/personContainer.js');
 
 var Space = React.createClass({
 	render: function() {
