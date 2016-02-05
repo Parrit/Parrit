@@ -42,4 +42,18 @@ public class Space {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Space space = (Space) o;
+
+        if (id != space.id) return false;
+        if (people != null ? !people.equals(space.people) : space.people != null) return false;
+        if (name != null ? !name.equals(space.name) : space.name == null) return false;
+
+        return true;
+    }
 }

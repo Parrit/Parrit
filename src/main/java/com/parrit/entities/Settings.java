@@ -3,7 +3,6 @@ package com.parrit.entities;
 import javax.persistence.*;
 
 @Entity
-@Table
 public class Settings {
 
     @Id
@@ -28,5 +27,18 @@ public class Settings {
 
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Settings settings = (Settings) o;
+
+        if (id != settings.id) return false;
+        if (canMove != settings.canMove) return false;
+
+        return true;
     }
 }

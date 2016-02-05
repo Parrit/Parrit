@@ -12,29 +12,32 @@ import java.util.*;
 @RestController
 public class StateController {
 
-    StateRepository stateRepository;
-
-	@Autowired
-	public StateController(StateRepository repository) {
-		this.stateRepository = repository;
-	}
-
-    @Autowired
+    private StateRepository stateRepository;
     private SettingsRepository settingsRepository;
-    @Autowired
     private WorkspaceRepository workspaceRepository;
-    @Autowired
     private SpaceRepository spaceRepository;
-    @Autowired
     private PersonRepository personRepository;
 
+	@Autowired
+	public StateController(StateRepository repository,
+                           SettingsRepository settingsRepository,
+                           WorkspaceRepository workspaceRepository,
+                           SpaceRepository spaceRepository,
+                           PersonRepository personRepository) {
+		this.stateRepository = repository;
+        this.settingsRepository = settingsRepository;
+        this.workspaceRepository = workspaceRepository;
+        this.spaceRepository = spaceRepository;
+        this.personRepository = personRepository;
+	}
 
     @RequestMapping(path = "/state", method = RequestMethod.GET)
 	public ResponseEntity<State> get(@RequestParam long id) {
         State state = stateRepository.findOne(id);
         if(state == null) {
-            state = this.defaultState();
-            stateRepository.save(state);
+            state = defaultState();
+            state.setId(id);
+            state = stateRepository.save(state);
         }
         return new ResponseEntity<>(state, HttpStatus.OK);
     }
@@ -46,28 +49,28 @@ public class StateController {
 
     private State defaultState() {
         Person tim      = new Person("Tim");
-        personRepository.save(tim);
         Person gaurav   = new Person("Gaurav");
-        personRepository.save(gaurav);
         Person marianna = new Person("Marianna");
-        personRepository.save(marianna);
         Person tony     = new Person("Tony");
-        personRepository.save(tony);
         Person pete     = new Person("Pete");
-        personRepository.save(pete);
         Person jared    = new Person("Jared");
-        personRepository.save(jared);
         Person fonzie   = new Person("Fonzie");
-        personRepository.save(fonzie);
         Person brian    = new Person("Brian");
-        personRepository.save(brian);
         Person kea      = new Person("Kea");
-        personRepository.save(kea);
         Person lance    = new Person("Lance");
-        personRepository.save(lance);
         Person liz      = new Person("Liz");
-        personRepository.save(liz);
         Person sree     = new Person("Sree");
+        personRepository.save(tim);
+        personRepository.save(gaurav);
+        personRepository.save(marianna);
+        personRepository.save(tony);
+        personRepository.save(pete);
+        personRepository.save(jared);
+        personRepository.save(fonzie);
+        personRepository.save(brian);
+        personRepository.save(kea);
+        personRepository.save(lance);
+        personRepository.save(liz);
         personRepository.save(sree);
 
         List people = new ArrayList();
@@ -106,22 +109,22 @@ public class StateController {
         spaces.add(outOfOffice);
 
         floating.setPeople(people);
-        spaceRepository.save(floating);
         design.setPeople(new ArrayList());
-        spaceRepository.save(design);
         product.setPeople(new ArrayList());
-        spaceRepository.save(product);
         wellesley.setPeople(new ArrayList());
-        spaceRepository.save(wellesley);
         pico2.setPeople(new ArrayList());
-        spaceRepository.save(pico2);
         manchester.setPeople(new ArrayList());
-        spaceRepository.save(manchester);
         larchmont.setPeople(new ArrayList());
-        spaceRepository.save(larchmont);
         culver.setPeople(new ArrayList());
-        spaceRepository.save(culver);
         outOfOffice.setPeople(new ArrayList());
+        spaceRepository.save(floating);
+        spaceRepository.save(design);
+        spaceRepository.save(product);
+        spaceRepository.save(wellesley);
+        spaceRepository.save(pico2);
+        spaceRepository.save(manchester);
+        spaceRepository.save(larchmont);
+        spaceRepository.save(culver);
         spaceRepository.save(outOfOffice);
 
         Workspace workspace = new Workspace();
@@ -135,7 +138,6 @@ public class StateController {
         State state = new State();
         state.setWorkspace(workspace);
         state.setSettings(settings);
-        stateRepository.save(state);
 
         return state;
     }
