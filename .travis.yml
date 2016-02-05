@@ -7,4 +7,4 @@ before_script:
 
 script:
   - mvn test
-  - node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json
+  - node_modules/karma/bin/karma start karma.conf.js
