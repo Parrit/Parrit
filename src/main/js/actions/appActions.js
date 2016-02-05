@@ -2,9 +2,13 @@ var Axios = require('axios');
 
 function loadStateThunk() {
     return function(dispatch) {
-        Axios.get('/state?id=0')
+        Axios.get('/state?id=1')
             .then(function(response) {
-                dispatch(loadStateCreator(response.data));
+                var state = response.data;
+
+                if(state) {
+                    dispatch(loadStateCreator(state));
+                }
             });
     };
 }

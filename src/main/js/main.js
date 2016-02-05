@@ -12,23 +12,8 @@ var AppContainer = require('./containers/appContainer.js');
 var appReducer = require('./reducers/appReducer.js');
 
 function createStore() {
-    var initialState = {
-        settings: {
-            canMove: true
-        },
-        workspace: {
-            spaces: [
-                {
-                    name: 'Unallocated',
-                    people: [{
-                        name: 'Cheeseball'
-                    }]
-                }
-            ]
-        }
-    };
     var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
-    return createStoreMW(appReducer, initialState);
+    return createStoreMW(appReducer);
 }
 
 function run() {

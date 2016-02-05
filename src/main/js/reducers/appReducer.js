@@ -6,6 +6,6 @@ var workspaceReducer = require('./workspaceReducer.js');
 var appReducer = Redux.combineReducers({
 	settings: settingsReducer,
 	workspace: workspaceReducer
-})
+});
 
 module.exports = appReducer;

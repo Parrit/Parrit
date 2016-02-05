@@ -20,28 +20,45 @@ describe('appActions', function() {
         });
 
         describe('when calling the returned function', function() {
+            var stubbedGet;
             var dispatchSpy;
-            var responseText = { iamaproperty:"blahblah" };
             beforeEach(function() {
-                jasmine.Ajax.stubRequest('/state?id=0', undefined, 'GET').andReturn({ responseText: responseText });
+                stubbedGet = jasmine.Ajax.stubRequest('/state?id=1', undefined, 'GET');
 
                 dispatchSpy = jasmine.createSpy();
                 action(dispatchSpy);
             });
 
-            it('makes an Ajax call to get the state for id 0', function(done) {
+            it('makes an Ajax call to get the state for id 1', function(done) {
                 setTimeout(function() {
                     expect(jasmine.Ajax.requests.count()).toBe(1);
-                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/state?id=0');
+                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/state?id=1');
                     done();
                 });
             });
 
-            describe('when the Ajax call returns with a response', function() {
+            describe('when the Ajax call returns with a NONNULL response', function() {
+                var responseText = { iamaproperty:"blahblah" };
+                beforeEach(function() {
+                    stubbedGet.andReturn({ responseText: responseText });
+                });
 
                 it('dispatches a LOAD_STATE action with the response', function(done) {
                     setTimeout(function() {
                         expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_STATE', state: responseText});
+                        done();
+                    });
+                });
+            });
+
+            describe('when the Ajax call returns with a NULL response', function() {
+                beforeEach(function() {
+                    stubbedGet.andReturn({ responseText: null });
+                });
+
+                it('SHOULD NOT dispatch a LOAD_STATE action with the response', function(done) {
+                    setTimeout(function() {
+                        expect(dispatchSpy).not.toHaveBeenCalled();
                         done();
                     });
                 });
