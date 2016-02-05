@@ -2,6 +2,12 @@ var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
 var App = require('../../../main/js/components/App.js');
 
+var Mocker = require('./ComponentMocker.js');
+var MenuMock = Mocker("Menu");
+var WorkspaceMock = Mocker("Workspace");
+App.__set__('Menu', MenuMock);
+App.__set__('Workspace', WorkspaceMock);
+
 describe('App', function() {
     var loadStateSpy = jasmine.createSpy('loadState');
 
@@ -25,9 +31,8 @@ describe('App', function() {
     };
 
     function renderComponent(propos) {
-        var renderer = ReactTestUtils.createRenderer();
-        renderer.render(<App {...propos} />);
-        return renderer.getRenderOutput();
+        var blah = ReactTestUtils.renderIntoDocument(<App {...propos} />);
+        return ReactTestUtils.findRenderedComponentWithType(blah, App);
     }
 
     var app;
@@ -35,11 +40,11 @@ describe('App', function() {
         app = renderComponent(props);
     });
 
-    xit('calls the loadState action', function() {
+    it('calls the loadState action', function() {
         expect(loadStateSpy).toHaveBeenCalled();
     });
 
-    xit('has a Menu component as a child', function() {
-        expect(app.props.children).toContain('<Menu/>');
+    it('has a Menu component as a child', function() {
+        expect(ReactTestUtils.findRenderedComponentWithType(app, MenuMock)).toBeTruthy('No Menu component found');
     });
 });

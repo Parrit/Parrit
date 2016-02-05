@@ -32,7 +32,8 @@ module.exports = function(config) {
         browserify: {
             configure: function(bundle) {
                 bundle.on('prebundle', function() {
-                    bundle.transform('babelify', {presets: ["react"]});
+                    bundle.transform('babelify', {presets: ["react"]})
+                        .transform('rewireify');
                 });
             }
         }
