@@ -25,7 +25,7 @@ describe('appActions', function() {
             beforeEach(function() {
                 stubbedGet = jasmine.Ajax.stubRequest('/state?id=1', undefined, 'GET');
 
-                dispatchSpy = jasmine.createSpy();
+                dispatchSpy = jasmine.createSpy('dispatchSpy');
                 action(dispatchSpy);
             });
 
@@ -37,7 +37,7 @@ describe('appActions', function() {
                 });
             });
 
-            describe('when the Ajax call returns with a NONNULL response', function() {
+            describe('when the Ajax call returns with a NON-NULL response', function() {
                 var responseText = { iamaproperty:"blahblah" };
                 beforeEach(function() {
                     stubbedGet.andReturn({ responseText: responseText });
