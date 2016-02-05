@@ -18,7 +18,7 @@ module.exports = function(config) {
 
         reporters: ['dots'],
 
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
 
         plugins: [
             'karma-browserify',
