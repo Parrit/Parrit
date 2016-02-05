@@ -7,7 +7,7 @@ var Workspace = React.createClass({
 			{this.props.workspace.spaces.map(function (space) {
 				return <Space name={space.name} people={space.people} key={space.name}/>;
 			})}
-      	</div>;
+      	</div>
 	}
 });
 

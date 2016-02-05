@@ -4,9 +4,9 @@ function loadStateThunk() {
     return function(dispatch) {
         Axios.get('/state?id=0')
             .then(function(response) {
-                dispatch(loadStateCreator(response.data))
-            })
-    }
+                dispatch(loadStateCreator(response.data));
+            });
+    };
 }
 
 function loadStateCreator(state) {

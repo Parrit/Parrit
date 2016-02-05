@@ -9,7 +9,7 @@ var Menu = React.createClass({
 	  		<PrimaryButton name="Don't Move" clickFunction={this.props.disableMove}/>
 	  		<SuccessButton name="Save"/>
   		</ul>
-	},
+	}
 });
 
 module.exports = Menu;

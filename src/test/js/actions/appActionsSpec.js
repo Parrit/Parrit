@@ -48,4 +48,8 @@ describe('appActions', function() {
             });
         });
     });
+
+    describe('#saveState', function() {
+
+    });
 });
