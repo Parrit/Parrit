@@ -10,8 +10,8 @@ public class Space {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(targetEntity = Person.class)
-    private Collection people;
+    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL)
+    private Collection<Person> people;
 
     private String name;
 
@@ -28,11 +28,11 @@ public class Space {
         this.id = id;
     }
 
-    public Collection getPeople() {
+    public Collection<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(Collection people) {
+    public void setPeople(Collection<Person> people) {
         this.people = people;
     }
 

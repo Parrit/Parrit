@@ -9,10 +9,10 @@ public class State {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Settings settings;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Workspace workspace;
 
     public State() {}

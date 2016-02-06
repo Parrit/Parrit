@@ -27,6 +27,7 @@ describe('App', function() {
         },
         enableMove: {},
         disableMove: {},
+        saveState: {},
         loadState: loadStateSpy
     };
 
@@ -44,7 +45,13 @@ describe('App', function() {
         expect(loadStateSpy).toHaveBeenCalled();
     });
 
-    it('has a Menu component as a child', function() {
-        expect(ReactTestUtils.findRenderedComponentWithType(app, MenuMock)).toBeTruthy('No Menu component found');
+    it('has a configured Menu component as a child', function() {
+        var menuComponent = ReactTestUtils.findRenderedComponentWithType(app, MenuMock)
+        expect(menuComponent).toBeTruthy('No Menu component found');
+
+        expect(menuComponent.props.settings).toBe(props.settings, "No settings passed to menu");
+        expect(menuComponent.props.enableMove).toBe(props.enableMove, "No enableMove passed to menu");
+        expect(menuComponent.props.disableMove).toBe(props.disableMove, "No disableMove passed to menu");
+        expect(menuComponent.props.saveState).toBe(props.saveState, "No saveState passed to menu");
     });
 });

@@ -7,11 +7,18 @@ var App = React.createClass({
         this.props.loadState();
     },
 	render: function() {
+        var menuProps = {
+            settings: this.props.settings,
+            enableMove: this.props.enableMove,
+            disableMove: this.props.disableMove,
+            saveState: this.props.saveState
+        };
+
 		return <div className="container-fluid">
 			<div className="row content">
 				<div className="col-sm-3 sidenav">
 					<h4>Parrit</h4>
-					<Menu settings={this.props.settings} enableMove={this.props.enableMove} disableMove={this.props.disableMove}/>
+					<Menu {...menuProps}/>
 				</div>
 				<div className="col-sm-9 dark">
 					<Workspace workspace={this.props.workspace}/>

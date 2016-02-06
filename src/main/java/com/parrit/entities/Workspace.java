@@ -10,8 +10,8 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(targetEntity = Space.class)
-    private Collection spaces;
+    @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL)
+    private Collection<Space> spaces;
 
     public long getId() {
         return id;
@@ -21,11 +21,11 @@ public class Workspace {
         this.id = id;
     }
 
-    public Collection getSpaces() {
+    public Collection<Space> getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(Collection spaces) {
+    public void setSpaces(Collection<Space> spaces) {
         this.spaces = spaces;
     }
 
