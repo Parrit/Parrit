@@ -20,12 +20,17 @@ public class State {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public Settings getSettings() { return settings; }
+
     public void setSettings(Settings settings) { this.settings = settings; }
+
     public Workspace getWorkspace() { return workspace; }
+
     public void setWorkspace(Workspace workspace) { this.workspace = workspace; }
 
     @Override

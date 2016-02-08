@@ -25,7 +25,7 @@ public class StateController {
     }
 
     @RequestMapping(path = "/state", method = RequestMethod.POST, consumes = {"application/json"})
-	public void save(@RequestBody State state) {
-    	stateRepository.save(state);
+	public ResponseEntity<State> save(@RequestBody State state) {
+        return new ResponseEntity<>(stateRepository.save(state), HttpStatus.OK);
     }
 }

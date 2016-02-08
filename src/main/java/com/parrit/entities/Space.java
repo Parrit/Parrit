@@ -16,6 +16,7 @@ public class Space {
     private String name;
 
     public Space() {}
+
     public Space(String name) {
         this.name = name;
     }

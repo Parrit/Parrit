@@ -43,20 +43,22 @@ public class StateControllerTest extends ControllerTestBase {
     public void setUp() {
         exampleStateString = "{\"id\":1,\"settings\":null,\"workspace\":null}";
 
-        Map<Object, Object> exampleJsonMap = new HashMap<>();
-        exampleJsonMap.put("super", "man");
         exampleState = new State();
         exampleState.setId(1L);
     }
 
     @Test
-    public void save_persistsTheInputJson() throws Exception {
-        when(mockStateRepository.save(any(State.class))).thenReturn(null);
+    public void save_persistsTheInputJson_andReturnsTheResult() throws Exception {
+        when(mockStateRepository.save(any(State.class))).thenReturn(exampleState);
 
-        mvc.perform(post("/state")
+        MvcResult mvcResult = mvc.perform(post("/state")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(exampleStateString))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String returnedState = mvcResult.getResponse().getContentAsString();
+        assertThat(returnedState, equalTo(exampleStateString));
 
         verify(mockStateRepository).save(any(State.class));
     }
