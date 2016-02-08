@@ -29,6 +29,7 @@ describe('App', function() {
         enableMove: {},
         disableMove: {},
         saveState: {},
+        movePerson: {},
         loadState: loadStateSpy
     };
 
@@ -54,5 +55,13 @@ describe('App', function() {
         expect(menuComponent.props.enableMove).toBe(props.enableMove, "No enableMove passed to menu");
         expect(menuComponent.props.disableMove).toBe(props.disableMove, "No disableMove passed to menu");
         expect(menuComponent.props.saveState).toBe(props.saveState, "No saveState passed to menu");
+    });
+
+    it('has a configured Workspace component as a child', function() {
+        var workspaceComponent = ReactTestUtils.findRenderedComponentWithType(app, WorkspaceMock);
+        expect(workspaceComponent).toBeTruthy('No Menu component found');
+
+        expect(workspaceComponent.props.spaces).toBe(props.workspace.spaces, "No spaces passed to workspace");
+        expect(workspaceComponent.props.movePerson).toBe(props.movePerson, "No movePerson passed to workspace");
     });
 });

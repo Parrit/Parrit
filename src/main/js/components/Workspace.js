@@ -5,6 +5,8 @@ var Space = require('components/Space.js');
 
 var Workspace = React.createClass({
     componentDidMount: function() {
+        var self = this;
+
         Interact('.draggable')
             .draggable({
                 inertia:true,
@@ -30,6 +32,7 @@ var Workspace = React.createClass({
             target.setAttribute('data-y', y);
         }
 
+        var fromSpaceIndex, toSpaceIndex;
         Interact('.dropzone')
             .dropzone({
                 // Only accept elements matching this CSS selector
@@ -49,20 +52,35 @@ var Workspace = React.createClass({
                 ondragenter: function (event) {
                     event.target.classList.add('drop-target');
                     event.relatedTarget.classList.add('can-drop');
+
+                    toSpaceIndex = getIndexFromId(event.target.id);
                 },
                 ondragleave: function (event) {
                     event.target.classList.remove('drop-target');
                     event.relatedTarget.classList.remove('can-drop');
+
+                    if(fromSpaceIndex === undefined) {
+                        fromSpaceIndex = getIndexFromId(event.target.id);
+                    }
                 },
                 ondrop: function (event) {
+                    var personIndex = getIndexFromId(event.relatedTarget.id);
 
+                    self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
+
+                    fromSpaceIndex = undefined;
+                    toSpaceIndex = undefined;
                 }
             });
+
+        function getIndexFromId(idString) {
+            return parseInt(idString.charAt(idString.length-1));
+        }
     },
 
 	render: function() {
 		return <div className="container-fluid workspace">
-			{this.props.workspace.spaces.map(function (space, idx) {
+			{this.props.spaces.map(function (space, idx) {
 				return <Space key={idx} name={space.name} people={space.people} index={idx}/>;
 			})}
       	</div>

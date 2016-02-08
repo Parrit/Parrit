@@ -8,27 +8,28 @@ var SpaceMock = Mocker("Space");
 Workspace.__set__('Space', SpaceMock);
 
 describe('Workspace', function() {
+    var movePersonSpy = jasmine.createSpy;
+
     var props = {
-        workspace: {
-            spaces: [
-                {
-                    name: "Space1",
-                    people: [
-                        {
-                            name: "George"
-                        }
-                    ]
-                },
-                {
-                    name: "Ghost",
-                    people: [
-                        {
-                            name: "Coast2Coast"
-                        }
-                    ]
-                }
-            ]
-        }
+        spaces: [
+            {
+                name: "Space1",
+                people: [
+                    {
+                        name: "George"
+                    }
+                ]
+            },
+            {
+                name: "Ghost",
+                people: [
+                    {
+                        name: "Coast2Coast"
+                    }
+                ]
+            }
+        ],
+        movePerson: movePersonSpy
     };
 
     function renderComponent(props) {

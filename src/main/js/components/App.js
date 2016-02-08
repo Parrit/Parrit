@@ -14,6 +14,11 @@ var App = React.createClass({
             saveState: this.props.saveState
         };
 
+        var workspaceProps = {
+            spaces: this.props.workspace.spaces,
+            movePerson: this.props.movePerson
+        };
+
 		return <div className="container-fluid">
 			<div className="row content">
 				<div className="col-sm-3 sidenav">
@@ -21,7 +26,7 @@ var App = React.createClass({
 					<Menu {...menuProps}/>
 				</div>
 				<div className="col-sm-9 dark">
-					<Workspace workspace={this.props.workspace}/>
+					<Workspace {...workspaceProps}/>
 				</div>
 			</div>
 		</div>

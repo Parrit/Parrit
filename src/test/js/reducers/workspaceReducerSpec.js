@@ -119,5 +119,47 @@ describe("workspaceReducer", function() {
                 ).toEqual(stateAfter);
             });
         });
+
+        describe("MOVE_PERSON", function() {
+            it('should move a person between spaces', function() {
+                var stateBefore = {
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [{name:"Captain Kirk"}]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }]
+                };
+
+                var action = {
+                    type: "MOVE_PERSON",
+                    toSpaceIndex: 1,
+                    fromSpaceIndex: 0,
+                    personIndex: 0
+                };
+
+                var stateAfter = {
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: [{name:"Captain Kirk"}]
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
     });
 });
