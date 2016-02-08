@@ -2,8 +2,9 @@ var React = require('react');
 
 var Person = React.createClass({
 	render: function() {
-		var classes = (this.props.canMove) ? "draggable drag-drop" : "no-draggable drag-drop";
-		return <div className={classes}>{this.props.name}</div>
+        var id = "space-" + this.props.spaceIndex + "-person-" + this.props.index;
+		var classes = (this.props.canMove) ? "draggable" : "no-draggable";
+		return <div id={id} className={"drag-drop " + classes}>{this.props.name}</div>
 	}
 });
 

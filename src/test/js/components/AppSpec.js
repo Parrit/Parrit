@@ -1,8 +1,9 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
-var App = require('components/App.js');
 
-var Mocker = require('./ComponentMocker.js');
+var Mocker = require('../support/ComponentMocker.js');
+
+var App = require('components/App.js');
 var MenuMock = Mocker("Menu");
 var WorkspaceMock = Mocker("Workspace");
 App.__set__('Menu', MenuMock);
@@ -46,7 +47,7 @@ describe('App', function() {
     });
 
     it('has a configured Menu component as a child', function() {
-        var menuComponent = ReactTestUtils.findRenderedComponentWithType(app, MenuMock)
+        var menuComponent = ReactTestUtils.findRenderedComponentWithType(app, MenuMock);
         expect(menuComponent).toBeTruthy('No Menu component found');
 
         expect(menuComponent.props.settings).toBe(props.settings, "No settings passed to menu");

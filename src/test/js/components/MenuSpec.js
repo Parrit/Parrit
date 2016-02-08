@@ -1,8 +1,9 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
-var Menu = require('../../../main/js/components/Menu.js');
 
-var Mocker = require('./ComponentMocker.js');
+var Mocker = require('../support/ComponentMocker.js');
+
+var Menu = require('components/Menu.js');
 var PrimaryButtonMock = Mocker("Button1");
 var SuccessButtonMock = Mocker("Button2");
 Menu.__set__('PrimaryButton', PrimaryButtonMock);

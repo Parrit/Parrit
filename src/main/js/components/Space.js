@@ -3,9 +3,10 @@ var PersonContainer = require('containers/personContainer.js');
 
 var Space = React.createClass({
 	render: function() {
-		return <div className="dropzone well">{this.props.name}
-			{this.props.people.map(function (person) {
-				return <PersonContainer name={person.name} key={person.name} />
+        var spaceIndex = this.props.index;
+		return <div id={"space-" + spaceIndex} className="dropzone well">{this.props.name}
+			{this.props.people.map(function (person, idx) {
+				return <PersonContainer key={person.name} name={person.name} index={idx} spaceIndex={spaceIndex}/>
 			})}
 		</div>
 	}
