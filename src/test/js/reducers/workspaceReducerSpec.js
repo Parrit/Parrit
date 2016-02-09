@@ -123,6 +123,7 @@ describe("workspaceReducer", function() {
         describe("MOVE_PERSON", function() {
             it('should move a person between spaces', function() {
                 var stateBefore = {
+                    id: 7,
                     spaces: [
                         {
                             name: "USS Enterprise",
@@ -142,6 +143,7 @@ describe("workspaceReducer", function() {
                 };
 
                 var stateAfter = {
+                    id: 7,
                     spaces: [
                         {
                             name: "USS Enterprise",

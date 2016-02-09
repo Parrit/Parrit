@@ -85,16 +85,14 @@ var workspaceReducer = function(state, action) {
         case "LOAD_STATE":
             return action.state.workspace;
         case "MOVE_PERSON":
-            var spacesClone = _.cloneDeep(state.spaces);
+            var stateClone = _.cloneDeep(state);
 
-            var fromSpace = spacesClone[action.fromSpaceIndex];
-            var toSpace = spacesClone[action.toSpaceIndex];
+            var fromSpace = stateClone.spaces[action.fromSpaceIndex];
+            var toSpace = stateClone.spaces[action.toSpaceIndex];
 
             toSpace.people.push(_.pullAt(fromSpace.people, action.personIndex)[0]);
 
-            return {
-                spaces: spacesClone
-            };
+            return stateClone;
         default:
             return state;
     }

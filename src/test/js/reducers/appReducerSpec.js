@@ -5,7 +5,8 @@ describe("appReducer", function() {
 		var stateBefore = undefined;
 		var action = {};
 		var stateAfter = {
-			settings: {
+			id: 0,
+            settings: {
 				canMove: true
 			},
 			workspace: {
