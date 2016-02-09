@@ -66,6 +66,7 @@ var Workspace = React.createClass({
                 },
                 ondrop: function (event) {
                     event.target.classList.remove('drop-target');
+                    event.relatedTarget.classList.remove('can-drop');
 
                     var personIndex = getIndexFromId(event.relatedTarget.id);
 
@@ -74,6 +75,12 @@ var Workspace = React.createClass({
                     }
 
                     self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
+
+                    if (fromSpaceIndex === toSpaceIndex) {
+                        event.relatedTarget.removeAttribute('style');
+                        event.relatedTarget.removeAttribute('data-x');
+                        event.relatedTarget.removeAttribute('data-y');
+                    }
 
                     fromSpaceIndex = undefined;
                     toSpaceIndex = undefined;
