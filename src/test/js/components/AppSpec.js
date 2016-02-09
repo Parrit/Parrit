@@ -27,10 +27,11 @@ describe('App', function() {
                 }
             ]
         },
-        enableMove: {},
-        disableMove: {},
-        saveState: {},
-        movePerson: {},
+        enableMove: function(){},
+        disableMove: function(){},
+        saveState: function(){},
+        createPerson: function(){},
+        movePerson: function(){},
         loadState: loadStateSpy
     };
 
@@ -56,6 +57,7 @@ describe('App', function() {
         expect(menuComponent.props.enableMove).toBe(props.enableMove, "No enableMove passed to menu");
         expect(menuComponent.props.disableMove).toBe(props.disableMove, "No disableMove passed to menu");
         expect(menuComponent.props.saveState).toBe(props.saveState, "No saveState passed to menu");
+        expect(menuComponent.props.createPerson).toBe(props.createPerson, "No createPerson passed to menu");
     });
 
     it('has a configured Workspace component as a child', function() {

@@ -11,9 +11,10 @@ Menu.__set__('SuccessButton', SuccessButtonMock);
 
 describe('Menu', function() {
     var props = {
-        enableMove: {},
-        disableMove: {},
-        saveState: {}
+        enableMove: function(){},
+        disableMove: function(){},
+        saveState: function(){},
+        createPerson: function(){}
     };
 
     function renderComponent(props) {
@@ -27,11 +28,12 @@ describe('Menu', function() {
     });
 
     it('has button components as children', function() {
-        var first_two = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
+        var blue_buttons = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
         var saver = ReactTestUtils.findRenderedComponentWithType(menu, SuccessButtonMock);
-        expect(first_two.length).toBe(2);
-        expect(first_two[0].props.clickFunction).toBe(props.enableMove);
-        expect(first_two[1].props.clickFunction).toBe(props.disableMove);
-        expect(saver.props.clickFunction).toBe(props.saveState);
+        expect(blue_buttons.length).toBe(3);
+        expect(blue_buttons[0].props.clickFunction).toBe(props.enableMove, "Enable move callback not passed");
+        expect(blue_buttons[1].props.clickFunction).toBe(props.disableMove, "Disable move callback not passed");
+        expect(blue_buttons[2].props.clickFunction).toBe(props.createPerson, "Create person callback not passed");
+        expect(saver.props.clickFunction).toBe(props.saveState, "Save callback not passed");
     });
 });

@@ -112,6 +112,29 @@ describe('appActions', function() {
                 });
             });
         });
+    });
 
+    describe('#enableMove', function(){
+        it('returns the right action type', function(){
+            var action = appActions.enableMove();
+            expect(action).toEqual(jasmine.any(Object));
+            expect(action.type).toBe('SET_MOVE');
+        });
+    });
+
+    describe('#disableMove', function(){
+        it('returns the right action type', function(){
+            var action = appActions.disableMove();
+            expect(action).toEqual(jasmine.any(Object));
+            expect(action.type).toBe('SET_MOVE');
+        });
+    });
+
+    describe('#createPerson', function(){
+        it('returns the right action type', function(){
+            var action = appActions.createPerson();
+            expect(action).toEqual(jasmine.any(Object));
+            expect(action.type).toBe('CREATE_PERSON');
+        });
     });
 });

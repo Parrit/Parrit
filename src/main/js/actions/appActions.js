@@ -56,10 +56,15 @@ function movePersonCreator(fromSpaceIndex, toSpaceIndex, personIndex) {
     }
 }
 
+function createPerson() {
+    return { type: 'CREATE_PERSON' };
+}
+
 module.exports = {
     loadState: loadStateThunk,
     saveState: saveStateThunk,
     movePerson: movePersonCreator,
     enableMove: enableMoveCreator,
-    disableMove: disableMoveCreator
+    disableMove: disableMoveCreator,
+    createPerson: createPerson
 };
