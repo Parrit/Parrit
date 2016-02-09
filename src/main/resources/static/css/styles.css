@@ -23,14 +23,24 @@ body {
 }
 
 /* Drag and drop Styling */
-.drop-active {
+.space.drop-active {
   border-color: #aaa;
 }
 
-.drop-target {
+.space.drop-target {
   background-color: #29e;
   border-color: #fff;
   border-style: solid;
+}
+
+.workspace.drop-active {
+    border-color: #aaa;
+}
+
+.workspace.drop-active {
+    background-color: red;
+    border-color: #fff;
+    border-style: solid;
 }
 
 .drag-drop {

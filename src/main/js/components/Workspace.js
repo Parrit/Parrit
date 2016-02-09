@@ -69,6 +69,10 @@ var Workspace = React.createClass({
 
                     var personIndex = getIndexFromId(event.relatedTarget.id);
 
+                    if(fromSpaceIndex === undefined) {
+                        fromSpaceIndex = toSpaceIndex;
+                    }
+
                     self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
 
                     fromSpaceIndex = undefined;
@@ -83,7 +87,7 @@ var Workspace = React.createClass({
     },
 
 	render: function() {
-		return <div className="container-fluid workspace dropzone">
+		return <div id="space_-1" className="container-fluid workspace dropzone">
 
             <div className="floatingSpace">
                 <h2>Floating</h2>
