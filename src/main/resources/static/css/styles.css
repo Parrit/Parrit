@@ -1,16 +1,28 @@
 body {
-background-color: #286090
+    background-color: #286090
 }
 
-.dropzone {
-  border: dashed 4px transparent;
-  border-radius: 4px;
-  margin: 10px auto 30px;
-  padding: 10px;
-  width: 80%;
-  min-height: 8em;
+.workspace {
+    background-color:white;
+    margin-top: 1em;
+    min-height: 50em;
 }
 
+.space {
+    border: dashed 4px transparent;
+    border-radius: 4px;
+    margin: 10px auto 30px;
+    padding: 10px;
+    min-height: 8em;
+    width: 80%;
+}
+
+.floatingSpace {
+    width:80%;
+    margin: auto;
+}
+
+/* Drag and drop Styling */
 .drop-active {
   border-color: #aaa;
 }
@@ -39,10 +51,4 @@ background-color: #286090
 .drag-drop.can-drop {
   color: #000;
   background-color: #4e4;
-}
-
-.workspace {
-	background-color:white;
-	margin-top: 1em;
-	min-height: 50em;
 }

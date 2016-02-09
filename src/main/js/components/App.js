@@ -15,6 +15,7 @@ var App = React.createClass({
         };
 
         var workspaceProps = {
+            people: this.props.workspace.people,
             spaces: this.props.workspace.spaces,
             movePerson: this.props.movePerson
         };

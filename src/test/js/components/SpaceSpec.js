@@ -35,7 +35,7 @@ describe('Space', function() {
     });
 
     it('renders the space element with an id relative to index', function() {
-        expect(spaceElement.id).toBe("space-1", "No correct id");
+        expect(spaceElement.id).toBe("space_1", "No correct id");
     });
 
     it('renders all of the people', function() {

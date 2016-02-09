@@ -10,48 +10,45 @@ describe("appReducer", function() {
 				canMove: true
 			},
 			workspace: {
+                people: [
+                    {
+                        name: 'Tim'
+                    },
+                    {
+                        name: 'Gaurav'
+                    },
+                    {
+                        name: 'Marianna'
+                    },
+                    {
+                        name: 'Tony'
+                    },
+                    {
+                        name: 'Pete'
+                    },
+                    {
+                        name: 'Jared'
+                    },
+                    {
+                        name: 'Fonzie'
+                    },
+                    {
+                        name: 'Brian'
+                    },
+                    {
+                        name: 'Kea'
+                    },
+                    {
+                        name: 'Lance'
+                    },
+                    {
+                        name: 'Liz'
+                    },
+                    {
+                        name: 'Sree'
+                    }
+                ],
 				spaces: [
-				    {
-				    	name: 'Floating',
-				    	people: [
-                            {
-                                name: 'Tim'
-                            },
-                            {
-                                name: 'Gaurav'
-                            },
-                            {
-                                name: 'Marianna'
-                            },
-                            {
-                                name: 'Tony'
-                            },
-                            {
-                                name: 'Pete'
-                            },
-                            {
-                                name: 'Jared'
-                            },
-                            {
-                                name: 'Fonzie'
-                            },
-                            {
-                                name: 'Brian'
-                            },
-                            {
-                                name: 'Kea'
-                            },
-                            {
-                                name: 'Lance'
-                            },
-                            {
-                                name: 'Liz'
-                            },
-                            {
-                                name: 'Sree'
-                            }
-                        ]
-				    },
                     {
                         name: 'Design',
                         people: []

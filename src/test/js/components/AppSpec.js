@@ -15,6 +15,7 @@ describe('App', function() {
     var props = {
         settings: {},
         workspace: {
+            people: [],
             spaces: [
                 {
                     name: "Space1",
@@ -62,6 +63,7 @@ describe('App', function() {
         expect(workspaceComponent).toBeTruthy('No Menu component found');
 
         expect(workspaceComponent.props.spaces).toBe(props.workspace.spaces, "No spaces passed to workspace");
+        expect(workspaceComponent.props.people).toBe(props.workspace.people, "No people passed to workspace");
         expect(workspaceComponent.props.movePerson).toBe(props.movePerson, "No movePerson passed to workspace");
     });
 });

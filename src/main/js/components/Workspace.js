@@ -1,6 +1,8 @@
 var React = require('react');
 var Interact = require('interact.js');
+var _ = require('lodash');
 
+var PersonContainer = require('containers/PersonContainer.js');
 var Space = require('components/Space.js');
 
 var Workspace = React.createClass({
@@ -47,7 +49,6 @@ var Workspace = React.createClass({
                 },
                 ondropdeactivate: function (event) {
                     event.target.classList.remove('drop-active');
-                    event.target.classList.remove('drop-target');
                 },
                 ondragenter: function (event) {
                     event.target.classList.add('drop-target');
@@ -64,6 +65,8 @@ var Workspace = React.createClass({
                     }
                 },
                 ondrop: function (event) {
+                    event.target.classList.remove('drop-target');
+
                     var personIndex = getIndexFromId(event.relatedTarget.id);
 
                     self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
@@ -74,16 +77,25 @@ var Workspace = React.createClass({
             });
 
         function getIndexFromId(idString) {
-            return parseInt(idString.charAt(idString.length-1));
+            var segments = _.split(idString, '_');
+            return parseInt(segments[segments.length-1]);
         }
     },
 
 	render: function() {
-		return <div className="container-fluid workspace">
-			{this.props.spaces.map(function (space, idx) {
-				return <Space key={idx} name={space.name} people={space.people} index={idx}/>;
-			})}
-      	</div>
+		return <div className="container-fluid workspace dropzone">
+
+            <div className="floatingSpace">
+                <h2>Floating</h2>
+                {this.props.people.map(function (person, idx) {
+                    return <PersonContainer key={person.name} name={person.name} index={idx} spaceIndex={-1}/>
+                })}
+            </div>
+
+            {this.props.spaces.map(function (space, idx) {
+                return <Space key={idx} name={space.name} people={space.people} index={idx}/>;
+            })}
+        </div>
 	}
 });
 

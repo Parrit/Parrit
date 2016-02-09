@@ -25,7 +25,7 @@ describe('Person', function() {
     });
 
     it('renders the space element with an id relative to index', function() {
-        expect(personElement.id).toBe("space-1-person-1", "No correct id");
+        expect(personElement.id).toBe("space_1_person_1", "No correct id");
     });
 
     it('should have the draggable class', function() {

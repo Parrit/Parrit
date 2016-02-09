@@ -13,6 +13,9 @@ public class Workspace {
     @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL)
     private Collection<Space> spaces;
 
+    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL)
+    private Collection<Person> people;
+
     public long getId() {
         return id;
     }
@@ -29,6 +32,14 @@ public class Workspace {
         this.spaces = spaces;
     }
 
+    public Collection<Person> getPeople() {
+        return people;
+    }
+
+    public void setPeople(Collection<Person> people) {
+        this.people = people;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,6 +49,7 @@ public class Workspace {
 
         if (id != workspace.id) return false;
         if (spaces != null ? !spaces.equals(workspace.spaces) : workspace.spaces == null) return false;
+        if (people != null ? !people.equals(workspace.people) : workspace.people == null) return false;
 
         return true;
     }
@@ -47,6 +59,7 @@ public class Workspace {
         return "Workspace{" +
                 "id=" + id +
                 ", spaces=" + spaces +
+                ", people=" + people +
                 '}';
     }
 }

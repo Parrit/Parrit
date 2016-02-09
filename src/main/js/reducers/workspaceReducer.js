@@ -3,48 +3,45 @@ var _ = require('lodash');
 var workspaceReducer = function(state, action) {
 	if(typeof state === 'undefined') {
 		return {
-            spaces: [
+            people: [
                 {
-                    name: 'Floating',
-                    people: [
-                        {
-                            name: 'Tim'
-                        },
-                        {
-                            name: 'Gaurav'
-                        },
-                        {
-                            name: 'Marianna'
-                        },
-                        {
-                            name: 'Tony'
-                        },
-                        {
-                            name: 'Pete'
-                        },
-                        {
-                            name: 'Jared'
-                        },
-                        {
-                            name: 'Fonzie'
-                        },
-                        {
-                            name: 'Brian'
-                        },
-                        {
-                            name: 'Kea'
-                        },
-                        {
-                            name: 'Lance'
-                        },
-                        {
-                            name: 'Liz'
-                        },
-                        {
-                            name: 'Sree'
-                        }
-                    ]
+                    name: 'Tim'
                 },
+                {
+                    name: 'Gaurav'
+                },
+                {
+                    name: 'Marianna'
+                },
+                {
+                    name: 'Tony'
+                },
+                {
+                    name: 'Pete'
+                },
+                {
+                    name: 'Jared'
+                },
+                {
+                    name: 'Fonzie'
+                },
+                {
+                    name: 'Brian'
+                },
+                {
+                    name: 'Kea'
+                },
+                {
+                    name: 'Lance'
+                },
+                {
+                    name: 'Liz'
+                },
+                {
+                    name: 'Sree'
+                }
+            ],
+            spaces: [
                 {
                     name: 'Design',
                     people: []
@@ -87,8 +84,8 @@ var workspaceReducer = function(state, action) {
         case "MOVE_PERSON":
             var stateClone = _.cloneDeep(state);
 
-            var fromSpace = stateClone.spaces[action.fromSpaceIndex];
-            var toSpace = stateClone.spaces[action.toSpaceIndex];
+            var fromSpace = action.fromSpaceIndex >=0 ? stateClone.spaces[action.fromSpaceIndex] : stateClone;
+            var toSpace = action.toSpaceIndex >=0 ? stateClone.spaces[action.toSpaceIndex] : stateClone;
 
             toSpace.people.push(_.pullAt(fromSpace.people, action.personIndex)[0]);
 

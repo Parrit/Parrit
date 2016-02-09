@@ -6,48 +6,45 @@ describe("workspaceReducer", function() {
 		var stateBefore = undefined;
 		var action = {};
 		var stateAfter = {
-            spaces: [
+            people: [
                 {
-                    name: 'Floating',
-                    people: [
-                        {
-                            name: 'Tim'
-                        },
-                        {
-                            name: 'Gaurav'
-                        },
-                        {
-                            name: 'Marianna'
-                        },
-                        {
-                            name: 'Tony'
-                        },
-                        {
-                            name: 'Pete'
-                        },
-                        {
-                            name: 'Jared'
-                        },
-                        {
-                            name: 'Fonzie'
-                        },
-                        {
-                            name: 'Brian'
-                        },
-                        {
-                            name: 'Kea'
-                        },
-                        {
-                            name: 'Lance'
-                        },
-                        {
-                            name: 'Liz'
-                        },
-                        {
-                            name: 'Sree'
-                        }
-                    ]
+                    name: 'Tim'
                 },
+                {
+                    name: 'Gaurav'
+                },
+                {
+                    name: 'Marianna'
+                },
+                {
+                    name: 'Tony'
+                },
+                {
+                    name: 'Pete'
+                },
+                {
+                    name: 'Jared'
+                },
+                {
+                    name: 'Fonzie'
+                },
+                {
+                    name: 'Brian'
+                },
+                {
+                    name: 'Kea'
+                },
+                {
+                    name: 'Lance'
+                },
+                {
+                    name: 'Liz'
+                },
+                {
+                    name: 'Sree'
+                }
+            ],
+            spaces: [
                 {
                     name: 'Design',
                     people: []
@@ -124,6 +121,7 @@ describe("workspaceReducer", function() {
             it('should move a person between spaces', function() {
                 var stateBefore = {
                     id: 7,
+                    people: [],
                     spaces: [
                         {
                             name: "USS Enterprise",
@@ -144,6 +142,7 @@ describe("workspaceReducer", function() {
 
                 var stateAfter = {
                     id: 7,
+                    people: [],
                     spaces: [
                         {
                             name: "USS Enterprise",
@@ -152,6 +151,94 @@ describe("workspaceReducer", function() {
                         {
                             name: "Klingon Warbird",
                             people: [{name:"Captain Kirk"}]
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it('should move a person from the workspace to a space', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [{name:"Captain Kirk"}],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }]
+                };
+
+                var action = {
+                    type: "MOVE_PERSON",
+                    toSpaceIndex: 1,
+                    fromSpaceIndex: -1,
+                    personIndex: 0
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: [{name:"Captain Kirk"}]
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it('should move a person from space to the workspace', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: [{name:"Captain Kirk"}]
+                        }]
+                };
+
+                var action = {
+                    type: "MOVE_PERSON",
+                    toSpaceIndex: -1,
+                    fromSpaceIndex: 1,
+                    personIndex: 0
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [{name:"Captain Kirk"}],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
                         }]
                 };
 
