@@ -4,6 +4,7 @@ body {
 
 .workspace {
     background-color:white;
+    border: #aaa 4px solid;
     margin-top: 1em;
     min-height: 50em;
 }
@@ -28,7 +29,7 @@ body {
 }
 
 .space.drop-target {
-  background-color: #29e;
+  background-color: #337ab7;
   border-color: #fff;
   border-style: solid;
 }
@@ -37,9 +38,9 @@ body {
     border-color: #aaa;
 }
 
-.workspace.drop-active {
-    background-color: red;
-    border-color: #fff;
+.workspace.drop-target {
+    background-color: #5bc0de;
+    border-color: #aaa;
     border-style: solid;
 }
 
