@@ -40,4 +40,12 @@ public class Person {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

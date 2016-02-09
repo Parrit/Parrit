@@ -46,4 +46,13 @@ public class State {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "State{" +
+                "id=" + id +
+                ", settings=" + settings +
+                ", workspace=" + workspace +
+                '}';
+    }
 }

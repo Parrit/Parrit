@@ -41,4 +41,12 @@ public class Settings {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "id=" + id +
+                ", canMove=" + canMove +
+                '}';
+    }
 }

@@ -41,4 +41,12 @@ public class Workspace {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Workspace{" +
+                "id=" + id +
+                ", spaces=" + spaces +
+                '}';
+    }
 }

@@ -58,4 +58,13 @@ public class Space {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Space{" +
+                "id=" + id +
+                ", people=" + people +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
