@@ -2,6 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactTestUtils = require('react-addons-test-utils');
 
+var RenderComponent = require('support/RenderComponent.js');
+
 var Person = require('components/Person.js');
 
 describe('Person', function() {
@@ -12,19 +14,14 @@ describe('Person', function() {
         index: 1
     };
 
-    function renderComponent(props) {
-        var blah = ReactTestUtils.renderIntoDocument(<Person {...props} />);
-        return ReactTestUtils.findRenderedComponentWithType(blah, Person);
-    }
-
     var person;
     var personElement;
     beforeEach(function() {
-        person = renderComponent(props);
+        person = RenderComponent(Person, <Person {...props} />);
         personElement = ReactDOM.findDOMNode(person);
     });
 
-    it('renders the space element with an id relative to index', function() {
+    it('renders the person element with an id relative to index', function() {
         expect(personElement.id).toBe("space_1_person_1", "No correct id");
     });
 
@@ -35,7 +32,7 @@ describe('Person', function() {
     describe('When canMove is FALSE', function() {
         beforeEach(function () {
             props.canMove = false;
-            person = renderComponent(props);
+            person = RenderComponent(Person, <Person {...props} />);
             personElement = ReactDOM.findDOMNode(person);
         });
 

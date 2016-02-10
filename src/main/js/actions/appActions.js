@@ -56,8 +56,11 @@ function movePersonCreator(fromSpaceIndex, toSpaceIndex, personIndex) {
     }
 }
 
-function createPerson() {
-    return { type: 'CREATE_PERSON' };
+function createPerson(name) {
+    return {
+        type: 'CREATE_PERSON',
+        name: name
+    };
 }
 
 module.exports = {

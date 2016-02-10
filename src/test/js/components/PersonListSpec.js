@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
 
+var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var PersonList = require('components/PersonList.js');
@@ -8,13 +9,8 @@ var PersonMock = Mocker("PersonContainer");
 PersonList.__set__('PersonContainer', PersonMock);
 
 describe('PersonList', function() {
-    function renderComponent(props) {
-        var blah = ReactTestUtils.renderIntoDocument(<PersonList {...props} />);
-        return ReactTestUtils.findRenderedComponentWithType(blah, PersonList);
-    }
-
     it('renders all of the people', function() {
-        var space = renderComponent({
+        var props = {
             people: [
                 {
                     name: "George"
@@ -24,8 +20,11 @@ describe('PersonList', function() {
                 }
             ],
             index: 1
-        });
-        var people = ReactTestUtils.scryRenderedComponentsWithType(space, PersonMock);
+        };
+
+        var personList = RenderComponent(PersonList, <PersonList {...props} />);
+
+        var people = ReactTestUtils.scryRenderedComponentsWithType(personList, PersonMock);
         expect(people.length).toBe(2, 'Not enough people');
 
         expect(people[0].props.name).toBe("George");
@@ -38,7 +37,7 @@ describe('PersonList', function() {
     });
 
     it('can render two people with the same name', function() {
-        var space = renderComponent({
+        var props = {
             name: "Space1",
             people: [
                 {
@@ -49,8 +48,11 @@ describe('PersonList', function() {
                 }
             ],
             index: 1
-        });
-        var people = ReactTestUtils.scryRenderedComponentsWithType(space, PersonMock);
+        };
+
+        var personList = RenderComponent(PersonList, <PersonList {...props} />);
+
+        var people = ReactTestUtils.scryRenderedComponentsWithType(personList, PersonMock);
         expect(people.length).toBe(2, 'Not enough people');
 
         expect(people[0].props.name).toBe("Hank Muchacho");

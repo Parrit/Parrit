@@ -264,12 +264,13 @@ describe("workspaceReducer", function() {
                 };
 
                 var action = {
-                    type: "CREATE_PERSON"
+                    type: "CREATE_PERSON",
+                    name: "Bubba Gump"
                 };
 
                 var stateAfter = {
                     id: 7,
-                    people: [{name: "New Person"}],
+                    people: [{name: "Bubba Gump"}],
                     spaces: [
                         {
                             name: "OUTER",

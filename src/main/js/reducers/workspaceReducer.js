@@ -93,7 +93,7 @@ var workspaceReducer = function(state, action) {
         case "CREATE_PERSON":
             var stateClone = _.cloneDeep(state);
 
-            stateClone.people.push({name: "New Person"});
+            stateClone.people.push({name: action.name});
 
             return stateClone;
         default:

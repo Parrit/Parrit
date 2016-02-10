@@ -15,4 +15,4 @@ var SuccessButton = React.createClass({
 module.exports = {
   PrimaryButton: PrimaryButton,
   SuccessButton: SuccessButton
-}
+};

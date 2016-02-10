@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
 
+var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var App = require('components/App.js');
@@ -35,14 +36,9 @@ describe('App', function() {
         loadState: loadStateSpy
     };
 
-    function renderComponent(propos) {
-        var blah = ReactTestUtils.renderIntoDocument(<App {...propos} />);
-        return ReactTestUtils.findRenderedComponentWithType(blah, App);
-    }
-
     var app;
     beforeEach(function() {
-        app = renderComponent(props);
+        app = RenderComponent(App, <App {...props} />);
     });
 
     it('calls the loadState action', function() {

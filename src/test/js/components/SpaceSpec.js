@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactTestUtils = require('react-addons-test-utils');
 
+var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var Space = require('components/Space.js');
@@ -22,14 +23,9 @@ describe('Space', function() {
         index: 1
     };
 
-    function renderComponent(props) {
-        var blah = ReactTestUtils.renderIntoDocument(<Space {...props} />);
-        return ReactTestUtils.findRenderedComponentWithType(blah, Space);
-    }
-
     var space;
     beforeEach(function() {
-        space = renderComponent(props);
+        space = RenderComponent(Space, <Space {...props} />);
     });
 
     it('renders the space element with an id relative to index', function() {

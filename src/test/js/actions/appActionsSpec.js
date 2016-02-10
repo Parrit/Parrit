@@ -136,5 +136,10 @@ describe('appActions', function() {
             expect(action).toEqual(jasmine.any(Object));
             expect(action.type).toBe('CREATE_PERSON');
         });
+
+        it('sets name equal to the passed in value', function() {
+            var action = appActions.createPerson('Forrest Gump');
+            expect(action.name).toBe('Forrest Gump');
+        });
     });
 });

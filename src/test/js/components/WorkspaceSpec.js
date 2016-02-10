@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
 
+var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var Workspace = require('components/Workspace.js');
@@ -38,14 +39,9 @@ describe('Workspace', function() {
         movePerson: movePersonSpy
     };
 
-    function renderComponent(props) {
-        var blah = ReactTestUtils.renderIntoDocument(<Workspace {...props} />);
-        return ReactTestUtils.findRenderedComponentWithType(blah, Workspace);
-    }
-
     var workspace;
     beforeEach(function() {
-        workspace = renderComponent(props);
+        workspace = RenderComponent(Workspace, <Workspace {...props} />);
     });
 
     it('renders all of the spaces in the workspace', function() {
