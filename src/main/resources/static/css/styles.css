@@ -1,3 +1,7 @@
+#app {
+    background-color: #286090
+}
+
 .sidenav {
     background-color: #f1f1f1;
 }
@@ -8,16 +12,6 @@
     }
 }
 
-body {
-    background-color: #286090
-}
-
-footer {
-    background-color: #555;
-    color: white;
-    padding: 15px;
-}
-
 .menu {
     padding: 0;
 }
@@ -25,7 +19,7 @@ footer {
 .workspace {
     min-height: 80em;
     margin: 1em 0;
-    background-color:white;
+    background-color: white;
     border: #aaa 4px solid;
 }
 
@@ -41,7 +35,7 @@ footer {
 }
 
 .floatingSpace {
-    width:80%;
+    width: 80%;
     margin: auto;
 }
 
@@ -87,4 +81,10 @@ footer {
 .person.can-drop {
     color: #000;
     background-color: #4e4;
+}
+
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
 }
