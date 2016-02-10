@@ -5,10 +5,8 @@ target/
 node_modules/
 src/main/resources/static/built/
 src/test/js/built/
-.idea/
 
 .DS_Store
-**/.DS_Store
 parrit.iml
 Parrit.iml
 .project
