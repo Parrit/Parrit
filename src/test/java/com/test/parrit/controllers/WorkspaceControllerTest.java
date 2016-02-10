@@ -1,7 +1,6 @@
 package com.test.parrit.controllers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -9,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.parrit.controllers.StateController;
+import com.parrit.controllers.WorkspaceController;
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
 import com.test.parrit.support.ControllerTestBase;
@@ -22,60 +21,55 @@ import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class StateControllerTest extends ControllerTestBase {
+public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Mock
-    StateRepository mockStateRepository;
+    WorkspaceRepository mockWorkspaceRepository;
 
     @Autowired
     @InjectMocks
-    StateController stateController;
+    WorkspaceController workspaceController;
 
-    String exampleStateString;
-    State exampleState;
+    String exampleWorkspaceString;
+    Workspace exampleWorkspace;
 
     @Before
     public void setUp() {
-        exampleStateString = "{\"id\":1,\"settings\":null,\"workspace\":null}";
+        exampleWorkspaceString = "{\"id\":1,\"spaces\":null,\"people\":null}";
 
-        exampleState = new State();
-        exampleState.setId(1L);
+        exampleWorkspace = new Workspace();
+        exampleWorkspace.setId(1L);
     }
 
     @Test
-    public void save_persistsTheInputJson_andReturnsTheResult() throws Exception {
-        when(mockStateRepository.save(any(State.class))).thenReturn(exampleState);
+    public void save_persistsTheWorkspace_andReturnsTheResult() throws Exception {
+        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
 
-        MvcResult mvcResult = mvc.perform(post("/state")
+        MvcResult mvcResult = mvc.perform(post("/workspace")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(exampleStateString))
+                .content(exampleWorkspaceString))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String returnedState = mvcResult.getResponse().getContentAsString();
-        assertThat(returnedState, equalTo(exampleStateString));
+        assertThat(returnedState, equalTo(exampleWorkspaceString));
 
-        verify(mockStateRepository).save(any(State.class));
+        verify(mockWorkspaceRepository).save(any(Workspace.class));
     }
 
     @Test
     public void get_returnsResultFromRepository() throws Exception {
-        when(mockStateRepository.findOne(anyLong())).thenReturn(exampleState);
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(exampleWorkspace);
 
-        MvcResult mvcResult = mvc.perform(get("/state")
+        MvcResult mvcResult = mvc.perform(get("/workspace")
                 .param("id", "1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String returnedState = mvcResult.getResponse().getContentAsString();
-        assertThat(returnedState, equalTo(exampleStateString));
+        assertThat(returnedState, equalTo(exampleWorkspaceString));
 
-        verify(mockStateRepository, never()).save(any(State.class));
-        verify(mockStateRepository).findOne(1L);
+        verify(mockWorkspaceRepository, never()).save(any(Workspace.class));
+        verify(mockWorkspaceRepository).findOne(1L);
     }
 }
