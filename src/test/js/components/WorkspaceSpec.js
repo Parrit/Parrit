@@ -5,9 +5,9 @@ var Mocker = require('../support/ComponentMocker.js');
 
 var Workspace = require('components/Workspace.js');
 var SpaceMock = Mocker("Space");
-var PersonContainerMock = Mocker("PersonContainer");
+var PersonListMock = Mocker("PersonList");
 Workspace.__set__('Space', SpaceMock);
-Workspace.__set__('PersonContainer', PersonContainerMock);
+Workspace.__set__('PersonList', PersonListMock);
 
 describe('Workspace', function() {
     var movePersonSpy = jasmine.createSpy;
@@ -61,16 +61,10 @@ describe('Workspace', function() {
         expect(spaces[1].props.index).toBe(1);
     });
 
-    it('renders all of the people in the workspace', function() {
-        var people = ReactTestUtils.scryRenderedComponentsWithType(workspace, PersonContainerMock);
-        expect(people.length).toBe(2, 'Not enough people');
-
-        expect(people[0].props.name).toBe("Mike Wazowski");
-        expect(people[0].props.index).toBe(0);
-        expect(people[0].props.spaceIndex).toBe(-1);
-
-        expect(people[1].props.name).toBe("Sully");
-        expect(people[1].props.index).toBe(1);
-        expect(people[1].props.spaceIndex).toBe(-1);
+    it('renders the list of people in the workspace', function() {
+        var people = ReactTestUtils.findRenderedComponentWithType(workspace, PersonListMock);
+        expect(people).toBeDefined('No list of people');
+        expect(people.props.people).toBe(props.people);
+        expect(people.props.index).toBe(-1);
     })
 });

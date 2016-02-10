@@ -2,7 +2,7 @@ var React = require('react');
 var Interact = require('interact.js');
 var _ = require('lodash');
 
-var PersonContainer = require('containers/PersonContainer.js');
+var PersonList = require('components/PersonList.js');
 var Space = require('components/Space.js');
 
 var Workspace = React.createClass({
@@ -87,9 +87,7 @@ var Workspace = React.createClass({
 
             <div className="floatingSpace">
                 <h2>Floating</h2>
-                {this.props.people.map(function (person, idx) {
-                    return <PersonContainer key={person.name} name={person.name} index={idx} spaceIndex={-1}/>
-                })}
+                <PersonList people={this.props.people} index={-1} />
             </div>
 
             {this.props.spaces.map(function (space, idx) {

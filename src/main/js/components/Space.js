@@ -1,13 +1,17 @@
 var React = require('react');
-var PersonContainer = require('containers/personContainer.js');
+var PersonList = require('components/PersonList.js');
 
 var Space = React.createClass({
-	render: function() {
+    propTypes: {
+        index: React.PropTypes.number.isRequired,
+        people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+        name: React.PropTypes.string.isRequired
+    },
+
+    render: function() {
         var spaceIndex = this.props.index;
 		return <div id={"space_" + spaceIndex} className="space dropzone well">{this.props.name}
-			{this.props.people.map(function (person, idx) {
-				return <PersonContainer key={person.name} name={person.name} index={idx} spaceIndex={spaceIndex}/>
-			})}
+            <PersonList people={this.props.people} index={spaceIndex} />
 		</div>
 	}
 });

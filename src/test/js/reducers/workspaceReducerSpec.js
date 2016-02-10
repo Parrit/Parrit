@@ -250,5 +250,40 @@ describe("workspaceReducer", function() {
                 ).toEqual(stateAfter);
             });
         });
+
+        describe('CREATE_PERSON', function() {
+            it('adds a person to the workspace', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "OUTER",
+                            people: []
+                        }]
+                };
+
+                var action = {
+                    type: "CREATE_PERSON"
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [{name: "New Person"}],
+                    spaces: [
+                        {
+                            name: "OUTER",
+                            people: []
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
     });
 });

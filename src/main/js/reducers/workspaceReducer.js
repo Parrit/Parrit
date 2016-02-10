@@ -90,6 +90,12 @@ var workspaceReducer = function(state, action) {
             toSpace.people.push(_.pullAt(fromSpace.people, action.personIndex)[0]);
 
             return stateClone;
+        case "CREATE_PERSON":
+            var stateClone = _.cloneDeep(state);
+
+            stateClone.people.push({name: "New Person"});
+
+            return stateClone;
         default:
             return state;
     }
