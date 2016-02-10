@@ -39,7 +39,7 @@ var Workspace = React.createClass({
                 // Only accept elements matching this CSS selector
                 accept: '.draggable.person',
 
-                // Require a 75% element overlap for a drop to be possible
+                // Require a 50% element overlap for a drop to be possible
                 overlap: 0.50,
 
                 // target -> dropzoneElement, relatedTarget -> draggableElement
@@ -75,12 +75,9 @@ var Workspace = React.createClass({
 
                     self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
 
-                    if (fromSpaceIndex === toSpaceIndex) {
-                        event.relatedTarget.removeAttribute('style');
-                        event.relatedTarget.removeAttribute('data-x');
-                        event.relatedTarget.removeAttribute('data-y');
-                    }
-
+                    event.relatedTarget.removeAttribute('style');
+                    event.relatedTarget.removeAttribute('data-x');
+                    event.relatedTarget.removeAttribute('data-y');
                     fromSpaceIndex = undefined;
                     toSpaceIndex = undefined;
                 }
