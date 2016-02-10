@@ -11,7 +11,6 @@ var Workspace = React.createClass({
 
         Interact('.draggable')
             .draggable({
-                inertia:true,
                 restrict: {
                     restriction: ".workspace"
                 },
@@ -38,7 +37,7 @@ var Workspace = React.createClass({
         Interact('.dropzone')
             .dropzone({
                 // Only accept elements matching this CSS selector
-                accept: '.draggable.drag-drop',
+                accept: '.draggable.person',
 
                 // Require a 75% element overlap for a drop to be possible
                 overlap: 0.50,
