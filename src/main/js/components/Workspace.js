@@ -11,7 +11,6 @@ var Workspace = React.createClass({
 
         Interact('.draggable')
             .draggable({
-                inertia:true,
                 restrict: {
                     restriction: ".workspace"
                 },
@@ -38,10 +37,10 @@ var Workspace = React.createClass({
         Interact('.dropzone')
             .dropzone({
                 // Only accept elements matching this CSS selector
-                accept: '.draggable.drag-drop',
+                accept: '.draggable.person',
 
                 // Require a 75% element overlap for a drop to be possible
-                overlap: 0.75,
+                overlap: 0.50,
 
                 // target -> dropzoneElement, relatedTarget -> draggableElement
                 ondropactivate: function (event) {
@@ -66,10 +65,21 @@ var Workspace = React.createClass({
                 },
                 ondrop: function (event) {
                     event.target.classList.remove('drop-target');
+                    event.relatedTarget.classList.remove('can-drop');
 
                     var personIndex = getIndexFromId(event.relatedTarget.id);
 
+                    if(fromSpaceIndex === undefined) {
+                        fromSpaceIndex = toSpaceIndex;
+                    }
+
                     self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
+
+                    if (fromSpaceIndex === toSpaceIndex) {
+                        event.relatedTarget.removeAttribute('style');
+                        event.relatedTarget.removeAttribute('data-x');
+                        event.relatedTarget.removeAttribute('data-y');
+                    }
 
                     fromSpaceIndex = undefined;
                     toSpaceIndex = undefined;
@@ -83,7 +93,7 @@ var Workspace = React.createClass({
     },
 
 	render: function() {
-		return <div className="container-fluid workspace dropzone">
+		return <div id="space_-1" className="container-fluid workspace dropzone">
 
             <div className="floatingSpace">
                 <h2>Floating</h2>

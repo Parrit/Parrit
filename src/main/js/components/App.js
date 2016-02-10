@@ -1,4 +1,5 @@
 var React = require('react');
+
 var Menu = require('components/Menu.js');
 var Workspace = require('components/Workspace.js');
 
@@ -32,11 +33,11 @@ var App = React.createClass({
 
 		return <div className="container-fluid">
 			<div className="row content">
-				<div className="col-sm-3 sidenav">
-					<h4>Parrit</h4>
+				<div className="sidenav col-sm-3">
+					<h1>Parrit</h1>
 					<Menu {...menuProps}/>
 				</div>
-				<div className="col-sm-9 dark">
+				<div className="col-sm-9">
 					<Workspace {...workspaceProps}/>
 				</div>
 			</div>

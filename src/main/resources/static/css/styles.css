@@ -1,20 +1,43 @@
+.sidenav {
+    background-color: #f1f1f1;
+}
+
+@media screen and (max-width: 767px) {
+    .sidenav {
+        padding: 15px;
+    }
+}
+
 body {
     background-color: #286090
 }
 
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+}
+
+.menu {
+    padding: 0;
+}
+
 .workspace {
+    min-height: 80em;
+    margin: 1em 0;
     background-color:white;
-    margin-top: 1em;
-    min-height: 50em;
+    border: #aaa 4px solid;
 }
 
 .space {
-    border: dashed 4px transparent;
-    border-radius: 4px;
     margin: 10px auto 30px;
     padding: 10px;
-    min-height: 8em;
+    min-height: 5em;
     width: 80%;
+}
+
+.space-name {
+    margin-right: 5px;
 }
 
 .floatingSpace {
@@ -22,33 +45,46 @@ body {
     margin: auto;
 }
 
+.person {
+    display: inline-block;
+    min-width: 80px;
+    padding: 1em 0.5em;
+    margin: 2px 4px;
+    border-radius: 10px;
+    text-align: center;
+
+    color: #fff;
+    background-color: #337AB7;
+    border: solid 2px #fff;
+
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+
+    transition: background-color 0.3s;
+}
+
 /* Drag and drop Styling */
-.drop-active {
-  border-color: #aaa;
+.space.drop-active {
+    border-color: #aaa;
 }
 
-.drop-target {
-  background-color: #29e;
-  border-color: #fff;
-  border-style: solid;
+.space.drop-target {
+    background-color: #337ab7;
+    border-color: #fff;
+    border-style: solid;
 }
 
-.drag-drop {
-  display: inline-block;
-  min-width: 40px;
-  padding: 2em 0.5em;
-
-  color: #fff;
-  background-color: #337AB7;
-  border: solid 2px #fff;
-
-  -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
-
-  transition: background-color 0.3s;
+.workspace.drop-active {
+    border-color: #aaa;
 }
 
-.drag-drop.can-drop {
-  color: #000;
-  background-color: #4e4;
+.workspace.drop-target {
+    background-color: #5bc0de;
+    border-color: #aaa;
+    border-style: solid;
+}
+
+.person.can-drop {
+    color: #000;
+    background-color: #4e4;
 }

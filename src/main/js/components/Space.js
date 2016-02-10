@@ -10,7 +10,8 @@ var Space = React.createClass({
 
     render: function() {
         var spaceIndex = this.props.index;
-		return <div id={"space_" + spaceIndex} className="space dropzone well">{this.props.name}
+		return <div id={"space_" + spaceIndex} className="space dropzone well">
+            <span className="space-name">{this.props.name}</span>
             <PersonList people={this.props.people} index={spaceIndex} />
 		</div>
 	}

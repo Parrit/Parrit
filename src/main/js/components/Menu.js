@@ -13,7 +13,7 @@ var Menu = React.createClass({
     },
 
     render: function() {
-        return <ul>
+        return <ul className="menu">
             <PrimaryButton name="Move" clickFunction={this.props.enableMove}/>
             <PrimaryButton name="Don't Move" clickFunction={this.props.disableMove}/>
             <PrimaryButton name="New Person" clickFunction={this.props.createPerson}/>
