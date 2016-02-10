@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactTestUtils = require('react-addons-test-utils');
 
-var Mocker = require('../support/ComponentMocker.js');
+var Mocker = require('support/ComponentMocker.js');
 
 var Workspace = require('components/Workspace.js');
 var SpaceMock = Mocker("Space");

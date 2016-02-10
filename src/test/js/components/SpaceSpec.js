@@ -2,7 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactTestUtils = require('react-addons-test-utils');
 
-var Mocker = require('../support/ComponentMocker.js');
+var Mocker = require('support/ComponentMocker.js');
 
 var Space = require('components/Space.js');
 var PersonListMock = Mocker("PersonList");

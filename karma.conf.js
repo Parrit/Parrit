@@ -33,7 +33,7 @@ module.exports = function(config) {
             transform: [ ['babelify', {presets: 'react'}], 'rewireify' ],
             configure: function(bundle) {
                 bundle.on('prebundle', function() {
-                    bundle._mdeps.paths = ['./src/main/js']
+                    bundle._mdeps.paths = ['./src/main/js', './src/test/js']
                 })
             }
         }
