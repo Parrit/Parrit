@@ -24,7 +24,7 @@ module.exports = function(grunt) {
                     noCache: true
                 },
                 files: {
-                    'src/main/resources/static/built/bundle.css': 'src/main/resources/static/sass/*.scss'
+                    'src/main/resources/static/built/bundle.css': 'src/main/resources/static/sass/styles.scss'
                 }
             }
         }

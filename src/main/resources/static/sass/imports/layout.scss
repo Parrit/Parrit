@@ -1,0 +1,19 @@
+#app {
+  background-color: $primaryBlue;
+}
+
+.content {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .workspace-wrapper {
+    margin-left: 25%;
+  }
+}
+
+footer {
+  background-color: $mediumGrey;
+  color: white;
+  padding: 15px;
+}

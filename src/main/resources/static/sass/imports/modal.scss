@@ -1,0 +1,38 @@
+.ReactModal__Overlay {
+  background-color: $overlayColor;
+}
+
+.ReactModal__Content {
+  position: absolute;
+  top: 40%;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: white;
+
+  input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 47%;
+  }
+
+  button + button {
+    margin-left: 6%;
+  }
+}
+
+@media (max-width: 767px) {
+  .ReactModal__Content {
+    width: 60%;
+    left: 20%;
+  }
+}
+
+@media (min-width: 768px) {
+  .ReactModal__Content {
+    width: 30%;
+    left: 35%;
+  }
+}

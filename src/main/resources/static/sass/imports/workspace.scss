@@ -1,0 +1,46 @@
+.workspace {
+  min-height: 80em;
+  margin: 1em 0;
+  background-color: white;
+  border: $lightGrey 4px solid;
+
+  .space {
+    margin: 10px auto 30px;
+    padding: 10px;
+    min-height: 8em;
+    width: 80%;
+
+    .space-name {
+      position: relative;
+      width: 100%;
+      float: left;
+      margin: 5px;
+      font-size: 18px;
+    }
+  }
+
+  .floatingSpace {
+    width: 80%;
+    margin: auto;
+    min-height: 8em;
+  }
+
+  .person {
+    position: relative;
+    display: inline-block;
+    min-width: 80px;
+    padding: 1em 0.5em;
+    margin: 2px 4px;
+    border-radius: 10px;
+    text-align: center;
+
+    color: white;
+    background-color: $primaryBlue;
+    border: solid 2px white;
+
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+
+    transition: background-color 0.3s;
+  }
+}
