@@ -1,5 +1,6 @@
 var React = require('react');
 var Modal = require('react-modal');
+var ModalStyles = require('misc/OverrideBullshitModalStyles.js');
 
 var NewPersonForm = require('components/forms/NewPersonForm.js');
 var Buttons = require('components/Buttons.js');
@@ -24,7 +25,7 @@ var Menu = React.createClass({
                 <PrimaryButton name="New Person" clickFunction={this.openNewPersonModal}/>
                 <SuccessButton name="Save" clickFunction={this.props.saveWorkspace}/>
             </ul>
-            <Modal isOpen={this.props.settings.setNewPersonModalOpen} onRequestClose={this.closeNewPersonModal}>
+            <Modal isOpen={this.props.settings.setNewPersonModalOpen} onRequestClose={this.closeNewPersonModal} style={ModalStyles}>
                 <NewPersonForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>
             </Modal>
         </div>

@@ -11,9 +11,9 @@ var NewPersonForm = React.createClass({
 
     render: function() {
         return <div>
-            <input type="text" value={this.state.name} onChange={this.handleChange}/>
-            <SuccessButton name="Save" clickFunction={this.submit}/>
+            <input type="text" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleChange}/>
             <PrimaryButton name="Cancel" clickFunction={this.props.cancelFunction}/>
+            <SuccessButton name="Save" clickFunction={this.submit}/>
         </div>
     },
 

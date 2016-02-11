@@ -1,90 +1,129 @@
+$primaryBlue: #337AB7;
+$lightGrey: #AAA;
+
 #app {
-    background-color: #286090
+  background-color: #286090
 }
 
 .sidenav {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 @media screen and (max-width: 767px) {
-    .sidenav {
-        padding: 15px;
-    }
+  .sidenav {
+    padding: 15px;
+  }
 }
 
 .menu {
-    padding: 0;
+  padding: 0;
+
+  button {
+    display: block;
+    width: 100%;
+  }
+
+  button + button {
+    margin-top: 5px;
+  }
 }
 
 .workspace {
-    min-height: 80em;
-    margin: 1em 0;
-    background-color: white;
-    border: #aaa 4px solid;
+  min-height: 80em;
+  margin: 1em 0;
+  background-color: white;
+  border: #aaa 4px solid;
 }
 
 .space {
-    margin: 10px auto 30px;
-    padding: 10px;
-    min-height: 5em;
-    width: 80%;
+  margin: 10px auto 30px;
+  padding: 10px;
+  min-height: 5em;
+  width: 80%;
 }
 
 .space-name {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .floatingSpace {
-    width: 80%;
-    margin: auto;
+  width: 80%;
+  margin: auto;
 }
 
 .person {
-    display: inline-block;
-    min-width: 80px;
-    padding: 1em 0.5em;
-    margin: 2px 4px;
-    border-radius: 10px;
-    text-align: center;
+  display: inline-block;
+  min-width: 80px;
+  padding: 1em 0.5em;
+  margin: 2px 4px;
+  border-radius: 10px;
+  text-align: center;
 
-    color: #fff;
-    background-color: #337AB7;
-    border: solid 2px #fff;
+  color: white;
+  background-color: $primaryBlue;
+  border: solid 2px white;
 
-    -webkit-transform: translate(0px, 0px);
-    transform: translate(0px, 0px);
+  -webkit-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
 
-    transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.ReactModal__Overlay {
+  background-color: rgba(30, 80, 120, 0.75);
+}
+
+.ReactModal__Content {
+  position: absolute;
+  top: 40%;
+  width: 30%;
+  left: 35%;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: white;
+
+  input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 47%;
+  }
+
+  button + button {
+    margin-left: 6%;
+  }
 }
 
 /* Drag and drop Styling */
 .space.drop-active {
-    border-color: #aaa;
+  border-color: #aaa;
 }
 
 .space.drop-target {
-    background-color: #337ab7;
-    border-color: #fff;
-    border-style: solid;
+  background-color: $primaryBlue;
+  border-color: white;
+  border-style: solid;
 }
 
 .workspace.drop-active {
-    border-color: #aaa;
+  border-color: $lightGrey;
 }
 
 .workspace.drop-target {
-    background-color: #5bc0de;
-    border-color: #aaa;
-    border-style: solid;
+  background-color: #5bc0de;
+  border-color: $lightGrey;
+  border-style: solid;
 }
 
 .person.can-drop {
-    color: #000;
-    background-color: #4e4;
+  color: #000;
+  background-color: #4e4;
 }
 
 footer {
-    background-color: #555;
-    color: white;
-    padding: 15px;
+  background-color: #555;
+  color: white;
+  padding: 15px;
 }
