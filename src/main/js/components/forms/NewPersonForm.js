@@ -1,6 +1,9 @@
 var React = require('react');
 
-var Menu = React.createClass({
+var PrimaryButton = require('components/Buttons.js').PrimaryButton;
+var SuccessButton = require('components/Buttons.js').SuccessButton;
+
+var NewPersonForm = React.createClass({
     propTypes: {
         confirmFunction: React.PropTypes.func.isRequired,
         cancelFunction: React.PropTypes.func.isRequired
@@ -9,8 +12,8 @@ var Menu = React.createClass({
     render: function() {
         return <div>
             <input type="text" value={this.state.name} onChange={this.handleChange}/>
-            <button className="btn btn-success btn-block" onClick={this.submit}>Save</button>
-            <button className="btn btn-primary btn-block" onClick={this.props.cancelFunction}>Cancel</button>
+            <SuccessButton name="Save" clickFunction={this.submit}/>
+            <PrimaryButton name="Cancel" clickFunction={this.props.cancelFunction}/>
         </div>
     },
 
@@ -27,5 +30,5 @@ var Menu = React.createClass({
     }
 });
 
-module.exports = Menu;
+module.exports = NewPersonForm;
 
