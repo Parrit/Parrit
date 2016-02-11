@@ -52,6 +52,7 @@ $lightGrey: #AAA;
 }
 
 .person {
+  position: relative;
   display: inline-block;
   min-width: 80px;
   padding: 1em 0.5em;
@@ -120,6 +121,7 @@ $lightGrey: #AAA;
 .person.can-drop {
   color: #000;
   background-color: #4e4;
+  z-index: 1;
 }
 
 footer {
