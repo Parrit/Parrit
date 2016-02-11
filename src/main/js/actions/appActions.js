@@ -63,11 +63,19 @@ function createPerson(name) {
     };
 }
 
+function setNewPersonModalOpen(isOpen) {
+    return {
+        type: 'SET_NEW_PERSON_MODAL_OPEN',
+        isOpen: isOpen
+    }
+}
+
 module.exports = {
     loadWorkspace: loadWorkspaceThunk,
     saveWorkspace: saveWorkspaceThunk,
     movePerson: movePersonCreator,
     enableMove: enableMoveCreator,
     disableMove: disableMoveCreator,
-    createPerson: createPerson
+    createPerson: createPerson,
+    setNewPersonModalOpen: setNewPersonModalOpen
 };

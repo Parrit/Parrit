@@ -8,10 +8,12 @@ var SuccessButton = Buttons.SuccessButton;
 
 var Menu = React.createClass({
     propTypes: {
+        settings: React.PropTypes.object.isRequired,
         enableMove: React.PropTypes.func.isRequired,
         disableMove: React.PropTypes.func.isRequired,
         saveWorkspace: React.PropTypes.func.isRequired,
-        createPerson: React.PropTypes.func.isRequired
+        createPerson: React.PropTypes.func.isRequired,
+        setNewPersonModalOpen: React.PropTypes.func.isRequired
     },
 
     render: function() {
@@ -22,18 +24,10 @@ var Menu = React.createClass({
                 <PrimaryButton name="New Person" clickFunction={this.openNewPersonModal}/>
                 <SuccessButton name="Save" clickFunction={this.props.saveWorkspace}/>
             </ul>
-            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeNewPersonModal}>
+            <Modal isOpen={this.props.settings.setNewPersonModalOpen} onRequestClose={this.closeNewPersonModal}>
                 <NewPersonForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>
             </Modal>
         </div>
-    },
-
-    getInitialState: function() {
-        return {modalIsOpen: false};
-    },
-
-    openNewPersonModal: function() {
-        this.setState({modalIsOpen: true});
     },
 
     createPersonWithName: function(name) {
@@ -41,8 +35,12 @@ var Menu = React.createClass({
         this.closeNewPersonModal();
     },
 
-    closeNewPersonModal: function() {
-        this.setState({modalIsOpen: false});
+    openNewPersonModal: function () {
+        this.props.setNewPersonModalOpen(true);
+    },
+
+    closeNewPersonModal: function () {
+        this.props.setNewPersonModalOpen(false);
     }
 });
 

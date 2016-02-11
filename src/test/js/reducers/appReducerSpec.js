@@ -6,7 +6,8 @@ describe("appReducer", function() {
 		var action = {};
 		var stateAfter = {
             settings: {
-				canMove: true
+				canMove: true,
+                setNewPersonModalOpen: false
 			},
             data: {
                 workspace: {

@@ -16,10 +16,12 @@ Menu.__set__('NewPersonForm', NewPersonFormMock);
 
 describe('Menu', function() {
     var props = {
+        settings: {setNewPersonModalOpen: false},
         enableMove: function(){},
         disableMove: function(){},
         saveWorkspace: function(){},
-        createPerson: jasmine.createSpy()
+        createPerson: jasmine.createSpy(),
+        setNewPersonModalOpen: jasmine.createSpy()
     };
 
     var menu;
@@ -54,9 +56,8 @@ describe('Menu', function() {
 
     describe('#openNewPersonModal', function() {
         it('shows the modal', function() {
-            expect(newPersonModal.props.isOpen).toBeFalsy();
             menu.openNewPersonModal();
-            expect(newPersonModal.props.isOpen).toBeTruthy();
+            expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(true);
         });
     });
 
@@ -67,10 +68,8 @@ describe('Menu', function() {
         });
 
         it('should close the modal', function() {
-            menu.openNewPersonModal();
-            expect(newPersonModal.props.isOpen).toBeTruthy();
             menu.createPersonWithName('Luke Skywalker');
-            expect(newPersonModal.props.isOpen).toBeFalsy();
+            expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
         });
     });
 });
