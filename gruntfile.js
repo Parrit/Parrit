@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-sass');
 
     grunt.initConfig({
         browserify: {
@@ -16,8 +17,18 @@ module.exports = function(grunt) {
                     'src/main/resources/static/built/bundle.js': 'src/main/js/main.js'
                 }
             }
+        },
+        sass: {
+            appSass: {
+                options: {
+                    noCache: true
+                },
+                files: {
+                    'src/main/resources/static/built/bundle.css': 'src/main/resources/static/sass/*.scss'
+                }
+            }
         }
     });
 
-    grunt.registerTask('build', ['browserify:appJs']);
+    grunt.registerTask('build', ['browserify:appJs', 'sass:appSass']);
 };

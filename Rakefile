@@ -9,10 +9,11 @@ end
 task :spec => [:junit, :jasmine] do
 end
 
-task :browserify do
+task :build do
   system('mkdir -p src/main/resources/static/built')
   system('node_modules/grunt-cli/bin/grunt build')
   system('cp src/main/resources/static/built/bundle.js target/classes/static/built/bundle.js') if Dir.exist? File.expand_path('target')
+  system('cp src/main/resources/static/built/bundle.css target/classes/static/built/bundle.css') if Dir.exist? File.expand_path('target')
 end
 
 task :create_migration do

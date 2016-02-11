@@ -8,13 +8,9 @@ var Menu = React.createClass({
 
     render: function() {
         return <div>
-            <input
-                type="text"
-                value={this.state.name}
-                onChange={this.handleChange}
-            />
-            <button onClick={this.submit}/>
-            <button onClick={this.props.cancelFunction}/>
+            <input type="text" value={this.state.name} onChange={this.handleChange}/>
+            <button className="btn btn-success btn-block" onClick={this.submit}>Save</button>
+            <button className="btn btn-primary btn-block" onClick={this.props.cancelFunction}>Cancel</button>
         </div>
     },
 
