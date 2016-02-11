@@ -37,15 +37,15 @@ var App = React.createClass({
         };
 
 		return <div className="container-fluid">
-			<div className="row content">
-				<div className="sidenav col-sm-3">
-					<h1>Parrit</h1>
-					<Menu {...menuProps}/>
-				</div>
-				<div className="col-sm-9">
-					<Workspace {...workspaceProps}/>
-				</div>
-			</div>
+            <div className="row content">
+                <div className="sidenav col-sm-3">
+                    <h1>Parrit</h1>
+                    <Menu {...menuProps}/>
+                </div>
+                <div className="workspace-wrapper col-sm-9">
+                    <Workspace {...workspaceProps}/>
+                </div>
+            </div>
 		</div>
 	}
 });

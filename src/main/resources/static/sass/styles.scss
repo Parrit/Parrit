@@ -5,13 +5,30 @@ $lightGrey: #AAA;
   background-color: #286090
 }
 
+.content {
+  position: relative;
+}
+
 .sidenav {
   background-color: #f1f1f1;
 }
 
-@media screen and (max-width: 767px) {
+@media (max-width: 767px) {
   .sidenav {
     padding: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidenav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .workspace-wrapper {
+    margin-left: 25%;
   }
 }
 
