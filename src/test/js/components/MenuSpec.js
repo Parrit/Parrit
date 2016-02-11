@@ -18,7 +18,7 @@ describe('Menu', function() {
     var props = {
         enableMove: function(){},
         disableMove: function(){},
-        saveState: function(){},
+        saveWorkspace: function(){},
         createPerson: jasmine.createSpy()
     };
 
@@ -40,7 +40,7 @@ describe('Menu', function() {
         expect(blueButtons[1].props.clickFunction).toBe(props.disableMove, "Disable move callback not passed");
         expect(blueButtons[2].props.clickFunction).toBe(menu.openNewPersonModal, "Create person callback not passed");
 
-        expect(saver.props.clickFunction).toBe(props.saveState, "Save callback not passed");
+        expect(saver.props.clickFunction).toBe(props.saveWorkspace, "Save callback not passed");
     });
 
     it('has a configured modal component as a child', function() {

@@ -11,29 +11,31 @@ App.__set__('Menu', MenuMock);
 App.__set__('Workspace', WorkspaceMock);
 
 describe('App', function() {
-    var loadStateSpy = jasmine.createSpy('loadState');
+    var loadWorkspaceSpy = jasmine.createSpy('loadWorkspace');
 
     var props = {
         settings: {},
-        workspace: {
-            people: [],
-            spaces: [
-                {
-                    name: "Space1",
-                    people: [
-                        {
-                            name: "George"
-                        }
-                    ]
-                }
-            ]
+        data: {
+            workspace: {
+                people: [],
+                spaces: [
+                    {
+                        name: "Space1",
+                        people: [
+                            {
+                                name: "George"
+                            }
+                        ]
+                    }
+                ]
+            }
         },
         enableMove: function(){},
         disableMove: function(){},
-        saveState: function(){},
-        createPerson: function(){},
+        saveWorkspace: function(){},
+        loadWorkspace: loadWorkspaceSpy,
         movePerson: function(){},
-        loadState: loadStateSpy
+        createPerson: function(){}
     };
 
     var app;
@@ -41,8 +43,8 @@ describe('App', function() {
         app = RenderComponent(App, <App {...props} />);
     });
 
-    it('calls the loadState action', function() {
-        expect(loadStateSpy).toHaveBeenCalled();
+    it('calls the loadWorkspace action', function() {
+        expect(loadWorkspaceSpy).toHaveBeenCalled();
     });
 
     it('has a configured Menu component as a child', function() {
@@ -52,7 +54,7 @@ describe('App', function() {
         expect(menuComponent.props.settings).toBe(props.settings, "No settings passed to menu");
         expect(menuComponent.props.enableMove).toBe(props.enableMove, "No enableMove passed to menu");
         expect(menuComponent.props.disableMove).toBe(props.disableMove, "No disableMove passed to menu");
-        expect(menuComponent.props.saveState).toBe(props.saveState, "No saveState passed to menu");
+        expect(menuComponent.props.saveWorkspace).toBe(props.saveWorkspace, "No saveWorkspace passed to menu");
         expect(menuComponent.props.createPerson).toBe(props.createPerson, "No createPerson passed to menu");
     });
 
@@ -60,8 +62,8 @@ describe('App', function() {
         var workspaceComponent = ReactTestUtils.findRenderedComponentWithType(app, WorkspaceMock);
         expect(workspaceComponent).toBeTruthy('No Menu component found');
 
-        expect(workspaceComponent.props.spaces).toBe(props.workspace.spaces, "No spaces passed to workspace");
-        expect(workspaceComponent.props.people).toBe(props.workspace.people, "No people passed to workspace");
+        expect(workspaceComponent.props.spaces).toBe(props.data.workspace.spaces, "No spaces passed to workspace");
+        expect(workspaceComponent.props.people).toBe(props.data.workspace.people, "No people passed to workspace");
         expect(workspaceComponent.props.movePerson).toBe(props.movePerson, "No movePerson passed to workspace");
     });
 });

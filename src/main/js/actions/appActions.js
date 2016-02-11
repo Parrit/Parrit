@@ -1,35 +1,35 @@
 var Axios = require('axios');
 
-function loadStateThunk() {
+function loadWorkspaceThunk() {
     return function(dispatch) {
-        Axios.get('/state?id=1')
+        Axios.get('/workspace?id=1')
             .then(function(response) {
-                var state = response.data;
+                var workspace = response.data;
 
-                if(state) {
-                    dispatch(loadStateCreator(state));
+                if(workspace) {
+                    dispatch(loadWorkspaceCreator(workspace));
                 }
             });
     };
 }
 
-function saveStateThunk() {
-    return function(dispatch, getState){
-        Axios.post('/state', getState())
+function saveWorkspaceThunk() {
+    return function(dispatch, getWorkspace){
+        Axios.post('/workspace', getWorkspace().data.workspace)
             .then(function(response) {
-                var state = response.data;
+                var workspace = response.data;
 
-                if(state) {
-                    dispatch(loadStateCreator(state));
+                if(workspace) {
+                    dispatch(loadWorkspaceCreator(workspace));
                 }
             });
     }
 }
 
-function loadStateCreator(state) {
+function loadWorkspaceCreator(workspace) {
     return {
-        type: 'LOAD_STATE',
-        state: state
+        type: 'LOAD_WORKSPACE',
+        workspace: workspace
     };
 }
 
@@ -64,8 +64,8 @@ function createPerson(name) {
 }
 
 module.exports = {
-    loadState: loadStateThunk,
-    saveState: saveStateThunk,
+    loadWorkspace: loadWorkspaceThunk,
+    saveWorkspace: saveWorkspaceThunk,
     movePerson: movePersonCreator,
     enableMove: enableMoveCreator,
     disableMove: disableMoveCreator,

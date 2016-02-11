@@ -10,7 +10,7 @@ var Menu = React.createClass({
     propTypes: {
         enableMove: React.PropTypes.func.isRequired,
         disableMove: React.PropTypes.func.isRequired,
-        saveState: React.PropTypes.func.isRequired,
+        saveWorkspace: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired
     },
 
@@ -20,7 +20,7 @@ var Menu = React.createClass({
                 <PrimaryButton name="Move" clickFunction={this.props.enableMove}/>
                 <PrimaryButton name="Don't Move" clickFunction={this.props.disableMove}/>
                 <PrimaryButton name="New Person" clickFunction={this.openNewPersonModal}/>
-                <SuccessButton name="Save" clickFunction={this.props.saveState}/>
+                <SuccessButton name="Save" clickFunction={this.props.saveWorkspace}/>
             </ul>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeNewPersonModal}>
                 <NewPersonForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>

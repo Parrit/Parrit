@@ -9,10 +9,10 @@ describe('appActions', function() {
         jasmine.Ajax.uninstall();
     });
 
-    describe('#loadState', function() {
+    describe('#loadWorkspace', function() {
         var action;
         beforeEach(function() {
-            action = appActions.loadState();
+            action = appActions.loadWorkspace();
         });
 
         it('returns a function', function() {
@@ -23,30 +23,30 @@ describe('appActions', function() {
             var stubbedGet;
             var dispatchSpy;
             beforeEach(function() {
-                stubbedGet = jasmine.Ajax.stubRequest('/state?id=1', undefined, 'GET');
+                stubbedGet = jasmine.Ajax.stubRequest('/workspace?id=1', undefined, 'GET');
+                dispatchSpy = jasmine.createSpy('LoadWorkspaceDispatchSpy');
 
-                dispatchSpy = jasmine.createSpy('dispatchSpy');
                 action(dispatchSpy);
             });
 
-            it('makes an Ajax call to get the state for id 1', function(done) {
+            it('makes an Ajax call to get the workspace for id 1', function(done) {
                 setTimeout(function() {
                     expect(jasmine.Ajax.requests.count()).toBe(1);
-                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/state?id=1');
+                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/workspace?id=1');
                     expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
                     done();
                 });
             });
 
             describe('when the Ajax call returns with a NON-NULL response', function() {
-                var responseText = { iamaproperty:"blahblah" };
+                var responseText = { iamaproperty: "blahblah" };
                 beforeEach(function() {
                     stubbedGet.andReturn({ responseText: responseText });
                 });
 
-                it('dispatches a LOAD_STATE action with the response', function(done) {
+                it('dispatches a LOAD_WORKSPACE action with the response', function(done) {
                     setTimeout(function() {
-                        expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_STATE', state: responseText});
+                        expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_WORKSPACE', workspace: responseText});
                         done();
                     });
                 });
@@ -57,7 +57,7 @@ describe('appActions', function() {
                     stubbedGet.andReturn({ responseText: null });
                 });
 
-                it('SHOULD NOT dispatch a LOAD_STATE action with the response', function(done) {
+                it('SHOULD NOT dispatch a LOAD_WORKSPACE action with the response', function(done) {
                     setTimeout(function() {
                         expect(dispatchSpy).not.toHaveBeenCalled();
                         done();
@@ -67,10 +67,10 @@ describe('appActions', function() {
         });
     });
 
-    describe('#saveState', function() {
+    describe('#saveWorkspace', function() {
         var action;
         beforeEach(function () {
-            action = appActions.saveState();
+            action = appActions.saveWorkspace();
         });
 
         it('returns a function', function () {
@@ -80,33 +80,47 @@ describe('appActions', function() {
         describe('when calling the returned function', function () {
             var stubbedPost;
             var dispatchSpy;
-            var stateToSave = {MISSISSIPPI:"Anthony is more fun than that"};
+            var workspaceToSave = {MISSISSIPPI: "Anthony is more fun than that"};
+            var stateOfApp = { data: { workspace: workspaceToSave } };
             beforeEach(function () {
-                stubbedPost = jasmine.Ajax.stubRequest('/state', undefined, 'POST');
+                stubbedPost = jasmine.Ajax.stubRequest('/workspace', undefined, 'POST');
+                dispatchSpy = jasmine.createSpy('SaveWorkspaceDispatchSpy');
 
-                dispatchSpy = jasmine.createSpy();
-                action(dispatchSpy, function() {return stateToSave});
+                action(dispatchSpy, function() {return stateOfApp});
             });
 
-            it('makes an Ajax call to post the state', function(done) {
+            it('makes an Ajax call to post the workspace', function(done) {
                 setTimeout(function() {
                     expect(jasmine.Ajax.requests.count()).toBe(1);
-                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/state');
+                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/workspace');
                     expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                    expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(stateToSave);
+                    expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspaceToSave);
                     done();
                 });
             });
 
             describe('when the Ajax call returns with a NONNULL response', function() {
-                var responseText = { iamaproperty:"blahblah" };
+                var responseText = { iamaproperty: "blahblah" };
                 beforeEach(function() {
                     stubbedPost.andReturn({ responseText: responseText });
                 });
 
-                it('dispatches a LOAD_STATE action with the response', function(done) {
+                it('dispatches a LOAD_WORKSPACE action with the response', function(done) {
                     setTimeout(function() {
-                        expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_STATE', state: responseText});
+                        expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_WORKSPACE', workspace: responseText});
+                        done();
+                    });
+                });
+            });
+
+            describe('when the Ajax call returns with a NULL response', function() {
+                beforeEach(function() {
+                    stubbedPost.andReturn({ responseText: null });
+                });
+
+                it('SHOULD NOT dispatch a LOAD_WORKSPACE action with the response', function(done) {
+                    setTimeout(function() {
+                        expect(dispatchSpy).not.toHaveBeenCalled();
                         done();
                     });
                 });

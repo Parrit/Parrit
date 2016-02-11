@@ -6,6 +6,7 @@ describe("workspaceReducer", function() {
 		var stateBefore = undefined;
 		var action = {};
 		var stateAfter = {
+            id: 0,
             people: [
                 {
                     name: 'Tim'
@@ -86,21 +87,16 @@ describe("workspaceReducer", function() {
 	});
 
     describe("actions", function() {
-        describe("LOAD_STATE", function() {
+        describe("LOAD_WORKSPACE", function() {
             it("should set the state to the passed in 'settings'", function() {
                 var stateBefore = {
                     spaces: []
                 };
 
                 var action = {
-                    type: "LOAD_STATE",
-                    state: {
-                        workspace: {
-                            shoobadooba: "doobadoowa"
-                        },
-                        settings: {
-                            canMove: true
-                        }
+                    type: "LOAD_WORKSPACE",
+                    workspace: {
+                        shoobadooba: "doobadoowa"
                     }
                 };
 

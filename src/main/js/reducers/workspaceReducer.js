@@ -3,6 +3,7 @@ var _ = require('lodash');
 var workspaceReducer = function(state, action) {
 	if(typeof state === 'undefined') {
 		return {
+            id: 0,
             people: [
                 {
                     name: 'Tim'
@@ -79,8 +80,8 @@ var workspaceReducer = function(state, action) {
 	}
 
     switch (action.type) {
-        case "LOAD_STATE":
-            return action.state.workspace;
+        case "LOAD_WORKSPACE":
+            return action.workspace;
         case "MOVE_PERSON":
             var stateClone = _.cloneDeep(state);
 
