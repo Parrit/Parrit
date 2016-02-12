@@ -6,10 +6,10 @@ var PersonList = require('components/PersonList.js');
 var Space = require('components/Space.js');
 
 var Workspace = React.createClass({
-    componentDidMount: function() {
-        var self = this;
-        var fromSpaceIndex, toSpaceIndex;
+    fromSpaceIndex: undefined,
+    toSpaceIndex: undefined,
 
+    componentDidMount: function() {
         Interact('.draggable')
             .draggable({
                 restrict: {
@@ -46,35 +46,9 @@ var Workspace = React.createClass({
                 ondropdeactivate: function (event) {
                     event.target.classList.remove('drop-active');
                 },
-                ondragenter: function (event) {
-                    event.target.classList.add('drop-target');
-                    event.relatedTarget.classList.add('can-drop');
-
-                    toSpaceIndex = getIndexFromId(event.target.id);
-                },
-                ondragleave: function (event) {
-                    event.target.classList.remove('drop-target');
-                    event.relatedTarget.classList.remove('can-drop');
-
-                    if(fromSpaceIndex === undefined) {
-                        fromSpaceIndex = getIndexFromId(event.target.id);
-                    }
-                },
-                ondrop: function (event) {
-                    event.target.classList.remove('drop-target');
-                    event.relatedTarget.classList.remove('can-drop');
-
-                    var personIndex = getIndexFromId(event.relatedTarget.id);
-
-                    if(fromSpaceIndex === undefined) {
-                        fromSpaceIndex = toSpaceIndex;
-                    }
-
-                    self.props.movePerson(fromSpaceIndex, toSpaceIndex, personIndex);
-
-                    fromSpaceIndex = undefined;
-                    toSpaceIndex = undefined;
-                }
+                ondragenter: this.dropzoneOnDragEnter,
+                ondragleave: this.dropzoneOnDragLeave,
+                ondrop: this.dropzoneOnDrop
             });
 
         Interact('.trash')
@@ -96,23 +70,8 @@ var Workspace = React.createClass({
                     event.target.classList.remove('drop-target');
                     event.relatedTarget.classList.remove('can-drop');
                 },
-                ondrop: function (event) {
-                    event.target.classList.remove('drop-target');
-                    event.relatedTarget.classList.remove('can-drop');
-
-                    var personIndex = getIndexFromId(event.relatedTarget.id);
-
-                    self.props.deletePerson(fromSpaceIndex, personIndex);
-
-                    fromSpaceIndex = undefined;
-                    toSpaceIndex = undefined;
-                }
+                ondrop: this.trashOnDrop
             });
-
-        function getIndexFromId(idString) {
-            var segments = _.split(idString, '_');
-            return parseInt(segments[segments.length-1]);
-        }
     },
 
 	render: function() {
@@ -130,7 +89,58 @@ var Workspace = React.createClass({
             <div className="trash"></div>
 
         </div>
-	}
+	},
+
+    dropzoneOnDragEnter: function (event) {
+        event.target.classList.add('drop-target');
+        event.relatedTarget.classList.add('can-drop');
+
+        this.toSpaceIndex = this.getIndexFromId(event.target.id);
+    },
+
+    dropzoneOnDragLeave: function (event) {
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+
+        if(this.fromSpaceIndex === undefined) {
+            this.fromSpaceIndex = this.getIndexFromId(event.target.id);
+        }
+    },
+
+    dropzoneOnDrop: function(event) {
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+
+        var personIndex = this.getIndexFromId(event.relatedTarget.id);
+
+        if(this.fromSpaceIndex === undefined) {
+            this.fromSpaceIndex = this.toSpaceIndex;
+        }
+
+        this.props.movePerson(this.fromSpaceIndex, this.toSpaceIndex, personIndex);
+
+        this.fromSpaceIndex = undefined;
+        this.toSpaceIndex = undefined;
+    },
+
+    trashOnDrop: function(event) {
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+
+        var personIndex = this.getIndexFromId(event.relatedTarget.id);
+
+        this.props.deletePerson(this.fromSpaceIndex, personIndex);
+
+        this.fromSpaceIndex = undefined;
+        this.toSpaceIndex = undefined;
+    },
+
+    getIndexFromId: function(idString) {
+        if(idString === undefined) return -1;
+
+        var segments = _.split(idString, '_');
+        return parseInt(segments[segments.length-1]);
+    }
 });
 
 module.exports = Workspace;
