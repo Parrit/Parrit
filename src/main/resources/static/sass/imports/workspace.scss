@@ -16,13 +16,25 @@
       padding: 10px;
       flex-grow: 1;
 
-      .space-name {
+      .space-header {
         position: relative;
         width: 100%;
-        float: left;
-        margin: 5px;
-        font-size: 18px;
+
+        .space-name {
+          float: left;
+          font-size: 18px;
+        }
+
+        .btn-danger {
+          float: right;
+        }
       }
+    }
+
+    .space-header::after {
+      content: "";
+      clear: both;
+      display: block;
     }
   }
 

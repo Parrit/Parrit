@@ -179,5 +179,17 @@ describe('dataActions', function () {
             expect(action.spaceIndex).toBe(1);
             expect(action.personIndex).toBe(2);
         });
-    })
+    });
+
+    describe('#deleteSpace', function() {
+        it('returns the right action type', function () {
+            var action = dataActions.deleteSpace();
+            expect(action.type).toBe('DELETE_SPACE');
+        });
+
+        it('sets indexes correctly to the passed in values', function () {
+            var action = dataActions.deleteSpace(1);
+            expect(action.spaceIndex).toBe(1);
+        });
+    });
 });

@@ -38,6 +38,7 @@ describe('App', function() {
         createPerson: function(){},
         createSpace: function(){},
         deletePerson: function(){},
+        deleteSpace: function(){},
 
         enableMove: function(){},
         disableMove: function(){},
@@ -78,5 +79,6 @@ describe('App', function() {
 
         expect(workspaceComponent.props.movePerson).toBe(props.movePerson, "No movePerson passed to workspace");
         expect(workspaceComponent.props.deletePerson).toBe(props.deletePerson, "No deletePerson passed to workspace");
+        expect(workspaceComponent.props.deleteSpace).toBe(props.deleteSpace, "No deleteSpace passed to workspace");
     });
 });

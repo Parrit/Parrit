@@ -38,7 +38,8 @@ describe('Workspace', function() {
             }
         ],
         movePerson: movePersonSpy,
-        deletePerson: deletePersonSpy
+        deletePerson: deletePersonSpy,
+        deleteSpace: function(){}
     };
 
     var workspace;
@@ -53,10 +54,12 @@ describe('Workspace', function() {
         expect(spaces[0].props.name).toBe("Space1");
         expect(spaces[0].props.people).toEqual([{name:"George"}]);
         expect(spaces[0].props.index).toBe(0);
+        expect(spaces[0].props.deleteSpace).toBe(props.deleteSpace);
 
         expect(spaces[1].props.name).toBe("Ghost");
         expect(spaces[1].props.people).toEqual([{name:"Coast2Coast"}]);
         expect(spaces[1].props.index).toBe(1);
+        expect(spaces[1].props.deleteSpace).toBe(props.deleteSpace);
     });
 
     it('renders the list of people in the workspace', function() {

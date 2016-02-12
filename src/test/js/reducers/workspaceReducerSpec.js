@@ -1,24 +1,24 @@
 var deepFreeze = require('deep-freeze');
 var workspaceReducer = require('reducers/workspaceReducer.js');
 
-describe("workspaceReducer", function() {
-	it("should get the default state", function() {
-		var stateBefore = undefined;
-		var action = {};
-		var stateAfter = {
+describe("workspaceReducer", function () {
+    it("should get the default state", function () {
+        var stateBefore = undefined;
+        var action = {};
+        var stateAfter = {
             id: 0,
             people: [],
             spaces: []
-		};
+        };
 
-		expect(
-			workspaceReducer(stateBefore, action)
-		).toEqual(stateAfter);
-	});
+        expect(
+            workspaceReducer(stateBefore, action)
+        ).toEqual(stateAfter);
+    });
 
-    describe("actions", function() {
-        describe("LOAD_WORKSPACE", function() {
-            it("should set the state to the passed in 'settings'", function() {
+    describe("actions", function () {
+        describe("LOAD_WORKSPACE", function () {
+            it("should set the state to the passed in 'settings'", function () {
                 var stateBefore = {
                     spaces: []
                 };
@@ -43,15 +43,15 @@ describe("workspaceReducer", function() {
             });
         });
 
-        describe("MOVE_PERSON", function() {
-            it('should move a person between spaces', function() {
+        describe("MOVE_PERSON", function () {
+            it('should move a person between spaces', function () {
                 var stateBefore = {
                     id: 7,
                     people: [],
                     spaces: [
                         {
                             name: "USS Enterprise",
-                            people: [{name:"Captain Kirk"}]
+                            people: [{name: "Captain Kirk"}]
                         },
                         {
                             name: "Klingon Warbird",
@@ -76,7 +76,7 @@ describe("workspaceReducer", function() {
                         },
                         {
                             name: "Klingon Warbird",
-                            people: [{name:"Captain Kirk"}]
+                            people: [{name: "Captain Kirk"}]
                         }]
                 };
 
@@ -88,10 +88,10 @@ describe("workspaceReducer", function() {
                 ).toEqual(stateAfter);
             });
 
-            it('should move a person from the workspace to a space', function() {
+            it('should move a person from the workspace to a space', function () {
                 var stateBefore = {
                     id: 7,
-                    people: [{name:"Captain Kirk"}],
+                    people: [{name: "Captain Kirk"}],
                     spaces: [
                         {
                             name: "USS Enterprise",
@@ -120,7 +120,7 @@ describe("workspaceReducer", function() {
                         },
                         {
                             name: "Klingon Warbird",
-                            people: [{name:"Captain Kirk"}]
+                            people: [{name: "Captain Kirk"}]
                         }]
                 };
 
@@ -132,7 +132,7 @@ describe("workspaceReducer", function() {
                 ).toEqual(stateAfter);
             });
 
-            it('should move a person from space to the workspace', function() {
+            it('should move a person from space to the workspace', function () {
                 var stateBefore = {
                     id: 7,
                     people: [],
@@ -143,7 +143,7 @@ describe("workspaceReducer", function() {
                         },
                         {
                             name: "Klingon Warbird",
-                            people: [{name:"Captain Kirk"}]
+                            people: [{name: "Captain Kirk"}]
                         }]
                 };
 
@@ -156,7 +156,7 @@ describe("workspaceReducer", function() {
 
                 var stateAfter = {
                     id: 7,
-                    people: [{name:"Captain Kirk"}],
+                    people: [{name: "Captain Kirk"}],
                     spaces: [
                         {
                             name: "USS Enterprise",
@@ -177,8 +177,8 @@ describe("workspaceReducer", function() {
             });
         });
 
-        describe('CREATE_PERSON', function() {
-            it('adds a person to the workspace', function() {
+        describe('CREATE_PERSON', function () {
+            it('adds a person to the workspace', function () {
                 var stateBefore = {
                     id: 7,
                     people: [],
@@ -215,8 +215,8 @@ describe("workspaceReducer", function() {
             });
         });
 
-        describe('CREATE_SPACE', function() {
-            it('adds a space to the workspace', function() {
+        describe('CREATE_SPACE', function () {
+            it('adds a space to the workspace', function () {
                 var stateBefore = {
                     id: 7,
                     people: [],
@@ -257,8 +257,8 @@ describe("workspaceReducer", function() {
             });
         });
 
-        describe("DELETE_PERSON", function() {
-            it('should delete a person from a space', function() {
+        describe("DELETE_PERSON", function () {
+            it('should delete a person from a space', function () {
                 var stateBefore = {
                     id: 7,
                     people: [],
@@ -266,8 +266,8 @@ describe("workspaceReducer", function() {
                         {
                             name: "USS Enterprise",
                             people: [
-                                { name:"Captain Kirk" },
-                                { name:"Spock" }
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
                             ]
                         },
                         {
@@ -288,12 +288,13 @@ describe("workspaceReducer", function() {
                     spaces: [
                         {
                             name: "USS Enterprise",
-                            people: [{ name:"Captain Kirk" }]
+                            people: [{name: "Captain Kirk"}]
                         },
                         {
                             name: "Klingon Warbird",
                             people: []
-                        }]
+                        }
+                    ]
                 };
 
                 deepFreeze(stateBefore);
@@ -304,16 +305,16 @@ describe("workspaceReducer", function() {
                 ).toEqual(stateAfter);
             });
 
-            it('should delete a person from the workspace', function() {
+            it('should delete a person from the workspace', function () {
                 var stateBefore = {
                     id: 7,
-                    people: [{ name: 'Albert Einstein' }],
+                    people: [{name: 'Albert Einstein'}],
                     spaces: [
                         {
                             name: "USS Enterprise",
                             people: [
-                                { name:"Captain Kirk" },
-                                { name:"Spock" }
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
                             ]
                         },
                         {
@@ -335,14 +336,109 @@ describe("workspaceReducer", function() {
                         {
                             name: "USS Enterprise",
                             people: [
-                                { name:"Captain Kirk" },
-                                { name:"Spock" }
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
                             ]
                         },
                         {
                             name: "Klingon Warbird",
                             people: []
                         }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
+        describe("DELETE_SPACE", function () {
+            it('should delete a space', function () {
+                var stateBefore = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }
+                    ]
+                };
+
+                var action = {
+                    type: "DELETE_SPACE",
+                    spaceIndex: 1
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        }
+                    ]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it('should move all of the people from the space to the workspace', function () {
+                var stateBefore = {
+                    id: 7,
+                    people: [{name: 'Albert Einstein'}],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }
+                    ]
+                };
+
+                var action = {
+                    type: "DELETE_SPACE",
+                    spaceIndex: 0
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [
+                        {name: 'Albert Einstein'},
+                        {name: "Captain Kirk"},
+                        {name: "Spock"}
+                    ],
+                    spaces: [
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }
+                    ]
                 };
 
                 deepFreeze(stateBefore);

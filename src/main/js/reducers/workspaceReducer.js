@@ -40,6 +40,13 @@ var workspaceReducer = function(state, action) {
             _.pullAt(space.people, action.personIndex);
 
             return stateClone;
+        case "DELETE_SPACE":
+            var stateClone = _.cloneDeep(state);
+
+            stateClone.people = stateClone.people.concat(stateClone.spaces[action.spaceIndex].people);
+            _.pullAt(stateClone.spaces, action.spaceIndex);
+
+            return stateClone;
         default:
             return state;
     }

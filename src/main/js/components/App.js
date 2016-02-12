@@ -15,6 +15,7 @@ var App = React.createClass({
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
         deletePerson: React.PropTypes.func.isRequired,
+        deleteSpace: React.PropTypes.func.isRequired,
 
         enableMove: React.PropTypes.func.isRequired,
         disableMove: React.PropTypes.func.isRequired,
@@ -45,7 +46,8 @@ var App = React.createClass({
             spaces: this.props.data.workspace.spaces,
 
             movePerson: this.props.movePerson,
-            deletePerson: this.props.deletePerson
+            deletePerson: this.props.deletePerson,
+            deleteSpace: this.props.deleteSpace
         };
 
 		return <div className="container-fluid">

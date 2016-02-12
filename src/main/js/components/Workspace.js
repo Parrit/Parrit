@@ -75,6 +75,8 @@ var Workspace = React.createClass({
     },
 
 	render: function() {
+        var deleteSpace = this.props.deleteSpace;
+
 		return <div id="space_-1" className="container-fluid workspace dropzone">
 
             <div className="floatingSpace">
@@ -84,7 +86,7 @@ var Workspace = React.createClass({
 
             <div className="spaces">
                 {this.props.spaces.map(function (space, idx) {
-                    return <Space key={idx} name={space.name} people={space.people} index={idx}/>;
+                    return <Space key={idx} name={space.name} people={space.people} index={idx} deleteSpace={deleteSpace}/>;
                 })}
             </div>
 

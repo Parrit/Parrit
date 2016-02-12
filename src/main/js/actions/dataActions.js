@@ -64,11 +64,19 @@ function deletePersonCreator(spaceIndex, personIndex) {
     };
 }
 
+function deleteSpaceCreator(spaceIndex) {
+    return {
+        type: 'DELETE_SPACE',
+        spaceIndex: spaceIndex
+    };
+}
+
 module.exports = {
     loadWorkspace: loadWorkspaceThunk,
     saveWorkspace: saveWorkspaceThunk,
     movePerson: movePersonCreator,
     createPerson: createPersonCreator,
     createSpace: createSpaceCreator,
-    deletePerson: deletePersonCreator
+    deletePerson: deletePersonCreator,
+    deleteSpace: deleteSpaceCreator
 };

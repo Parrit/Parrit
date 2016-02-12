@@ -7,7 +7,9 @@ var Mocker = require('support/ComponentMocker.js');
 
 var Space = require('components/Space.js');
 var PersonListMock = Mocker("PersonList");
+var DangerButtonMock = Mocker('DangerButton');
 Space.__set__('PersonList', PersonListMock);
+Space.__set__('DangerButton', DangerButtonMock);
 
 describe('Space', function() {
     var props = {
@@ -20,7 +22,8 @@ describe('Space', function() {
                 name: "Hank Muchacho"
             }
         ],
-        index: 1
+        index: 1,
+        deleteSpace: jasmine.createSpy('deleteSpaceSpy')
     };
 
     var space;
@@ -35,8 +38,20 @@ describe('Space', function() {
 
     it('renders the list of people', function() {
         var people = ReactTestUtils.findRenderedComponentWithType(space, PersonListMock);
-        expect(people).toBeDefined('No list of people');
         expect(people.props.people).toBe(props.people);
         expect(people.props.index).toBe(props.index);
+    });
+
+    it('renders a delete button', function() {
+        var deleteButton = ReactTestUtils.findRenderedComponentWithType(space, DangerButtonMock);
+        expect(deleteButton.props.name).toBe("X");
+        expect(deleteButton.props.clickFunction).toBe(space.deleteSpace);
+    });
+
+    describe('#deleteSpace', function() {
+        it('calls the deleteSpace prop function with the index prop', function() {
+            space.deleteSpace();
+            expect(props.deleteSpace).toHaveBeenCalledWith(1);
+        })
     });
 });

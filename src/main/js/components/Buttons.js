@@ -2,6 +2,7 @@ var React = require('react');
 
 var PrimaryButton = createButtonClass("primary");
 var SuccessButton = createButtonClass("success");
+var DangerButton = createButtonClass("danger");
 
 function createButtonClass(type) {
     var classes = "btn btn-" + type;
@@ -13,6 +14,7 @@ function createButtonClass(type) {
 }
 
 module.exports = {
-  PrimaryButton: PrimaryButton,
-  SuccessButton: SuccessButton
+    PrimaryButton: PrimaryButton,
+    SuccessButton: SuccessButton,
+    DangerButton: DangerButton
 };
