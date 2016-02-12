@@ -13,7 +13,9 @@ var App = React.createClass({
         loadWorkspace: React.PropTypes.func.isRequired,
         movePerson: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
-        setNewPersonModalOpen: React.PropTypes.func.isRequired
+        createSpace: React.PropTypes.func.isRequired,
+        setNewPersonModalOpen: React.PropTypes.func.isRequired,
+        setNewSpaceModalOpen: React.PropTypes.func.isRequired
     },
 
     componentDidMount: function() {
@@ -26,8 +28,10 @@ var App = React.createClass({
             enableMove: this.props.enableMove,
             disableMove: this.props.disableMove,
             createPerson: this.props.createPerson,
+            createSpace: this.props.createSpace,
             saveWorkspace: this.props.saveWorkspace,
-            setNewPersonModalOpen: this.props.setNewPersonModalOpen
+            setNewPersonModalOpen: this.props.setNewPersonModalOpen,
+            setNewSpaceModalOpen: this.props.setNewSpaceModalOpen
         };
 
         var workspaceProps = {

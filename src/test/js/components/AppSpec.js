@@ -36,7 +36,9 @@ describe('App', function() {
         loadWorkspace: loadWorkspaceSpy,
         movePerson: function(){},
         createPerson: function(){},
-        setNewPersonModalOpen: function(){}
+        createSpace: function(){},
+        setNewPersonModalOpen: function(){},
+        setNewSpaceModalOpen: function(){}
     };
 
     var app;
@@ -57,7 +59,9 @@ describe('App', function() {
         expect(menuComponent.props.disableMove).toBe(props.disableMove, "No disableMove passed to menu");
         expect(menuComponent.props.saveWorkspace).toBe(props.saveWorkspace, "No saveWorkspace passed to menu");
         expect(menuComponent.props.createPerson).toBe(props.createPerson, "No createPerson passed to menu");
+        expect(menuComponent.props.createSpace).toBe(props.createSpace, "No createSpace passed to menu");
         expect(menuComponent.props.setNewPersonModalOpen).toBe(props.setNewPersonModalOpen, "No setNewPersonModalOpen passed to menu");
+        expect(menuComponent.props.setNewSpaceModalOpen).toBe(props.setNewSpaceModalOpen, "No setNewSpaceModalOpen passed to menu");
     });
 
     it('has a configured Workspace component as a child', function() {

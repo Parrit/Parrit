@@ -97,6 +97,12 @@ var workspaceReducer = function(state, action) {
             stateClone.people.push({name: action.name});
 
             return stateClone;
+        case "CREATE_SPACE":
+            var stateClone = _.cloneDeep(state);
+
+            stateClone.spaces.push({name: action.name, people: []});
+
+            return stateClone;
         default:
             return state;
     }

@@ -256,7 +256,8 @@ describe("workspaceReducer", function() {
                         {
                             name: "OUTER",
                             people: []
-                        }]
+                        }
+                    ]
                 };
 
                 var action = {
@@ -271,7 +272,50 @@ describe("workspaceReducer", function() {
                         {
                             name: "OUTER",
                             people: []
-                        }]
+                        }
+                    ]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
+        describe('CREATE_SPACE', function() {
+            it('adds a space to the workspace', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "OUTER",
+                            people: []
+                        }
+                    ]
+                };
+
+                var action = {
+                    type: "CREATE_SPACE",
+                    name: "Alabama"
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "OUTER",
+                            people: []
+                        },
+                        {
+                            name: "Alabama",
+                            people: []
+                        }
+                    ]
                 };
 
                 deepFreeze(stateBefore);

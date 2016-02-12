@@ -156,6 +156,18 @@ describe('appActions', function () {
         });
     });
 
+    describe('#createSpace', function() {
+        it('returns the right action type', function () {
+            var action = appActions.createSpace();
+            expect(action.type).toBe('CREATE_SPACE');
+        });
+
+        it('sets name equal to the passed in value', function () {
+            var action = appActions.createSpace('A Bus Bench');
+            expect(action.name).toBe('A Bus Bench');
+        });
+    });
+
     describe('#setNewPersonModalOpen', function () {
         it('returns the right action type', function () {
             var action = appActions.setNewPersonModalOpen();
@@ -164,6 +176,18 @@ describe('appActions', function () {
 
         it('sets the new person modal open to be the passed in value', function () {
             var action = appActions.setNewPersonModalOpen(true);
+            expect(action.isOpen).toBe(true);
+        });
+    });
+
+    describe('#setNewSpaceModalOpen', function () {
+        it('returns the right action type', function () {
+            var action = appActions.setNewSpaceModalOpen();
+            expect(action.type).toBe('SET_NEW_SPACE_MODAL_OPEN');
+        });
+
+        it('sets the new person modal open to be the passed in value', function () {
+            var action = appActions.setNewSpaceModalOpen(true);
             expect(action.isOpen).toBe(true);
         });
     });
