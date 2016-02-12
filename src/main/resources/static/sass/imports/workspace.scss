@@ -43,4 +43,19 @@
 
     transition: background-color 0.3s;
   }
+
+  .trash {
+    visibility: hidden;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    height: 110px;
+    width: 92px;
+    padding: 5px;
+
+    background: white url('../img/trash.png') no-repeat center;
+
+    border: 1px solid $lightGrey;
+    border-radius: 4px;
+  }
 }

@@ -24,3 +24,11 @@
   background-color: $successGreen;
   z-index: 1;
 }
+
+.trash.drop-target {
+  background-color: $lightBlue;
+}
+
+.trash.drop-active {
+  visibility: visible;
+}

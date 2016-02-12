@@ -103,6 +103,13 @@ var workspaceReducer = function(state, action) {
             stateClone.spaces.push({name: action.name, people: []});
 
             return stateClone;
+        case "DELETE_PERSON":
+            var stateClone = _.cloneDeep(state);
+
+            var space = action.spaceIndex >=0 ? stateClone.spaces[action.spaceIndex] : stateClone;
+            _.pullAt(space.people, action.personIndex);
+
+            return stateClone;
         default:
             return state;
     }

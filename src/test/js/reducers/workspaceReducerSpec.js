@@ -326,5 +326,102 @@ describe("workspaceReducer", function() {
                 ).toEqual(stateAfter);
             });
         });
+
+        describe("DELETE_PERSON", function() {
+            it('should delete a person from a space', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                { name:"Captain Kirk" },
+                                { name:"Spock" }
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }]
+                };
+
+                var action = {
+                    type: "DELETE_PERSON",
+                    spaceIndex: 0,
+                    personIndex: 1
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [{ name:"Captain Kirk" }]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it('should delete a person from the workspace', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [{ name: 'Albert Einstein' }],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                { name:"Captain Kirk" },
+                                { name:"Spock" }
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }]
+                };
+
+                var action = {
+                    type: "DELETE_PERSON",
+                    spaceIndex: -1,
+                    personIndex: 0
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                { name:"Captain Kirk" },
+                                { name:"Spock" }
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
     });
 });

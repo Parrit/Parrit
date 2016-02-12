@@ -1,6 +1,6 @@
-var appActions = require('actions/appActions.js');
+var dataActions = require('actions/dataActions.js');
 
-describe('appActions', function () {
+describe('dataActions', function () {
     beforeEach(function () {
         jasmine.Ajax.install();
     });
@@ -12,7 +12,7 @@ describe('appActions', function () {
     describe('#loadWorkspace', function () {
         var action;
         beforeEach(function () {
-            action = appActions.loadWorkspace();
+            action = dataActions.loadWorkspace();
         });
 
         it('returns a function', function () {
@@ -70,7 +70,7 @@ describe('appActions', function () {
     describe('#saveWorkspace', function () {
         var action;
         beforeEach(function () {
-            action = appActions.saveWorkspace();
+            action = dataActions.saveWorkspace();
         });
 
         it('returns a function', function () {
@@ -130,65 +130,54 @@ describe('appActions', function () {
         });
     });
 
-    describe('#enableMove', function () {
+    describe('#movePerson', function () {
         it('returns the right action type', function () {
-            var action = appActions.enableMove();
-            expect(action.type).toBe('SET_MOVE');
+            var action = dataActions.movePerson();
+            expect(action.type).toBe('MOVE_PERSON');
         });
-    });
 
-    describe('#disableMove', function () {
-        it('returns the right action type', function () {
-            var action = appActions.disableMove();
-            expect(action.type).toBe('SET_MOVE');
+        it('sets indexes correctly to the passed in values', function () {
+            var action = dataActions.movePerson(1, 2, 3);
+            expect(action.fromSpaceIndex).toBe(1);
+            expect(action.toSpaceIndex).toBe(2);
+            expect(action.personIndex).toBe(3);
         });
     });
 
     describe('#createPerson', function () {
         it('returns the right action type', function () {
-            var action = appActions.createPerson();
+            var action = dataActions.createPerson();
             expect(action.type).toBe('CREATE_PERSON');
         });
 
         it('sets name equal to the passed in value', function () {
-            var action = appActions.createPerson('Forrest Gump');
+            var action = dataActions.createPerson('Forrest Gump');
             expect(action.name).toBe('Forrest Gump');
         });
     });
 
     describe('#createSpace', function() {
         it('returns the right action type', function () {
-            var action = appActions.createSpace();
+            var action = dataActions.createSpace();
             expect(action.type).toBe('CREATE_SPACE');
         });
 
         it('sets name equal to the passed in value', function () {
-            var action = appActions.createSpace('A Bus Bench');
+            var action = dataActions.createSpace('A Bus Bench');
             expect(action.name).toBe('A Bus Bench');
         });
     });
 
-    describe('#setNewPersonModalOpen', function () {
+    describe('#deletePerson', function() {
         it('returns the right action type', function () {
-            var action = appActions.setNewPersonModalOpen();
-            expect(action.type).toBe('SET_NEW_PERSON_MODAL_OPEN');
+            var action = dataActions.deletePerson();
+            expect(action.type).toBe('DELETE_PERSON');
         });
 
-        it('sets the new person modal open to be the passed in value', function () {
-            var action = appActions.setNewPersonModalOpen(true);
-            expect(action.isOpen).toBe(true);
+        it('sets indexes correctly to the passed in values', function () {
+            var action = dataActions.deletePerson(1, 2);
+            expect(action.spaceIndex).toBe(1);
+            expect(action.personIndex).toBe(2);
         });
-    });
-
-    describe('#setNewSpaceModalOpen', function () {
-        it('returns the right action type', function () {
-            var action = appActions.setNewSpaceModalOpen();
-            expect(action.type).toBe('SET_NEW_SPACE_MODAL_OPEN');
-        });
-
-        it('sets the new person modal open to be the passed in value', function () {
-            var action = appActions.setNewSpaceModalOpen(true);
-            expect(action.isOpen).toBe(true);
-        });
-    });
+    })
 });

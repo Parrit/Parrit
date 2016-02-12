@@ -1,97 +1,13 @@
-var Axios = require('axios');
-
-function loadWorkspaceThunk() {
-    return function(dispatch) {
-        Axios.get('/workspace?id=1')
-            .then(function(response) {
-                var workspace = response.data;
-
-                if(workspace) {
-                    dispatch(loadWorkspaceCreator(workspace));
-                }
-            });
-    };
-}
-
-function saveWorkspaceThunk() {
-    return function(dispatch, getWorkspace){
-        Axios.post('/workspace', getWorkspace().data.workspace)
-            .then(function(response) {
-                var workspace = response.data;
-
-                if(workspace) {
-                    dispatch(loadWorkspaceCreator(workspace));
-                }
-            });
-    }
-}
-
-function loadWorkspaceCreator(workspace) {
-    return {
-        type: 'LOAD_WORKSPACE',
-        workspace: workspace
-    };
-}
-
-function enableMoveCreator() {
-    return {
-        type: 'SET_MOVE',
-        canMove: true
-    };
-}
-
-function disableMoveCreator() {
-    return {
-        type: 'SET_MOVE',
-        canMove: false
-    };
-}
-
-function movePersonCreator(fromSpaceIndex, toSpaceIndex, personIndex) {
-    return {
-        type: 'MOVE_PERSON',
-        fromSpaceIndex: fromSpaceIndex,
-        toSpaceIndex: toSpaceIndex,
-        personIndex: personIndex
-    }
-}
-
-function createPerson(name) {
-    return {
-        type: 'CREATE_PERSON',
-        name: name
-    };
-}
-
-function createSpace(name) {
-    return {
-        type: 'CREATE_SPACE',
-        name: name
-    };
-}
-
-function setNewPersonModalOpen(isOpen) {
-    return {
-        type: 'SET_NEW_PERSON_MODAL_OPEN',
-        isOpen: isOpen
-    }
-}
-
-function setNewSpaceModalOpen(isOpen) {
-    return {
-        type: 'SET_NEW_SPACE_MODAL_OPEN',
-        isOpen: isOpen
-    }
-}
-
 module.exports = {
-    loadWorkspace: loadWorkspaceThunk,
-    saveWorkspace: saveWorkspaceThunk,
-    movePerson: movePersonCreator,
-    enableMove: enableMoveCreator,
-    disableMove: disableMoveCreator,
-    createPerson: createPerson,
-    createSpace: createSpace,
-    setNewPersonModalOpen: setNewPersonModalOpen,
-    setNewSpaceModalOpen: setNewSpaceModalOpen
+    loadWorkspace: require('actions/dataActions.js').loadWorkspace,
+    saveWorkspace: require('actions/dataActions.js').saveWorkspace,
+    movePerson: require('actions/dataActions.js').movePerson,
+    createPerson: require('actions/dataActions.js').createPerson,
+    createSpace: require('actions/dataActions.js').createSpace,
+    deletePerson: require('actions/dataActions.js').deletePerson,
+
+    enableMove: require('actions/viewActions.js').enableMove,
+    disableMove: require('actions/viewActions.js').disableMove,
+    setNewPersonModalOpen: require('actions/viewActions.js').setNewPersonModalOpen,
+    setNewSpaceModalOpen: require('actions/viewActions.js').setNewSpaceModalOpen
 };

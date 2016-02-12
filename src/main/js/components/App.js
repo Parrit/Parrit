@@ -7,13 +7,17 @@ var App = React.createClass({
     propTypes: {
         settings: React.PropTypes.object.isRequired,
         data: React.PropTypes.object.isRequired,
-        enableMove: React.PropTypes.func.isRequired,
-        disableMove: React.PropTypes.func.isRequired,
+
         saveWorkspace: React.PropTypes.func.isRequired,
         loadWorkspace: React.PropTypes.func.isRequired,
+
         movePerson: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
+        deletePerson: React.PropTypes.func.isRequired,
+
+        enableMove: React.PropTypes.func.isRequired,
+        disableMove: React.PropTypes.func.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewSpaceModalOpen: React.PropTypes.func.isRequired
     },
@@ -25,11 +29,13 @@ var App = React.createClass({
 	render: function() {
         var menuProps = {
             settings: this.props.settings,
-            enableMove: this.props.enableMove,
-            disableMove: this.props.disableMove,
+            saveWorkspace: this.props.saveWorkspace,
+
             createPerson: this.props.createPerson,
             createSpace: this.props.createSpace,
-            saveWorkspace: this.props.saveWorkspace,
+
+            enableMove: this.props.enableMove,
+            disableMove: this.props.disableMove,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewSpaceModalOpen: this.props.setNewSpaceModalOpen
         };
@@ -37,7 +43,9 @@ var App = React.createClass({
         var workspaceProps = {
             people: this.props.data.workspace.people,
             spaces: this.props.data.workspace.spaces,
-            movePerson: this.props.movePerson
+
+            movePerson: this.props.movePerson,
+            deletePerson: this.props.deletePerson
         };
 
 		return <div className="container-fluid">
