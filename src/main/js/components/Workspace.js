@@ -82,9 +82,11 @@ var Workspace = React.createClass({
                 <PersonList people={this.props.people} index={-1} />
             </div>
 
-            {this.props.spaces.map(function (space, idx) {
-                return <Space key={idx} name={space.name} people={space.people} index={idx}/>;
-            })}
+            <div className="spaces">
+                {this.props.spaces.map(function (space, idx) {
+                    return <Space key={idx} name={space.name} people={space.people} index={idx}/>;
+                })}
+            </div>
 
             <div className="trash"></div>
 

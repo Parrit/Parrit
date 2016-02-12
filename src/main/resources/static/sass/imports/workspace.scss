@@ -4,24 +4,32 @@
   background-color: white;
   border: $lightGrey 4px solid;
 
-  .space {
-    margin: 10px auto 30px;
-    padding: 10px;
-    min-height: 8em;
-    width: 80%;
+  .spaces {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-    .space-name {
-      position: relative;
-      width: 100%;
-      float: left;
-      margin: 5px;
-      font-size: 18px;
+    .space {
+      width: 47%;
+      min-height: 8em;
+      margin: 10px;
+      padding: 10px;
+      flex-grow: 1;
+
+      .space-name {
+        position: relative;
+        width: 100%;
+        float: left;
+        margin: 5px;
+        font-size: 18px;
+      }
     }
   }
 
   .floatingSpace {
     width: 80%;
-    margin: auto;
+    margin-right: 19%;
+    margin-left: 1%;
     min-height: 8em;
   }
 
