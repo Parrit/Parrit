@@ -14,6 +14,12 @@ Software development pairing management
 
 Clone into a new repo, cd into that folder
 
+Make sure Ruby/Rake/Sass are install
+```
+gem install rake
+gem install sass
+```
+
 ```
 $ npm install
 $ rake build
