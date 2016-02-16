@@ -27,6 +27,10 @@
 
         .btn-danger {
           float: right;
+          width: 20px;
+          height: 20px;
+          font-size: 10px;
+          padding: 0;
         }
       }
     }
@@ -69,11 +73,11 @@
     position: absolute;
     right: 40px;
     top: 40px;
-    height: 110px;
-    width: 92px;
-    padding: 5px;
+    height: 88px;
+    width: 73px;
 
     background: white url('../img/trash.png') no-repeat center;
+    background-size: 90%;
 
     border: 1px solid $lightGrey;
     border-radius: 4px;
