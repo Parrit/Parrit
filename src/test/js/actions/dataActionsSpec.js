@@ -1,195 +1,140 @@
 var dataActions = require('actions/dataActions.js');
+var dataThunks = require('actions/thunks/dataThunks.js');
 
 describe('dataActions', function () {
-    beforeEach(function () {
-        jasmine.Ajax.install();
-    });
-
-    afterEach(function () {
-        jasmine.Ajax.uninstall();
-    });
-
     describe('#loadWorkspace', function () {
-        var action;
-        beforeEach(function () {
-            action = dataActions.loadWorkspace();
+        var result;
+        var thunkResult = { thunkResult: 'Cowabunga' };
+        var loadWorkspaceThunkSpy;
+        beforeEach(function() {
+            loadWorkspaceThunkSpy = spyOn(dataThunks, 'loadWorkspaceThunk').and.returnValue(thunkResult);
+            result = dataActions.loadWorkspace(1, 2, 3);
         });
 
-        it('returns a function', function () {
-            expect(typeof action).toBe('function');
+        it('calls the loadWorkspaceThunk', function() {
+            expect(loadWorkspaceThunkSpy).toHaveBeenCalled();
         });
 
-        describe('when calling the returned function', function () {
-            var stubbedGet;
-            var dispatchSpy;
-            beforeEach(function () {
-                stubbedGet = jasmine.Ajax.stubRequest('/workspace?id=1', undefined, 'GET');
-                dispatchSpy = jasmine.createSpy('LoadWorkspaceDispatchSpy');
-
-                action(dispatchSpy);
-            });
-
-            it('makes an Ajax call to get the workspace for id 1', function (done) {
-                setTimeout(function () {
-                    expect(jasmine.Ajax.requests.count()).toBe(1);
-                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/workspace?id=1');
-                    expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
-                    done();
-                });
-            });
-
-            describe('when the Ajax call returns with a NON-NULL response', function () {
-                var responseText = {iamaproperty: "blahblah"};
-                beforeEach(function () {
-                    stubbedGet.andReturn({responseText: responseText});
-                });
-
-                it('dispatches a LOAD_WORKSPACE action with the response', function (done) {
-                    setTimeout(function () {
-                        expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_WORKSPACE', workspace: responseText});
-                        done();
-                    });
-                });
-            });
-
-            describe('when the Ajax call returns with a NULL response', function () {
-                beforeEach(function () {
-                    stubbedGet.andReturn({responseText: null});
-                });
-
-                it('SHOULD NOT dispatch a LOAD_WORKSPACE action with the response', function (done) {
-                    setTimeout(function () {
-                        expect(dispatchSpy).not.toHaveBeenCalled();
-                        done();
-                    });
-                });
-            });
-        });
-    });
-
-    describe('#saveWorkspace', function () {
-        var action;
-        beforeEach(function () {
-            action = dataActions.saveWorkspace();
-        });
-
-        it('returns a function', function () {
-            expect(typeof action).toBe('function');
-        });
-
-        describe('when calling the returned function', function () {
-            var stubbedPost;
-            var dispatchSpy;
-            var workspaceToSave = {MISSISSIPPI: "Anthony is more fun than that"};
-            var stateOfApp = {data: {workspace: workspaceToSave}};
-            beforeEach(function () {
-                stubbedPost = jasmine.Ajax.stubRequest('/workspace', undefined, 'POST');
-                dispatchSpy = jasmine.createSpy('SaveWorkspaceDispatchSpy');
-
-                action(dispatchSpy, function () {
-                    return stateOfApp
-                });
-            });
-
-            it('makes an Ajax call to post the workspace', function (done) {
-                setTimeout(function () {
-                    expect(jasmine.Ajax.requests.count()).toBe(1);
-                    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/workspace');
-                    expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                    expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspaceToSave);
-                    done();
-                });
-            });
-
-            describe('when the Ajax call returns with a NONNULL response', function () {
-                var responseText = {iamaproperty: "blahblah"};
-                beforeEach(function () {
-                    stubbedPost.andReturn({responseText: responseText});
-                });
-
-                it('dispatches a LOAD_WORKSPACE action with the response', function (done) {
-                    setTimeout(function () {
-                        expect(dispatchSpy).toHaveBeenCalledWith({type: 'LOAD_WORKSPACE', workspace: responseText});
-                        done();
-                    });
-                });
-            });
-
-            describe('when the Ajax call returns with a NULL response', function () {
-                beforeEach(function () {
-                    stubbedPost.andReturn({responseText: null});
-                });
-
-                it('SHOULD NOT dispatch a LOAD_WORKSPACE action with the response', function (done) {
-                    setTimeout(function () {
-                        expect(dispatchSpy).not.toHaveBeenCalled();
-                        done();
-                    });
-                });
-            });
+        it('returns the result of loadWorkspaceThunk', function() {
+            expect(result).toBe(thunkResult);
         });
     });
 
     describe('#movePerson', function () {
-        it('returns the right action type', function () {
-            var action = dataActions.movePerson();
-            expect(action.type).toBe('MOVE_PERSON');
+        var expectedAction = {
+            type: "MOVE_PERSON",
+            fromSpaceIndex: 1,
+            toSpaceIndex: 2,
+            personIndex: 3
+        };
+
+        var result;
+        var thunkResult = { thunkResult: 'Cowabunga' };
+        var autoSaveThunkSpy;
+        beforeEach(function() {
+            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
+            result = dataActions.movePerson(1, 2, 3);
         });
 
-        it('sets indexes correctly to the passed in values', function () {
-            var action = dataActions.movePerson(1, 2, 3);
-            expect(action.fromSpaceIndex).toBe(1);
-            expect(action.toSpaceIndex).toBe(2);
-            expect(action.personIndex).toBe(3);
+        it('calls autoSaveThunk with the correct action', function () {
+            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
+        });
+
+        it('returns the result from autoSaveThunk', function () {
+            expect(result).toBe(thunkResult);
         });
     });
 
     describe('#createPerson', function () {
-        it('returns the right action type', function () {
-            var action = dataActions.createPerson();
-            expect(action.type).toBe('CREATE_PERSON');
+        var expectedAction = {
+            type: "CREATE_PERSON",
+            name: "Dirk Dirkenson"
+        };
+
+        var result;
+        var thunkResult = { thunkResult: 'Cowabunga' };
+        var autoSaveThunkSpy;
+        beforeEach(function() {
+            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
+            result = dataActions.createPerson('Dirk Dirkenson');
         });
 
-        it('sets name equal to the passed in value', function () {
-            var action = dataActions.createPerson('Forrest Gump');
-            expect(action.name).toBe('Forrest Gump');
+        it('calls autoSaveThunk with the correct action', function () {
+            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
+        });
+
+        it('returns the result from autoSaveThunk', function () {
+            expect(result).toBe(thunkResult);
         });
     });
 
     describe('#createSpace', function() {
-        it('returns the right action type', function () {
-            var action = dataActions.createSpace();
-            expect(action.type).toBe('CREATE_SPACE');
+        var expectedAction = {
+            type: 'CREATE_SPACE',
+            name: 'A Bus Bench'
+        };
+
+        var result;
+        var thunkResult = { thunkResult: 'Cowabunga' };
+        var autoSaveThunkSpy;
+        beforeEach(function() {
+            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
+            result = dataActions.createSpace('A Bus Bench');
         });
 
-        it('sets name equal to the passed in value', function () {
-            var action = dataActions.createSpace('A Bus Bench');
-            expect(action.name).toBe('A Bus Bench');
+        it('calls autoSaveThunk with the correct action', function () {
+            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
+        });
+
+        it('returns the result from autoSaveThunk', function () {
+            expect(result).toBe(thunkResult);
         });
     });
 
     describe('#deletePerson', function() {
-        it('returns the right action type', function () {
-            var action = dataActions.deletePerson();
-            expect(action.type).toBe('DELETE_PERSON');
+        var expectedAction = {
+            type: 'DELETE_PERSON',
+            spaceIndex: 1,
+            personIndex: 2
+        };
+
+        var result;
+        var thunkResult = { thunkResult: 'Cowabunga' };
+        var autoSaveThunkSpy;
+        beforeEach(function() {
+            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
+            result = dataActions.deletePerson(1, 2);
         });
 
-        it('sets indexes correctly to the passed in values', function () {
-            var action = dataActions.deletePerson(1, 2);
-            expect(action.spaceIndex).toBe(1);
-            expect(action.personIndex).toBe(2);
+        it('calls autoSaveThunk with the correct action', function () {
+            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
+        });
+
+        it('returns the result from autoSaveThunk', function () {
+            expect(result).toBe(thunkResult);
         });
     });
 
     describe('#deleteSpace', function() {
-        it('returns the right action type', function () {
-            var action = dataActions.deleteSpace();
-            expect(action.type).toBe('DELETE_SPACE');
+        var expectedAction = {
+            type: 'DELETE_SPACE',
+            spaceIndex: 1
+        };
+
+        var result;
+        var thunkResult = { thunkResult: 'Cowabunga' };
+        var autoSaveThunkSpy;
+        beforeEach(function() {
+            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
+            result = dataActions.deleteSpace(1);
         });
 
-        it('sets indexes correctly to the passed in values', function () {
-            var action = dataActions.deleteSpace(1);
-            expect(action.spaceIndex).toBe(1);
+        it('calls autoSaveThunk with the correct action', function () {
+            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
+        });
+
+        it('returns the result from autoSaveThunk', function () {
+            expect(result).toBe(thunkResult);
         });
     });
 });

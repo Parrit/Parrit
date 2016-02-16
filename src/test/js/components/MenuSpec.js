@@ -6,12 +6,10 @@ var Mocker = require('support/ComponentMocker.js');
 
 var Menu = require('components/Menu.js');
 var PrimaryButtonMock = Mocker("Button1");
-var SuccessButtonMock = Mocker("Button2");
 var ModalMock = Mocker("Modal");
 var NewPersonFormMock = Mocker("NewPersonForm");
 var NewSpaceFormMock = Mocker("NewSpaceForm");
 Menu.__set__('PrimaryButton', PrimaryButtonMock);
-Menu.__set__('SuccessButton', SuccessButtonMock);
 Menu.__set__('Modal', ModalMock);
 Menu.__set__('NewPersonForm', NewPersonFormMock);
 Menu.__set__('NewSpaceForm', NewSpaceFormMock);
@@ -21,7 +19,6 @@ describe('Menu', function() {
         settings: {isNewPersonModalOpen: false},
         enableMove: function(){},
         disableMove: function(){},
-        saveWorkspace: function(){},
         createPerson: jasmine.createSpy(),
         createSpace: jasmine.createSpy(),
         setNewPersonModalOpen: jasmine.createSpy(),
@@ -46,15 +43,12 @@ describe('Menu', function() {
 
     it('has button components as children', function() {
         var blueButtons = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
-        var saver = ReactTestUtils.findRenderedComponentWithType(menu, SuccessButtonMock);
 
         expect(blueButtons.length).toBe(4);
         expect(blueButtons[0].props.clickFunction).toBe(props.enableMove, "Enable move callback not passed");
         expect(blueButtons[1].props.clickFunction).toBe(props.disableMove, "Disable move callback not passed");
         expect(blueButtons[2].props.clickFunction).toBe(menu.openNewPersonModal, "Create person callback not passed");
         expect(blueButtons[3].props.clickFunction).toBe(menu.openNewSpaceModal, "Create space callback not passed");
-
-        expect(saver.props.clickFunction).toBe(props.saveWorkspace, "Save callback not passed");
     });
 
     describe('newPersonModal', function() {

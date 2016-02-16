@@ -1,82 +1,52 @@
-var Axios = require('axios');
+var dataThunks = require('actions/thunks/dataThunks.js');
 
-function loadWorkspaceThunk() {
-    return function(dispatch) {
-        Axios.get('/workspace?id=1')
-            .then(function(response) {
-                var workspace = response.data;
-
-                if(workspace) {
-                    dispatch(loadWorkspaceCreator(workspace));
-                }
-            });
-    };
+function loadWorkspace() {
+    return dataThunks.loadWorkspaceThunk();
 }
 
-function saveWorkspaceThunk() {
-    return function(dispatch, getWorkspace){
-        Axios.post('/workspace', getWorkspace().data.workspace)
-            .then(function(response) {
-                var workspace = response.data;
-
-                if(workspace) {
-                    dispatch(loadWorkspaceCreator(workspace));
-                }
-            });
-    }
-}
-
-function loadWorkspaceCreator(workspace) {
-    return {
-        type: 'LOAD_WORKSPACE',
-        workspace: workspace
-    };
-}
-
-function movePersonCreator(fromSpaceIndex, toSpaceIndex, personIndex) {
-    return {
+function movePerson(fromSpaceIndex, toSpaceIndex, personIndex) {
+    return dataThunks.autoSaveThunk({
         type: 'MOVE_PERSON',
         fromSpaceIndex: fromSpaceIndex,
         toSpaceIndex: toSpaceIndex,
         personIndex: personIndex
-    }
+    });
 }
 
-function createPersonCreator(name) {
-    return {
+function createPerson(name) {
+    return dataThunks.autoSaveThunk({
         type: 'CREATE_PERSON',
         name: name
-    };
+    })
 }
 
-function createSpaceCreator(name) {
-    return {
+function createSpace(name) {
+    return dataThunks.autoSaveThunk({
         type: 'CREATE_SPACE',
         name: name
-    };
+    });
 }
 
-function deletePersonCreator(spaceIndex, personIndex) {
-    return {
+function deletePerson(spaceIndex, personIndex) {
+    return dataThunks.autoSaveThunk({
         type: 'DELETE_PERSON',
         spaceIndex: spaceIndex,
         personIndex: personIndex
-    };
+    });
 }
 
-function deleteSpaceCreator(spaceIndex) {
-    return {
+function deleteSpace(spaceIndex) {
+    return dataThunks.autoSaveThunk({
         type: 'DELETE_SPACE',
         spaceIndex: spaceIndex
-    };
+    });
 }
 
 module.exports = {
-    loadWorkspace: loadWorkspaceThunk,
-    saveWorkspace: saveWorkspaceThunk,
-    movePerson: movePersonCreator,
-    createPerson: createPersonCreator,
-    createSpace: createSpaceCreator,
-    deletePerson: deletePersonCreator,
-    deleteSpace: deleteSpaceCreator
+    loadWorkspace: loadWorkspace,
+    movePerson: movePerson,
+    createPerson: createPerson,
+    createSpace: createSpace,
+    deletePerson: deletePerson,
+    deleteSpace: deleteSpace
 };

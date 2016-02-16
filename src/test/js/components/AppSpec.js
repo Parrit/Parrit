@@ -33,7 +33,6 @@ describe('App', function() {
         },
 
         loadWorkspace: loadWorkspaceSpy,
-        saveWorkspace: function(){},
         movePerson: function(){},
         createPerson: function(){},
         createSpace: function(){},
@@ -60,7 +59,6 @@ describe('App', function() {
         expect(menuComponent).toBeTruthy('No Menu component found');
 
         expect(menuComponent.props.settings).toBe(props.settings, "No settings passed to menu");
-        expect(menuComponent.props.saveWorkspace).toBe(props.saveWorkspace, "No saveWorkspace passed to menu");
         expect(menuComponent.props.createPerson).toBe(props.createPerson, "No createPerson passed to menu");
         expect(menuComponent.props.createSpace).toBe(props.createSpace, "No createSpace passed to menu");
 

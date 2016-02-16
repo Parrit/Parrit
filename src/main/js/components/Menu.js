@@ -6,14 +6,12 @@ var NewPersonForm = require('components/forms/NewPersonForm.js');
 var NewSpaceForm = require('components/forms/NewSpaceForm.js');
 var Buttons = require('components/Buttons.js');
 var PrimaryButton = Buttons.PrimaryButton;
-var SuccessButton = Buttons.SuccessButton;
 
 var Menu = React.createClass({
     propTypes: {
         settings: React.PropTypes.object.isRequired,
         enableMove: React.PropTypes.func.isRequired,
         disableMove: React.PropTypes.func.isRequired,
-        saveWorkspace: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
@@ -27,7 +25,6 @@ var Menu = React.createClass({
                 <PrimaryButton name="Don't Move" clickFunction={this.props.disableMove}/>
                 <PrimaryButton name="Add Person" clickFunction={this.openNewPersonModal}/>
                 <PrimaryButton name="Add Space" clickFunction={this.openNewSpaceModal}/>
-                <SuccessButton name="Save" clickFunction={this.props.saveWorkspace}/>
             </ul>
             <Modal isOpen={this.props.settings.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal} style={ModalStyles}>
                 <NewPersonForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>

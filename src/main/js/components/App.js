@@ -8,7 +8,6 @@ var App = React.createClass({
         settings: React.PropTypes.object.isRequired,
         data: React.PropTypes.object.isRequired,
 
-        saveWorkspace: React.PropTypes.func.isRequired,
         loadWorkspace: React.PropTypes.func.isRequired,
 
         movePerson: React.PropTypes.func.isRequired,
@@ -30,7 +29,6 @@ var App = React.createClass({
 	render: function() {
         var menuProps = {
             settings: this.props.settings,
-            saveWorkspace: this.props.saveWorkspace,
 
             createPerson: this.props.createPerson,
             createSpace: this.props.createSpace,
