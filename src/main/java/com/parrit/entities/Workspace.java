@@ -10,7 +10,7 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Space> spaces;
 
     @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL)
