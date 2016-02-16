@@ -1,5 +1,5 @@
 var React = require('react');
-var PersonContainer = require('containers/personContainer.js');
+var Person = require('components/Person.js');
 
 var PersonList = React.createClass({
     propTypes: {
@@ -11,7 +11,7 @@ var PersonList = React.createClass({
         var spaceIndex = this.props.index;
         return <span>
             {this.props.people.map(function (person, idx) {
-                return <PersonContainer key={idx} name={person.name} index={idx} spaceIndex={spaceIndex}/>
+                return <Person key={idx} name={person.name} index={idx} spaceIndex={spaceIndex}/>
             })}
         </span>
     }

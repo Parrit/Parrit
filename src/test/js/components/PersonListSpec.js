@@ -5,8 +5,8 @@ var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var PersonList = require('components/PersonList.js');
-var PersonMock = Mocker("PersonContainer");
-PersonList.__set__('PersonContainer', PersonMock);
+var PersonMock = Mocker("Person");
+PersonList.__set__('Person', PersonMock);
 
 describe('PersonList', function() {
     it('renders all of the people', function() {

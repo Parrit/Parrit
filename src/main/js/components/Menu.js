@@ -10,8 +10,6 @@ var PrimaryButton = Buttons.PrimaryButton;
 var Menu = React.createClass({
     propTypes: {
         settings: React.PropTypes.object.isRequired,
-        enableMove: React.PropTypes.func.isRequired,
-        disableMove: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
@@ -21,8 +19,6 @@ var Menu = React.createClass({
     render: function() {
         return <div>
             <ul className="menu">
-                <PrimaryButton name="Move" clickFunction={this.props.enableMove}/>
-                <PrimaryButton name="Don't Move" clickFunction={this.props.disableMove}/>
                 <PrimaryButton name="Add Person" clickFunction={this.openNewPersonModal}/>
                 <PrimaryButton name="Add Space" clickFunction={this.openNewSpaceModal}/>
             </ul>

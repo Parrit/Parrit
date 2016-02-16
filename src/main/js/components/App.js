@@ -16,8 +16,6 @@ var App = React.createClass({
         deletePerson: React.PropTypes.func.isRequired,
         deleteSpace: React.PropTypes.func.isRequired,
 
-        enableMove: React.PropTypes.func.isRequired,
-        disableMove: React.PropTypes.func.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewSpaceModalOpen: React.PropTypes.func.isRequired
     },
@@ -33,8 +31,6 @@ var App = React.createClass({
             createPerson: this.props.createPerson,
             createSpace: this.props.createSpace,
 
-            enableMove: this.props.enableMove,
-            disableMove: this.props.disableMove,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewSpaceModalOpen: this.props.setNewSpaceModalOpen
         };

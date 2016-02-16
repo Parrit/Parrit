@@ -1,20 +1,6 @@
 var viewActions = require('actions/viewActions.js');
 
 describe('viewActions', function () {
-    describe('#enableMove', function () {
-        it('returns the right action type', function () {
-            var action = viewActions.enableMove();
-            expect(action.type).toBe('SET_MOVE');
-        });
-    });
-
-    describe('#disableMove', function () {
-        it('returns the right action type', function () {
-            var action = viewActions.disableMove();
-            expect(action.type).toBe('SET_MOVE');
-        });
-    });
-
     describe('#setNewPersonModalOpen', function () {
         it('returns the right action type', function () {
             var action = viewActions.setNewPersonModalOpen();

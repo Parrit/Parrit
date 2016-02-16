@@ -6,7 +6,6 @@ describe("appReducer", function() {
 		var action = {};
 		var stateAfter = {
             settings: {
-				canMove: true,
                 isNewPersonModalOpen: false,
                 isNewSpaceModalOpen: false
 			},

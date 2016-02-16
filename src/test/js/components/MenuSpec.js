@@ -17,8 +17,6 @@ Menu.__set__('NewSpaceForm', NewSpaceFormMock);
 describe('Menu', function() {
     var props = {
         settings: {isNewPersonModalOpen: false},
-        enableMove: function(){},
-        disableMove: function(){},
         createPerson: jasmine.createSpy(),
         createSpace: jasmine.createSpy(),
         setNewPersonModalOpen: jasmine.createSpy(),
@@ -44,11 +42,9 @@ describe('Menu', function() {
     it('has button components as children', function() {
         var blueButtons = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
 
-        expect(blueButtons.length).toBe(4);
-        expect(blueButtons[0].props.clickFunction).toBe(props.enableMove, "Enable move callback not passed");
-        expect(blueButtons[1].props.clickFunction).toBe(props.disableMove, "Disable move callback not passed");
-        expect(blueButtons[2].props.clickFunction).toBe(menu.openNewPersonModal, "Create person callback not passed");
-        expect(blueButtons[3].props.clickFunction).toBe(menu.openNewSpaceModal, "Create space callback not passed");
+        expect(blueButtons.length).toBe(2);
+        expect(blueButtons[0].props.clickFunction).toBe(menu.openNewPersonModal, "Create person callback not passed");
+        expect(blueButtons[1].props.clickFunction).toBe(menu.openNewSpaceModal, "Create space callback not passed");
     });
 
     describe('newPersonModal', function() {
