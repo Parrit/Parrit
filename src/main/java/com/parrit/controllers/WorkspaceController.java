@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(path = "/workspace")
 public class WorkspaceController {
 
     private WorkspaceRepository workspaceRepository;
@@ -17,12 +18,12 @@ public class WorkspaceController {
 		this.workspaceRepository = workspaceRepository;
 	}
 
-    @RequestMapping(path = "/workspace", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Workspace> get(@RequestParam long id) {
         return new ResponseEntity<>(workspaceRepository.findOne(id), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/workspace", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(method = RequestMethod.POST, consumes = {"application/json"})
 	public ResponseEntity<Workspace> save(@RequestBody Workspace workspace) {
         return new ResponseEntity<>(workspaceRepository.save(workspace), HttpStatus.OK);
     }
