@@ -10,7 +10,7 @@ public class Space {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(targetEntity = Person.class)
+    @ManyToMany(targetEntity = Person.class)
     private Collection<Person> people;
 
     private String name;
