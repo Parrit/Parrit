@@ -1,14 +1,14 @@
 var Axios = require('axios');
 
 function postStateAndDo(state, callback) {
-    Axios.post('/workspace', state.data.workspace)
+    Axios.post('/api/workspace', state.data.workspace)
         .then(function (response) {
             callback(response.data);
         });
 }
 
 function getStateAndDo(callback) {
-    Axios.get('/workspace?id=1')
+    Axios.get('/api/workspace?id=1')
         .then(function(response) {
             callback(response.data);
         });

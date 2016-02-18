@@ -17,7 +17,7 @@ describe('databaseHelpers', function() {
         var stateOfApp = {data: {workspace: workspaceToSave}};
 
         beforeEach(function () {
-            stubbedPost = jasmine.Ajax.stubRequest('/workspace', undefined, 'POST');
+            stubbedPost = jasmine.Ajax.stubRequest('/api/workspace', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
             databaseHelpers.postStateAndDo(stateOfApp, callbackSpy);
@@ -26,7 +26,7 @@ describe('databaseHelpers', function() {
         it('makes an Ajax call to post the workspace', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/workspace');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
                 expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspaceToSave);
                 done();
@@ -53,7 +53,7 @@ describe('databaseHelpers', function() {
         var callbackSpy;
 
         beforeEach(function () {
-            stubbedGet = jasmine.Ajax.stubRequest('/workspace?id=1', undefined, 'GET');
+            stubbedGet = jasmine.Ajax.stubRequest('/api/workspace?id=1', undefined, 'GET');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
             databaseHelpers.getStateAndDo(callbackSpy);
@@ -62,7 +62,7 @@ describe('databaseHelpers', function() {
         it('makes an Ajax call to get the workspace for id 1', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/workspace?id=1');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace?id=1');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
                 done();
             });

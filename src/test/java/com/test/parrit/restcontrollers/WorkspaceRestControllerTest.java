@@ -1,4 +1,4 @@
-package com.test.parrit.controllers;
+package com.test.parrit.restcontrollers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.parrit.controllers.WorkspaceController;
+import com.parrit.restcontrollers.WorkspaceRestController;
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
 import com.test.parrit.support.ControllerTestBase;
@@ -21,14 +21,14 @@ import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MvcResult;
 
-public class WorkspaceControllerTest extends ControllerTestBase {
+public class WorkspaceRestControllerTest extends ControllerTestBase {
 
     @Mock
     WorkspaceRepository mockWorkspaceRepository;
 
     @Autowired
     @InjectMocks
-    WorkspaceController workspaceController;
+    WorkspaceRestController workspaceRestController;
 
     String exampleWorkspaceString;
     Workspace exampleWorkspace;
@@ -45,7 +45,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     public void save_persistsTheWorkspace_andReturnsTheResult() throws Exception {
         when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
 
-        MvcResult mvcResult = mvc.perform(post("/workspace")
+        MvcResult mvcResult = mvc.perform(post("/api/workspace")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(exampleWorkspaceString))
                 .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     public void get_returnsResultFromRepository() throws Exception {
         when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(exampleWorkspace);
 
-        MvcResult mvcResult = mvc.perform(get("/workspace")
+        MvcResult mvcResult = mvc.perform(get("/api/workspace")
                 .param("id", "1"))
                 .andExpect(status().isOk())
                 .andReturn();

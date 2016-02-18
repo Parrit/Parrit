@@ -1,4 +1,4 @@
-package com.parrit.controllers;
+package com.parrit.restcontrollers;
 
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/workspace")
-public class WorkspaceController {
+@RequestMapping(path = "/api/workspace")
+public class WorkspaceRestController {
 
     private WorkspaceRepository workspaceRepository;
 
 	@Autowired
-	public WorkspaceController(WorkspaceRepository workspaceRepository) {
+	public WorkspaceRestController(WorkspaceRepository workspaceRepository) {
 		this.workspaceRepository = workspaceRepository;
 	}
 
