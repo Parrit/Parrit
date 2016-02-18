@@ -1,4 +1,4 @@
-package com.test.parrit.support;
+package com.parrit.support;
 
 import com.parrit.ParritApplication;
 import org.junit.Before;

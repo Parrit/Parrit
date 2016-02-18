@@ -1,4 +1,4 @@
-package com.test.parrit.restcontrollers;
+package com.parrit.restcontrollers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.parrit.restcontrollers.WorkspaceRestController;
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
-import com.test.parrit.support.ControllerTestBase;
+import com.parrit.support.ControllerTestBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
