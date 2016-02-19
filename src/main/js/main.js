@@ -4,16 +4,17 @@ var ReactRedux = require('react-redux');
 var Redux = require('redux');
 var Thunk = require('redux-thunk');
 
-var AppContainer = require('containers/appContainer.js');
-var appReducer = require('reducers/appReducer.js');
 var Provider = ReactRedux.Provider;
 
-function createStore(initialState) {
-    var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
-    return createStoreMW(appReducer, initialState);
-}
-
 function runWorkspace(workspaceJSON) {
+    var AppContainer = require('workspace/containers/appContainer.js');
+    var appReducer = require('workspace/reducers/appReducer.js');
+
+    function createStore(initialState) {
+        var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
+        return createStoreMW(appReducer, initialState);
+    }
+
     var initialState = {
         settings: {
             isNewPersonModalOpen: false,
@@ -30,8 +31,29 @@ function runWorkspace(workspaceJSON) {
         <Provider store={store}>
             <AppContainer/>
         </Provider>,
-		document.getElementById('app')
+		document.getElementById('reactRoot')
 	);
 }
 
+function runDashboard(workspaces) {
+    //function createStore(initialState) {
+    //    var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
+    //    return createStoreMW(appReducer, initialState);
+    //}
+    //
+    //var initialState = {
+    //    workspaces: workspaces
+    //};
+    //
+    //var store = createStore(initialState);
+    //
+    //ReactDOM.render(
+    //    <Provider store={store}>
+    //        <Dashboard/>
+    //    </Provider>,
+    //    document.getElementById('reactRoot')
+    //);
+}
+
 window.runWorkspace = runWorkspace;
+window.runDashboard = runDashboard;
