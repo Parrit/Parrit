@@ -19,5 +19,10 @@
 </footer>
 
 <script src="../built/bundle.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    runWorkspace(/*[[${workspace}]]*/);
+    /*]]>*/
+</script>
 </body>
 </html>

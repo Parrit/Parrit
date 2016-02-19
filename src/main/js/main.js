@@ -6,23 +6,32 @@ var Thunk = require('redux-thunk');
 
 var AppContainer = require('containers/appContainer.js');
 var appReducer = require('reducers/appReducer.js');
+var Provider = ReactRedux.Provider;
 
-function createStore() {
+function createStore(initialState) {
     var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
-    return createStoreMW(appReducer);
+    return createStoreMW(appReducer, initialState);
 }
 
-function run() {
+function runWorkspace(workspaceJSON) {
+    var initialState = {
+        settings: {
+            isNewPersonModalOpen: false,
+            isNewSpaceModalOpen: false
+        },
+        data: {
+            workspace: workspaceJSON
+        }
+    };
+
+    var store = createStore(initialState);
+
 	ReactDOM.render(
-		React.createElement(ReactRedux.Provider, {store: createStore()},
-			React.createElement(AppContainer)
-		),
+        <Provider store={store}>
+            <AppContainer/>
+        </Provider>,
 		document.getElementById('app')
 	);
 }
 
-if (['complete', 'loaded', 'interactive'].includes(document.readyState) && document.body) {
-  run();
-} else {
-  window.addEventListener('DOMContentLoaded', run, false);
-}
+window.runWorkspace = runWorkspace;
