@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WorkspaceRepository extends CrudRepository<Workspace, Long> {
+
+    Workspace findByName(String name);
+
 }

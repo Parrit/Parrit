@@ -10,6 +10,9 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(unique = true)
+    private String name;
+
     @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Space> spaces;
 
@@ -22,6 +25,14 @@ public class Workspace {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Collection<Space> getSpaces() {
@@ -48,16 +59,17 @@ public class Workspace {
         Workspace workspace = (Workspace) o;
 
         if (id != workspace.id) return false;
-        if (spaces != null ? !spaces.equals(workspace.spaces) : workspace.spaces == null) return false;
-        if (people != null ? !people.equals(workspace.people) : workspace.people == null) return false;
+        if (name != null ? !name.equals(workspace.name) : workspace.name != null) return false;
+        if (spaces != null ? !spaces.equals(workspace.spaces) : workspace.spaces != null) return false;
+        return people != null ? people.equals(workspace.people) : workspace.people == null;
 
-        return true;
     }
 
     @Override
     public String toString() {
         return "Workspace{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", spaces=" + spaces +
                 ", people=" + people +
                 '}';

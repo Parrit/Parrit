@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="../favicon.ico"/>
+    <title>Parrit</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="robots" content="noindex, nofollow"/>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../built/bundle.css"/>
+</head>
+<body>
+<div id="app"></div>
+
+<footer class="container-fluid">
+    <p>©2016 -- Icons by Thomas Helbig</p>
+</footer>
+
+<script src="../built/bundle.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    alert(/*[[${workspaces}]]*/);
+    /*]]>*/
+
+</script>
+</body>
+</html>
