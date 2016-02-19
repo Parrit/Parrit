@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,10 +22,20 @@ public class WorkspaceController {
 		this.workspaceRepository = workspaceRepository;
 	}
 
+    //*********************//
+    //******  Views  ******//
+    //*********************//
+
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String getWorkspaces(Model model) {
+    public String getWorkspaceNames(Model model) {
         Iterable<Workspace> workspaces = workspaceRepository.findAll();
-        model.addAttribute("workspaces", workspaces);
+
+        List<String> workspaceNames = new ArrayList<>();
+        for(Workspace workspace : workspaces) {
+            workspaceNames.add(workspace.getName());
+        }
+
+        model.addAttribute("workspaceNames", workspaceNames);
         return "dashboard";
     }
 

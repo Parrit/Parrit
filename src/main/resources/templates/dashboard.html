@@ -21,9 +21,8 @@
 <script src="../built/bundle.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    alert(/*[[${workspaces}]]*/);
+    alert(JSON.stringify(/*[[${workspaceNames}]]*/));
     /*]]>*/
-
 </script>
 </body>
 </html>

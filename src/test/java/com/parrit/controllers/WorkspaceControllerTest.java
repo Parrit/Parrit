@@ -42,23 +42,27 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     public void setUp() {
         exampleWorkspace1 = new Workspace();
         exampleWorkspace1.setId(1L);
+        exampleWorkspace1.setName("Henry");
 
         exampleWorkspace2 = new Workspace();
         exampleWorkspace2.setId(2L);
+        exampleWorkspace2.setName("Nancy");
 
-        exampleWorkspace1String = "{\"id\":1,\"name\":null,\"spaces\":null,\"people\":null}";
+        exampleWorkspace1String = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
     }
 
-    @Test
-    public void getWorkspaces_returnsAllWorkspaces() throws Exception {
-        List<Workspace> workspaceList = Arrays.asList(exampleWorkspace1, exampleWorkspace2);
+    //*********************//
+    //******  Views  ******//
+    //*********************//
 
-        when(mockWorkspaceRepository.findAll()).thenReturn(workspaceList);
+    @Test
+    public void getWorkspaceNames_returnsAllWorkspaceNames() throws Exception {
+        when(mockWorkspaceRepository.findAll()).thenReturn(Arrays.asList(exampleWorkspace1, exampleWorkspace2));
 
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("dashboard"))
-                .andExpect(model().attribute("workspaces", workspaceList));
+                .andExpect(model().attribute("workspaceNames", Arrays.asList("Henry", "Nancy")));
 
         verify(mockWorkspaceRepository).findAll();
     }
