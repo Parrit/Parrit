@@ -47,39 +47,4 @@ describe('databaseHelpers', function() {
             });
         });
     });
-
-    describe('#getStateAndDo', function() {
-        var stubbedGet;
-        var callbackSpy;
-
-        beforeEach(function () {
-            stubbedGet = jasmine.Ajax.stubRequest('/api/workspace?id=1', undefined, 'GET');
-            callbackSpy = jasmine.createSpy('callbackSpy');
-
-            databaseHelpers.getStateAndDo(callbackSpy);
-        });
-
-        it('makes an Ajax call to get the workspace for id 1', function (done) {
-            setTimeout(function () {
-                expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace?id=1');
-                expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
-                done();
-            });
-        });
-
-        describe('when the Ajax call returns with a response', function () {
-            var responseText = {iamaproperty: "blahblah"};
-            beforeEach(function () {
-                stubbedGet.andReturn({responseText: responseText});
-            });
-
-            it('calls the callback with the response', function (done) {
-                setTimeout(function () {
-                    expect(callbackSpy).toHaveBeenCalledWith(responseText);
-                    done();
-                });
-            });
-        });
-    })
 });

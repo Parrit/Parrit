@@ -6,22 +6,15 @@ var Workspace = require('components/Workspace.js');
 var App = React.createClass({
     propTypes: {
         settings: React.PropTypes.object.isRequired,
-        data: React.PropTypes.object.isRequired,
-
-        loadWorkspace: React.PropTypes.func.isRequired,
-
-        movePerson: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
-        deletePerson: React.PropTypes.func.isRequired,
-        deleteSpace: React.PropTypes.func.isRequired,
-
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
-        setNewSpaceModalOpen: React.PropTypes.func.isRequired
-    },
+        setNewSpaceModalOpen: React.PropTypes.func.isRequired,
 
-    componentDidMount: function() {
-        this.props.loadWorkspace();
+        data: React.PropTypes.object.isRequired,
+        movePerson: React.PropTypes.func.isRequired,
+        deletePerson: React.PropTypes.func.isRequired,
+        deleteSpace: React.PropTypes.func.isRequired
     },
 
 	render: function() {

@@ -1,9 +1,5 @@
 var dataThunks = require('actions/thunks/dataThunks.js');
 
-function loadWorkspace() {
-    return dataThunks.loadWorkspaceThunk();
-}
-
 function movePerson(fromSpaceIndex, toSpaceIndex, personIndex) {
     return dataThunks.autoSaveThunk({
         type: 'MOVE_PERSON',
@@ -43,7 +39,6 @@ function deleteSpace(spaceIndex) {
 }
 
 module.exports = {
-    loadWorkspace: loadWorkspace,
     movePerson: movePerson,
     createPerson: createPerson,
     createSpace: createSpace,

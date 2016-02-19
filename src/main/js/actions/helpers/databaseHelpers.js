@@ -7,14 +7,6 @@ function postStateAndDo(state, callback) {
         });
 }
 
-function getStateAndDo(callback) {
-    Axios.get('/api/workspace?id=1')
-        .then(function(response) {
-            callback(response.data);
-        });
-}
-
 module.exports = {
-    postStateAndDo: postStateAndDo,
-    getStateAndDo: getStateAndDo
+    postStateAndDo: postStateAndDo
 };

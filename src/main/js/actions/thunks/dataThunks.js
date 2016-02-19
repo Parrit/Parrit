@@ -9,17 +9,8 @@ function autoSaveThunk(action) {
     }
 }
 
-function loadWorkspaceThunk() {
-    return function(dispatch) {
-        databaseHelpers.getStateAndDo(function(workspace) {
-            if(workspace) dispatch(loadWorkspaceCreator(workspace));
-        });
-    };
-}
-
 module.exports = {
-    autoSaveThunk: autoSaveThunk,
-    loadWorkspaceThunk: loadWorkspaceThunk
+    autoSaveThunk: autoSaveThunk
 };
 
 // Helper Functions

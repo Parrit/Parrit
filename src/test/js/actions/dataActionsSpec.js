@@ -2,24 +2,6 @@ var dataActions = require('actions/dataActions.js');
 var dataThunks = require('actions/thunks/dataThunks.js');
 
 describe('dataActions', function () {
-    describe('#loadWorkspace', function () {
-        var result;
-        var thunkResult = { thunkResult: 'Cowabunga' };
-        var loadWorkspaceThunkSpy;
-        beforeEach(function() {
-            loadWorkspaceThunkSpy = spyOn(dataThunks, 'loadWorkspaceThunk').and.returnValue(thunkResult);
-            result = dataActions.loadWorkspace(1, 2, 3);
-        });
-
-        it('calls the loadWorkspaceThunk', function() {
-            expect(loadWorkspaceThunkSpy).toHaveBeenCalled();
-        });
-
-        it('returns the result of loadWorkspaceThunk', function() {
-            expect(result).toBe(thunkResult);
-        });
-    });
-
     describe('#movePerson', function () {
         var expectedAction = {
             type: "MOVE_PERSON",

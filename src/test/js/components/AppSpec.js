@@ -11,8 +11,6 @@ App.__set__('Menu', MenuMock);
 App.__set__('Workspace', WorkspaceMock);
 
 describe('App', function() {
-    var loadWorkspaceSpy = jasmine.createSpy('loadWorkspace');
-
     var props = {
         settings: {},
 
@@ -32,7 +30,6 @@ describe('App', function() {
             }
         },
 
-        loadWorkspace: loadWorkspaceSpy,
         movePerson: function(){},
         createPerson: function(){},
         createSpace: function(){},
@@ -46,10 +43,6 @@ describe('App', function() {
     var app;
     beforeEach(function() {
         app = RenderComponent(App, <App {...props} />);
-    });
-
-    it('calls the loadWorkspace action', function() {
-        expect(loadWorkspaceSpy).toHaveBeenCalled();
     });
 
     it('has a configured Menu component as a child', function() {

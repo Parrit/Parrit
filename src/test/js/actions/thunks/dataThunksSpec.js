@@ -40,43 +40,4 @@ describe('dataThunks', function() {
             });
         });
     });
-
-    describe('loadWorkspaceThunk', function() {
-        var thunk;
-
-        beforeEach(function () {
-            thunk = dataThunks.loadWorkspaceThunk();
-        });
-
-        it('returns a function', function () {
-            expect(typeof thunk).toBe('function');
-        });
-
-        describe('when calling the returned function', function () {
-            var dispatchSpy;
-            var getStateAndDoSpy;
-            beforeEach(function () {
-                dispatchSpy = jasmine.createSpy('loadWorkspaceDispatch');
-                getStateAndDoSpy = spyOn(databaseHelpers, 'getStateAndDo');
-
-                thunk(dispatchSpy);
-            });
-
-            it('calls getStateAndDo helper with correct arguments', function() {
-                expect(getStateAndDoSpy).toHaveBeenCalledWith(jasmine.anything());
-            });
-
-            it('passes in a callback that will dispatch a loadWorkspace action', function() {
-                var callback = getStateAndDoSpy.calls.mostRecent().args[0];
-                callback({data:"blarg"});
-                expect(dispatchSpy).toHaveBeenCalledWith({ type: 'LOAD_WORKSPACE', workspace: {data: 'blarg'} });
-            });
-
-            it('does not dispatch a loadWorkspace action in the callback if the response in null', function() {
-                var callback = getStateAndDoSpy.calls.mostRecent().args[0];
-                callback(null);
-                expect(dispatchSpy).not.toHaveBeenCalled();
-            });
-        });
-    });
 });
