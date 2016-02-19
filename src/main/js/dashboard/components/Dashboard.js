@@ -6,10 +6,12 @@ var Dashboard = React.createClass({
     },
 
     render: function() {
-        return <div className="container-fluid">
-            {this.props.workspaceNames.map(function(workspaceName, idx) {
-                return <a key={idx} href={'/' + workspaceName}>{workspaceName}</a>
-            })}
+        return <div className="dashboard container-fluid">
+            <ul className="workspaceList">
+                {this.props.workspaceNames.map(function(workspaceName, idx) {
+                    return <li key={idx} className="workspaceItem"><a href={'/' + workspaceName}>{workspaceName}</a></li>
+                })}
+            </ul>
         </div>
     }
 });
