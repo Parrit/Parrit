@@ -23,7 +23,7 @@
 
       .space {
         width: 47%;
-        min-height: 8em;
+        min-height: 8.1em;
         margin: 10px;
         padding: 10px;
         flex-grow: 1;
@@ -59,7 +59,7 @@
       margin-right: 19%;
       margin-left: 1%;
       margin-top: 20px;
-      min-height: 8em;
+      min-height: 8.1em;
 
       h2 {
         margin: 0;
@@ -92,20 +92,20 @@
         transition: background-color 0.3s;
       }
     }
+  }
 
-    .trash {
-      visibility: hidden;
-      position: absolute;
-      right: 40px;
-      top: 40px;
-      height: 88px;
-      width: 73px;
+  .trash {
+    visibility: hidden;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    height: 88px;
+    width: 73px;
 
-      background: white url('../img/trash.png') no-repeat center;
-      background-size: 90%;
+    background: white url('../img/trash.png') no-repeat center;
+    background-size: 90%;
 
-      border: 1px solid $lightGrey;
-      border-radius: 4px;
-    }
+    border: 1px solid $lightGrey;
+    border-radius: 4px;
   }
 }

@@ -4,16 +4,19 @@ var PrimaryButton = createButtonClass("primary");
 var SuccessButton = createButtonClass("success");
 var DangerButton = createButtonClass("danger");
 
-function createButtonClass(type) {
-    var classes = "btn btn-" + type;
+function createButtonClass(buttonTypeName) {
+    var classes = "btn btn-" + buttonTypeName;
+
     return React.createClass({
         propTypes: {
             name: React.PropTypes.string.isRequired,
-            clickFunction: React.PropTypes.func.isRequired
+            clickFunction: React.PropTypes.func,
+            type: React.PropTypes.string
         },
 
         render: function () {
-            return <button className={classes} onClick={this.props.clickFunction}>{this.props.name}</button>
+            var type = this.props.type || 'button';
+            return <button className={classes} type={type} onClick={this.props.clickFunction}>{this.props.name}</button>
         }
     });
 }

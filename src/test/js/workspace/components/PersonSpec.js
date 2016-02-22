@@ -8,7 +8,7 @@ var Person = require('workspace/components/Person.js');
 describe('Person', function() {
     var props = {
         name: "person",
-        spaceIndex: "1",
+        spaceIndex: 1,
         index: 1
     };
 

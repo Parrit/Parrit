@@ -7,12 +7,10 @@ var Mocker = require('support/ComponentMocker.js');
 var Menu = require('workspace/components/Menu.js');
 var PrimaryButtonMock = Mocker("Button1");
 var ModalMock = Mocker("Modal");
-var NewPersonFormMock = Mocker("NewPersonForm");
-var NewSpaceFormMock = Mocker("NewSpaceForm");
+var NameFormMock = Mocker("NameForm");
 Menu.__set__('PrimaryButton', PrimaryButtonMock);
 Menu.__set__('Modal', ModalMock);
-Menu.__set__('NewPersonForm', NewPersonFormMock);
-Menu.__set__('NewSpaceForm', NewSpaceFormMock);
+Menu.__set__('NameForm', NameFormMock);
 
 describe('Menu', function() {
     var props = {
@@ -35,8 +33,8 @@ describe('Menu', function() {
         newPersonModal = Modals[0];
         newSpaceModal = Modals[1];
 
-        newPersonForm = ReactTestUtils.findRenderedComponentWithType(newPersonModal, NewPersonFormMock);
-        newSpaceForm = ReactTestUtils.findRenderedComponentWithType(newSpaceModal, NewSpaceFormMock);
+        newPersonForm = ReactTestUtils.findRenderedComponentWithType(newPersonModal, NameFormMock);
+        newSpaceForm = ReactTestUtils.findRenderedComponentWithType(newSpaceModal, NameFormMock);
     });
 
     it('has button workspace.components as children', function() {

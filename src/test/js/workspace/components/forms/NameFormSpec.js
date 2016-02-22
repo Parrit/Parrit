@@ -5,14 +5,14 @@ var ReactTestUtils = require('react-addons-test-utils');
 var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
-var NewSpaceForm = require('workspace/components/forms/NewSpaceForm.js');
+var NameForm = require('workspace/components/forms/NameForm.js');
 
 var PrimaryButtonMock = Mocker("Button1");
 var SuccessButtonMock = Mocker("Button2");
-NewSpaceForm.__set__('PrimaryButton', PrimaryButtonMock);
-NewSpaceForm.__set__('SuccessButton', SuccessButtonMock);
+NameForm.__set__('PrimaryButton', PrimaryButtonMock);
+NameForm.__set__('SuccessButton', SuccessButtonMock);
 
-describe('NewSpaceForm', function() {
+describe('NameForm', function() {
     var props = {
         confirmFunction: jasmine.createSpy('newSpaceConfirmSpy'),
         cancelFunction: function() {}
@@ -25,7 +25,7 @@ describe('NewSpaceForm', function() {
     var confirmButton;
     var cancelButton;
     beforeEach(function() {
-        newSpaceForm = RenderComponent(NewSpaceForm, <NewSpaceForm {...props} />);
+        newSpaceForm = RenderComponent(NameForm, <NameForm {...props} />);
         newSpaceFromElement = ReactDOM.findDOMNode(newSpaceForm);
 
         nameInput = ReactTestUtils.findRenderedDOMComponentWithTag(newSpaceForm, 'input');
@@ -38,9 +38,9 @@ describe('NewSpaceForm', function() {
         expect(nameInput).toBeTruthy();
     });
 
-    it('has a confirm button that calls the submit function', function() {
+    it('has a confirm button of type submit', function() {
         expect(confirmButton.props.name).toBe('Save');
-        expect(confirmButton.props.clickFunction).toBe(newSpaceForm.submit);
+        expect(confirmButton.props.type).toBe('submit');
     });
 
     it('has a cancel button that calls the cancelFunction', function() {
@@ -49,9 +49,20 @@ describe('NewSpaceForm', function() {
     });
 
     describe('#submit', function() {
+        var e;
+        beforeEach(function() {
+            e = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
+        });
+
+        it('calls prevent default', function() {
+            newSpaceForm.setState({name: "stuff"});
+            newSpaceForm.submit(e);
+            expect(e.preventDefault).toHaveBeenCalled();
+        });
+
         it('should call the confirm function with the name on the state', function() {
             newSpaceForm.setState({name: "stuff"});
-            newSpaceForm.submit();
+            newSpaceForm.submit(e);
             expect(props.confirmFunction).toHaveBeenCalledWith('stuff');
         });
     });

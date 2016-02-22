@@ -2,8 +2,7 @@ var React = require('react');
 var Modal = require('react-modal');
 var ModalStyles = require('workspace/misc/OverrideBullshitModalStyles.js');
 
-var NewPersonForm = require('workspace/components/forms/NewPersonForm.js');
-var NewSpaceForm = require('workspace/components/forms/NewSpaceForm.js');
+var NameForm = require('workspace/components/forms/NameForm.js');
 var Buttons = require('workspace/components/Buttons.js');
 var PrimaryButton = Buttons.PrimaryButton;
 
@@ -23,10 +22,10 @@ var Menu = React.createClass({
                 <PrimaryButton name="Add Space" clickFunction={this.openNewSpaceModal}/>
             </ul>
             <Modal isOpen={this.props.settings.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal} style={ModalStyles}>
-                <NewPersonForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>
+                <NameForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>
             </Modal>
             <Modal isOpen={this.props.settings.isNewSpaceModalOpen} onRequestClose={this.closeNewSpaceModal} style={ModalStyles}>
-                <NewSpaceForm confirmFunction={this.createSpaceWithName} cancelFunction={this.closeNewSpaceModal}/>
+                <NameForm confirmFunction={this.createSpaceWithName} cancelFunction={this.closeNewSpaceModal}/>
             </Modal>
         </div>
     },
