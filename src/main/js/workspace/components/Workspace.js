@@ -6,12 +6,20 @@ var PersonList = require('workspace/components/PersonList.js');
 var Space = require('workspace/components/Space.js');
 
 var Workspace = React.createClass({
+    propTypes: {
+        people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+        spaces: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+
+        movePerson: React.PropTypes.func.isRequired,
+        deletePerson: React.PropTypes.func.isRequired,
+        deleteSpace: React.PropTypes.func.isRequired
+    },
+
     fromSpaceIndex: undefined,
     toSpaceIndex: undefined,
 
     componentDidMount: function() {
-        Interact('.draggable')
-            .draggable({
+        Interact('.draggable').draggable({
                 restrict: {
                     restriction: ".workspace"
                 },
@@ -35,8 +43,7 @@ var Workspace = React.createClass({
                 }
             });
 
-        Interact('.dropzone')
-            .dropzone({
+        Interact('.dropzone').dropzone({
                 accept: '.draggable.person',
                 overlap: 'center',
 
@@ -51,8 +58,7 @@ var Workspace = React.createClass({
                 ondrop: this.dropzoneOnDrop
             });
 
-        Interact('.trash')
-            .dropzone({
+        Interact('.trash').dropzone({
                 accept: '.draggable.person',
                 overlap: 'center',
 
