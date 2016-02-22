@@ -9,11 +9,11 @@ var PersonList = React.createClass({
 
     render: function() {
         var spaceIndex = this.props.index;
-        return <span>
+        return <div className="personList">
             {this.props.people.map(function (person, idx) {
                 return <Person key={idx} name={person.name} index={idx} spaceIndex={spaceIndex}/>
             })}
-        </span>
+        </div>
     }
 });
 

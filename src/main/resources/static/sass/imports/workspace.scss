@@ -5,7 +5,6 @@
 @media (min-width: 768px) {
   .workspace-wrapper {
     margin-left: 25%;
-    padding-right: 0;
   }
 }
 
@@ -59,26 +58,39 @@
       width: 80%;
       margin-right: 19%;
       margin-left: 1%;
+      margin-top: 20px;
       min-height: 8em;
+
+      h2 {
+        margin: 0;
+      }
     }
 
-    .person {
-      position: relative;
-      display: inline-block;
-      min-width: 80px;
-      padding: 1em 0.5em;
-      margin: 2px 4px;
-      border-radius: 10px;
-      text-align: center;
+    .personList {
+      margin-top: 10px;
 
-      color: white;
-      background-color: $primaryBlue;
-      border: solid 2px white;
+      &:empty {
+        margin-top: 0;
+      }
 
-      -webkit-transform: translate(0px, 0px);
-      transform: translate(0px, 0px);
+      .person {
+        position: relative;
+        display: inline-block;
+        min-width: 80px;
+        padding: 1em 0.5em;
+        margin: 2px 4px;
+        border-radius: 10px;
+        text-align: center;
 
-      transition: background-color 0.3s;
+        color: white;
+        background-color: $primaryBlue;
+        border: solid 2px white;
+
+        -webkit-transform: translate(0px, 0px);
+        transform: translate(0px, 0px);
+
+        transition: background-color 0.3s;
+      }
     }
 
     .trash {
