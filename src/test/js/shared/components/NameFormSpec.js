@@ -5,7 +5,7 @@ var ReactTestUtils = require('react-addons-test-utils');
 var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
-var NameForm = require('workspace/components/forms/NameForm.js');
+var NameForm = require('shared/components/NameForm.js');
 
 var PrimaryButtonMock = Mocker("Button1");
 var SuccessButtonMock = Mocker("Button2");

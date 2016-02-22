@@ -1,7 +1,7 @@
 var React = require('react');
 var PersonList = require('workspace/components/PersonList.js');
 
-var DangerButton = require('workspace/components/Buttons.js').DangerButton;
+var DangerButton = require('shared/components/Buttons.js').DangerButton;
 
 var Space = React.createClass({
     propTypes: {

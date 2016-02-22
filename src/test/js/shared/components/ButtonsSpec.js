@@ -4,7 +4,7 @@ var ReactTestUtils = require('react-addons-test-utils');
 
 var RenderComponent = require('support/RenderComponent.js');
 
-var Buttons = require('workspace/components/Buttons.js');
+var Buttons = require('shared/components/Buttons.js');
 var createButtonClass = Buttons.__get__('createButtonClass');
 
 describe('Buttons', function() {

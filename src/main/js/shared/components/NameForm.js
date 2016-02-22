@@ -1,8 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var PrimaryButton = require('workspace/components/Buttons.js').PrimaryButton;
-var SuccessButton = require('workspace/components/Buttons.js').SuccessButton;
+var PrimaryButton = require('shared/components/Buttons.js').PrimaryButton;
+var SuccessButton = require('shared/components/Buttons.js').SuccessButton;
 
 var NameForm = React.createClass({
     propTypes: {
