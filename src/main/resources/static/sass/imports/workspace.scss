@@ -1,84 +1,99 @@
-.workspace {
-  min-height: 80em;
-  background-color: white;
-  border: $lightGrey 4px solid;
+.content {
+  position: relative;
+}
 
-  .spaces {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+@media (min-width: 768px) {
+  .workspace-wrapper {
+    margin-left: 25%;
+    padding-right: 0;
+  }
+}
 
-    .space {
-      width: 47%;
-      min-height: 8em;
-      margin: 10px;
-      padding: 10px;
-      flex-grow: 1;
+.workspace-wrapper {
+  padding: 15px;
 
-      .space-header {
-        position: relative;
-        width: 100%;
+  .workspace {
+    min-height: 80em;
+    background-color: white;
+    border: $lightGrey 4px solid;
 
-        .space-name {
-          float: left;
-          font-size: 18px;
+    .spaces {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .space {
+        width: 47%;
+        min-height: 8em;
+        margin: 10px;
+        padding: 10px;
+        flex-grow: 1;
+
+        .space-header {
+          position: relative;
+          width: 100%;
+
+          .space-name {
+            float: left;
+            font-size: 18px;
+          }
+
+          .btn-danger {
+            float: right;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            padding: 0;
+          }
         }
+      }
 
-        .btn-danger {
-          float: right;
-          width: 20px;
-          height: 20px;
-          font-size: 10px;
-          padding: 0;
-        }
+      .space-header::after {
+        content: "";
+        clear: both;
+        display: block;
       }
     }
 
-    .space-header::after {
-      content: "";
-      clear: both;
-      display: block;
+    .floatingSpace {
+      width: 80%;
+      margin-right: 19%;
+      margin-left: 1%;
+      min-height: 8em;
     }
-  }
 
-  .floatingSpace {
-    width: 80%;
-    margin-right: 19%;
-    margin-left: 1%;
-    min-height: 8em;
-  }
+    .person {
+      position: relative;
+      display: inline-block;
+      min-width: 80px;
+      padding: 1em 0.5em;
+      margin: 2px 4px;
+      border-radius: 10px;
+      text-align: center;
 
-  .person {
-    position: relative;
-    display: inline-block;
-    min-width: 80px;
-    padding: 1em 0.5em;
-    margin: 2px 4px;
-    border-radius: 10px;
-    text-align: center;
+      color: white;
+      background-color: $primaryBlue;
+      border: solid 2px white;
 
-    color: white;
-    background-color: $primaryBlue;
-    border: solid 2px white;
+      -webkit-transform: translate(0px, 0px);
+      transform: translate(0px, 0px);
 
-    -webkit-transform: translate(0px, 0px);
-    transform: translate(0px, 0px);
+      transition: background-color 0.3s;
+    }
 
-    transition: background-color 0.3s;
-  }
+    .trash {
+      visibility: hidden;
+      position: absolute;
+      right: 40px;
+      top: 40px;
+      height: 88px;
+      width: 73px;
 
-  .trash {
-    visibility: hidden;
-    position: absolute;
-    right: 40px;
-    top: 40px;
-    height: 88px;
-    width: 73px;
+      background: white url('../img/trash.png') no-repeat center;
+      background-size: 90%;
 
-    background: white url('../img/trash.png') no-repeat center;
-    background-size: 90%;
-
-    border: 1px solid $lightGrey;
-    border-radius: 4px;
+      border: 1px solid $lightGrey;
+      border-radius: 4px;
+    }
   }
 }

@@ -1,23 +1,6 @@
 #reactRoot {
   background-color: $primaryBlue;
-  padding: 20px;
-}
-
-.content {
-  position: relative;
-}
-
-@media (max-width: 767px) {
-  #reactRoot {
-    padding: 1px 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .workspace-wrapper {
-    margin-left: 25%;
-    padding-right: 0;
-  }
+  overflow: auto;
 }
 
 footer {
