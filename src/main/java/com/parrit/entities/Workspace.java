@@ -14,9 +14,11 @@ public class Workspace {
     private String name;
 
     @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="workspace_id")
     private Collection<Space> spaces;
 
     @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="workspace_id")
     private Collection<Person> people;
 
     public long getId() {
