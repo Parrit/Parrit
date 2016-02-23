@@ -1,4 +1,3 @@
-var databaseHelpers = require('shared/helpers/databaseHelpers.js');
 var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
 
 describe('dashboardThunks', function() {
@@ -14,23 +13,34 @@ describe('dashboardThunks', function() {
         });
 
         describe('when calling the returned function', function() {
+            var newWorkspaceNames = {data: 'blarg'};
+            var updateWorkspaceNamesAction = {workspaceNames: newWorkspaceNames};
+
             var dispatchSpy;
             var postNewWorkspaceAndDoSpy;
+            var updateWorkspaceNameListSpy;
             beforeEach(function () {
-                dispatchSpy = jasmine.createSpy('CreatePersonDispatch');
-                postNewWorkspaceAndDoSpy = spyOn(databaseHelpers, 'postNewWorkspaceAndDo');
+                dispatchSpy = jasmine.createSpy('CreateWorkspaceDispatch');
+                postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDo');
+                dashboardThunks.__set__('databaseHelpers', {
+                    postNewWorkspaceAndDo: postNewWorkspaceAndDoSpy
+                });
+                updateWorkspaceNameListSpy = jasmine.createSpy('updateWorkspaceNameList').and.returnValue(updateWorkspaceNamesAction);
+                dashboardThunks.__set__('updateWorkspaceNameList', updateWorkspaceNameListSpy);
 
                 thunk(dispatchSpy);
             });
 
-            it('calls postStateAndDo helper with correct arguments', function() {
+            it('calls postNewWorkspaceAndDo helper with correct arguments', function() {
                 expect(postNewWorkspaceAndDoSpy).toHaveBeenCalledWith("New Workspace", jasmine.anything());
             });
 
             it('passes in a callback that will dispatch a updateWorkspaceNameList action', function() {
                 var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[1];
-                callback({data:"blarg"});
-                expect(dispatchSpy).toHaveBeenCalledWith({ type: 'UPDATE_WORKSPACE_NAME_LIST', workspaceNames: {data: 'blarg'} });
+                callback(newWorkspaceNames);
+
+                expect(updateWorkspaceNameListSpy).toHaveBeenCalledWith(newWorkspaceNames);
+                expect(dispatchSpy).toHaveBeenCalledWith(updateWorkspaceNamesAction);
             });
         });
     });

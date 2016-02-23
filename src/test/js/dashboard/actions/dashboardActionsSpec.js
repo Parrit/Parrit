@@ -14,6 +14,18 @@ describe('dashboardActions', function () {
         });
     });
 
+    describe('#updateWorkspaceNameList', function () {
+        it('returns the right action type', function () {
+            var action = dashboardActions.updateWorkspaceNameList(["Bob"]);
+            expect(action.type).toBe('UPDATE_WORKSPACE_NAME_LIST');
+        });
+
+        it('sets the workspaceNames to be the passed in value', function () {
+            var action = dashboardActions.updateWorkspaceNameList(["Bob"]);
+            expect(action.workspaceNames).toEqual(["Bob"]);
+        });
+    });
+
     describe('#createWorkspace', function() {
         it('is createWorkspaceThunk', function() {
             expect(dashboardActions.createWorkspace).toBe(dashboardThunks.createWorkspaceThunk);

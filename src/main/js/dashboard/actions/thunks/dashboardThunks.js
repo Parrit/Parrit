@@ -1,4 +1,5 @@
 var databaseHelpers = require('shared/helpers/databaseHelpers.js');
+var { updateWorkspaceNameList } = require('dashboard/actions/simpleActions.js');
 
 function createWorkspaceThunk(workspaceName) {
     return function (dispatch) {
@@ -11,11 +12,3 @@ function createWorkspaceThunk(workspaceName) {
 module.exports = {
     createWorkspaceThunk: createWorkspaceThunk
 };
-
-// Helper Functions
-function updateWorkspaceNameList(workspaceNames) {
-    return {
-        type: 'UPDATE_WORKSPACE_NAME_LIST',
-        workspaceNames: workspaceNames
-    };
-}

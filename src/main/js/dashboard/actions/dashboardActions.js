@@ -1,13 +1,8 @@
 var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
-
-function setNewWorkspaceModalOpen(isOpen) {
-    return {
-        type: 'SET_NEW_WORKSPACE_MODAL_OPEN',
-        isOpen: isOpen
-    }
-}
+var { setNewWorkspaceModalOpen, updateWorkspaceNameList } = require('dashboard/actions/simpleActions.js');
 
 module.exports = {
-    setNewWorkspaceModalOpen: setNewWorkspaceModalOpen,
+    setNewWorkspaceModalOpen,
+    updateWorkspaceNameList,
     createWorkspace: dashboardThunks.createWorkspaceThunk
 };
