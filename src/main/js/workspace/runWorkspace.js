@@ -6,7 +6,7 @@ var Thunk = require('redux-thunk');
 
 var Provider = ReactRedux.Provider;
 
-var AppContainer = require('workspace/containers/appContainer.js');
+var AppContainer = require('workspace/containers/AppContainer.js');
 var appReducer = require('workspace/reducers/appReducer.js');
 
 function createStore(initialState) {

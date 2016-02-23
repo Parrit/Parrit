@@ -6,7 +6,7 @@ var Thunk = require('redux-thunk');
 
 var Provider = ReactRedux.Provider;
 
-var DashboardContainer = require('dashboard/containers/dashboardContainer.js');
+var DashboardContainer = require('dashboard/containers/DashboardContainer.js');
 var dashboardReducer = require('dashboard/reducers/dashboardReducer.js');
 
 function createStore(initialState) {

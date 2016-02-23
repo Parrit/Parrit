@@ -1,6 +1,6 @@
 var React = require('react');
 var Modal = require('react-modal');
-var ModalStyles = require('workspace/misc/OverrideBullshitModalStyles.js');
+var ModalStyles = require('shared/misc/OverrideBullshitModalStyles.js');
 
 var NameForm = require('shared/components/NameForm.js');
 var Buttons = require('shared/components/Buttons.js');
