@@ -1,4 +1,4 @@
-var databaseHelpers = require('workspace/actions/helpers/databaseHelpers.js');
+var databaseHelpers = require('shared/helpers/databaseHelpers.js');
 var dataThunks = require('workspace/actions/thunks/dataThunks.js');
 
 describe('dataThunks', function() {

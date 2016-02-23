@@ -1,4 +1,4 @@
-var databaseHelpers = require('workspace/actions/helpers/databaseHelpers.js');
+var databaseHelpers = require('shared/helpers/databaseHelpers.js');
 
 function autoSaveThunk(action) {
     return function (dispatch, getState) {

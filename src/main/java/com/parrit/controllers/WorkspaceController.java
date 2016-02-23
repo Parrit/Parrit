@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,14 +27,7 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String getWorkspaceNames(Model model) {
-        Iterable<Workspace> workspaces = workspaceRepository.findAll();
-
-        List<String> workspaceNames = new ArrayList<>();
-        for(Workspace workspace : workspaces) {
-            workspaceNames.add(workspace.getName());
-        }
-
-        model.addAttribute("workspaceNames", workspaceNames);
+        model.addAttribute("workspaceNames", workspaceRepository.getAllWorkspaceNames());
         return "dashboard";
     }
 
@@ -54,5 +46,14 @@ public class WorkspaceController {
     @ResponseBody
     public ResponseEntity<Workspace> saveWorkspace(@RequestBody Workspace workspace) {
         return new ResponseEntity<>(workspaceRepository.save(workspace), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
+    @ResponseBody
+    public List<String> createWorkspace(@RequestBody String name) {
+        Workspace workspace = new Workspace();
+        workspace.setName(name);
+        workspaceRepository.save(workspace);
+        return workspaceRepository.getAllWorkspaceNames();
     }
 }

@@ -37,6 +37,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     Workspace exampleWorkspace1;
     Workspace exampleWorkspace2;
     String exampleWorkspace1String;
+    List<String> workspaceNames;
 
     @Before
     public void setUp() {
@@ -49,6 +50,8 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         exampleWorkspace2.setName("Nancy");
 
         exampleWorkspace1String = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
+
+        workspaceNames = Arrays.asList("Henry", "Nancy");
     }
 
     //*********************//
@@ -57,14 +60,14 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void getWorkspaceNames_returnsAllWorkspaceNames() throws Exception {
-        when(mockWorkspaceRepository.findAll()).thenReturn(Arrays.asList(exampleWorkspace1, exampleWorkspace2));
+        when(mockWorkspaceRepository.getAllWorkspaceNames()).thenReturn(workspaceNames);
 
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("dashboard"))
-                .andExpect(model().attribute("workspaceNames", Arrays.asList("Henry", "Nancy")));
+                .andExpect(model().attribute("workspaceNames", workspaceNames));
 
-        verify(mockWorkspaceRepository).findAll();
+        verify(mockWorkspaceRepository).getAllWorkspaceNames();
     }
 
     @Test
@@ -98,5 +101,26 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         assertThat(returnedState, equalTo(exampleWorkspace1String));
 
         verify(mockWorkspaceRepository).save(any(Workspace.class));
+    }
+
+    @Test
+    public void createWorkspace_savesTheNewWorkspaceName_andReturnsListOfAllWorkspaceNames() throws Exception {
+        when(mockWorkspaceRepository.getAllWorkspaceNames()).thenReturn(workspaceNames);
+        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace1);
+
+        MvcResult mvcResult = mvc.perform(post("/api/workspace/new")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("Bob"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String returnedNames = mvcResult.getResponse().getContentAsString();
+        assertThat(returnedNames, equalTo("[\"Henry\",\"Nancy\"]"));
+
+        Workspace newWorkspace = new Workspace();
+        newWorkspace.setName("Bob");
+
+        verify(mockWorkspaceRepository).save(eq(newWorkspace));
+        verify(mockWorkspaceRepository).getAllWorkspaceNames();
     }
 }
