@@ -13,20 +13,21 @@ Menu.__set__('Modal', ModalMock);
 Menu.__set__('NameForm', NameFormMock);
 
 describe('Menu', function() {
-    var props = {
-        settings: {isNewPersonModalOpen: false},
-        createPerson: jasmine.createSpy(),
-        createSpace: jasmine.createSpy(),
-        setNewPersonModalOpen: jasmine.createSpy(),
-        setNewSpaceModalOpen: jasmine.createSpy()
-    };
-
+    var props;
     var menu;
     var newPersonModal;
     var newPersonForm;
     var newSpaceModal;
     var newSpaceForm;
     beforeEach(function() {
+        props  = {
+            settings: {isNewPersonModalOpen: false},
+            createPerson: jasmine.createSpy(),
+            createSpace: jasmine.createSpy(),
+            setNewPersonModalOpen: jasmine.createSpy(),
+            setNewSpaceModalOpen: jasmine.createSpy()
+        };
+
         menu = RenderComponent(Menu, <Menu {...props} />);
 
         var Modals = ReactTestUtils.scryRenderedComponentsWithType(menu, ModalMock);

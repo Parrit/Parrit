@@ -11,39 +11,37 @@ Workspace.__set__('Space', SpaceMock);
 Workspace.__set__('PersonList', PersonListMock);
 
 describe('Workspace', function() {
-    var movePersonSpy = jasmine.createSpy();
-    var deletePersonSpy = jasmine.createSpy();
-
-    var props = {
-        people: [
-            {name:"Mike Wazowski"},
-            {name:"Sully"}
-        ],
-        spaces: [
-            {
-                name: "Space1",
-                people: [
-                    {
-                        name: "George"
-                    }
-                ]
-            },
-            {
-                name: "Ghost",
-                people: [
-                    {
-                        name: "Coast2Coast"
-                    }
-                ]
-            }
-        ],
-        movePerson: movePersonSpy,
-        deletePerson: deletePersonSpy,
-        deleteSpace: function(){}
-    };
-
+    var props;
     var workspace;
     beforeEach(function() {
+        props  = {
+            people: [
+                {name:"Mike Wazowski"},
+                {name:"Sully"}
+            ],
+            spaces: [
+                {
+                    name: "Space1",
+                    people: [
+                        {
+                            name: "George"
+                        }
+                    ]
+                },
+                {
+                    name: "Ghost",
+                    people: [
+                        {
+                            name: "Coast2Coast"
+                        }
+                    ]
+                }
+            ],
+            movePerson: jasmine.createSpy(),
+            deletePerson: jasmine.createSpy(),
+            deleteSpace: function(){}
+        };
+
         workspace = RenderComponent(Workspace, <Workspace {...props} />);
     });
 
@@ -165,7 +163,7 @@ describe('Workspace', function() {
             workspace.dropzoneOnDrop(event);
 
             expect(workspace.getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(movePersonSpy).toHaveBeenCalledWith(3, 9, 4);
+            expect(props.movePerson).toHaveBeenCalledWith(3, 9, 4);
         });
 
         it('set fromSpaceIndex to toSpaceIndex if the fromSpaceIndex is UNDEFINED', function() {
@@ -177,7 +175,7 @@ describe('Workspace', function() {
             workspace.dropzoneOnDrop(event);
 
             expect(workspace.getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(movePersonSpy).toHaveBeenCalledWith(9, 9, 4);
+            expect(props.movePerson).toHaveBeenCalledWith(9, 9, 4);
         });
 
         it('sets the workspace variables to undefined', function() {
@@ -221,7 +219,7 @@ describe('Workspace', function() {
             workspace.trashOnDrop(event);
 
             expect(workspace.getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(deletePersonSpy).toHaveBeenCalledWith(3, 4);
+            expect(props.deletePerson).toHaveBeenCalledWith(3, 4);
         });
 
         it('sets the workspace variables to undefined', function() {

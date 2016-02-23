@@ -12,22 +12,23 @@ Space.__set__('PersonList', PersonListMock);
 Space.__set__('DangerButton', DangerButtonMock);
 
 describe('Space', function() {
-    var props = {
-        name: "Space1",
-        people: [
-            {
-                name: "George"
-            },
-            {
-                name: "Hank Muchacho"
-            }
-        ],
-        index: 1,
-        deleteSpace: jasmine.createSpy('deleteSpaceSpy')
-    };
-
+    var props;
     var space;
     beforeEach(function() {
+        props  = {
+            name: "Space1",
+            people: [
+                {
+                    name: "George"
+                },
+                {
+                    name: "Hank Muchacho"
+                }
+            ],
+            index: 1,
+            deleteSpace: jasmine.createSpy('deleteSpaceSpy')
+        };
+
         space = RenderComponent(Space, <Space {...props} />);
     });
 

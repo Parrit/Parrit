@@ -13,20 +13,20 @@ NameForm.__set__('PrimaryButton', PrimaryButtonMock);
 NameForm.__set__('SuccessButton', SuccessButtonMock);
 
 describe('NameForm', function() {
-    var props = {
-        confirmFunction: jasmine.createSpy('newSpaceConfirmSpy'),
-        cancelFunction: function() {}
-    };
-
+    var props;
     var newSpaceForm;
-
-    var newSpaceFromElement;
+    var newSpaceFormElement;
     var nameInput;
     var confirmButton;
     var cancelButton;
     beforeEach(function() {
+        props  = {
+            confirmFunction: jasmine.createSpy('newSpaceConfirmSpy'),
+            cancelFunction: function() {}
+        };
+
         newSpaceForm = RenderComponent(NameForm, <NameForm {...props} />);
-        newSpaceFromElement = ReactDOM.findDOMNode(newSpaceForm);
+        newSpaceFormElement = ReactDOM.findDOMNode(newSpaceForm);
 
         nameInput = ReactTestUtils.findRenderedDOMComponentWithTag(newSpaceForm, 'input');
 

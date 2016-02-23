@@ -13,17 +13,18 @@ Dashboard.__set__('Modal', ModalMock);
 Dashboard.__set__('NameForm', NameFormMock);
 
 describe('Dashboard', function() {
-    var props = {
-        workspaceNames: ["Deathstar", "Chuck-e-Cheese"],
-        isNewWorkspaceModalOpen: false,
-        setNewWorkspaceModalOpen: jasmine.createSpy('newWorkspaceModalSpy'),
-        createWorkspace: jasmine.createSpy('createWorkspaceSpy')
-    };
-
+    var props;
     var dashboard;
     var newWorkspaceModal;
     var newWorkspaceForm;
     beforeEach(function() {
+        props = {
+            workspaceNames: ["Deathstar", "Chuck-e-Cheese"],
+            isNewWorkspaceModalOpen: false,
+            setNewWorkspaceModalOpen: jasmine.createSpy('newWorkspaceModalSpy'),
+            createWorkspace: jasmine.createSpy('createWorkspaceSpy')
+        };
+
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
         newWorkspaceModal = ReactTestUtils.findRenderedComponentWithType(dashboard, ModalMock);
