@@ -20,10 +20,8 @@ var App = React.createClass({
 	render: function() {
         var menuProps = {
             settings: this.props.settings,
-
             createPerson: this.props.createPerson,
             createSpace: this.props.createSpace,
-
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewSpaceModalOpen: this.props.setNewSpaceModalOpen
         };
@@ -31,7 +29,6 @@ var App = React.createClass({
         var workspaceProps = {
             people: this.props.data.workspace.people,
             spaces: this.props.data.workspace.spaces,
-
             movePerson: this.props.movePerson,
             deletePerson: this.props.deletePerson,
             deleteSpace: this.props.deleteSpace
@@ -40,7 +37,7 @@ var App = React.createClass({
 		return <div className="container-fluid">
             <div className="row content">
                 <div className="sidenav col-sm-3">
-                    <h1>Parrit</h1>
+                    <h1 className="workspace-name">{this.props.data.workspace.name}</h1>
                     <Menu {...menuProps}/>
                 </div>
                 <div className="workspace-wrapper col-sm-9">

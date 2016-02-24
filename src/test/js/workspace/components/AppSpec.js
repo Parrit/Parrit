@@ -16,6 +16,7 @@ describe('App', function() {
 
         data: {
             workspace: {
+                name: "The Best Around",
                 people: [],
                 spaces: [
                     {
@@ -43,6 +44,11 @@ describe('App', function() {
     var app;
     beforeEach(function() {
         app = RenderComponent(App, <App {...props} />);
+    });
+
+    it('displays the workspace name', function() {
+        var workspaceName = ReactTestUtils.findRenderedDOMComponentWithClass(app, "workspace-name");
+        expect(workspaceName.innerHTML).toBe("The Best Around");
     });
 
     it('has a configured Menu component as a child', function() {
