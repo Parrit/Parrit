@@ -12,7 +12,7 @@ describe('dataThunks', function() {
         postStateAndDoSpy = jasmine.createSpy('postStateAndDoSpy');
         loadWorkspaceCreatorSpy = jasmine.createSpy('loadWorkspaceCreatorSpy');
 
-        dataThunks.__set__('postStateAndDo', postStateAndDoSpy);
+        dataThunks.__set__('postWorkspaceAndDo', postStateAndDoSpy);
         dataThunks.__set__('loadWorkspaceCreator', loadWorkspaceCreatorSpy);
     });
 
@@ -28,7 +28,8 @@ describe('dataThunks', function() {
         });
 
         describe('when calling the returned function', function() {
-            var stateOfApp = { world: 'doomed' };
+            var workspaceToSave = {world: 'doomed'};
+            var stateOfApp = { data: { workspace: workspaceToSave } };
             var newWorkspaceData = {data: 'blarg'};
             var newWorkspaceDataAction = { type: 'LOAD_WORKSPACE', workspace: newWorkspaceData };
             beforeEach(function () {
@@ -44,7 +45,7 @@ describe('dataThunks', function() {
 
             it('calls postStateAndDo helper with correct arguments', function() {
                 expect(getStateSpy).toHaveBeenCalled();
-                expect(postStateAndDoSpy).toHaveBeenCalledWith(stateOfApp, jasmine.anything());
+                expect(postStateAndDoSpy).toHaveBeenCalledWith(workspaceToSave, jasmine.anything());
             });
 
             it('passes in a callback that will dispatch a loadWorkspace action', function() {

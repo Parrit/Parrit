@@ -9,18 +9,17 @@ describe('databaseHelpers', function() {
         jasmine.Ajax.uninstall();
     });
 
-    describe('#postStateAndDo', function () {
+    describe('#postWorkspaceAndDo', function () {
         var stubbedPost;
         var callbackSpy;
 
         var workspaceToSave = {MISSISSIPPI: "Anthony is more fun than that"};
-        var stateOfApp = {data: {workspace: workspaceToSave}};
 
         beforeEach(function () {
             stubbedPost = jasmine.Ajax.stubRequest('/api/workspace', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.postStateAndDo(stateOfApp, callbackSpy);
+            databaseHelpers.postWorkspaceAndDo(workspaceToSave, callbackSpy);
         });
 
         it('makes an Ajax call to post the workspace', function (done) {
@@ -66,7 +65,7 @@ describe('databaseHelpers', function() {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
                 expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/new');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                //TODO: Fix this when we send more than just a name to the backend
+                //TODO: Fix this when we send more than just a name to the backend (Only fails in testing)
                 //expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspaceNameToSave);
                 done();
             });
