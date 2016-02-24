@@ -1,18 +1,11 @@
-var databaseHelpers = require('shared/helpers/databaseHelpers.js');
+var { postStateAndDo } = require('shared/helpers/databaseHelpers.js');
+var { loadWorkspaceCreator } = require('workspace/actions/creators/dataCreators.js');
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {
         dispatch(action);
-        databaseHelpers.postStateAndDo(getState(), function(workspace) {
+        postStateAndDo(getState(), function(workspace) {
             dispatch(loadWorkspaceCreator(workspace));
         });
     }
-}
-
-// Helper Functions
-function loadWorkspaceCreator(workspace) {
-    return {
-        type: 'LOAD_WORKSPACE',
-        workspace: workspace
-    };
 }

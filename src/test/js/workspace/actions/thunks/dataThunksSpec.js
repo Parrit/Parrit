@@ -1,9 +1,22 @@
-var databaseHelpers = require('shared/helpers/databaseHelpers.js');
 var dataThunks = require('workspace/actions/thunks/dataThunks.js');
 
 describe('dataThunks', function() {
+    var thunk;
+    var dispatchSpy;
+    var getStateSpy;
+    var postStateAndDoSpy;
+    var loadWorkspaceCreatorSpy;
+    beforeEach(function setup() {
+        dispatchSpy = jasmine.createSpy('dispatchSpy');
+        getStateSpy = jasmine.createSpy('getStateSpy');
+        postStateAndDoSpy = jasmine.createSpy('postStateAndDoSpy');
+        loadWorkspaceCreatorSpy = jasmine.createSpy('loadWorkspaceCreatorSpy');
+
+        dataThunks.__set__('postStateAndDo', postStateAndDoSpy);
+        dataThunks.__set__('loadWorkspaceCreator', loadWorkspaceCreatorSpy);
+    });
+
     describe('#autoSaveThunk', function () {
-        var thunk;
         var action = { type: 'DELETE_INTERNET' };
 
         beforeEach(function() {
@@ -15,14 +28,14 @@ describe('dataThunks', function() {
         });
 
         describe('when calling the returned function', function() {
-            var dispatchSpy;
-            var postStateAndDoSpy;
-            var stateOfApp = {data: "glarb"};
+            var stateOfApp = { world: 'doomed' };
+            var newWorkspaceData = {data: 'blarg'};
+            var newWorkspaceDataAction = { type: 'LOAD_WORKSPACE', workspace: newWorkspaceData };
             beforeEach(function () {
-                dispatchSpy = jasmine.createSpy('CreatePersonDispatch');
-                postStateAndDoSpy = spyOn(databaseHelpers, 'postStateAndDo');
+                getStateSpy.and.returnValue(stateOfApp);
+                loadWorkspaceCreatorSpy.and.returnValue(newWorkspaceDataAction);
 
-                thunk(dispatchSpy, function () {return stateOfApp});
+                thunk(dispatchSpy, getStateSpy);
             });
 
             it('calls the dispatch function with the passed in action', function() {
@@ -30,13 +43,15 @@ describe('dataThunks', function() {
             });
 
             it('calls postStateAndDo helper with correct arguments', function() {
+                expect(getStateSpy).toHaveBeenCalled();
                 expect(postStateAndDoSpy).toHaveBeenCalledWith(stateOfApp, jasmine.anything());
             });
 
             it('passes in a callback that will dispatch a loadWorkspace action', function() {
                 var callback = postStateAndDoSpy.calls.mostRecent().args[1];
-                callback({data:"blarg"});
-                expect(dispatchSpy).toHaveBeenCalledWith({ type: 'LOAD_WORKSPACE', workspace: {data: 'blarg'} });
+                callback(newWorkspaceData);
+                expect(loadWorkspaceCreatorSpy).toHaveBeenCalledWith(newWorkspaceData);
+                expect(dispatchSpy).toHaveBeenCalledWith(newWorkspaceDataAction);
             });
         });
     });

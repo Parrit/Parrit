@@ -1,26 +1,26 @@
 var viewCreators = require('workspace/actions/creators/viewCreators.js');
 
 describe('viewCreators', function () {
-    describe('#setNewPersonModalOpen', function () {
+    describe('#setNewPersonModalOpenCreator', function () {
         it('returns the right action type', function () {
-            var action = viewCreators.setNewPersonModalOpen();
+            var action = viewCreators.setNewPersonModalOpenCreator();
             expect(action.type).toBe('SET_NEW_PERSON_MODAL_OPEN');
         });
 
         it('sets the new person modal open to be the passed in value', function () {
-            var action = viewCreators.setNewPersonModalOpen(true);
+            var action = viewCreators.setNewPersonModalOpenCreator(true);
             expect(action.isOpen).toBe(true);
         });
     });
 
-    describe('#setNewSpaceModalOpen', function () {
+    describe('#setNewSpaceModalOpenCreator', function () {
         it('returns the right action type', function () {
-            var action = viewCreators.setNewSpaceModalOpen();
+            var action = viewCreators.setNewSpaceModalOpenCreator();
             expect(action.type).toBe('SET_NEW_SPACE_MODAL_OPEN');
         });
 
         it('sets the new person modal open to be the passed in value', function () {
-            var action = viewCreators.setNewSpaceModalOpen(true);
+            var action = viewCreators.setNewSpaceModalOpenCreator(true);
             expect(action.isOpen).toBe(true);
         });
     });

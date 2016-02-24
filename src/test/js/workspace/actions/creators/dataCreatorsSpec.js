@@ -2,14 +2,8 @@ var dataCreators = require('workspace/actions/creators/dataCreators.js');
 
 describe('dataCreators', function () {
     var result;
-    var autoSaveThunkSpy;
-    var thunkResult = { thunkResult: 'Cowabunga' };
-    beforeEach(function setup() {
-        autoSaveThunkSpy = jasmine.createSpy('autoSaveThunk').and.returnValue(thunkResult);
-        dataCreators.__set__('dataThunks', {autoSaveThunk: autoSaveThunkSpy});
-    });
 
-    describe('#movePerson', function () {
+    describe('#movePersonCreator', function () {
         var expectedAction = {
             type: "MOVE_PERSON",
             fromSpaceIndex: 1,
@@ -18,57 +12,45 @@ describe('dataCreators', function () {
         };
 
         beforeEach(function() {
-            result = dataCreators.movePerson(1, 2, 3);
+            result = dataCreators.movePersonCreator(1, 2, 3);
         });
 
-        it('calls autoSaveThunk with the correct action', function () {
-            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
-        });
-
-        it('returns the result from autoSaveThunk', function () {
-            expect(result).toBe(thunkResult);
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
         });
     });
 
-    describe('#createPerson', function () {
+    describe('#createPersonCreator', function () {
         var expectedAction = {
             type: "CREATE_PERSON",
             name: "Dirk Dirkenson"
         };
 
         beforeEach(function() {
-            result = dataCreators.createPerson('Dirk Dirkenson');
+            result = dataCreators.createPersonCreator('Dirk Dirkenson');
         });
 
-        it('calls autoSaveThunk with the correct action', function () {
-            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
-        });
-
-        it('returns the result from autoSaveThunk', function () {
-            expect(result).toBe(thunkResult);
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
         });
     });
 
-    describe('#createSpace', function() {
+    describe('#createSpaceCreator', function() {
         var expectedAction = {
             type: 'CREATE_SPACE',
             name: 'A Bus Bench'
         };
 
         beforeEach(function() {
-            result = dataCreators.createSpace('A Bus Bench');
+            result = dataCreators.createSpaceCreator('A Bus Bench');
         });
 
-        it('calls autoSaveThunk with the correct action', function () {
-            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
-        });
-
-        it('returns the result from autoSaveThunk', function () {
-            expect(result).toBe(thunkResult);
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
         });
     });
 
-    describe('#deletePerson', function() {
+    describe('#deletePersonCreator', function() {
         var expectedAction = {
             type: 'DELETE_PERSON',
             spaceIndex: 1,
@@ -76,34 +58,41 @@ describe('dataCreators', function () {
         };
 
         beforeEach(function() {
-            result = dataCreators.deletePerson(1, 2);
+            result = dataCreators.deletePersonCreator(1, 2);
         });
 
-        it('calls autoSaveThunk with the correct action', function () {
-            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
-        });
-
-        it('returns the result from autoSaveThunk', function () {
-            expect(result).toBe(thunkResult);
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
         });
     });
 
-    describe('#deleteSpace', function() {
+    describe('#deleteSpaceCreator', function() {
         var expectedAction = {
             type: 'DELETE_SPACE',
             spaceIndex: 1
         };
 
         beforeEach(function() {
-            result = dataCreators.deleteSpace(1);
+            result = dataCreators.deleteSpaceCreator(1);
         });
 
-        it('calls autoSaveThunk with the correct action', function () {
-            expect(autoSaveThunkSpy).toHaveBeenCalledWith(expectedAction);
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
+        });
+    });
+
+    describe('#loadWorkspaceCreator', function() {
+        var expectedAction = {
+            type: 'LOAD_WORKSPACE',
+            workspace: {data: "Weeeee"}
+        };
+
+        beforeEach(function() {
+            result = dataCreators.loadWorkspaceCreator({data: "Weeeee"});
         });
 
-        it('returns the result from autoSaveThunk', function () {
-            expect(result).toBe(thunkResult);
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
         });
     });
 });
