@@ -1,7 +1,14 @@
-var dataActions = require('workspace/actions/dataActions.js');
-var dataThunks = require('workspace/actions/thunks/dataThunks.js');
+var dataCreators = require('workspace/actions/creators/dataCreators.js');
 
-describe('dataActions', function () {
+describe('dataCreators', function () {
+    var result;
+    var autoSaveThunkSpy;
+    var thunkResult = { thunkResult: 'Cowabunga' };
+    beforeEach(function setup() {
+        autoSaveThunkSpy = jasmine.createSpy('autoSaveThunk').and.returnValue(thunkResult);
+        dataCreators.__set__('dataThunks', {autoSaveThunk: autoSaveThunkSpy});
+    });
+
     describe('#movePerson', function () {
         var expectedAction = {
             type: "MOVE_PERSON",
@@ -10,12 +17,8 @@ describe('dataActions', function () {
             personIndex: 3
         };
 
-        var result;
-        var thunkResult = { thunkResult: 'Cowabunga' };
-        var autoSaveThunkSpy;
         beforeEach(function() {
-            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
-            result = dataActions.movePerson(1, 2, 3);
+            result = dataCreators.movePerson(1, 2, 3);
         });
 
         it('calls autoSaveThunk with the correct action', function () {
@@ -33,12 +36,8 @@ describe('dataActions', function () {
             name: "Dirk Dirkenson"
         };
 
-        var result;
-        var thunkResult = { thunkResult: 'Cowabunga' };
-        var autoSaveThunkSpy;
         beforeEach(function() {
-            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
-            result = dataActions.createPerson('Dirk Dirkenson');
+            result = dataCreators.createPerson('Dirk Dirkenson');
         });
 
         it('calls autoSaveThunk with the correct action', function () {
@@ -56,12 +55,8 @@ describe('dataActions', function () {
             name: 'A Bus Bench'
         };
 
-        var result;
-        var thunkResult = { thunkResult: 'Cowabunga' };
-        var autoSaveThunkSpy;
         beforeEach(function() {
-            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
-            result = dataActions.createSpace('A Bus Bench');
+            result = dataCreators.createSpace('A Bus Bench');
         });
 
         it('calls autoSaveThunk with the correct action', function () {
@@ -80,12 +75,8 @@ describe('dataActions', function () {
             personIndex: 2
         };
 
-        var result;
-        var thunkResult = { thunkResult: 'Cowabunga' };
-        var autoSaveThunkSpy;
         beforeEach(function() {
-            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
-            result = dataActions.deletePerson(1, 2);
+            result = dataCreators.deletePerson(1, 2);
         });
 
         it('calls autoSaveThunk with the correct action', function () {
@@ -103,12 +94,8 @@ describe('dataActions', function () {
             spaceIndex: 1
         };
 
-        var result;
-        var thunkResult = { thunkResult: 'Cowabunga' };
-        var autoSaveThunkSpy;
         beforeEach(function() {
-            autoSaveThunkSpy = spyOn(dataThunks, 'autoSaveThunk').and.returnValue(thunkResult);
-            result = dataActions.deleteSpace(1);
+            result = dataCreators.deleteSpace(1);
         });
 
         it('calls autoSaveThunk with the correct action', function () {

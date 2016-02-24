@@ -1,6 +1,6 @@
 var dataThunks = require('workspace/actions/thunks/dataThunks.js');
 
-function movePerson(fromSpaceIndex, toSpaceIndex, personIndex) {
+export function movePerson(fromSpaceIndex, toSpaceIndex, personIndex) {
     return dataThunks.autoSaveThunk({
         type: 'MOVE_PERSON',
         fromSpaceIndex: fromSpaceIndex,
@@ -9,21 +9,21 @@ function movePerson(fromSpaceIndex, toSpaceIndex, personIndex) {
     });
 }
 
-function createPerson(name) {
+export function createPerson(name) {
     return dataThunks.autoSaveThunk({
         type: 'CREATE_PERSON',
         name: name
     })
 }
 
-function createSpace(name) {
+export function createSpace(name) {
     return dataThunks.autoSaveThunk({
         type: 'CREATE_SPACE',
         name: name
     });
 }
 
-function deletePerson(spaceIndex, personIndex) {
+export function deletePerson(spaceIndex, personIndex) {
     return dataThunks.autoSaveThunk({
         type: 'DELETE_PERSON',
         spaceIndex: spaceIndex,
@@ -31,17 +31,9 @@ function deletePerson(spaceIndex, personIndex) {
     });
 }
 
-function deleteSpace(spaceIndex) {
+export function deleteSpace(spaceIndex) {
     return dataThunks.autoSaveThunk({
         type: 'DELETE_SPACE',
         spaceIndex: spaceIndex
     });
 }
-
-module.exports = {
-    movePerson: movePerson,
-    createPerson: createPerson,
-    createSpace: createSpace,
-    deletePerson: deletePerson,
-    deleteSpace: deleteSpace
-};

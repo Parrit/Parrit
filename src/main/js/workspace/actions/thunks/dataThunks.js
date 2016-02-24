@@ -1,6 +1,6 @@
 var databaseHelpers = require('shared/helpers/databaseHelpers.js');
 
-function autoSaveThunk(action) {
+export function autoSaveThunk(action) {
     return function (dispatch, getState) {
         dispatch(action);
         databaseHelpers.postStateAndDo(getState(), function(workspace) {
@@ -8,10 +8,6 @@ function autoSaveThunk(action) {
         });
     }
 }
-
-module.exports = {
-    autoSaveThunk: autoSaveThunk
-};
 
 // Helper Functions
 function loadWorkspaceCreator(workspace) {

@@ -1,1 +1,6 @@
-module.exports = Object.assign({}, require('workspace/actions/dataActions.js'), require('workspace/actions/viewActions.js'));
+module.exports = Object.assign(
+    {},
+    require('workspace/actions/creators/dataCreators.js'),
+    require('workspace/actions/creators/viewCreators.js')
+);
+

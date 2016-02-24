@@ -11,7 +11,7 @@ var Dashboard = React.createClass({
         workspaceNames: React.PropTypes.array.isRequired,
         isNewWorkspaceModalOpen: React.PropTypes.bool.isRequired,
         setNewWorkspaceModalOpen: React.PropTypes.func.isRequired,
-        createWorkspace: React.PropTypes.func.isRequired
+        createWorkspaceThunk: React.PropTypes.func.isRequired
     },
 
     render: function() {
@@ -29,7 +29,7 @@ var Dashboard = React.createClass({
     },
 
     createWorkspaceWithName: function(name) {
-        this.props.createWorkspace(name);
+        this.props.createWorkspaceThunk(name);
         this.closeNewWorkspaceModal();
     },
 

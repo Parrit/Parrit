@@ -1,6 +1,20 @@
 var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
 
+var dispatchSpy;
+var postNewWorkspaceAndDoSpy;
+var updateWorkspaceNameListSpy;
+
 describe('dashboardThunks', function() {
+
+    beforeEach(function setup() {
+        dispatchSpy = jasmine.createSpy('CreateWorkspaceDispatch');
+        postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDo');
+        updateWorkspaceNameListSpy = jasmine.createSpy('updateWorkspaceNameList');
+
+        dashboardThunks.__set__('databaseHelpers', {postNewWorkspaceAndDo: postNewWorkspaceAndDoSpy});
+        dashboardThunks.__set__('updateWorkspaceNameList', updateWorkspaceNameListSpy);
+    });
+
     describe('#createWorkspaceThunk', function () {
         var thunk;
 
@@ -16,17 +30,8 @@ describe('dashboardThunks', function() {
             var newWorkspaceNames = {data: 'blarg'};
             var updateWorkspaceNamesAction = {workspaceNames: newWorkspaceNames};
 
-            var dispatchSpy;
-            var postNewWorkspaceAndDoSpy;
-            var updateWorkspaceNameListSpy;
             beforeEach(function () {
-                dispatchSpy = jasmine.createSpy('CreateWorkspaceDispatch');
-                postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDo');
-                dashboardThunks.__set__('databaseHelpers', {
-                    postNewWorkspaceAndDo: postNewWorkspaceAndDoSpy
-                });
-                updateWorkspaceNameListSpy = jasmine.createSpy('updateWorkspaceNameList').and.returnValue(updateWorkspaceNamesAction);
-                dashboardThunks.__set__('updateWorkspaceNameList', updateWorkspaceNameListSpy);
+                updateWorkspaceNameListSpy.and.returnValue(updateWorkspaceNamesAction);
 
                 thunk(dispatchSpy);
             });
