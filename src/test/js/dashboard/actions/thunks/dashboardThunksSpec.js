@@ -1,18 +1,17 @@
 var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
 
-var dispatchSpy;
-var postNewWorkspaceAndDoSpy;
-var updateWorkspaceNameListSpy;
-
 describe('dashboardThunks', function() {
 
+    var dispatchSpy;
+    var postNewWorkspaceAndDoSpy;
+    var updateWorkspaceNameListCreatorSpy;
     beforeEach(function setup() {
-        dispatchSpy = jasmine.createSpy('CreateWorkspaceDispatch');
-        postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDo');
-        updateWorkspaceNameListSpy = jasmine.createSpy('updateWorkspaceNameList');
+        dispatchSpy = jasmine.createSpy('dispatchSpy');
+        postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDoSpy');
+        updateWorkspaceNameListCreatorSpy = jasmine.createSpy('updateWorkspaceNameListCreatorSpy');
 
         dashboardThunks.__set__('databaseHelpers', {postNewWorkspaceAndDo: postNewWorkspaceAndDoSpy});
-        dashboardThunks.__set__('updateWorkspaceNameList', updateWorkspaceNameListSpy);
+        dashboardThunks.__set__('updateWorkspaceNameListCreator', updateWorkspaceNameListCreatorSpy);
     });
 
     describe('#createWorkspaceThunk', function () {
@@ -31,7 +30,7 @@ describe('dashboardThunks', function() {
             var updateWorkspaceNamesAction = {workspaceNames: newWorkspaceNames};
 
             beforeEach(function () {
-                updateWorkspaceNameListSpy.and.returnValue(updateWorkspaceNamesAction);
+                updateWorkspaceNameListCreatorSpy.and.returnValue(updateWorkspaceNamesAction);
 
                 thunk(dispatchSpy);
             });
@@ -44,7 +43,7 @@ describe('dashboardThunks', function() {
                 var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[1];
                 callback(newWorkspaceNames);
 
-                expect(updateWorkspaceNameListSpy).toHaveBeenCalledWith(newWorkspaceNames);
+                expect(updateWorkspaceNameListCreatorSpy).toHaveBeenCalledWith(newWorkspaceNames);
                 expect(dispatchSpy).toHaveBeenCalledWith(updateWorkspaceNamesAction);
             });
         });

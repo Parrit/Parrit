@@ -22,7 +22,7 @@ describe('Dashboard', function() {
             workspaceNames: ["Deathstar", "Chuck-e-Cheese"],
             isNewWorkspaceModalOpen: false,
             setNewWorkspaceModalOpen: jasmine.createSpy('newWorkspaceModalSpy'),
-            createWorkspaceThunk: jasmine.createSpy('createWorkspaceSpy')
+            createWorkspace: jasmine.createSpy('createWorkspaceSpy')
         };
 
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
@@ -57,7 +57,7 @@ describe('Dashboard', function() {
         describe('#createWorkspaceWithName', function() {
             it('should call the createWorkspace action with the passed in name', function() {
                 dashboard.createWorkspaceWithName('Alaska');
-                expect(props.createWorkspaceThunk).toHaveBeenCalledWith('Alaska');
+                expect(props.createWorkspace).toHaveBeenCalledWith('Alaska');
             });
 
             it('should close the modal', function() {
