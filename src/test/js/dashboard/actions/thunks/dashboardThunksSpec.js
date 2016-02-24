@@ -1,7 +1,7 @@
 var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
 
 describe('dashboardThunks', function() {
-
+    var thunk;
     var dispatchSpy;
     var postNewWorkspaceAndDoSpy;
     var updateWorkspaceNameListCreatorSpy;
@@ -10,13 +10,11 @@ describe('dashboardThunks', function() {
         postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDoSpy');
         updateWorkspaceNameListCreatorSpy = jasmine.createSpy('updateWorkspaceNameListCreatorSpy');
 
-        dashboardThunks.__set__('databaseHelpers', {postNewWorkspaceAndDo: postNewWorkspaceAndDoSpy});
+        dashboardThunks.__set__('postNewWorkspaceAndDo', postNewWorkspaceAndDoSpy);
         dashboardThunks.__set__('updateWorkspaceNameListCreator', updateWorkspaceNameListCreatorSpy);
     });
 
     describe('#createWorkspaceThunk', function () {
-        var thunk;
-
         beforeEach(function() {
             thunk = dashboardThunks.createWorkspaceThunk("New Workspace");
         });
