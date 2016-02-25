@@ -1,7 +1,7 @@
 package com.parrit.controllers;
 
-import com.parrit.entities.*;
-import com.parrit.repositories.*;
+import com.parrit.entities.Workspace;
+import com.parrit.repositories.WorkspaceRepository;
 import com.parrit.services.PairingHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,13 +29,13 @@ public class WorkspaceController {
     //******  Views  ******//
     //*********************//
 
-    @RequestMapping(path = "/", method = RequestMethod.GET, consumes = {"text/html"})
+    @RequestMapping(path = "/", method = RequestMethod.GET)
     public String getWorkspaceNames(Model model) {
         model.addAttribute("workspaceNames", workspaceRepository.getAllWorkspaceNames());
         return "dashboard";
     }
 
-    @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET, consumes = {"text/html"})
+    @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET)
     public String getWorkspace(@PathVariable String workspaceName, Model model) {
         Workspace workspace = workspaceRepository.findByName(workspaceName);
         model.addAttribute("workspace", workspace);
