@@ -29,13 +29,13 @@ public class WorkspaceController {
     //******  Views  ******//
     //*********************//
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "/", method = RequestMethod.GET, consumes = {"text/html"})
     public String getWorkspaceNames(Model model) {
         model.addAttribute("workspaceNames", workspaceRepository.getAllWorkspaceNames());
         return "dashboard";
     }
 
-    @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET, consumes = {"text/html"})
     public String getWorkspace(@PathVariable String workspaceName, Model model) {
         Workspace workspace = workspaceRepository.findByName(workspaceName);
         model.addAttribute("workspace", workspace);
@@ -65,5 +65,11 @@ public class WorkspaceController {
     @ResponseBody
     public void savePairing(@RequestBody Workspace workspace) {
         pairingHistoryService.savePairing(workspace);
+    }
+
+    @RequestMapping(path = "/api/workspace/delete/{id}", method = RequestMethod.POST, consumes = {"application/json"})
+    @ResponseBody
+    public void delete(@PathVariable long id) {
+        workspaceRepository.delete(id);
     }
 }
