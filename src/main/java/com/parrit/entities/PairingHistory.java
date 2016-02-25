@@ -10,13 +10,11 @@ public class PairingHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "person_one_id")
-    private Person personOne;
+    private long workspaceId;
 
-    @ManyToOne
-    @JoinColumn(name = "person_two_id")
-    private Person personTwo;
+    private long personOneId;
+
+    private long personTwoId;
 
     private Timestamp timestamp;
 
@@ -30,20 +28,28 @@ public class PairingHistory {
         this.id = id;
     }
 
-    public Person getPersonOne() {
-        return personOne;
+    public long getWorkspaceId() {
+        return workspaceId;
     }
 
-    public void setPersonOne(Person personOne) {
-        this.personOne = personOne;
+    public void setWorkspaceId(long workspaceId) {
+        this.workspaceId = workspaceId;
     }
 
-    public Person getPersonTwo() {
-        return personTwo;
+    public long getPersonOneId() {
+        return personOneId;
     }
 
-    public void setPersonTwo(Person personTwo) {
-        this.personTwo = personTwo;
+    public void setPersonOneId(long personOneId) {
+        this.personOneId = personOneId;
+    }
+
+    public long getPersonTwoId() {
+        return personTwoId;
+    }
+
+    public void setPersonTwoId(long personTwoId) {
+        this.personTwoId = personTwoId;
     }
 
     public Timestamp getTimestamp() {
@@ -70,9 +76,10 @@ public class PairingHistory {
         PairingHistory that = (PairingHistory) o;
 
         if (id != that.id) return false;
+        if (workspaceId != that.workspaceId) return false;
+        if (personOneId != that.personOneId) return false;
+        if (personTwoId != that.personTwoId) return false;
         if (groupId != that.groupId) return false;
-        if (personOne != null ? !personOne.equals(that.personOne) : that.personOne != null) return false;
-        if (personTwo != null ? !personTwo.equals(that.personTwo) : that.personTwo != null) return false;
         return timestamp != null ? timestamp.equals(that.timestamp) : that.timestamp == null;
 
     }
@@ -81,8 +88,9 @@ public class PairingHistory {
     public String toString() {
         return "PairingHistory{" +
                 "id=" + id +
-                ", personOne=" + personOne +
-                ", personTwo=" + personTwo +
+                ", workspaceId=" + workspaceId +
+                ", personOneId=" + personOneId +
+                ", personTwoId=" + personTwoId +
                 ", timestamp=" + timestamp +
                 ", groupId=" + groupId +
                 '}';

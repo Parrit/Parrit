@@ -34,10 +34,11 @@ public class PairingHistoryService {
 
                 for(int j=i+1; j<people.size(); j++) {
                     PairingHistory pairingHistory = new PairingHistory();
-                    pairingHistory.setPersonOne(currentPerson);
-                    pairingHistory.setPersonTwo(people.get(j));
-                    pairingHistory.setGroupId(groupId);
+                    pairingHistory.setWorkspaceId(workspace.getId());
+                    pairingHistory.setPersonOneId(currentPerson.getId());
+                    pairingHistory.setPersonTwoId(people.get(j).getId());
                     pairingHistory.setTimestamp(currentTimeProvider.getCurrentTime());
+                    pairingHistory.setGroupId(groupId);
                     pairingHistoryRepository.save(pairingHistory);
                 }
 
