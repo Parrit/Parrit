@@ -25,7 +25,7 @@ public class PairingHistoryService {
     }
 
     public void savePairing(Workspace workspace) {
-        int groupId = 1;
+        Long groupId = 1L;
         for(Space space : workspace.getSpaces()) {
             List<Person> people = space.getPeople();
 
@@ -34,9 +34,9 @@ public class PairingHistoryService {
 
                 for(int j=i+1; j<people.size(); j++) {
                     PairingHistory pairingHistory = new PairingHistory();
-                    pairingHistory.setWorkspaceId(workspace.getId());
-                    pairingHistory.setPersonOneId(currentPerson.getId());
-                    pairingHistory.setPersonTwoId(people.get(j).getId());
+                    pairingHistory.setWorkspace(workspace);
+                    pairingHistory.setPersonOne(currentPerson);
+                    pairingHistory.setPersonTwo(people.get(j));
                     pairingHistory.setTimestamp(currentTimeProvider.getCurrentTime());
                     pairingHistory.setGroupId(groupId);
                     pairingHistoryRepository.save(pairingHistory);

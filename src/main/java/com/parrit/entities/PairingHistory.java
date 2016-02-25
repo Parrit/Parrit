@@ -10,11 +10,17 @@ public class PairingHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long workspaceId;
+    @ManyToOne(targetEntity = Workspace.class, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Workspace workspace;
 
-    private long personOneId;
+    @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Person personOne;
 
-    private long personTwoId;
+    @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Person personTwo;
 
     private Timestamp timestamp;
 
@@ -28,28 +34,28 @@ public class PairingHistory {
         this.id = id;
     }
 
-    public long getWorkspaceId() {
-        return workspaceId;
+    public Workspace getWorkspace() {
+        return workspace;
     }
 
-    public void setWorkspaceId(long workspaceId) {
-        this.workspaceId = workspaceId;
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
     }
 
-    public long getPersonOneId() {
-        return personOneId;
+    public Person getPersonOne() {
+        return personOne;
     }
 
-    public void setPersonOneId(long personOneId) {
-        this.personOneId = personOneId;
+    public void setPersonOne(Person personOne) {
+        this.personOne = personOne;
     }
 
-    public long getPersonTwoId() {
-        return personTwoId;
+    public Person getPersonTwo() {
+        return personTwo;
     }
 
-    public void setPersonTwoId(long personTwoId) {
-        this.personTwoId = personTwoId;
+    public void setPersonTwo(Person personTwo) {
+        this.personTwo = personTwo;
     }
 
     public Timestamp getTimestamp() {
@@ -76,10 +82,10 @@ public class PairingHistory {
         PairingHistory that = (PairingHistory) o;
 
         if (id != that.id) return false;
-        if (workspaceId != that.workspaceId) return false;
-        if (personOneId != that.personOneId) return false;
-        if (personTwoId != that.personTwoId) return false;
         if (groupId != that.groupId) return false;
+        if (workspace != null ? !workspace.equals(that.workspace) : that.workspace != null) return false;
+        if (personOne != null ? !personOne.equals(that.personOne) : that.personOne != null) return false;
+        if (personTwo != null ? !personTwo.equals(that.personTwo) : that.personTwo != null) return false;
         return timestamp != null ? timestamp.equals(that.timestamp) : that.timestamp == null;
 
     }
@@ -88,9 +94,9 @@ public class PairingHistory {
     public String toString() {
         return "PairingHistory{" +
                 "id=" + id +
-                ", workspaceId=" + workspaceId +
-                ", personOneId=" + personOneId +
-                ", personTwoId=" + personTwoId +
+                ", workspace=" + workspace +
+                ", personOne=" + personOne +
+                ", personTwo=" + personTwo +
                 ", timestamp=" + timestamp +
                 ", groupId=" + groupId +
                 '}';

@@ -63,9 +63,9 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         pairingHistoryService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory = new PairingHistory();
-        expectedPairingHistory.setWorkspaceId(7L);
-        expectedPairingHistory.setPersonOneId(p1.getId());
-        expectedPairingHistory.setPersonTwoId(p2.getId());
+        expectedPairingHistory.setWorkspace(workspace);
+        expectedPairingHistory.setPersonOne(p1);
+        expectedPairingHistory.setPersonTwo(p2);
         expectedPairingHistory.setTimestamp(currentTime);
         expectedPairingHistory.setGroupId(1L);
 
@@ -109,16 +109,16 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         pairingHistoryService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
-        expectedPairingHistory1.setWorkspaceId(7L);
-        expectedPairingHistory1.setPersonOneId(p1.getId());
-        expectedPairingHistory1.setPersonTwoId(p2.getId());
+        expectedPairingHistory1.setWorkspace(workspace);
+        expectedPairingHistory1.setPersonOne(p1);
+        expectedPairingHistory1.setPersonTwo(p2);
         expectedPairingHistory1.setTimestamp(currentTime);
         expectedPairingHistory1.setGroupId(1L);
 
         PairingHistory expectedPairingHistory2 = new PairingHistory();
-        expectedPairingHistory2.setWorkspaceId(7L);
-        expectedPairingHistory2.setPersonOneId(p3.getId());
-        expectedPairingHistory2.setPersonTwoId(p4.getId());
+        expectedPairingHistory2.setWorkspace(workspace);
+        expectedPairingHistory2.setPersonOne(p3);
+        expectedPairingHistory2.setPersonTwo(p4);
         expectedPairingHistory2.setTimestamp(currentTime);
         expectedPairingHistory2.setGroupId(2L);
 
@@ -154,23 +154,23 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         pairingHistoryService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
-        expectedPairingHistory1.setWorkspaceId(7L);
-        expectedPairingHistory1.setPersonOneId(p1.getId());
-        expectedPairingHistory1.setPersonTwoId(p2.getId());
+        expectedPairingHistory1.setWorkspace(workspace);
+        expectedPairingHistory1.setPersonOne(p1);
+        expectedPairingHistory1.setPersonTwo(p2);
         expectedPairingHistory1.setTimestamp(currentTime);
         expectedPairingHistory1.setGroupId(1L);
 
         PairingHistory expectedPairingHistory2 = new PairingHistory();
-        expectedPairingHistory2.setWorkspaceId(7L);
-        expectedPairingHistory2.setPersonOneId(p1.getId());
-        expectedPairingHistory2.setPersonTwoId(p3.getId());
+        expectedPairingHistory2.setWorkspace(workspace);
+        expectedPairingHistory2.setPersonOne(p1);
+        expectedPairingHistory2.setPersonTwo(p3);
         expectedPairingHistory2.setTimestamp(currentTime);
         expectedPairingHistory2.setGroupId(1L);
 
         PairingHistory expectedPairingHistory3 = new PairingHistory();
-        expectedPairingHistory3.setWorkspaceId(7L);
-        expectedPairingHistory3.setPersonOneId(p2.getId());
-        expectedPairingHistory3.setPersonTwoId(p3.getId());
+        expectedPairingHistory3.setWorkspace(workspace);
+        expectedPairingHistory3.setPersonOne(p2);
+        expectedPairingHistory3.setPersonTwo(p3);
         expectedPairingHistory3.setTimestamp(currentTime);
         expectedPairingHistory3.setGroupId(1L);
 
