@@ -5,27 +5,37 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Space;
 import com.parrit.repositories.PairingHistoryRepository;
 import com.parrit.support.MockitoTestBase;
+import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PairingHistoryServiceTest extends MockitoTestBase {
 
     @Mock
     PairingHistoryRepository mockPairingHistoryRepository;
 
+    @Mock
+    CurrentTimeProvider mockCurrentTimeProvider;
+
     PairingHistoryService pairingHistoryService;
+
+    Timestamp currentTime = new Timestamp(1456364985548L);
 
     @Before
     public void setup() {
-        pairingHistoryService = new PairingHistoryService(mockPairingHistoryRepository);
+        pairingHistoryService = new PairingHistoryService(mockPairingHistoryRepository, mockCurrentTimeProvider);
+
+        when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(currentTime);
     }
 
     @Test
@@ -50,7 +60,7 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         PairingHistory expectedPairingHistory = new PairingHistory();
         expectedPairingHistory.setPersonOne(p1);
         expectedPairingHistory.setPersonTwo(p2);
-        expectedPairingHistory.setTimestamp(null);
+        expectedPairingHistory.setTimestamp(currentTime);
         expectedPairingHistory.setGroupId(1L);
 
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
@@ -91,13 +101,13 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setPersonOne(p1);
         expectedPairingHistory1.setPersonTwo(p2);
-        expectedPairingHistory1.setTimestamp(null);
+        expectedPairingHistory1.setTimestamp(currentTime);
         expectedPairingHistory1.setGroupId(1L);
 
         PairingHistory expectedPairingHistory2 = new PairingHistory();
         expectedPairingHistory2.setPersonOne(p3);
         expectedPairingHistory2.setPersonTwo(p4);
-        expectedPairingHistory2.setTimestamp(null);
+        expectedPairingHistory2.setTimestamp(currentTime);
         expectedPairingHistory2.setGroupId(2L);
 
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
@@ -130,19 +140,19 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setPersonOne(p1);
         expectedPairingHistory1.setPersonTwo(p2);
-        expectedPairingHistory1.setTimestamp(null);
+        expectedPairingHistory1.setTimestamp(currentTime);
         expectedPairingHistory1.setGroupId(1L);
 
         PairingHistory expectedPairingHistory2 = new PairingHistory();
         expectedPairingHistory2.setPersonOne(p1);
         expectedPairingHistory2.setPersonTwo(p3);
-        expectedPairingHistory2.setTimestamp(null);
+        expectedPairingHistory2.setTimestamp(currentTime);
         expectedPairingHistory2.setGroupId(1L);
 
         PairingHistory expectedPairingHistory3 = new PairingHistory();
         expectedPairingHistory3.setPersonOne(p2);
         expectedPairingHistory3.setPersonTwo(p3);
-        expectedPairingHistory3.setTimestamp(null);
+        expectedPairingHistory3.setTimestamp(currentTime);
         expectedPairingHistory3.setGroupId(1L);
 
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));

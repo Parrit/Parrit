@@ -4,6 +4,7 @@ import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Space;
 import com.parrit.repositories.PairingHistoryRepository;
+import com.parrit.utilities.CurrentTimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,13 @@ import java.util.List;
 public class PairingHistoryService {
 
     PairingHistoryRepository pairingHistoryRepository;
+    CurrentTimeProvider currentTimeProvider;
 
     @Autowired
-    public PairingHistoryService(PairingHistoryRepository pairingHistoryRepository) {
+    public PairingHistoryService(PairingHistoryRepository pairingHistoryRepository,
+                                 CurrentTimeProvider currentTimeProvider) {
         this.pairingHistoryRepository = pairingHistoryRepository;
+        this.currentTimeProvider = currentTimeProvider;
     }
 
     public void savePairing(Collection<Space> spaces) {
@@ -34,7 +38,7 @@ public class PairingHistoryService {
                     pairingHistory.setPersonOne(currentPerson);
                     pairingHistory.setPersonTwo(people.get(j));
                     pairingHistory.setGroupId(groupId);
-                    pairingHistory.setTimestamp(null);
+                    pairingHistory.setTimestamp(currentTimeProvider.getCurrentTime());
                     pairingHistoryRepository.save(pairingHistory);
                 }
 
