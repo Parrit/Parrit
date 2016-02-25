@@ -21,11 +21,14 @@ describe('Menu', function() {
     var newSpaceForm;
     beforeEach(function() {
         props  = {
-            settings: {isNewPersonModalOpen: false},
-            createPerson: jasmine.createSpy(),
-            createSpace: jasmine.createSpy(),
-            setNewPersonModalOpen: jasmine.createSpy(),
-            setNewSpaceModalOpen: jasmine.createSpy()
+            settings: {
+                isNewPersonModalOpen: false
+            },
+            createPerson: jasmine.createSpy('createPersonSpy'),
+            createSpace: jasmine.createSpy('createSpaceSpy'),
+            savePairing: jasmine.createSpy('savePairingSpy'),
+            setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
+            setNewSpaceModalOpen: jasmine.createSpy('setNewSpaceModalOpenSpy')
         };
 
         menu = RenderComponent(Menu, <Menu {...props} />);
@@ -39,11 +42,15 @@ describe('Menu', function() {
     });
 
     it('has button workspace.components as children', function() {
-        var blueButtons = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
+        var primaryButtons = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
 
-        expect(blueButtons.length).toBe(2);
-        expect(blueButtons[0].props.clickFunction).toBe(menu.openNewPersonModal, "Create person callback not passed");
-        expect(blueButtons[1].props.clickFunction).toBe(menu.openNewSpaceModal, "Create space callback not passed");
+        expect(primaryButtons.length).toBe(3);
+        expect(primaryButtons[0].props.name).toBe("Add Person");
+        expect(primaryButtons[0].props.clickFunction).toBe(menu.openNewPersonModal);
+        expect(primaryButtons[1].props.name).toBe("Add Space");
+        expect(primaryButtons[1].props.clickFunction).toBe(menu.openNewSpaceModal);
+        expect(primaryButtons[2].props.name).toBe("Lock in Pairing");
+        expect(primaryButtons[2].props.clickFunction).toBe(props.savePairing);
     });
 
     describe('newPersonModal', function() {

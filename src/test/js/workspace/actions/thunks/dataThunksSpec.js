@@ -5,15 +5,21 @@ describe('dataThunks', function() {
     var dispatchSpy;
     var getStateSpy;
     var postStateAndDoSpy;
+    var postWorkspacePairingAndDoSpy;
     var loadWorkspaceCreatorSpy;
+    var alertSpy;
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
         postStateAndDoSpy = jasmine.createSpy('postStateAndDoSpy');
+        postWorkspacePairingAndDoSpy = jasmine.createSpy('postWorkspacePairingAndDoSpy');
         loadWorkspaceCreatorSpy = jasmine.createSpy('loadWorkspaceCreatorSpy');
+        alertSpy = jasmine.createSpy('alertSpy');
 
         dataThunks.__set__('postWorkspaceAndDo', postStateAndDoSpy);
+        dataThunks.__set__('postWorkspacePairingAndDo', postWorkspacePairingAndDoSpy);
         dataThunks.__set__('loadWorkspaceCreator', loadWorkspaceCreatorSpy);
+        dataThunks.__set__('alert', alertSpy);
     });
 
     describe('#autoSaveThunk', function () {
@@ -51,8 +57,45 @@ describe('dataThunks', function() {
             it('passes in a callback that will dispatch a loadWorkspace action', function() {
                 var callback = postStateAndDoSpy.calls.mostRecent().args[1];
                 callback(newWorkspaceData);
+
                 expect(loadWorkspaceCreatorSpy).toHaveBeenCalledWith(newWorkspaceData);
                 expect(dispatchSpy).toHaveBeenCalledWith(newWorkspaceDataAction);
+            });
+        });
+    });
+
+    describe('#savePairingThunk', function () {
+        beforeEach(function() {
+            thunk = dataThunks.savePairingThunk();
+        });
+
+        it('returns a function', function() {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', function() {
+            var workspacePairing = { data: "le stuff" };
+            var stateOfApp = { data: { workspace: workspacePairing } };
+            beforeEach(function () {
+                getStateSpy.and.returnValue(stateOfApp);
+
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('does not call the dispatch function', function() {
+                expect(dispatchSpy).not.toHaveBeenCalled();
+            });
+
+            it('calls postWorkspacePairingAndDo helper with correct arguments', function() {
+                expect(getStateSpy).toHaveBeenCalled();
+                expect(postWorkspacePairingAndDoSpy).toHaveBeenCalledWith(workspacePairing, jasmine.anything());
+            });
+
+            it('passes in a callback that will alert to the browser', function() {
+                var callback = postWorkspacePairingAndDoSpy.calls.mostRecent().args[1];
+                callback();
+
+                expect(alertSpy).toHaveBeenCalledWith("Successfully Saved Pairing!");
             });
         });
     });

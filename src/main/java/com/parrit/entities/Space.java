@@ -2,6 +2,7 @@ package com.parrit.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Space {
@@ -12,7 +13,7 @@ public class Space {
 
     @OneToMany(targetEntity = Person.class)
     @JoinColumn(name="space_id")
-    private Collection<Person> people;
+    private List<Person> people;
 
     private String name;
 
@@ -30,11 +31,11 @@ public class Space {
         this.id = id;
     }
 
-    public Collection<Person> getPeople() {
+    public List<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(Collection<Person> people) {
+    public void setPeople(List<Person> people) {
         this.people = people;
     }
 

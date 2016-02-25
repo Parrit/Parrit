@@ -16,7 +16,15 @@ function postNewWorkspaceAndDo(workspaceName, callback) {
         })
 }
 
+function postWorkspacePairingAndDo(workspacePairing, callback) {
+    Axios.post('/api/workspace/pairing', workspacePairing)
+        .then(function (response) {
+            callback(response.data);
+        })
+}
+
 module.exports = {
     postWorkspaceAndDo,
-    postNewWorkspaceAndDo
+    postNewWorkspaceAndDo,
+    postWorkspacePairingAndDo
 };

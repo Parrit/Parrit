@@ -8,6 +8,7 @@ var App = React.createClass({
         settings: React.PropTypes.object.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
+        savePairing: React.PropTypes.func.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewSpaceModalOpen: React.PropTypes.func.isRequired,
 
@@ -22,6 +23,7 @@ var App = React.createClass({
             settings: this.props.settings,
             createPerson: this.props.createPerson,
             createSpace: this.props.createSpace,
+            savePairing: this.props.savePairing,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewSpaceModalOpen: this.props.setNewSpaceModalOpen
         };

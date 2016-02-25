@@ -1,7 +1,6 @@
 package com.parrit.support;
 
 import org.junit.Before;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,8 +16,7 @@ public class ControllerTestBase extends SpringTestBase {
     private WebApplicationContext context;
 
     @Before
-    public void setUpBase() {
+    public void setUpControllerBase() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        MockitoAnnotations.initMocks(this);
     }
 }

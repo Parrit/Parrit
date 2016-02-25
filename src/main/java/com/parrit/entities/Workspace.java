@@ -2,6 +2,7 @@ package com.parrit.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Workspace {
@@ -15,11 +16,11 @@ public class Workspace {
 
     @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="workspace_id")
-    private Collection<Space> spaces;
+    private List<Space> spaces;
 
     @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL)
     @JoinColumn(name="workspace_id")
-    private Collection<Person> people;
+    private List<Person> people;
 
     public long getId() {
         return id;
@@ -37,19 +38,19 @@ public class Workspace {
         this.name = name;
     }
 
-    public Collection<Space> getSpaces() {
+    public List<Space> getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(Collection<Space> spaces) {
+    public void setSpaces(List<Space> spaces) {
         this.spaces = spaces;
     }
 
-    public Collection<Person> getPeople() {
+    public List<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(Collection<Person> people) {
+    public void setPeople(List<Person> people) {
         this.people = people;
     }
 

@@ -36,6 +36,7 @@ describe('App', function() {
         createSpace: function(){},
         deletePerson: function(){},
         deleteSpace: function(){},
+        savePairing: function(){},
 
         setNewPersonModalOpen: function(){},
         setNewSpaceModalOpen: function(){}
@@ -58,6 +59,7 @@ describe('App', function() {
         expect(menuComponent.props.settings).toBe(props.settings, "No settings passed to menu");
         expect(menuComponent.props.createPerson).toBe(props.createPerson, "No createPerson passed to menu");
         expect(menuComponent.props.createSpace).toBe(props.createSpace, "No createSpace passed to menu");
+        expect(menuComponent.props.savePairing).toBe(props.savePairing, "No savePairing passed to menu");
 
         expect(menuComponent.props.setNewPersonModalOpen).toBe(props.setNewPersonModalOpen, "No setNewPersonModalOpen passed to menu");
         expect(menuComponent.props.setNewSpaceModalOpen).toBe(props.setNewSpaceModalOpen, "No setNewSpaceModalOpen passed to menu");

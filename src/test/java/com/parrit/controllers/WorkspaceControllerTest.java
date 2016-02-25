@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
+import com.parrit.services.PairingHistoryService;
 import com.parrit.support.ControllerTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +24,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Mock
     WorkspaceRepository mockWorkspaceRepository;
+
+    @Mock
+    PairingHistoryService mockPairingHistoryService;
 
     @Autowired
     @InjectMocks
@@ -37,7 +42,9 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     Workspace exampleWorkspace1;
     Workspace exampleWorkspace2;
     String exampleWorkspace1String;
+    String exampleWorkspace2String;
     List<String> workspaceNames;
+    List<Space> exampleWorkspace2Spaces;
 
     @Before
     public void setUp() {
@@ -49,7 +56,15 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         exampleWorkspace2.setId(2L);
         exampleWorkspace2.setName("Nancy");
 
+        Space space1 = new Space();
+        space1.setId(1L);
+        space1.setName("Super Space");
+        exampleWorkspace2Spaces = Collections.singletonList(space1);
+        exampleWorkspace2.setSpaces(exampleWorkspace2Spaces);
+
         exampleWorkspace1String = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
+        String space1String = "{\"id\":1,\"name\":\"Super Space\",\"people\":null}";
+        exampleWorkspace2String = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":null}";
 
         workspaceNames = Arrays.asList("Henry", "Nancy");
     }
@@ -122,5 +137,16 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
         verify(mockWorkspaceRepository).save(eq(newWorkspace));
         verify(mockWorkspaceRepository).getAllWorkspaceNames();
+    }
+
+    @Test
+    public void savePairing_passesTheListOfSpacesToThePairingHistoryService() throws Exception {
+        mvc.perform(post("/api/workspace/pairing")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(exampleWorkspace2String))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        verify(mockPairingHistoryService).savePairing(eq(exampleWorkspace2Spaces));
     }
 }

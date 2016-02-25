@@ -11,4 +11,4 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringApplicationConfiguration(classes = ParritApplication.class)
 @ActiveProfiles(profiles = "test")
 @Transactional
-public class SpringTestBase {}
+public class SpringTestBase extends MockitoTestBase {}
