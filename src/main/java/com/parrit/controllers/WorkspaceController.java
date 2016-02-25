@@ -66,10 +66,4 @@ public class WorkspaceController {
     public void savePairing(@RequestBody Workspace workspace) {
         pairingHistoryService.savePairing(workspace);
     }
-
-    @RequestMapping(path = "/api/workspace/delete/{id}", method = RequestMethod.POST, consumes = {"application/json"})
-    @ResponseBody
-    public void delete(@PathVariable long id) {
-        workspaceRepository.delete(id);
-    }
 }
