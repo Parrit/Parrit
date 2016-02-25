@@ -64,6 +64,6 @@ public class WorkspaceController {
     @RequestMapping(path = "/api/workspace/pairing", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public void savePairing(@RequestBody Workspace workspace) {
-        pairingHistoryService.savePairing(workspace.getSpaces());
+        pairingHistoryService.savePairing(workspace);
     }
 }

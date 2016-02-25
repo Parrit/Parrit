@@ -3,6 +3,7 @@ package com.parrit.services;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Space;
+import com.parrit.entities.Workspace;
 import com.parrit.repositories.PairingHistoryRepository;
 import com.parrit.support.MockitoTestBase;
 import com.parrit.utilities.CurrentTimeProvider;
@@ -55,7 +56,10 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
 
         List<Space> spaces = Collections.singletonList(space1);
 
-        pairingHistoryService.savePairing(spaces);
+        Workspace workspace = new Workspace();
+        workspace.setSpaces(spaces);
+
+        pairingHistoryService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory = new PairingHistory();
         expectedPairingHistory.setPersonOne(p1);
@@ -96,7 +100,10 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
 
         List<Space> spaces = Arrays.asList(space1, space2);
 
-        pairingHistoryService.savePairing(spaces);
+        Workspace workspace = new Workspace();
+        workspace.setSpaces(spaces);
+
+        pairingHistoryService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setPersonOne(p1);
@@ -135,7 +142,10 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
 
         List<Space> spaces = Collections.singletonList(space1);
 
-        pairingHistoryService.savePairing(spaces);
+        Workspace workspace = new Workspace();
+        workspace.setSpaces(spaces);
+
+        pairingHistoryService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setPersonOne(p1);

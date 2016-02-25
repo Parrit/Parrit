@@ -44,7 +44,6 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     String exampleWorkspace1String;
     String exampleWorkspace2String;
     List<String> workspaceNames;
-    List<Space> exampleWorkspace2Spaces;
 
     @Before
     public void setUp() {
@@ -59,8 +58,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         Space space1 = new Space();
         space1.setId(1L);
         space1.setName("Super Space");
-        exampleWorkspace2Spaces = Collections.singletonList(space1);
-        exampleWorkspace2.setSpaces(exampleWorkspace2Spaces);
+        exampleWorkspace2.setSpaces(Collections.singletonList(space1));
 
         exampleWorkspace1String = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
         String space1String = "{\"id\":1,\"name\":\"Super Space\",\"people\":null}";
@@ -147,6 +145,6 @@ public class WorkspaceControllerTest extends ControllerTestBase {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(mockPairingHistoryService).savePairing(eq(exampleWorkspace2Spaces));
+        verify(mockPairingHistoryService).savePairing(eq(exampleWorkspace2));
     }
 }
