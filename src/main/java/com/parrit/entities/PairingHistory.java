@@ -11,15 +11,15 @@ public class PairingHistory {
     private long id;
 
     @ManyToOne(targetEntity = Workspace.class, fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "workspace_id")
     private Workspace workspace;
 
     @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "person_one_id")
     private Person personOne;
 
     @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
-    @JoinColumn
+    @JoinColumn(name = "person_two_id")
     private Person personTwo;
 
     private Timestamp timestamp;
