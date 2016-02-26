@@ -1,7 +1,9 @@
 package com.parrit.controllers;
 
+import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.WorkspaceRepository;
+import com.parrit.transformers.WorkspaceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +46,9 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/api/workspace", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<Workspace> saveWorkspace(@RequestBody Workspace workspace) {
-        return new ResponseEntity<>(workspaceRepository.save(workspace), HttpStatus.OK);
+    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody Workspace workspace) {
+        Workspace savedWorkspace = workspaceRepository.save(workspace);
+        return new ResponseEntity<>(WorkspaceTransformer.transform(savedWorkspace), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})

@@ -1,7 +1,9 @@
 package com.parrit.controllers;
 
+import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.Workspace;
 import com.parrit.services.PairingService;
+import com.parrit.transformers.WorkspaceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,8 @@ public class PairingController {
 
     @RequestMapping(path = "/api/workspace/{workspaceId}/pairing/recommend", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Workspace> getRecommendation(@PathVariable long workspaceId) {
-        return new ResponseEntity<>(pairingService.getRecommendation(workspaceId), HttpStatus.OK);
+    public ResponseEntity<WorkspaceDTO> getRecommendation(@PathVariable long workspaceId) {
+        Workspace workspace = pairingService.getRecommendation(workspaceId);
+        return new ResponseEntity<>(WorkspaceTransformer.transform(workspace), HttpStatus.OK);
     }
 }
