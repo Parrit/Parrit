@@ -1,5 +1,6 @@
 var Axios = require('axios');
 
+//Axios.defaults.headers.common['Accept'] = 'application/json';
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function postWorkspaceAndDo(workspace, callback) {
@@ -16,15 +17,23 @@ function postNewWorkspaceAndDo(workspaceName, callback) {
         })
 }
 
-function postWorkspacePairingAndDo(workspacePairing, callback) {
-    Axios.post('/api/workspace/pairing', workspacePairing)
+function postWorkspacePairingAndDo(workspace, callback) {
+    Axios.post('/api/workspace/pairing', workspace)
         .then(function (response) {
             callback(response.data);
         })
 }
 
+function getRecommendedPairingAndDo(workspaceId, callback) {
+    Axios.get('/api/workspace/' + encodeURIComponent(workspaceId) + '/pairing/recommend')
+        .then(function (response) {
+            callback(response.data);
+        });
+}
+
 module.exports = {
     postWorkspaceAndDo,
     postNewWorkspaceAndDo,
-    postWorkspacePairingAndDo
+    postWorkspacePairingAndDo,
+    getRecommendedPairingAndDo
 };

@@ -12,6 +12,7 @@ var Menu = React.createClass({
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
         savePairing: React.PropTypes.func.isRequired,
+        getRecommendedPairs: React.PropTypes.func.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewSpaceModalOpen: React.PropTypes.func.isRequired
     },
@@ -22,6 +23,7 @@ var Menu = React.createClass({
                 <PrimaryButton name="Add Person" clickFunction={this.openNewPersonModal}/>
                 <PrimaryButton name="Add Space" clickFunction={this.openNewSpaceModal}/>
                 <PrimaryButton name="Lock in Pairing" clickFunction={this.props.savePairing}/>
+                <PrimaryButton name="Recommend Pairs" clickFunction={this.props.getRecommendedPairs}/>
             </ul>
             <Modal isOpen={this.props.settings.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal} style={ModalStyles}>
                 <NameForm confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>

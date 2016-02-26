@@ -27,6 +27,7 @@ describe('Menu', function() {
             createPerson: jasmine.createSpy('createPersonSpy'),
             createSpace: jasmine.createSpy('createSpaceSpy'),
             savePairing: jasmine.createSpy('savePairingSpy'),
+            getRecommendedPairs: jasmine.createSpy('getRecommendedPairsSpy'),
             setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
             setNewSpaceModalOpen: jasmine.createSpy('setNewSpaceModalOpenSpy')
         };
@@ -44,13 +45,15 @@ describe('Menu', function() {
     it('has button workspace.components as children', function() {
         var primaryButtons = ReactTestUtils.scryRenderedComponentsWithType(menu, PrimaryButtonMock);
 
-        expect(primaryButtons.length).toBe(3);
+        expect(primaryButtons.length).toBe(4);
         expect(primaryButtons[0].props.name).toBe("Add Person");
         expect(primaryButtons[0].props.clickFunction).toBe(menu.openNewPersonModal);
         expect(primaryButtons[1].props.name).toBe("Add Space");
         expect(primaryButtons[1].props.clickFunction).toBe(menu.openNewSpaceModal);
         expect(primaryButtons[2].props.name).toBe("Lock in Pairing");
         expect(primaryButtons[2].props.clickFunction).toBe(props.savePairing);
+        expect(primaryButtons[3].props.name).toBe("Recommend Pairs");
+        expect(primaryButtons[3].props.clickFunction).toBe(props.getRecommendedPairs);
     });
 
     describe('newPersonModal', function() {

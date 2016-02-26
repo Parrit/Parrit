@@ -6,6 +6,7 @@ describe('dataThunks', function() {
     var getStateSpy;
     var postStateAndDoSpy;
     var postWorkspacePairingAndDoSpy;
+    var getRecommendedPairingAndDoSpy;
     var loadWorkspaceCreatorSpy;
     var alertSpy;
     beforeEach(function setup() {
@@ -14,10 +15,12 @@ describe('dataThunks', function() {
         postStateAndDoSpy = jasmine.createSpy('postStateAndDoSpy');
         postWorkspacePairingAndDoSpy = jasmine.createSpy('postWorkspacePairingAndDoSpy');
         loadWorkspaceCreatorSpy = jasmine.createSpy('loadWorkspaceCreatorSpy');
+        getRecommendedPairingAndDoSpy = jasmine.createSpy('getRecommendedPairingAndDoSpy');
         alertSpy = jasmine.createSpy('alertSpy');
 
         dataThunks.__set__('postWorkspaceAndDo', postStateAndDoSpy);
         dataThunks.__set__('postWorkspacePairingAndDo', postWorkspacePairingAndDoSpy);
+        dataThunks.__set__('getRecommendedPairingAndDo', getRecommendedPairingAndDoSpy);
         dataThunks.__set__('loadWorkspaceCreator', loadWorkspaceCreatorSpy);
         dataThunks.__set__('alert', alertSpy);
     });
@@ -74,8 +77,8 @@ describe('dataThunks', function() {
         });
 
         describe('when calling the returned function', function() {
-            var workspacePairing = { data: "le stuff" };
-            var stateOfApp = { data: { workspace: workspacePairing } };
+            var workspace = { data: "le stuff" };
+            var stateOfApp = { data: { workspace: workspace } };
             beforeEach(function () {
                 getStateSpy.and.returnValue(stateOfApp);
 
@@ -88,7 +91,7 @@ describe('dataThunks', function() {
 
             it('calls postWorkspacePairingAndDo helper with correct arguments', function() {
                 expect(getStateSpy).toHaveBeenCalled();
-                expect(postWorkspacePairingAndDoSpy).toHaveBeenCalledWith(workspacePairing, jasmine.anything());
+                expect(postWorkspacePairingAndDoSpy).toHaveBeenCalledWith(workspace, jasmine.anything());
             });
 
             it('passes in a callback that will alert to the browser', function() {
@@ -96,6 +99,46 @@ describe('dataThunks', function() {
                 callback();
 
                 expect(alertSpy).toHaveBeenCalledWith("Successfully Saved Pairing!");
+            });
+        });
+    });
+
+    describe('#getRecommendedPairsThunk', function () {
+        beforeEach(function() {
+            thunk = dataThunks.getRecommendedPairsThunk();
+        });
+
+        it('returns a function', function() {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', function() {
+            var workspace = { id: 88, stuff: "things" };
+            var stateOfApp = { data: { workspace: workspace } };
+            var newWorkspaceData = {data: 'blarg'};
+            var newWorkspaceDataAction = { type: 'LOAD_WORKSPACE', workspace: newWorkspaceData };
+            beforeEach(function () {
+                getStateSpy.and.returnValue(stateOfApp);
+                loadWorkspaceCreatorSpy.and.returnValue(newWorkspaceDataAction);
+
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('does not call the dispatch function', function() {
+                expect(dispatchSpy).not.toHaveBeenCalled();
+            });
+
+            it('calls postWorkspacePairingAndDo helper with correct arguments', function() {
+                expect(getStateSpy).toHaveBeenCalled();
+                expect(getRecommendedPairingAndDoSpy).toHaveBeenCalledWith(88, jasmine.anything());
+            });
+
+            it('passes in a callback that will alert to the browser', function() {
+                var callback = getRecommendedPairingAndDoSpy.calls.mostRecent().args[1];
+                callback(newWorkspaceData);
+
+                expect(loadWorkspaceCreatorSpy).toHaveBeenCalledWith(newWorkspaceData);
+                expect(dispatchSpy).toHaveBeenCalledWith(newWorkspaceDataAction);
             });
         });
     });

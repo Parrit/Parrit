@@ -29,6 +29,7 @@ module.exports = {
     deletePerson: deletePersonCombo,
     deleteSpace: deleteSpaceCombo,
     savePairing: dataThunks.savePairingThunk,
+    getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,
     setNewSpaceModalOpen: viewCreators.setNewSpaceModalOpenCreator
 };

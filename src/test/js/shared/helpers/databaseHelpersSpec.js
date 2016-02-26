@@ -123,4 +123,41 @@ describe('databaseHelpers', function() {
             });
         });
     });
+
+    describe('#getRecommendedPairingAndDo', function () {
+        var stubbedGet;
+        var callbackSpy;
+
+        var workspaceId = 42;
+
+        beforeEach(function () {
+            stubbedGet = jasmine.Ajax.stubRequest('/api/workspace/42/pairing/recommend', undefined, 'GET');
+            callbackSpy = jasmine.createSpy('callbackSpy');
+
+            databaseHelpers.getRecommendedPairingAndDo(workspaceId, callbackSpy);
+        });
+
+        it('makes an Ajax call to GET recommended pairing with the workspaceId', function (done) {
+            setTimeout(function () {
+                expect(jasmine.Ajax.requests.count()).toBe(1);
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/42/pairing/recommend');
+                expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
+                done();
+            });
+        });
+
+        describe('when the Ajax call returns with a response', function () {
+            var responseText = {iamaproperty: "blahblah"};
+            beforeEach(function () {
+                stubbedGet.andReturn({responseText: responseText});
+            });
+
+            it('calls the callback with the response', function (done) {
+                setTimeout(function () {
+                    expect(callbackSpy).toHaveBeenCalledWith(responseText);
+                    done();
+                });
+            });
+        });
+    });
 });

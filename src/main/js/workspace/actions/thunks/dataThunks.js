@@ -1,4 +1,4 @@
-var { postWorkspaceAndDo, postWorkspacePairingAndDo } = require('shared/helpers/databaseHelpers.js');
+var { postWorkspaceAndDo, postWorkspacePairingAndDo, getRecommendedPairingAndDo } = require('shared/helpers/databaseHelpers.js');
 var { loadWorkspaceCreator } = require('workspace/actions/creators/dataCreators.js');
 
 export function autoSaveThunk(action) {
@@ -15,5 +15,13 @@ export function savePairingThunk() {
         postWorkspacePairingAndDo(getState().data.workspace, function() {
             alert("Successfully Saved Pairing!");
         });
+    }
+}
+
+export function getRecommendedPairsThunk() {
+    return function(dispatch, getState) {
+        getRecommendedPairingAndDo(getState().data.workspace.id, function(workspace) {
+            dispatch(loadWorkspaceCreator(workspace));
+        })
     }
 }
