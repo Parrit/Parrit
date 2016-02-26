@@ -5,6 +5,7 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Space;
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.PairingHistoryRepository;
+import com.parrit.repositories.WorkspaceRepository;
 import com.parrit.support.MockitoTestBase;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
@@ -16,25 +17,34 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.Matchers.eq;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class PairingHistoryServiceTest extends MockitoTestBase {
+public class PairingServiceTest extends MockitoTestBase {
 
     @Mock
     PairingHistoryRepository mockPairingHistoryRepository;
 
     @Mock
+    WorkspaceRepository mockWorkspaceRepository;
+
+    @Mock
+    RecommendationService mockRecommendationService;
+
+    @Mock
     CurrentTimeProvider mockCurrentTimeProvider;
 
-    PairingHistoryService pairingHistoryService;
+    PairingService pairingService;
 
     Timestamp currentTime = new Timestamp(1456364985548L);
 
     @Before
     public void setup() {
-        pairingHistoryService = new PairingHistoryService(mockPairingHistoryRepository, mockCurrentTimeProvider);
+        pairingService = new PairingService(mockPairingHistoryRepository, mockWorkspaceRepository, mockRecommendationService,
+                mockCurrentTimeProvider);
 
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(currentTime);
     }
@@ -60,7 +70,7 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         workspace.setId(7L);
         workspace.setSpaces(spaces);
 
-        pairingHistoryService.savePairing(workspace);
+        pairingService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory = new PairingHistory();
         expectedPairingHistory.setWorkspace(workspace);
@@ -106,7 +116,7 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         workspace.setId(7L);
         workspace.setSpaces(spaces);
 
-        pairingHistoryService.savePairing(workspace);
+        pairingService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setWorkspace(workspace);
@@ -151,7 +161,7 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         workspace.setId(7L);
         workspace.setSpaces(spaces);
 
-        pairingHistoryService.savePairing(workspace);
+        pairingService.savePairing(workspace);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setWorkspace(workspace);
@@ -177,5 +187,41 @@ public class PairingHistoryServiceTest extends MockitoTestBase {
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory3));
+    }
+
+    @Test
+    public void getRecommendation_getsTheWorkspaceAndItsPairingHistory_andCallsTheRecommendationService() {
+        Workspace workspace = new Workspace();
+        PairingHistory pairingHistory = new PairingHistory();
+        List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
+
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+        when(mockPairingHistoryRepository.findByWorkspace(any(Workspace.class))).thenReturn(pairingHistories);
+
+        pairingService.getRecommendation(77L);
+
+        verify(mockWorkspaceRepository).findOne(77L);
+        verify(mockPairingHistoryRepository).findByWorkspace(workspace);
+        verify(mockRecommendationService).get(workspace, pairingHistories);
+    }
+
+    @Test
+    public void getRecommendation_persistsTheResultFromTheRecommendationService_andReturnsTheWorkspace() {
+        Workspace workspace = new Workspace();
+        PairingHistory pairingHistory = new PairingHistory();
+        List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
+
+        Workspace recommendedWorkspace = new Workspace();
+        recommendedWorkspace.setId(9001L);
+
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+        when(mockPairingHistoryRepository.findByWorkspace(any(Workspace.class))).thenReturn(pairingHistories);
+        when(mockRecommendationService.get(any(Workspace.class), anyListOf(PairingHistory.class))).thenReturn(recommendedWorkspace);
+
+        Workspace returnedWorkspace = pairingService.getRecommendation(77L);
+
+        assertThat(returnedWorkspace, equalTo(recommendedWorkspace));
+
+        verify(mockWorkspaceRepository).save(recommendedWorkspace);
     }
 }

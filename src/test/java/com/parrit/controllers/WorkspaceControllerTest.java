@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
-import com.parrit.services.PairingHistoryService;
 import com.parrit.support.ControllerTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class WorkspaceControllerTest extends ControllerTestBase {
@@ -32,37 +30,21 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     @Mock
     WorkspaceRepository mockWorkspaceRepository;
 
-    @Mock
-    PairingHistoryService mockPairingHistoryService;
-
     @Autowired
     @InjectMocks
     WorkspaceController workspaceController;
 
-    Workspace exampleWorkspace1;
-    Workspace exampleWorkspace2;
-    String exampleWorkspace1String;
-    String exampleWorkspace2String;
+    Workspace exampleWorkspace;
+    String exampleWorkspaceString;
     List<String> workspaceNames;
 
     @Before
     public void setUp() {
-        exampleWorkspace1 = new Workspace();
-        exampleWorkspace1.setId(1L);
-        exampleWorkspace1.setName("Henry");
+        exampleWorkspace = new Workspace();
+        exampleWorkspace.setId(1L);
+        exampleWorkspace.setName("Henry");
 
-        exampleWorkspace2 = new Workspace();
-        exampleWorkspace2.setId(2L);
-        exampleWorkspace2.setName("Nancy");
-
-        Space space1 = new Space();
-        space1.setId(1L);
-        space1.setName("Super Space");
-        exampleWorkspace2.setSpaces(Collections.singletonList(space1));
-
-        exampleWorkspace1String = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
-        String space1String = "{\"id\":1,\"name\":\"Super Space\",\"people\":null}";
-        exampleWorkspace2String = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":null}";
+        exampleWorkspaceString = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
 
         workspaceNames = Arrays.asList("Henry", "Nancy");
     }
@@ -85,12 +67,12 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void getWorkspace_returnsResultFromRepository() throws Exception {
-        when(mockWorkspaceRepository.findByName("workspaceName")).thenReturn(exampleWorkspace1);
+        when(mockWorkspaceRepository.findByName("workspaceName")).thenReturn(exampleWorkspace);
 
         mvc.perform(get("/workspaceName"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("workspace"))
-                .andExpect(model().attribute("workspace", exampleWorkspace1));
+                .andExpect(model().attribute("workspace", exampleWorkspace));
 
         verify(mockWorkspaceRepository, never()).save(any(Workspace.class));
         verify(mockWorkspaceRepository).findByName("workspaceName");
@@ -102,16 +84,16 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void saveWorkspace_persistsTheWorkspace_andReturnsTheResult() throws Exception {
-        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace1);
+        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
 
         MvcResult mvcResult = mvc.perform(post("/api/workspace")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(exampleWorkspace1String))
+                .content(exampleWorkspaceString))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String returnedState = mvcResult.getResponse().getContentAsString();
-        assertThat(returnedState, equalTo(exampleWorkspace1String));
+        assertThat(returnedState, equalTo(exampleWorkspaceString));
 
         verify(mockWorkspaceRepository).save(any(Workspace.class));
     }
@@ -119,7 +101,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     @Test
     public void createWorkspace_savesTheNewWorkspaceName_andReturnsListOfAllWorkspaceNames() throws Exception {
         when(mockWorkspaceRepository.getAllWorkspaceNames()).thenReturn(workspaceNames);
-        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace1);
+        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
 
         MvcResult mvcResult = mvc.perform(post("/api/workspace/new")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -135,16 +117,5 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
         verify(mockWorkspaceRepository).save(eq(newWorkspace));
         verify(mockWorkspaceRepository).getAllWorkspaceNames();
-    }
-
-    @Test
-    public void savePairing_passesTheListOfSpacesToThePairingHistoryService() throws Exception {
-        mvc.perform(post("/api/workspace/pairing")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(exampleWorkspace2String))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        verify(mockPairingHistoryService).savePairing(eq(exampleWorkspace2));
     }
 }

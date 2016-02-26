@@ -64,7 +64,6 @@ public class Workspace {
         if (name != null ? !name.equals(workspace.name) : workspace.name != null) return false;
         if (spaces != null ? !spaces.equals(workspace.spaces) : workspace.spaces != null) return false;
         return people != null ? people.equals(workspace.people) : workspace.people == null;
-
     }
 
     @Override

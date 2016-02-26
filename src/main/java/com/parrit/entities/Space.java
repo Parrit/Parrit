@@ -1,7 +1,6 @@
 package com.parrit.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -56,9 +55,7 @@ public class Space {
 
         if (id != space.id) return false;
         if (people != null ? !people.equals(space.people) : space.people != null) return false;
-        if (name != null ? !name.equals(space.name) : space.name == null) return false;
-
-        return true;
+        return name != null ? name.equals(space.name) : space.name == null;
     }
 
     @Override

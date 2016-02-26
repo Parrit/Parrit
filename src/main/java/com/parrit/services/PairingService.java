@@ -5,6 +5,7 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Space;
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.PairingHistoryRepository;
+import com.parrit.repositories.WorkspaceRepository;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +13,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PairingHistoryService {
+public class PairingService {
 
     PairingHistoryRepository pairingHistoryRepository;
+    WorkspaceRepository workspaceRepository;
+    RecommendationService recommendationService;
     CurrentTimeProvider currentTimeProvider;
 
     @Autowired
-    public PairingHistoryService(PairingHistoryRepository pairingHistoryRepository,
-                                 CurrentTimeProvider currentTimeProvider) {
+    public PairingService(PairingHistoryRepository pairingHistoryRepository,
+                          WorkspaceRepository workspaceRepository,
+                          RecommendationService recommendationService,
+                          CurrentTimeProvider currentTimeProvider) {
         this.pairingHistoryRepository = pairingHistoryRepository;
+        this.workspaceRepository = workspaceRepository;
+        this.recommendationService = recommendationService;
         this.currentTimeProvider = currentTimeProvider;
     }
 
@@ -49,4 +56,13 @@ public class PairingHistoryService {
 
     }
 
+    public Workspace getRecommendation(long workspaceId) {
+        Workspace workspace = workspaceRepository.findOne(workspaceId);
+        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByWorkspace(workspace);
+
+        Workspace recommendedWorkspace = recommendationService.get(workspace, pairingHistory);
+
+        workspaceRepository.save(recommendedWorkspace);
+        return recommendedWorkspace;
+    }
 }

@@ -2,7 +2,6 @@ package com.parrit.controllers;
 
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.WorkspaceRepository;
-import com.parrit.services.PairingHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,10 @@ import java.util.List;
 public class WorkspaceController {
 
     private WorkspaceRepository workspaceRepository;
-    private PairingHistoryService pairingHistoryService;
 
 	@Autowired
-	public WorkspaceController(WorkspaceRepository workspaceRepository,
-                               PairingHistoryService pairingHistoryService) {
+	public WorkspaceController(WorkspaceRepository workspaceRepository) {
 		this.workspaceRepository = workspaceRepository;
-        this.pairingHistoryService = pairingHistoryService;
 	}
 
     //*********************//
@@ -59,11 +55,5 @@ public class WorkspaceController {
         workspace.setName(name);
         workspaceRepository.save(workspace);
         return new ResponseEntity<>(workspaceRepository.getAllWorkspaceNames(), HttpStatus.OK);
-    }
-
-    @RequestMapping(path = "/api/workspace/pairing", method = RequestMethod.POST, consumes = {"application/json"})
-    @ResponseBody
-    public void savePairing(@RequestBody Workspace workspace) {
-        pairingHistoryService.savePairing(workspace);
     }
 }
