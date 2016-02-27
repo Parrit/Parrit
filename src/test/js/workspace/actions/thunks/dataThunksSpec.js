@@ -77,7 +77,7 @@ describe('dataThunks', function() {
         });
 
         describe('when calling the returned function', function() {
-            var workspace = { data: "le stuff" };
+            var workspace = { id: 7, data: "le stuff" };
             var stateOfApp = { data: { workspace: workspace } };
             beforeEach(function () {
                 getStateSpy.and.returnValue(stateOfApp);
@@ -91,7 +91,7 @@ describe('dataThunks', function() {
 
             it('calls postWorkspacePairingAndDo helper with correct arguments', function() {
                 expect(getStateSpy).toHaveBeenCalled();
-                expect(postWorkspacePairingAndDoSpy).toHaveBeenCalledWith(workspace, jasmine.anything());
+                expect(postWorkspacePairingAndDoSpy).toHaveBeenCalledWith(7, jasmine.anything());
             });
 
             it('passes in a callback that will alert to the browser', function() {

@@ -90,21 +90,20 @@ describe('databaseHelpers', function() {
         var stubbedPost;
         var callbackSpy;
 
-        var workspacePairingToSave = {MISSISSIPPI: "Anthony is more fun than that"};
+        var workspaceId = 42;
 
         beforeEach(function () {
-            stubbedPost = jasmine.Ajax.stubRequest('/api/workspace/pairing', undefined, 'POST');
+            stubbedPost = jasmine.Ajax.stubRequest('/api/workspace/42/pairing', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.postWorkspacePairingAndDo(workspacePairingToSave, callbackSpy);
+            databaseHelpers.postWorkspacePairingAndDo(workspaceId, callbackSpy);
         });
 
         it('makes an Ajax call to post the workspace', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/pairing');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/42/pairing');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspacePairingToSave);
                 done();
             });
         });

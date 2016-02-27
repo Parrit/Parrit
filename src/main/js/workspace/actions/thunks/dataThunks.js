@@ -12,7 +12,7 @@ export function autoSaveThunk(action) {
 
 export function savePairingThunk() {
     return function (dispatch, getState) {
-        postWorkspacePairingAndDo(getState().data.workspace, function() {
+        postWorkspacePairingAndDo(getState().data.workspace.id, function() {
             alert("Successfully Saved Pairing!");
         });
     }

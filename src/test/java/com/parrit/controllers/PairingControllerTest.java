@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class PairingControllerTest extends ControllerTestBase {
@@ -37,14 +38,16 @@ public class PairingControllerTest extends ControllerTestBase {
         exampleWorkspace = new Workspace();
         exampleWorkspace.setId(2L);
         exampleWorkspace.setName("Nancy");
+        exampleWorkspace.setPeople(new ArrayList<>());
 
         Space space1 = new Space();
         space1.setId(1L);
         space1.setName("Super Space");
+        space1.setPeople(new ArrayList<>());
         exampleWorkspace.setSpaces(Collections.singletonList(space1));
 
-        String space1String = "{\"id\":1,\"people\":null,\"name\":\"Super Space\"}";
-        exampleWorkspaceString = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":null}";
+        String space1String = "{\"id\":1,\"people\":[],\"name\":\"Super Space\"}";
+        exampleWorkspaceString = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":[]}";
     }
 
     //********************//
@@ -53,12 +56,11 @@ public class PairingControllerTest extends ControllerTestBase {
 
     @Test
     public void savePairing_passesTheWorkspaceToThePairingHistoryService() throws Exception {
-        mvc.perform(post("/api/workspace/pairing")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(exampleWorkspaceString))
+        mvc.perform(post("/api/workspace/42/pairing")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(mockPairingService).savePairing(eq(exampleWorkspace));
+        verify(mockPairingService).savePairing(42);
     }
 
     @Test

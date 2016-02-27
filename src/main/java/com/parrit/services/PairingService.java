@@ -31,7 +31,9 @@ public class PairingService {
         this.currentTimeProvider = currentTimeProvider;
     }
 
-    public void savePairing(Workspace workspace) {
+    public void savePairing(long workspaceId) {
+        Workspace workspace = workspaceRepository.findOne(workspaceId);
+
         Long groupId = 1L;
         for(Space space : workspace.getSpaces()) {
             List<Person> people = space.getPeople();

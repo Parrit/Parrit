@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,8 +44,10 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         exampleWorkspace = new Workspace();
         exampleWorkspace.setId(1L);
         exampleWorkspace.setName("Henry");
+        exampleWorkspace.setPeople(new ArrayList<>());
+        exampleWorkspace.setSpaces(new ArrayList<>());
 
-        exampleWorkspaceString = "{\"id\":1,\"name\":\"Henry\",\"spaces\":null,\"people\":null}";
+        exampleWorkspaceString = "{\"id\":1,\"name\":\"Henry\",\"spaces\":[],\"people\":[]}";
 
         workspaceNames = Arrays.asList("Henry", "Nancy");
     }

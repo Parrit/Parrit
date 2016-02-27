@@ -1,6 +1,5 @@
 var Axios = require('axios');
 
-//Axios.defaults.headers.common['Accept'] = 'application/json';
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function postWorkspaceAndDo(workspace, callback) {
@@ -17,8 +16,8 @@ function postNewWorkspaceAndDo(workspaceName, callback) {
         })
 }
 
-function postWorkspacePairingAndDo(workspace, callback) {
-    Axios.post('/api/workspace/pairing', workspace)
+function postWorkspacePairingAndDo(workspaceId, callback) {
+    Axios.post('/api/workspace/' + encodeURIComponent(workspaceId) + '/pairing')
         .then(function (response) {
             callback(response.data);
         })

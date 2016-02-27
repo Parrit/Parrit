@@ -70,7 +70,9 @@ public class PairingServiceTest extends MockitoTestBase {
         workspace.setId(7L);
         workspace.setSpaces(spaces);
 
-        pairingService.savePairing(workspace);
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+
+        pairingService.savePairing(7L);
 
         PairingHistory expectedPairingHistory = new PairingHistory();
         expectedPairingHistory.setWorkspace(workspace);
@@ -79,6 +81,7 @@ public class PairingServiceTest extends MockitoTestBase {
         expectedPairingHistory.setTimestamp(currentTime);
         expectedPairingHistory.setGroupId(1L);
 
+        verify(mockWorkspaceRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
     }
 
@@ -116,7 +119,9 @@ public class PairingServiceTest extends MockitoTestBase {
         workspace.setId(7L);
         workspace.setSpaces(spaces);
 
-        pairingService.savePairing(workspace);
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+
+        pairingService.savePairing(7L);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setWorkspace(workspace);
@@ -132,6 +137,7 @@ public class PairingServiceTest extends MockitoTestBase {
         expectedPairingHistory2.setTimestamp(currentTime);
         expectedPairingHistory2.setGroupId(2L);
 
+        verify(mockWorkspaceRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
     }
@@ -161,7 +167,9 @@ public class PairingServiceTest extends MockitoTestBase {
         workspace.setId(7L);
         workspace.setSpaces(spaces);
 
-        pairingService.savePairing(workspace);
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+
+        pairingService.savePairing(7L);
 
         PairingHistory expectedPairingHistory1 = new PairingHistory();
         expectedPairingHistory1.setWorkspace(workspace);
@@ -184,6 +192,7 @@ public class PairingServiceTest extends MockitoTestBase {
         expectedPairingHistory3.setTimestamp(currentTime);
         expectedPairingHistory3.setGroupId(1L);
 
+        verify(mockWorkspaceRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory3));

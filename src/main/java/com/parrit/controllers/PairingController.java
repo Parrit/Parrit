@@ -24,10 +24,10 @@ public class PairingController {
     //******  APIs  ******//
     //********************//
 
-    @RequestMapping(path = "/api/workspace/pairing", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/workspace/{workspaceId}/pairing", method = RequestMethod.POST)
     @ResponseBody
-    public void savePairing(@RequestBody Workspace workspace) {
-        pairingService.savePairing(workspace);
+    public void savePairing(@PathVariable long workspaceId) {
+        pairingService.savePairing(workspaceId);
     }
 
     @RequestMapping(path = "/api/workspace/{workspaceId}/pairing/recommend", method = RequestMethod.GET)
