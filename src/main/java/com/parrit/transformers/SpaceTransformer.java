@@ -3,8 +3,9 @@ package com.parrit.transformers;
 import com.parrit.DTOs.SpaceDTO;
 import com.parrit.entities.Space;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SpaceTransformer {
 
@@ -17,11 +18,10 @@ public class SpaceTransformer {
     }
 
     public static List<SpaceDTO> transform(List<Space> spaces) {
-        List<SpaceDTO> spaceDTOs = new ArrayList<>();
-        for(Space space : spaces) {
-            spaceDTOs.add(transform(space));
-        }
-        return spaceDTOs;
+        if(spaces == null || spaces.isEmpty()) return Collections.emptyList();
+        return spaces.stream()
+                .map(SpaceTransformer::transform)
+                .collect(Collectors.toList());
     }
 
 }

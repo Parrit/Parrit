@@ -3,8 +3,9 @@ package com.parrit.transformers;
 import com.parrit.DTOs.PersonDTO;
 import com.parrit.entities.Person;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonTransformer {
 
@@ -16,11 +17,10 @@ public class PersonTransformer {
     }
 
     public static List<PersonDTO> transform(List<Person> persons) {
-        List<PersonDTO> personDTOs = new ArrayList<>();
-        for(Person person : persons) {
-            personDTOs.add(transform(person));
-        }
-        return personDTOs;
+        if(persons == null || persons.isEmpty()) return Collections.emptyList();
+        return persons.stream()
+                .map(PersonTransformer::transform)
+                .collect(Collectors.toList());
     }
 
 }

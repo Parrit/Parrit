@@ -36,7 +36,7 @@ public class WorkspaceController {
     @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET)
     public String getWorkspace(@PathVariable String workspaceName, Model model) {
         Workspace workspace = workspaceRepository.findByName(workspaceName);
-        model.addAttribute("workspace", workspace);
+        model.addAttribute("workspace", workspace); //TODO: Use DTO
         return "workspace";
     }
 
@@ -46,7 +46,7 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/api/workspace", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody Workspace workspace) {
+    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody Workspace workspace) { //TODO: Have it take in a workspaceDTO
         Workspace savedWorkspace = workspaceRepository.save(workspace);
         return new ResponseEntity<>(WorkspaceTransformer.transform(savedWorkspace), HttpStatus.OK);
     }
