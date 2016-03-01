@@ -26,12 +26,7 @@ public class RecommendationService {
 
     public Workspace get(Workspace workspace, List<PairingHistory> workspacePairingHistories) {
         List<Person> floatingPeople = workspace.getPeople();
-
-        Map<Person, Space> availablePairs = new HashMap<>();
-        workspace.getSpaces()
-                .stream()
-                .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
-                .forEach(space -> availablePairs.put(space.getPeople().get(0), space));
+        Map<Person, Space> availablePairs = getAvailablePairsMap(workspace);
 
         while (!floatingPeople.isEmpty()) {
             Person floatingPerson = floatingPeople.remove(0);
@@ -46,10 +41,21 @@ public class RecommendationService {
         return workspace;
     }
 
+    private Map<Person, Space> getAvailablePairsMap(Workspace workspace) {
+        Map<Person, Space> availablePairs = new HashMap<>();
+
+        workspace.getSpaces()
+                .stream()
+                .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
+                .forEach(space -> availablePairs.put(space.getPeople().get(0), space));
+
+        return availablePairs;
+    }
+
     private List<PairingHistory> getPairingHistoryForPerson(Person person, List<PairingHistory> pairingHistories) {
         return pairingHistories
                 .stream()
-                .filter(pairingHistory -> pairingHistory.getPersonOne() == person || pairingHistory.getPersonTwo() == person)
+                .filter(pairingHistory -> pairingHistory.getPersonOne().getId() == person.getId() || pairingHistory.getPersonTwo().getId() == person.getId())
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +68,7 @@ public class RecommendationService {
                 List<PairingHistory> matchingPairingHistories = getPairingHistoryForPerson(availablePerson, floatingPersonPairingHistories);
 
                 if(matchingPairingHistories.isEmpty()) {
-                    return availablePairs.get(availablePerson);
+                    return availablePairs.remove(availablePerson);
                 }
 
                 PairingHistory mostRecentPairing = matchingPairingHistories.stream().max(Comparator.comparing(PairingHistory::getTimestamp)).get();
@@ -74,7 +80,7 @@ public class RecommendationService {
             }
 
             if(earliestPairingPerson.isPresent()) {
-                return availablePairs.get(earliestPairingPerson.get());
+                return availablePairs.remove(earliestPairingPerson.get());
             }
         }
 

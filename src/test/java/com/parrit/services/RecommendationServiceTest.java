@@ -186,4 +186,58 @@ public class RecommendationServiceTest extends MockitoTestBase{
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
     }
+
+    @Test
+    public void get_pairsTwoFloatingPeopleWithTwoLessRecentlyPairedPeople_whenBothLessRecentlyPairedWithTheSamePerson() {
+        workspace.getPeople().add(p1);
+        workspace.getPeople().add(p2);
+
+        space1.getPeople().add(p3);
+        workspace.getSpaces().add(space1);
+
+        space2.getPeople().add(p4);
+        workspace.getSpaces().add(space2);
+
+        PairingHistory p1p3 = new PairingHistory();
+        p1p3.setPersonOne(p1);
+        p1p3.setPersonTwo(p3);
+        p1p3.setTimestamp(new Timestamp(20000000L));
+        pairingHistories.add(p1p3);
+
+        PairingHistory p4p1 = new PairingHistory();
+        p4p1.setPersonOne(p4);
+        p4p1.setPersonTwo(p1);
+        p4p1.setTimestamp(new Timestamp(10000000L));
+        pairingHistories.add(p4p1);
+
+        PairingHistory p2p3 = new PairingHistory();
+        p2p3.setPersonOne(p2);
+        p2p3.setPersonTwo(p3);
+        p2p3.setTimestamp(new Timestamp(40000000L));
+        pairingHistories.add(p2p3);
+
+        PairingHistory p2p4 = new PairingHistory();
+        p2p4.setPersonOne(p2);
+        p2p4.setPersonTwo(p4);
+        p2p4.setTimestamp(new Timestamp(20000000L));
+        pairingHistories.add(p2p4);
+
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+
+        Workspace expectedWorkspace = new Workspace();
+        expectedWorkspace.setPeople(new ArrayList<>());
+        expectedWorkspace.setSpaces(new ArrayList<>());
+
+        Space space1Expected = new Space();
+        space1Expected.setId(1L);
+        space1Expected.setPeople(Arrays.asList(p3, p2));
+        expectedWorkspace.getSpaces().add(space1Expected);
+
+        Space space2Expected = new Space();
+        space2Expected.setId(2L);
+        space2Expected.setPeople(Arrays.asList(p4, p1));
+        expectedWorkspace.getSpaces().add(space2Expected);
+
+        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+    }
 }
