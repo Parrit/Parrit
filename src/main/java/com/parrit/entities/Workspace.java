@@ -56,14 +56,25 @@ public class Workspace {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Workspace)) return false;
 
         Workspace workspace = (Workspace) o;
 
-        if (id != workspace.id) return false;
-        if (name != null ? !name.equals(workspace.name) : workspace.name != null) return false;
-        if (spaces != null ? !spaces.equals(workspace.spaces) : workspace.spaces != null) return false;
-        return people != null ? people.equals(workspace.people) : workspace.people == null;
+        if (getId() != workspace.getId()) return false;
+        if (getName() != null ? !getName().equals(workspace.getName()) : workspace.getName() != null) return false;
+        if (getSpaces() != null ? !getSpaces().equals(workspace.getSpaces()) : workspace.getSpaces() != null)
+            return false;
+        return getPeople() != null ? getPeople().equals(workspace.getPeople()) : workspace.getPeople() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getSpaces() != null ? getSpaces().hashCode() : 0);
+        result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
+        return result;
     }
 
     @Override

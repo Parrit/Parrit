@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
-public class RecommendationServiceTest extends MockitoTestBase{
+public class RecommendationServiceTest extends MockitoTestBase {
 
     @Mock
     CurrentTimeProvider currentTimeProvider;
@@ -38,6 +38,12 @@ public class RecommendationServiceTest extends MockitoTestBase{
     Person p5;
     Person p6;
     List<PairingHistory> pairingHistories;
+
+    int today = 100;
+    private Timestamp daysAgo(int days) {
+        assert days <= today;
+        return new Timestamp(today - days);
+    }
 
     @Before
     public void setup() {
@@ -79,7 +85,7 @@ public class RecommendationServiceTest extends MockitoTestBase{
 
         pairingHistories = new ArrayList<>();
 
-        when(currentTimeProvider.getCurrentTime()).thenReturn(new Timestamp(10000000000L));
+        when(currentTimeProvider.getCurrentTime()).thenReturn(new Timestamp(today));
     }
 
     @Test
@@ -159,13 +165,13 @@ public class RecommendationServiceTest extends MockitoTestBase{
         PairingHistory p1p2 = new PairingHistory();
         p1p2.setPersonOne(p1);
         p1p2.setPersonTwo(p2);
-        p1p2.setTimestamp(new Timestamp(20000000L));
+        p1p2.setTimestamp(daysAgo(1));
         pairingHistories.add(p1p2);
 
         PairingHistory p1p3 = new PairingHistory();
         p1p3.setPersonOne(p3);
         p1p3.setPersonTwo(p1);
-        p1p3.setTimestamp(new Timestamp(10000000L));
+        p1p3.setTimestamp(daysAgo(2));
         pairingHistories.add(p1p3);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
@@ -201,25 +207,25 @@ public class RecommendationServiceTest extends MockitoTestBase{
         PairingHistory p1p3 = new PairingHistory();
         p1p3.setPersonOne(p1);
         p1p3.setPersonTwo(p3);
-        p1p3.setTimestamp(new Timestamp(20000000L));
+        p1p3.setTimestamp(daysAgo(1));
         pairingHistories.add(p1p3);
 
         PairingHistory p4p1 = new PairingHistory();
         p4p1.setPersonOne(p4);
         p4p1.setPersonTwo(p1);
-        p4p1.setTimestamp(new Timestamp(10000000L));
+        p4p1.setTimestamp(daysAgo(3));
         pairingHistories.add(p4p1);
 
         PairingHistory p2p3 = new PairingHistory();
         p2p3.setPersonOne(p2);
         p2p3.setPersonTwo(p3);
-        p2p3.setTimestamp(new Timestamp(40000000L));
+        p2p3.setTimestamp(daysAgo(2));
         pairingHistories.add(p2p3);
 
         PairingHistory p2p4 = new PairingHistory();
         p2p4.setPersonOne(p2);
         p2p4.setPersonTwo(p4);
-        p2p4.setTimestamp(new Timestamp(20000000L));
+        p2p4.setTimestamp(daysAgo(3));
         pairingHistories.add(p2p4);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
@@ -236,6 +242,60 @@ public class RecommendationServiceTest extends MockitoTestBase{
         Space space2Expected = new Space();
         space2Expected.setId(2L);
         space2Expected.setPeople(Arrays.asList(p4, p1));
+        expectedWorkspace.getSpaces().add(space2Expected);
+
+        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+    }
+
+    @Test
+    public void get_pairsFloatingPeopleWithPairsThatLeaveGoodChoicesForOthers_whenTheBestChoiceIsNotTheObviousOne() {
+        workspace.getPeople().add(p1);
+        workspace.getPeople().add(p2);
+
+        space1.getPeople().add(p3);
+        workspace.getSpaces().add(space1);
+
+        space2.getPeople().add(p4);
+        workspace.getSpaces().add(space2);
+
+        PairingHistory p1p3 = new PairingHistory();
+        p1p3.setPersonOne(p1);
+        p1p3.setPersonTwo(p3);
+        p1p3.setTimestamp(daysAgo(25));
+        pairingHistories.add(p1p3);
+
+        PairingHistory p4p1 = new PairingHistory();
+        p4p1.setPersonOne(p4);
+        p4p1.setPersonTwo(p1);
+        p4p1.setTimestamp(daysAgo(30));
+        pairingHistories.add(p4p1);
+
+        PairingHistory p2p3 = new PairingHistory();
+        p2p3.setPersonOne(p2);
+        p2p3.setPersonTwo(p3);
+        p2p3.setTimestamp(daysAgo(20));
+        pairingHistories.add(p2p3);
+
+        PairingHistory p2p4 = new PairingHistory();
+        p2p4.setPersonOne(p2);
+        p2p4.setPersonTwo(p4);
+        p2p4.setTimestamp(daysAgo(35));
+        pairingHistories.add(p2p4);
+
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+
+        Workspace expectedWorkspace = new Workspace();
+        expectedWorkspace.setPeople(new ArrayList<>());
+        expectedWorkspace.setSpaces(new ArrayList<>());
+
+        Space space1Expected = new Space();
+        space1Expected.setId(1L);
+        space1Expected.setPeople(Arrays.asList(p3, p1));
+        expectedWorkspace.getSpaces().add(space1Expected);
+
+        Space space2Expected = new Space();
+        space2Expected.setId(2L);
+        space2Expected.setPeople(Arrays.asList(p4, p2));
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));

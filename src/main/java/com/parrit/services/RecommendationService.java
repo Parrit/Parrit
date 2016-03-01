@@ -5,6 +5,7 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Space;
 import com.parrit.entities.Workspace;
 import com.parrit.utilities.CurrentTimeProvider;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,19 +27,72 @@ public class RecommendationService {
 
     public Workspace get(Workspace workspace, List<PairingHistory> workspacePairingHistories) {
         List<Person> floatingPeople = workspace.getPeople();
+        List<Space> emptySpaces = getEmptySpaces(workspace);
         Map<Person, Space> availablePairs = getAvailablePairsMap(workspace);
 
-        while (!floatingPeople.isEmpty()) {
+        if(!availablePairs.isEmpty()) {
+            Pair<Long, Map<Person,Person>> bestPairing = new Pair<>(Long.MAX_VALUE, new HashMap<>());
+            Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = getFloatingPeopleListMap(floatingPeople, availablePairs, workspacePairingHistories);
+
+            bestPairing = findBestPermutation(floatingPersonListMap, 0L, new HashMap<>(), bestPairing);
+
+            Map<Person, Person> bestPairingMap = bestPairing.getValue();
+            for (Person floatingPerson : bestPairingMap.keySet()) {
+                Person availablePerson = bestPairingMap.get(floatingPerson);
+                Space pairSpace = availablePairs.get(availablePerson);
+
+                pairSpace.getPeople().add(floatingPerson);
+                floatingPeople.remove(floatingPerson);
+            }
+        }
+
+        while(!floatingPeople.isEmpty()) {
             Person floatingPerson = floatingPeople.remove(0);
 
-            List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
+            Space emptySpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
+            emptySpace.getPeople().add(floatingPerson);
 
-            Space spaceToInsert = getSpaceToInsertCurrentPersonInto(workspace.getSpaces(), floatingPersonPairingHistories, availablePairs);
-
-            spaceToInsert.getPeople().add(floatingPerson);
+            if(emptySpace.getPeople().size() == FULL_SPACE_SIZE)
+                emptySpaces.remove(emptySpace);
         }
 
         return workspace;
+    }
+
+    private Pair<Long, Map<Person, Person>> findBestPermutation(Map<Person, List<Pair<Person, Timestamp>>> theMap, long currentTotal, Map<Person, Person> currentPairing, Pair<Long, Map<Person, Person>> bestPairing) {
+        if(theMap.isEmpty()) {
+            if(currentTotal < bestPairing.getKey()) {
+                bestPairing = new Pair<>(currentTotal, new HashMap<>(currentPairing));
+            }
+            return bestPairing;
+        }
+
+        Person currentFloatingPerson = theMap.entrySet().iterator().next().getKey();
+        List<Pair<Person, Timestamp>> ListOfSortedPairingChoices = theMap.remove(currentFloatingPerson);
+
+        for(Pair<Person, Timestamp> currentPairingChoice : ListOfSortedPairingChoices) {
+            if(currentPairing.containsValue(currentPairingChoice.getKey()))
+                continue;
+
+            currentTotal += currentPairingChoice.getValue().getTime();
+            currentPairing.put(currentFloatingPerson, currentPairingChoice.getKey());
+
+            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing);
+
+            currentPairing.remove(currentFloatingPerson);
+            currentTotal -= currentPairingChoice.getValue().getTime();
+        }
+
+        theMap.put(currentFloatingPerson, ListOfSortedPairingChoices);
+
+        return bestPairing;
+    }
+
+    private List<Space> getEmptySpaces(Workspace workspace) {
+        return workspace.getSpaces()
+                .stream()
+                .filter(space -> space.getPeople().isEmpty())
+                .collect(Collectors.toList());
     }
 
     private Map<Person, Space> getAvailablePairsMap(Workspace workspace) {
@@ -52,44 +106,38 @@ public class RecommendationService {
         return availablePairs;
     }
 
-    private List<PairingHistory> getPairingHistoryForPerson(Person person, List<PairingHistory> pairingHistories) {
-        return pairingHistories
-                .stream()
-                .filter(pairingHistory -> pairingHistory.getPersonOne().getId() == person.getId() || pairingHistory.getPersonTwo().getId() == person.getId())
-                .collect(Collectors.toList());
-    }
+    private Map<Person, List<Pair<Person, Timestamp>>> getFloatingPeopleListMap(List<Person> floatingPeople, Map<Person, Space> availablePairs, List<PairingHistory> workspacePairingHistories) {
+        Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = new HashMap<>();
 
-    private Space getSpaceToInsertCurrentPersonInto(List<Space> allSpaces, List<PairingHistory> floatingPersonPairingHistories, Map<Person, Space> availablePairs) {
-        if (!availablePairs.isEmpty()) {
-            Timestamp earliestPairingTime = currentTimeProvider.getCurrentTime();
-            Optional<Person> earliestPairingPerson = Optional.empty();
+        for(Person floatingPerson : floatingPeople) {
+            List<Pair<Person, Timestamp>> floatingPersonList = new ArrayList<>();
 
-            for (Person availablePerson : availablePairs.keySet()) {
+            List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
+
+            for(Person availablePerson : availablePairs.keySet()) {
+
                 List<PairingHistory> matchingPairingHistories = getPairingHistoryForPerson(availablePerson, floatingPersonPairingHistories);
 
                 if(matchingPairingHistories.isEmpty()) {
-                    return availablePairs.remove(availablePerson);
+                    floatingPersonList.add(new Pair<>(availablePerson, new Timestamp(0L)));
+                }
+                else {
+                    PairingHistory mostRecentPairing = matchingPairingHistories.stream().max(Comparator.comparing(PairingHistory::getTimestamp)).get();
+                    floatingPersonList.add(new Pair<>(availablePerson, mostRecentPairing.getTimestamp()));
                 }
 
-                PairingHistory mostRecentPairing = matchingPairingHistories.stream().max(Comparator.comparing(PairingHistory::getTimestamp)).get();
-
-                if(mostRecentPairing.getTimestamp().before(earliestPairingTime)) {
-                    earliestPairingPerson = Optional.of(availablePerson);
-                    earliestPairingTime = mostRecentPairing.getTimestamp();
-                }
             }
 
-            if(earliestPairingPerson.isPresent()) {
-                return availablePairs.remove(earliestPairingPerson.get());
-            }
+            floatingPersonListMap.put(floatingPerson, floatingPersonList);
         }
 
-        for (Space space : allSpaces) {
-            if (space.getPeople().size() < FULL_SPACE_SIZE) {
-                return space;
-            }
-        }
+        return floatingPersonListMap;
+    }
 
-        return allSpaces.get(0);
+    private List<PairingHistory> getPairingHistoryForPerson(Person person, List<PairingHistory> pairingHistories) {
+        return pairingHistories
+                .stream()
+                .filter(pairingHistory -> pairingHistory.getPersonOne().equals(person) || pairingHistory.getPersonTwo().equals(person))
+                .collect(Collectors.toList());
     }
 }

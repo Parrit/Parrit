@@ -49,13 +49,22 @@ public class Space {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Space)) return false;
 
         Space space = (Space) o;
 
-        if (id != space.id) return false;
-        if (people != null ? !people.equals(space.people) : space.people != null) return false;
-        return name != null ? name.equals(space.name) : space.name == null;
+        if (getId() != space.getId()) return false;
+        if (getPeople() != null ? !getPeople().equals(space.getPeople()) : space.getPeople() != null) return false;
+        return getName() != null ? getName().equals(space.getName()) : space.getName() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        return result;
     }
 
     @Override

@@ -33,19 +33,19 @@ public class Person {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Person)) return false;
 
         Person person = (Person) o;
 
-        if (id != person.id) return false;
-        return name != null ? name.equals(person.name) : person.name == null;
+        if (getId() != person.getId()) return false;
+        return getName() != null ? getName().equals(person.getName()) : person.getName() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
     }
 
