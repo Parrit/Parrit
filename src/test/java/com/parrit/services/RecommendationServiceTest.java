@@ -45,6 +45,15 @@ public class RecommendationServiceTest extends MockitoTestBase {
         return new Timestamp(today - days);
     }
 
+    private void addPairingHistory(Person p1, Person p2, Timestamp time) {
+        assert !p1.equals(p2);
+        PairingHistory pairingHistory = new PairingHistory();
+        pairingHistory.setPersonOne(p1);
+        pairingHistory.setPersonTwo(p2);
+        pairingHistory.setTimestamp(time);
+        pairingHistories.add(pairingHistory);
+    }
+
     @Before
     public void setup() {
         recommendationService = new RecommendationService(currentTimeProvider);
@@ -162,17 +171,8 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p3);
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p2 = new PairingHistory();
-        p1p2.setPersonOne(p1);
-        p1p2.setPersonTwo(p2);
-        p1p2.setTimestamp(daysAgo(1));
-        pairingHistories.add(p1p2);
-
-        PairingHistory p1p3 = new PairingHistory();
-        p1p3.setPersonOne(p3);
-        p1p3.setPersonTwo(p1);
-        p1p3.setTimestamp(daysAgo(2));
-        pairingHistories.add(p1p3);
+        addPairingHistory(p1, p2, daysAgo(1));
+        addPairingHistory(p3, p1, daysAgo(2));
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
@@ -204,29 +204,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p4);
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p3 = new PairingHistory();
-        p1p3.setPersonOne(p1);
-        p1p3.setPersonTwo(p3);
-        p1p3.setTimestamp(daysAgo(1));
-        pairingHistories.add(p1p3);
-
-        PairingHistory p4p1 = new PairingHistory();
-        p4p1.setPersonOne(p4);
-        p4p1.setPersonTwo(p1);
-        p4p1.setTimestamp(daysAgo(3));
-        pairingHistories.add(p4p1);
-
-        PairingHistory p2p3 = new PairingHistory();
-        p2p3.setPersonOne(p2);
-        p2p3.setPersonTwo(p3);
-        p2p3.setTimestamp(daysAgo(2));
-        pairingHistories.add(p2p3);
-
-        PairingHistory p2p4 = new PairingHistory();
-        p2p4.setPersonOne(p2);
-        p2p4.setPersonTwo(p4);
-        p2p4.setTimestamp(daysAgo(3));
-        pairingHistories.add(p2p4);
+        addPairingHistory(p1, p3, daysAgo(1));
+        addPairingHistory(p4, p1, daysAgo(3));
+        addPairingHistory(p2, p3, daysAgo(2));
+        addPairingHistory(p2, p4, daysAgo(3));
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
@@ -258,29 +239,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p4);
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p3 = new PairingHistory();
-        p1p3.setPersonOne(p1);
-        p1p3.setPersonTwo(p3);
-        p1p3.setTimestamp(daysAgo(25));
-        pairingHistories.add(p1p3);
-
-        PairingHistory p4p1 = new PairingHistory();
-        p4p1.setPersonOne(p4);
-        p4p1.setPersonTwo(p1);
-        p4p1.setTimestamp(daysAgo(30));
-        pairingHistories.add(p4p1);
-
-        PairingHistory p2p3 = new PairingHistory();
-        p2p3.setPersonOne(p2);
-        p2p3.setPersonTwo(p3);
-        p2p3.setTimestamp(daysAgo(20));
-        pairingHistories.add(p2p3);
-
-        PairingHistory p2p4 = new PairingHistory();
-        p2p4.setPersonOne(p2);
-        p2p4.setPersonTwo(p4);
-        p2p4.setTimestamp(daysAgo(35));
-        pairingHistories.add(p2p4);
+        addPairingHistory(p1, p3, daysAgo(25));
+        addPairingHistory(p4, p1, daysAgo(30));
+        addPairingHistory(p2, p3, daysAgo(20));
+        addPairingHistory(p2, p4, daysAgo(35));
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
@@ -311,11 +273,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p3 = new PairingHistory();
-        p1p3.setPersonOne(p1);
-        p1p3.setPersonTwo(p3);
-        p1p3.setTimestamp(daysAgo(25));
-        pairingHistories.add(p1p3);
+        addPairingHistory(p1, p3, daysAgo(25));
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
@@ -330,7 +288,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         Space space2Expected = new Space();
         space2Expected.setId(2L);
-        space2Expected.setPeople(Arrays.asList(p1));
+        space2Expected.setPeople(Collections.singletonList(p1));
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
