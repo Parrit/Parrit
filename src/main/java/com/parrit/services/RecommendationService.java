@@ -5,7 +5,8 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Space;
 import com.parrit.entities.Workspace;
 import com.parrit.utilities.CurrentTimeProvider;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,8 @@ public class RecommendationService {
         List<Space> emptySpaces = getEmptySpaces(workspace);
         Map<Person, Space> availablePairs = getAvailablePairsMap(workspace);
 
-        if(!availablePairs.isEmpty()) {
-            Pair<Long, Map<Person,Person>> bestPairing = new Pair<>(Long.MAX_VALUE, new HashMap<>());
+        if (!availablePairs.isEmpty()) {
+            Pair<Long, Map<Person, Person>> bestPairing = new ImmutablePair<>(Long.MAX_VALUE, new HashMap<>());
             Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = getFloatingPeopleListMap(floatingPeople, availablePairs, workspacePairingHistories);
 
             bestPairing = findBestPermutation(floatingPersonListMap, 0L, new HashMap<>(), bestPairing);
@@ -46,13 +47,13 @@ public class RecommendationService {
             }
         }
 
-        while(!floatingPeople.isEmpty()) {
+        while (!floatingPeople.isEmpty()) {
             Person floatingPerson = floatingPeople.remove(0);
 
             Space emptySpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
             emptySpace.getPeople().add(floatingPerson);
 
-            if(emptySpace.getPeople().size() == FULL_SPACE_SIZE)
+            if (emptySpace.getPeople().size() == FULL_SPACE_SIZE)
                 emptySpaces.remove(emptySpace);
         }
 
@@ -60,9 +61,9 @@ public class RecommendationService {
     }
 
     private Pair<Long, Map<Person, Person>> findBestPermutation(Map<Person, List<Pair<Person, Timestamp>>> theMap, long currentTotal, Map<Person, Person> currentPairing, Pair<Long, Map<Person, Person>> bestPairing) {
-        if(theMap.isEmpty()) {
-            if(currentTotal < bestPairing.getKey()) {
-                bestPairing = new Pair<>(currentTotal, new HashMap<>(currentPairing));
+        if (theMap.isEmpty()) {
+            if (currentTotal < bestPairing.getKey()) {
+                bestPairing = new ImmutablePair<>(currentTotal, new HashMap<>(currentPairing));
             }
             return bestPairing;
         }
@@ -70,8 +71,8 @@ public class RecommendationService {
         Person currentFloatingPerson = theMap.entrySet().iterator().next().getKey();
         List<Pair<Person, Timestamp>> ListOfSortedPairingChoices = theMap.remove(currentFloatingPerson);
 
-        for(Pair<Person, Timestamp> currentPairingChoice : ListOfSortedPairingChoices) {
-            if(currentPairing.containsValue(currentPairingChoice.getKey()))
+        for (Pair<Person, Timestamp> currentPairingChoice : ListOfSortedPairingChoices) {
+            if (currentPairing.containsValue(currentPairingChoice.getKey()))
                 continue;
 
             currentTotal += currentPairingChoice.getValue().getTime();
@@ -109,21 +110,20 @@ public class RecommendationService {
     private Map<Person, List<Pair<Person, Timestamp>>> getFloatingPeopleListMap(List<Person> floatingPeople, Map<Person, Space> availablePairs, List<PairingHistory> workspacePairingHistories) {
         Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = new HashMap<>();
 
-        for(Person floatingPerson : floatingPeople) {
+        for (Person floatingPerson : floatingPeople) {
             List<Pair<Person, Timestamp>> floatingPersonList = new ArrayList<>();
 
             List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
 
-            for(Person availablePerson : availablePairs.keySet()) {
+            for (Person availablePerson : availablePairs.keySet()) {
 
                 List<PairingHistory> matchingPairingHistories = getPairingHistoryForPerson(availablePerson, floatingPersonPairingHistories);
 
-                if(matchingPairingHistories.isEmpty()) {
-                    floatingPersonList.add(new Pair<>(availablePerson, new Timestamp(0L)));
-                }
-                else {
+                if (matchingPairingHistories.isEmpty()) {
+                    floatingPersonList.add(new ImmutablePair<>(availablePerson, new Timestamp(0L)));
+                } else {
                     PairingHistory mostRecentPairing = matchingPairingHistories.stream().max(Comparator.comparing(PairingHistory::getTimestamp)).get();
-                    floatingPersonList.add(new Pair<>(availablePerson, mostRecentPairing.getTimestamp()));
+                    floatingPersonList.add(new ImmutablePair<>(availablePerson, mostRecentPairing.getTimestamp()));
                 }
 
             }
