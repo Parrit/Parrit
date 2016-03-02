@@ -90,7 +90,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
     @Test
     public void get_returnsTheSameWorkspace_ifThereAreNotFloatingPeople() {
-        Workspace returnedWorkspace = recommendationService.get(workspace, new ArrayList<>());
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
         assertThat(returnedWorkspace, equalTo(workspace));
     }
@@ -100,7 +100,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
         workspace.getPeople().add(p1);
         workspace.getSpaces().add(space1);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, new ArrayList<>());
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
         Space expectedSpace = new Space();
         expectedSpace.setId(1L);
@@ -128,7 +128,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space3);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, new ArrayList<>());
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
         Workspace expectedWorkspace = new Workspace();
         expectedWorkspace.setPeople(new ArrayList<>());
@@ -296,6 +296,41 @@ public class RecommendationServiceTest extends MockitoTestBase {
         Space space2Expected = new Space();
         space2Expected.setId(2L);
         space2Expected.setPeople(Arrays.asList(p4, p2));
+        expectedWorkspace.getSpaces().add(space2Expected);
+
+        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+    }
+
+    @Test
+    public void get_pairsFloatingPeopleWithPairs_whenThereAreMoreFloatingPeopleThanAvailable() {
+        workspace.getPeople().add(p1);
+        workspace.getPeople().add(p2);
+
+        space1.getPeople().add(p3);
+        workspace.getSpaces().add(space1);
+
+        workspace.getSpaces().add(space2);
+
+        PairingHistory p1p3 = new PairingHistory();
+        p1p3.setPersonOne(p1);
+        p1p3.setPersonTwo(p3);
+        p1p3.setTimestamp(daysAgo(25));
+        pairingHistories.add(p1p3);
+
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+
+        Workspace expectedWorkspace = new Workspace();
+        expectedWorkspace.setPeople(new ArrayList<>());
+        expectedWorkspace.setSpaces(new ArrayList<>());
+
+        Space space1Expected = new Space();
+        space1Expected.setId(1L);
+        space1Expected.setPeople(Arrays.asList(p3, p2));
+        expectedWorkspace.getSpaces().add(space1Expected);
+
+        Space space2Expected = new Space();
+        space2Expected.setId(2L);
+        space2Expected.setPeople(Arrays.asList(p1));
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));

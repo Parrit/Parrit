@@ -84,6 +84,14 @@ public class RecommendationService {
             currentTotal -= currentPairingChoice.getValue().getTime();
         }
 
+        /*
+         *  If there are enough remaining floating people after currentFloatingPerson for the remaining available people
+         *  Then exclude currentFloatingPerson and try the pairing with the remaining floating people
+         */
+        if(ListOfSortedPairingChoices.size() - currentPairing.size() <= theMap.size()) {
+            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing);
+        }
+
         theMap.put(currentFloatingPerson, ListOfSortedPairingChoices);
 
         return bestPairing;
