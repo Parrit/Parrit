@@ -228,8 +228,11 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space2);
 
-        PairingHistory pairingHistory = new PairingHistory(workspace, p1, p3, daysAgo(25), 1L);
-        pairingHistories.add(pairingHistory);
+        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(15), 1L);
+        pairingHistories.add(p1p2);
+
+        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), 1L);
+        pairingHistories.add(p1p3);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
@@ -255,24 +258,23 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space2);
 
-        addPairingHistory(p4, p1, daysAgo(30));
-        addPairingHistory(p4, p2, daysAgo(20));
-        addPairingHistory(p1, p2, daysAgo(10));
+        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), 1L);
+        pairingHistories.add(p4p1);
+
+        PairingHistory p4p2 = new PairingHistory(workspace, p4, p2, daysAgo(20), 1L);
+        pairingHistories.add(p4p2);
+
+        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(10), 1L);
+        pairingHistories.add(p1p2);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setPeople(new ArrayList<>());
-        expectedWorkspace.setSpaces(new ArrayList<>());
+        Workspace expectedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space();
-        space1Expected.setId(1L);
-        space1Expected.setPeople(Arrays.asList(p4, p1));
+        Space space1Expected = new Space(1L, Arrays.asList(p4, p1), "One");
         expectedWorkspace.getSpaces().add(space1Expected);
 
-        Space space2Expected = new Space();
-        space2Expected.setId(2L);
-        space2Expected.setPeople(Arrays.asList(p2, p3));
+        Space space2Expected = new Space(2L, Arrays.asList(p2, p3), "Two");
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
