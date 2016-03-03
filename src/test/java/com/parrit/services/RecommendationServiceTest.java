@@ -45,52 +45,22 @@ public class RecommendationServiceTest extends MockitoTestBase {
         return new Timestamp(today - days);
     }
 
-    private void addPairingHistory(Person p1, Person p2, Timestamp time) {
-        assert !p1.equals(p2);
-        PairingHistory pairingHistory = new PairingHistory();
-        pairingHistory.setPersonOne(p1);
-        pairingHistory.setPersonTwo(p2);
-        pairingHistory.setTimestamp(time);
-        pairingHistories.add(pairingHistory);
-    }
-
     @Before
     public void setup() {
         recommendationService = new RecommendationService(currentTimeProvider);
 
-        workspace = new Workspace();
-        workspace.setPeople(new ArrayList<>());
-        workspace.setSpaces(new ArrayList<>());
+        workspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        space1 = new Space();
-        space1.setId(1L);
-        space1.setPeople(new ArrayList<>());
+        space1 = new Space(1L, new ArrayList<>(), "One");
+        space2 = new Space(2L, new ArrayList<>(), "Two");
+        space3 = new Space(3L, new ArrayList<>(), "Three");
 
-        space2 = new Space();
-        space2.setId(2L);
-        space2.setPeople(new ArrayList<>());
-
-        space3 = new Space();
-        space3.setId(3L);
-        space3.setPeople(new ArrayList<>());
-
-        p1 = new Person();
-        p1.setId(1L);
-
-        p2 = new Person();
-        p2.setId(2L);
-
-        p3 = new Person();
-        p3.setId(3L);
-
-        p4 = new Person();
-        p4.setId(4L);
-
-        p5 = new Person();
-        p5.setId(5L);
-
-        p6 = new Person();
-        p6.setId(6L);
+        p1 = new Person(1L, "Alpha");
+        p2 = new Person(2L, "Bravo");
+        p3 = new Person(3L, "Charlie");
+        p4 = new Person(4L, "Delta");
+        p5 = new Person(5L, "Epsilon");
+        p6 = new Person(6L, "Foxtrot");
 
         pairingHistories = new ArrayList<>();
 
@@ -111,13 +81,9 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
-        Space expectedSpace = new Space();
-        expectedSpace.setId(1L);
-        expectedSpace.setPeople(Collections.singletonList(p1));
+        Space expectedSpace = new Space(1L, Collections.singletonList(p1), "One");
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setSpaces(Collections.singletonList(expectedSpace));
-        expectedWorkspace.setPeople(new ArrayList<>());
+        Workspace expectedWorkspace = new Workspace("One", Collections.singletonList(expectedSpace), new ArrayList<>());
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
     }
@@ -139,23 +105,15 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setPeople(new ArrayList<>());
-        expectedWorkspace.setSpaces(new ArrayList<>());
+        Workspace expectedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space();
-        space1Expected.setId(1L);
-        space1Expected.setPeople(Arrays.asList(p2, p3));
+        Space space1Expected = new Space(1L, Arrays.asList(p2, p3), "One");
         expectedWorkspace.getSpaces().add(space1Expected);
 
-        Space space2Expected = new Space();
-        space2Expected.setId(2L);
-        space2Expected.setPeople(Arrays.asList(p4, p5, p6));
+        Space space2Expected = new Space(2L, Arrays.asList(p4, p5, p6), "Two");
         expectedWorkspace.getSpaces().add(space2Expected);
 
-        Space space3Expected = new Space();
-        space3Expected.setId(3L);
-        space3Expected.setPeople(Collections.singletonList(p1));
+        Space space3Expected = new Space(3L, Collections.singletonList(p1), "Three");
         expectedWorkspace.getSpaces().add(space3Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
@@ -171,23 +129,20 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p3);
         workspace.getSpaces().add(space2);
 
-        addPairingHistory(p1, p2, daysAgo(1));
-        addPairingHistory(p3, p1, daysAgo(2));
+        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(1), 1L);
+        pairingHistories.add(p1p2);
+
+        PairingHistory p1p3 = new PairingHistory(workspace, p3, p1, daysAgo(2), 2L);
+        pairingHistories.add(p1p3);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setPeople(new ArrayList<>());
-        expectedWorkspace.setSpaces(new ArrayList<>());
+        Workspace expectedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space();
-        space1Expected.setId(1L);
-        space1Expected.setPeople(Collections.singletonList(p2));
+        Space space1Expected = new Space(1L, Collections.singletonList(p2), "One");
         expectedWorkspace.getSpaces().add(space1Expected);
 
-        Space space2Expected = new Space();
-        space2Expected.setId(2L);
-        space2Expected.setPeople(Arrays.asList(p3, p1));
+        Space space2Expected = new Space(2L, Arrays.asList(p3, p1), "Two");
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
@@ -204,25 +159,25 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p4);
         workspace.getSpaces().add(space2);
 
-        addPairingHistory(p1, p3, daysAgo(1));
-        addPairingHistory(p4, p1, daysAgo(3));
-        addPairingHistory(p2, p3, daysAgo(2));
-        addPairingHistory(p2, p4, daysAgo(3));
+        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(1), 1L);
+        pairingHistories.add(p1p3);
+
+        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(3), 2L);
+        pairingHistories.add(p4p1);
+
+        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(2), 3L);
+        pairingHistories.add(p2p3);
+
+        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(3), 4L);
+        pairingHistories.add(p2p4);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Workspace expectedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setPeople(new ArrayList<>());
-        expectedWorkspace.setSpaces(new ArrayList<>());
-
-        Space space1Expected = new Space();
-        space1Expected.setId(1L);
-        space1Expected.setPeople(Arrays.asList(p3, p2));
+        Space space1Expected = new Space(1L, Arrays.asList(p3, p2), "One");
         expectedWorkspace.getSpaces().add(space1Expected);
 
-        Space space2Expected = new Space();
-        space2Expected.setId(2L);
-        space2Expected.setPeople(Arrays.asList(p4, p1));
+        Space space2Expected = new Space(2L, Arrays.asList(p4, p1), "Two");
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
@@ -239,25 +194,25 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p4);
         workspace.getSpaces().add(space2);
 
-        addPairingHistory(p1, p3, daysAgo(25));
-        addPairingHistory(p4, p1, daysAgo(30));
-        addPairingHistory(p2, p3, daysAgo(20));
-        addPairingHistory(p2, p4, daysAgo(35));
+        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), 1L);
+        pairingHistories.add(p1p3);
+
+        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), 2L);
+        pairingHistories.add(p4p1);
+
+        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(20), 3L);
+        pairingHistories.add(p2p3);
+
+        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(35), 4L);
+        pairingHistories.add(p2p4);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Workspace expectedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setPeople(new ArrayList<>());
-        expectedWorkspace.setSpaces(new ArrayList<>());
-
-        Space space1Expected = new Space();
-        space1Expected.setId(1L);
-        space1Expected.setPeople(Arrays.asList(p3, p1));
+        Space space1Expected = new Space(1L, Arrays.asList(p3, p1), "One");
         expectedWorkspace.getSpaces().add(space1Expected);
 
-        Space space2Expected = new Space();
-        space2Expected.setId(2L);
-        space2Expected.setPeople(Arrays.asList(p4, p2));
+        Space space2Expected = new Space(2L, Arrays.asList(p4, p2), "Two");
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
@@ -273,22 +228,17 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space2);
 
-        addPairingHistory(p1, p3, daysAgo(25));
+        PairingHistory pairingHistory = new PairingHistory(workspace, p1, p3, daysAgo(25), 1L);
+        pairingHistories.add(pairingHistory);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace();
-        expectedWorkspace.setPeople(new ArrayList<>());
-        expectedWorkspace.setSpaces(new ArrayList<>());
+        Workspace expectedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space();
-        space1Expected.setId(1L);
-        space1Expected.setPeople(Arrays.asList(p3, p2));
+        Space space1Expected = new Space(1L, Arrays.asList(p3, p2), "One");
         expectedWorkspace.getSpaces().add(space1Expected);
 
-        Space space2Expected = new Space();
-        space2Expected.setId(2L);
-        space2Expected.setPeople(Collections.singletonList(p1));
+        Space space2Expected = new Space(2L, Collections.singletonList(p1), "Two");
         expectedWorkspace.getSpaces().add(space2Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));

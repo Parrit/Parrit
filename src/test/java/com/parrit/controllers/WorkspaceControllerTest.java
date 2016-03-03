@@ -41,11 +41,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Before
     public void setUp() {
-        exampleWorkspace = new Workspace();
-        exampleWorkspace.setId(1L);
-        exampleWorkspace.setName("Henry");
-        exampleWorkspace.setPeople(new ArrayList<>());
-        exampleWorkspace.setSpaces(new ArrayList<>());
+        exampleWorkspace = new Workspace(1L, "Henry", new ArrayList<>(), new ArrayList<>());
 
         exampleWorkspaceString = "{\"id\":1,\"name\":\"Henry\",\"spaces\":[],\"people\":[]}";
 
@@ -115,8 +111,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         String returnedNames = mvcResult.getResponse().getContentAsString();
         assertThat(returnedNames, equalTo("[\"Henry\",\"Nancy\"]"));
 
-        Workspace newWorkspace = new Workspace();
-        newWorkspace.setName("Bob");
+        Workspace newWorkspace = new Workspace("Bob", new ArrayList<>(), new ArrayList<>());
 
         verify(mockWorkspaceRepository).save(eq(newWorkspace));
         verify(mockWorkspaceRepository).getAllWorkspaceNames();

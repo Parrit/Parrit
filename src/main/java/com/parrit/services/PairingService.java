@@ -42,12 +42,7 @@ public class PairingService {
                 Person currentPerson = people.get(i);
 
                 for(int j=i+1; j<people.size(); j++) {
-                    PairingHistory pairingHistory = new PairingHistory();
-                    pairingHistory.setWorkspace(workspace);
-                    pairingHistory.setPersonOne(currentPerson);
-                    pairingHistory.setPersonTwo(people.get(j));
-                    pairingHistory.setTimestamp(currentTimeProvider.getCurrentTime());
-                    pairingHistory.setGroupId(groupId);
+                    PairingHistory pairingHistory = new PairingHistory(workspace, currentPerson, people.get(j), currentTimeProvider.getCurrentTime(), groupId);
                     pairingHistoryRepository.save(pairingHistory);
                 }
 

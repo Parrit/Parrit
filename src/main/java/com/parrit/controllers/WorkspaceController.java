@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -54,8 +55,7 @@ public class WorkspaceController {
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public ResponseEntity<List<String>> createWorkspace(@RequestBody String name) {
-        Workspace workspace = new Workspace();
-        workspace.setName(name);
+        Workspace workspace = new Workspace(name, new ArrayList<>(), new ArrayList<>());
         workspaceRepository.save(workspace);
         return new ResponseEntity<>(workspaceRepository.getAllWorkspaceNames(), HttpStatus.OK);
     }
