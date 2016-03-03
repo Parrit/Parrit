@@ -95,13 +95,13 @@ public class RecommendationService {
             recHelper.unpairFloatingPersonWith(currentFloatingPerson, currentPairingChoiceWithTime);
         }
 
+        recHelper.putFloatingPersonBack(currentFloatingPerson);
+
         if(recHelper.canExcludeMySelf(currentFloatingPerson)) {
             recHelper.excludeFloatingPerson(currentFloatingPerson);
             findBestPairing(recHelper);
             recHelper.includeFloatingPerson(currentFloatingPerson);
         }
-
-        recHelper.putFloatingPersonBack(currentFloatingPerson);
     }
 
     private List<Space> getEmptySpaces(Workspace workspace) {
