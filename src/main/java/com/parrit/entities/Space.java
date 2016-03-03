@@ -18,7 +18,9 @@ public class Space {
 
     public Space() {}
 
-    public Space(String name) {
+    public Space(long id, List<Person> people, String name) {
+        this.id = id;
+        this.people = people;
         this.name = name;
     }
 
@@ -26,24 +28,12 @@ public class Space {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public List<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(List<Person> people) {
-        this.people = people;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

@@ -21,36 +21,36 @@ public class Workspace {
     @JoinColumn(name="workspace_id")
     private List<Person> people;
 
-    public long getId() {
-        return id;
+    public Workspace() {
     }
 
-    public void setId(long id) {
+    public Workspace(String name, List<Space> spaces, List<Person> people) {
+        this.name = name;
+        this.spaces = spaces;
+        this.people = people;
+    }
+
+    public Workspace(long id, String name, List<Space> spaces, List<Person> people) {
         this.id = id;
+        this.name = name;
+        this.spaces = spaces;
+        this.people = people;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Space> getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(List<Space> spaces) {
-        this.spaces = spaces;
-    }
-
     public List<Person> getPeople() {
         return people;
-    }
-
-    public void setPeople(List<Person> people) {
-        this.people = people;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.parrit.support.SpringTestBase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,13 +19,9 @@ public class WorkspaceRepositoryTest extends SpringTestBase {
 
     @Test
     public void getAllWorkspaceNames_returnsListOfNamesOfEachWorkspaceInTheDB() throws Exception {
-        Workspace workspace1 = new Workspace();
-        Workspace workspace2 = new Workspace();
-        Workspace workspace3 = new Workspace();
-
-        workspace1.setName("Hello");
-        workspace2.setName("Cheese");
-        workspace3.setName("McCow");
+        Workspace workspace1 = new Workspace("Hello", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace2 = new Workspace("Cheese", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace3 = new Workspace("McCow", new ArrayList<>(), new ArrayList<>());
 
         workspaceRepository.save(workspace1);
         workspaceRepository.save(workspace2);

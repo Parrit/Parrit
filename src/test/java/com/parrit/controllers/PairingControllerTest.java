@@ -35,16 +35,8 @@ public class PairingControllerTest extends ControllerTestBase {
 
     @Before
     public void setUp() {
-        exampleWorkspace = new Workspace();
-        exampleWorkspace.setId(2L);
-        exampleWorkspace.setName("Nancy");
-        exampleWorkspace.setPeople(new ArrayList<>());
-
-        Space space1 = new Space();
-        space1.setId(1L);
-        space1.setName("Super Space");
-        space1.setPeople(new ArrayList<>());
-        exampleWorkspace.setSpaces(Collections.singletonList(space1));
+        Space space1 = new Space(1L, new ArrayList<>(), "Super Space");
+        exampleWorkspace = new Workspace(2L, "Nancy", Collections.singletonList(space1), new ArrayList<>());
 
         String space1String = "{\"id\":1,\"people\":[],\"name\":\"Super Space\"}";
         exampleWorkspaceString = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":[]}";

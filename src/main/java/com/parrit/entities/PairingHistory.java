@@ -26,52 +26,39 @@ public class PairingHistory {
 
     private long groupId;
 
-    public long getId() {
-        return id;
+    public PairingHistory() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public PairingHistory(Workspace workspace, Person personOne, Person personTwo, Timestamp timestamp, long groupId) {
+        this.workspace = workspace;
+        this.personOne = personOne;
+        this.personTwo = personTwo;
+        this.timestamp = timestamp;
+        this.groupId = groupId;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public Workspace getWorkspace() {
         return workspace;
     }
 
-    public void setWorkspace(Workspace workspace) {
-        this.workspace = workspace;
-    }
-
     public Person getPersonOne() {
         return personOne;
-    }
-
-    public void setPersonOne(Person personOne) {
-        this.personOne = personOne;
     }
 
     public Person getPersonTwo() {
         return personTwo;
     }
 
-    public void setPersonTwo(Person personTwo) {
-        this.personTwo = personTwo;
-    }
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public long getGroupId() {
         return groupId;
-    }
-
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
     }
 
     @Override
