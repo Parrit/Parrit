@@ -26,6 +26,11 @@ $ rake build
 $ rake spec
 ```
 
+Before running tests make sure that a database called test exists
+```
+createdb test
+```
+
 _This assumes that you have a psql database on port 5432 with username pivotal and no password._
 
 If all of the tests pass, run the project as a spring project using your preferred method
