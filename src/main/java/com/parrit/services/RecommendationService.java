@@ -24,112 +24,84 @@ public class RecommendationService {
         this.currentTimeProvider = currentTimeProvider;
     }
 
-    private static final int FULL_SPACE_SIZE = 2;
-
     public Workspace get(Workspace workspace, List<PairingHistory> workspacePairingHistories) {
-        List<Person> floatingPeople = workspace.getPeople();
+        PairRecommendationHelper recHelper = new PairRecommendationHelper(workspace, workspacePairingHistories);
         List<Space> emptySpaces = getEmptySpaces(workspace);
-        Map<Person, Space> availablePairs = getAvailablePairsMap(workspace);
 
-        HelpfulDataClass helpfulData = new HelpfulDataClass(floatingPeople.size(), availablePairs.size() - floatingPeople.size());
+        if (recHelper.canAPairingBeMade()) {
 
-        if (!availablePairs.isEmpty()) {
-            Pair<Long, Map<Person, Person>> bestPairing = new ImmutablePair<>(Long.MAX_VALUE, new HashMap<>());
-            Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = getFloatingPeopleListMap(floatingPeople, availablePairs, workspacePairingHistories);
+            findBestPairing(recHelper);
 
-            bestPairing = findBestPermutation(floatingPersonListMap, 0L, new HashMap<>(), bestPairing, helpfulData);
-
-            Map<Person, Person> bestPairingMap = bestPairing.getValue();
+            Map<Person, Person> bestPairingMap = recHelper.getBestPairingMap();
             for (Person floatingPerson : bestPairingMap.keySet()) {
                 Person personToPairWith = bestPairingMap.get(floatingPerson);
-                Space pairSpace = availablePairs.get(personToPairWith);
+                Space pairSpace = recHelper.getSpaceForAvailabelPerson(personToPairWith);
 
                 /*
-                 * Pairing Two Floating People, need an empty space
+                 * Pairing two Floating People in an empty space
                  */
-                if(pairSpace == null) {
+                if (pairSpace == null) {
                     pairSpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
 
                     pairSpace.getPeople().add(floatingPerson);
                     pairSpace.getPeople().add(personToPairWith);
-                    floatingPeople.remove(floatingPerson);
-                    floatingPeople.remove(personToPairWith);
+                    workspace.getPeople().remove(floatingPerson);
+                    workspace.getPeople().remove(personToPairWith);
+                    recHelper.removeFloatingPerson(floatingPerson);
+                    recHelper.removeFloatingPerson(personToPairWith);
 
                     emptySpaces.remove(pairSpace);
-                }
-                else {
+                } else {
                     pairSpace.getPeople().add(floatingPerson);
-                    floatingPeople.remove(floatingPerson);
+                    workspace.getPeople().remove(floatingPerson);
+                    recHelper.removeFloatingPerson(floatingPerson);
                 }
             }
         }
 
-        while (!floatingPeople.isEmpty()) {
-            Person floatingPerson = floatingPeople.remove(0);
+        /*
+         *  Handle Left Over People
+         */
+        if (recHelper.hasSoloPerson()) {
+            Person soloPerson = recHelper.getSoloPerson();
 
             Space emptySpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
-            emptySpace.getPeople().add(floatingPerson);
-
-            if (emptySpace.getPeople().size() == FULL_SPACE_SIZE)
-                emptySpaces.remove(emptySpace);
+            emptySpace.getPeople().add(soloPerson);
+            workspace.getPeople().remove(soloPerson);
         }
 
         return workspace;
     }
 
-    private Pair<Long, Map<Person, Person>> findBestPermutation(Map<Person, List<Pair<Person, Timestamp>>> theMap, long currentTotal, Map<Person, Person> currentPairing, Pair<Long, Map<Person, Person>> bestPairing, HelpfulDataClass helpfulData) {
-        if (theMap.isEmpty()) {
-            if (isAValidPairing(currentPairing, helpfulData) && currentTotal < bestPairing.getKey()) {
-                bestPairing = new ImmutablePair<>(currentTotal, new HashMap<>(currentPairing));
+    private void findBestPairing(PairRecommendationHelper recHelper) {
+        if (!recHelper.canAPairingBeMade()) {
+            if(recHelper.isCurrentPairingValid()) {
+                recHelper.updateBestPairing();
             }
-            return bestPairing;
+            return;
         }
 
-        Person currentFloatingPerson = theMap.entrySet().iterator().next().getKey();
-        List<Pair<Person, Timestamp>> ListOfPairingChoices = theMap.remove(currentFloatingPerson);
+        Person currentFloatingPerson = recHelper.getNextFloatingPerson();
+        List<Pair<Person, Timestamp>> ListOfPairingChoices = recHelper.getPairingChoicesForFloatingPerson(currentFloatingPerson);
 
-        for (Pair<Person, Timestamp> currentPairingChoice : ListOfPairingChoices) {
-            List<Pair<Person, Timestamp>> floatingPersonTempList = null;
-
-            if (currentPairing.containsValue(currentPairingChoice.getKey())
-                || currentPairing.containsKey(currentPairingChoice.getKey()))
+        for (Pair<Person, Timestamp> currentPairingChoiceWithTime : ListOfPairingChoices) {
+            if (!recHelper.canPersonBePairedWith(currentPairingChoiceWithTime.getKey()))
                 continue;
 
-            currentTotal += currentPairingChoice.getValue().getTime();
-            currentPairing.put(currentFloatingPerson, currentPairingChoice.getKey());
+            recHelper.pairFloatingPersonWith(currentFloatingPerson, currentPairingChoiceWithTime);
 
-            if(theMap.containsKey(currentPairingChoice.getKey()))
-                floatingPersonTempList = theMap.remove(currentPairingChoice.getKey());
+            findBestPairing(recHelper);
 
-            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing, helpfulData);
-
-            if(floatingPersonTempList != null)
-                theMap.put(currentPairingChoice.getKey(), floatingPersonTempList);
-
-            currentPairing.remove(currentFloatingPerson);
-            currentTotal -= currentPairingChoice.getValue().getTime();
+            recHelper.unpairFloatingPersonWith(currentFloatingPerson, currentPairingChoiceWithTime);
         }
 
-        if(iShouldExcludeMyself(helpfulData)) {
-            helpfulData.hasSomeoneBeenExcluded = true;
-            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing, helpfulData);
-            helpfulData.hasSomeoneBeenExcluded = false;
+        if(recHelper.canExcludeMySelf(currentFloatingPerson)) {
+            recHelper.excludeFloatingPerson(currentFloatingPerson);
+            findBestPairing(recHelper);
+            recHelper.includeFloatingPerson(currentFloatingPerson);
         }
 
-        theMap.put(currentFloatingPerson, ListOfPairingChoices);
-
-        return bestPairing;
-    }
-
-    private boolean isAValidPairing(Map<Person, Person> currentPairing, HelpfulDataClass helpfulData) {
-        int numExcessFloating = helpfulData.numTotalFloating - helpfulData.numTotalAvailable;
-        int maximumAvailableWeCanPair = Math.min(helpfulData.numTotalFloating, helpfulData.numTotalAvailable);
-        return maximumAvailableWeCanPair + (numExcessFloating > 0 ? numExcessFloating/2 : 0) == currentPairing.size();
-    }
-
-    private boolean iShouldExcludeMyself(HelpfulDataClass helpfulData) {
-        int numTotalExcessFloating = helpfulData.numTotalFloating - helpfulData.numTotalAvailable;
-        return numTotalExcessFloating > 0 && numTotalExcessFloating % 2 == 1 && !helpfulData.hasSomeoneBeenExcluded;
+        recHelper.putFloatingPersonBack(currentFloatingPerson);
     }
 
     private List<Space> getEmptySpaces(Workspace workspace) {
@@ -139,69 +111,236 @@ public class RecommendationService {
                 .collect(Collectors.toList());
     }
 
-    private Map<Person, Space> getAvailablePairsMap(Workspace workspace) {
-        Map<Person, Space> availablePairs = new HashMap<>();
+    private class PairRecommendationHelper {
+        private static final int FULL_SPACE_SIZE = 2;
 
-        workspace.getSpaces()
-                .stream()
-                .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
-                .forEach(space -> availablePairs.put(space.getPeople().get(0), space));
+        private final List<Person> initialFloatingPeople;
+        private final List<Person> initialUnpairedStickingPeople;
 
-        workspace.getPeople()
-                .forEach(floatingPerson -> availablePairs.put(floatingPerson, null));
+        private List<Person> currentFloatingPeople;
+        private List<Person> currentUnpairedStickingPeople;
 
-        return availablePairs;
-    }
+        private final Map<Person, Space> availablePersonToSpaceMap;
+        private final Map<Person, List<Pair<Person, Timestamp>>> floatingPeoplePairChoiceMap;
 
-    private Map<Person, List<Pair<Person, Timestamp>>> getFloatingPeopleListMap(List<Person> floatingPeople, Map<Person, Space> availablePairs, List<PairingHistory> workspacePairingHistories) {
-        Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = new HashMap<>();
+        private long bestPairingCostTotal;
+        private Map<Person, Person> bestPairingMap;
 
-        for (Person floatingPerson : floatingPeople) {
-            List<Pair<Person, Timestamp>> floatingPersonList = new ArrayList<>();
+        private long currentPairingCost;
+        private Map<Person, Person> currentPairingMap;
 
-            List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
+        private boolean hasSomeoneBeenExcluded;
 
-            for (Person availablePerson : availablePairs.keySet()) {
+        public PairRecommendationHelper(Workspace workspace, List<PairingHistory> workspacePairingHistories) {
+            initialFloatingPeople = new ArrayList<>(workspace.getPeople());
+            initialUnpairedStickingPeople = new ArrayList<>(getUnpairedStickingPeople(workspace));
 
-                /*
-                 * Don't make a pairing history for yourself
-                 */
-                if(availablePerson.equals(floatingPerson))
-                    continue;
+            currentFloatingPeople = new ArrayList<>(initialFloatingPeople);
+            currentUnpairedStickingPeople = new ArrayList<>(initialUnpairedStickingPeople);
 
-                List<PairingHistory> matchingPairingHistories = getPairingHistoryForPerson(availablePerson, floatingPersonPairingHistories);
+            availablePersonToSpaceMap = getAvailablePairsMap(workspace);
+            floatingPeoplePairChoiceMap = getFloatingPeoplePairChoiceMap(initialFloatingPeople, availablePersonToSpaceMap, workspacePairingHistories);
 
-                if (matchingPairingHistories.isEmpty()) {
-                    floatingPersonList.add(new ImmutablePair<>(availablePerson, new Timestamp(0L)));
-                } else {
-                    PairingHistory mostRecentPairing = matchingPairingHistories.stream().max(Comparator.comparing(PairingHistory::getTimestamp)).get();
-                    floatingPersonList.add(new ImmutablePair<>(availablePerson, mostRecentPairing.getTimestamp()));
-                }
+            bestPairingCostTotal = Long.MAX_VALUE;
+            bestPairingMap = new HashMap<>();
 
-            }
+            currentPairingCost = 0L;
+            currentPairingMap = new HashMap<>();
 
-            floatingPersonListMap.put(floatingPerson, floatingPersonList);
+            hasSomeoneBeenExcluded = false;
         }
 
-        return floatingPersonListMap;
-    }
+        private List<Person> getUnpairedStickingPeople(Workspace workspace) {
+            return workspace.getSpaces()
+                    .stream()
+                    .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
+                    .map(space -> space.getPeople().get(0))
+                    .collect(Collectors.toList());
+        }
 
-    private List<PairingHistory> getPairingHistoryForPerson(Person person, List<PairingHistory> pairingHistories) {
-        return pairingHistories
-                .stream()
-                .filter(pairingHistory -> pairingHistory.getPersonOne().equals(person) || pairingHistory.getPersonTwo().equals(person))
-                .collect(Collectors.toList());
-    }
+        private Map<Person, Space> getAvailablePairsMap(Workspace workspace) {
+            Map<Person, Space> availablePairs = new HashMap<>();
 
-    private class HelpfulDataClass {
-        public final int numTotalFloating;
-        public final int numTotalAvailable;
-        public boolean hasSomeoneBeenExcluded;
+            workspace.getSpaces()
+                    .stream()
+                    .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
+                    .forEach(space -> availablePairs.put(space.getPeople().get(0), space));
 
-        public HelpfulDataClass(int floating, int available) {
-            this.numTotalFloating = floating;
-            this.numTotalAvailable = available;
-            this.hasSomeoneBeenExcluded = false;
+            workspace.getPeople()
+                    .forEach(floatingPerson -> availablePairs.put(floatingPerson, null));
+
+            return availablePairs;
+        }
+
+        private Map<Person, List<Pair<Person, Timestamp>>> getFloatingPeoplePairChoiceMap(List<Person> initialFloatingPeople, Map<Person, Space> availablePersonToSpaceMap, List<PairingHistory> workspacePairingHistories) {
+            Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = new HashMap<>();
+
+            for (Person floatingPerson : initialFloatingPeople) {
+                List<Pair<Person, Timestamp>> floatingPersonList = new ArrayList<>();
+
+                List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
+
+                for (Person availablePerson : availablePersonToSpaceMap.keySet()) {
+
+                    /*
+                     * Don't make a pairing history for yourself
+                     */
+                    if(availablePerson.equals(floatingPerson))
+                        continue;
+
+                    List<PairingHistory> matchingPairingHistories = getPairingHistoryForPerson(availablePerson, floatingPersonPairingHistories);
+
+                    if (matchingPairingHistories.isEmpty()) {
+                        floatingPersonList.add(new ImmutablePair<>(availablePerson, new Timestamp(0L)));
+                    } else {
+                        PairingHistory mostRecentPairing = matchingPairingHistories.stream().max(Comparator.comparing(PairingHistory::getTimestamp)).get();
+                        floatingPersonList.add(new ImmutablePair<>(availablePerson, mostRecentPairing.getTimestamp()));
+                    }
+
+                }
+
+                floatingPersonListMap.put(floatingPerson, floatingPersonList);
+            }
+
+            return floatingPersonListMap;
+        }
+
+        private List<PairingHistory> getPairingHistoryForPerson(Person person, List<PairingHistory> pairingHistories) {
+            return pairingHistories
+                    .stream()
+                    .filter(pairingHistory -> pairingHistory.getPersonOne().equals(person) || pairingHistory.getPersonTwo().equals(person))
+                    .collect(Collectors.toList());
+        }
+
+        //************************//
+        //*** Public Functions ***//
+        //************************//
+
+        public boolean canAPairingBeMade() {
+            /*
+             * There is at least one Floating Person and someone to pair them with
+             */
+            return !currentFloatingPeople.isEmpty() && currentFloatingPeople.size() + currentUnpairedStickingPeople.size() > 1;
+        }
+
+        public boolean isCurrentPairingValid() {
+            if(initialFloatingPeople.size() <= initialUnpairedStickingPeople.size()) {
+                /*
+                 * Each Floating Person Should Be Paired With an Unpaired Sticking Person
+                 */
+                return currentPairingMap.size() == initialFloatingPeople.size();
+            }
+            else {
+                /*
+                 * All Unpaired Sticking People should be paired
+                 */
+                return currentUnpairedStickingPeople.isEmpty();
+            }
+        }
+
+        public void updateBestPairing() {
+            if(currentPairingCost < bestPairingCostTotal) {
+                bestPairingCostTotal = currentPairingCost;
+                bestPairingMap = new HashMap<>(currentPairingMap);
+            }
+        }
+
+        public Person getNextFloatingPerson() {
+            /*
+             * Pop off first person
+             */
+            return currentFloatingPeople.remove(0);
+        }
+
+        public void putFloatingPersonBack(Person currentFloatingPerson) {
+            /*
+             * Add person back to front of list
+             */
+            currentFloatingPeople.add(0, currentFloatingPerson);
+        }
+
+        public List<Pair<Person, Timestamp>> getPairingChoicesForFloatingPerson(Person currentFloatingPerson) {
+            return floatingPeoplePairChoiceMap.get(currentFloatingPerson);
+        }
+
+        public boolean canPersonBePairedWith(Person currentPairingChoicePerson) {
+            /*
+             * Check to see if this person has not been paired with anyone else yet
+             */
+            return currentFloatingPeople.contains(currentPairingChoicePerson) || currentUnpairedStickingPeople.contains(currentPairingChoicePerson);
+        }
+
+        public void pairFloatingPersonWith(Person currentFloatingPerson, Pair<Person, Timestamp> currentPairingChoiceWithTime) {
+            Person currentPairingChoicePerson = currentPairingChoiceWithTime.getKey();
+            long currentPairingChoiceCost = currentPairingChoiceWithTime.getValue().getTime();
+
+            currentPairingCost += currentPairingChoiceCost;
+            currentPairingMap.put(currentFloatingPerson, currentPairingChoicePerson);
+
+            if(currentFloatingPeople.contains(currentPairingChoicePerson)) {
+                currentFloatingPeople.remove(currentPairingChoicePerson);
+            }
+            else {
+                currentUnpairedStickingPeople.remove(currentPairingChoicePerson);
+            }
+        }
+
+        public void unpairFloatingPersonWith(Person currentFloatingPerson, Pair<Person, Timestamp> currentPairingChoiceWithTime) {
+            Person currentPairingChoicePerson = currentPairingChoiceWithTime.getKey();
+            long currentPairingChoiceCost = currentPairingChoiceWithTime.getValue().getTime();
+
+            currentPairingCost -= currentPairingChoiceCost;
+            currentPairingMap.remove(currentFloatingPerson);
+
+            if(initialFloatingPeople.contains(currentPairingChoicePerson)) {
+                currentFloatingPeople.add(currentPairingChoicePerson);
+            }
+            else {
+                currentUnpairedStickingPeople.add(currentPairingChoicePerson);
+            }
+        }
+
+        public boolean canExcludeMySelf(Person currentFloatingPerson) {
+            /*
+             * No one has been excluded yet
+             *   AND
+             * there are more Floating People than Unpaired Sticking People
+             *   AND
+             * there are an odd amount of people to pair in total
+             */
+            return !hasSomeoneBeenExcluded
+                    && initialFloatingPeople.size() > initialUnpairedStickingPeople.size()
+                    && (initialFloatingPeople.size() + initialUnpairedStickingPeople.size()) % 2 == 1;
+        }
+
+        public void excludeFloatingPerson(Person currentFloatingPerson) {
+            currentFloatingPeople.remove(currentFloatingPerson);
+            hasSomeoneBeenExcluded = true;
+        }
+
+        public void includeFloatingPerson(Person currentFloatingPerson) {
+            currentFloatingPeople.add(currentFloatingPerson);
+            hasSomeoneBeenExcluded = false;
+        }
+
+        public Map<Person,Person> getBestPairingMap() {
+            return bestPairingMap;
+        }
+
+        public Space getSpaceForAvailabelPerson(Person personToPairWith) {
+            return availablePersonToSpaceMap.get(personToPairWith);
+        }
+
+        public boolean hasSoloPerson() {
+            return !currentFloatingPeople.isEmpty();
+        }
+
+        public Person getSoloPerson() {
+            return currentFloatingPeople.get(0);
+        }
+
+        public void removeFloatingPerson(Person floatingPerson) {
+            currentFloatingPeople.remove(floatingPerson);
         }
     }
 }

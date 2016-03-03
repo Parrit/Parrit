@@ -132,8 +132,8 @@ public class RecommendationServiceTest extends MockitoTestBase {
         PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(1), 1L);
         pairingHistories.add(p1p2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p3, p1, daysAgo(2), 2L);
-        pairingHistories.add(p1p3);
+        PairingHistory p3p1 = new PairingHistory(workspace, p3, p1, daysAgo(2), 2L);
+        pairingHistories.add(p3p1);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
 
