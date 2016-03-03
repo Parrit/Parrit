@@ -54,7 +54,7 @@ public class Space {
         Space space = (Space) o;
 
         if (getId() != space.getId()) return false;
-        if (getPeople() != null ? !getPeople().equals(space.getPeople()) : space.getPeople() != null) return false;
+        if (getPeople() != null ? !(getPeople().size() == space.getPeople().size() && getPeople().containsAll(space.getPeople())) : space.getPeople() != null) return false;
         return getName() != null ? getName().equals(space.getName()) : space.getName() == null;
 
     }

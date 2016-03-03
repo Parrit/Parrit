@@ -62,9 +62,8 @@ public class Workspace {
 
         if (getId() != workspace.getId()) return false;
         if (getName() != null ? !getName().equals(workspace.getName()) : workspace.getName() != null) return false;
-        if (getSpaces() != null ? !getSpaces().equals(workspace.getSpaces()) : workspace.getSpaces() != null)
-            return false;
-        return getPeople() != null ? getPeople().equals(workspace.getPeople()) : workspace.getPeople() == null;
+        if (getSpaces() != null ? !(getSpaces().size() == workspace.getSpaces().size() && getSpaces().containsAll(workspace.getSpaces())) : workspace.getSpaces() != null) return false;
+        return getPeople() != null ? (getPeople().size() == workspace.getPeople().size() && getPeople().containsAll(workspace.getPeople())) : workspace.getPeople() == null;
 
     }
 

@@ -31,19 +31,36 @@ public class RecommendationService {
         List<Space> emptySpaces = getEmptySpaces(workspace);
         Map<Person, Space> availablePairs = getAvailablePairsMap(workspace);
 
+        HelpfulDataClass helpfulData = new HelpfulDataClass(floatingPeople.size(), availablePairs.size() - floatingPeople.size());
+
         if (!availablePairs.isEmpty()) {
             Pair<Long, Map<Person, Person>> bestPairing = new ImmutablePair<>(Long.MAX_VALUE, new HashMap<>());
             Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = getFloatingPeopleListMap(floatingPeople, availablePairs, workspacePairingHistories);
 
-            bestPairing = findBestPermutation(floatingPersonListMap, 0L, new HashMap<>(), bestPairing);
+            bestPairing = findBestPermutation(floatingPersonListMap, 0L, new HashMap<>(), bestPairing, helpfulData);
 
             Map<Person, Person> bestPairingMap = bestPairing.getValue();
             for (Person floatingPerson : bestPairingMap.keySet()) {
-                Person availablePerson = bestPairingMap.get(floatingPerson);
-                Space pairSpace = availablePairs.get(availablePerson);
+                Person personToPairWith = bestPairingMap.get(floatingPerson);
+                Space pairSpace = availablePairs.get(personToPairWith);
 
-                pairSpace.getPeople().add(floatingPerson);
-                floatingPeople.remove(floatingPerson);
+                /*
+                 * Pairing Two Floating People, need an empty space
+                 */
+                if(pairSpace == null) {
+                    pairSpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
+
+                    pairSpace.getPeople().add(floatingPerson);
+                    pairSpace.getPeople().add(personToPairWith);
+                    floatingPeople.remove(floatingPerson);
+                    floatingPeople.remove(personToPairWith);
+
+                    emptySpaces.remove(pairSpace);
+                }
+                else {
+                    pairSpace.getPeople().add(floatingPerson);
+                    floatingPeople.remove(floatingPerson);
+                }
             }
         }
 
@@ -60,41 +77,59 @@ public class RecommendationService {
         return workspace;
     }
 
-    private Pair<Long, Map<Person, Person>> findBestPermutation(Map<Person, List<Pair<Person, Timestamp>>> theMap, long currentTotal, Map<Person, Person> currentPairing, Pair<Long, Map<Person, Person>> bestPairing) {
+    private Pair<Long, Map<Person, Person>> findBestPermutation(Map<Person, List<Pair<Person, Timestamp>>> theMap, long currentTotal, Map<Person, Person> currentPairing, Pair<Long, Map<Person, Person>> bestPairing, HelpfulDataClass helpfulData) {
         if (theMap.isEmpty()) {
-            if (currentTotal < bestPairing.getKey()) {
+            if (isAValidPairing(currentPairing, helpfulData) && currentTotal < bestPairing.getKey()) {
                 bestPairing = new ImmutablePair<>(currentTotal, new HashMap<>(currentPairing));
             }
             return bestPairing;
         }
 
         Person currentFloatingPerson = theMap.entrySet().iterator().next().getKey();
-        List<Pair<Person, Timestamp>> ListOfSortedPairingChoices = theMap.remove(currentFloatingPerson);
+        List<Pair<Person, Timestamp>> ListOfPairingChoices = theMap.remove(currentFloatingPerson);
 
-        for (Pair<Person, Timestamp> currentPairingChoice : ListOfSortedPairingChoices) {
-            if (currentPairing.containsValue(currentPairingChoice.getKey()))
+        for (Pair<Person, Timestamp> currentPairingChoice : ListOfPairingChoices) {
+            List<Pair<Person, Timestamp>> floatingPersonTempList = null;
+
+            if (currentPairing.containsValue(currentPairingChoice.getKey())
+                || currentPairing.containsKey(currentPairingChoice.getKey()))
                 continue;
 
             currentTotal += currentPairingChoice.getValue().getTime();
             currentPairing.put(currentFloatingPerson, currentPairingChoice.getKey());
 
-            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing);
+            if(theMap.containsKey(currentPairingChoice.getKey()))
+                floatingPersonTempList = theMap.remove(currentPairingChoice.getKey());
+
+            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing, helpfulData);
+
+            if(floatingPersonTempList != null)
+                theMap.put(currentPairingChoice.getKey(), floatingPersonTempList);
 
             currentPairing.remove(currentFloatingPerson);
             currentTotal -= currentPairingChoice.getValue().getTime();
         }
 
-        /*
-         *  If there are enough remaining floating people after currentFloatingPerson for the remaining available people
-         *  Then exclude currentFloatingPerson and try the pairing with the remaining floating people
-         */
-        if(ListOfSortedPairingChoices.size() - currentPairing.size() <= theMap.size()) {
-            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing);
+        if(iShouldExcludeMyself(helpfulData)) {
+            helpfulData.hasSomeoneBeenExcluded = true;
+            bestPairing = findBestPermutation(theMap, currentTotal, currentPairing, bestPairing, helpfulData);
+            helpfulData.hasSomeoneBeenExcluded = false;
         }
 
-        theMap.put(currentFloatingPerson, ListOfSortedPairingChoices);
+        theMap.put(currentFloatingPerson, ListOfPairingChoices);
 
         return bestPairing;
+    }
+
+    private boolean isAValidPairing(Map<Person, Person> currentPairing, HelpfulDataClass helpfulData) {
+        int numExcessFloating = helpfulData.numTotalFloating - helpfulData.numTotalAvailable;
+        int maximumAvailableWeCanPair = Math.min(helpfulData.numTotalFloating, helpfulData.numTotalAvailable);
+        return maximumAvailableWeCanPair + (numExcessFloating > 0 ? numExcessFloating/2 : 0) == currentPairing.size();
+    }
+
+    private boolean iShouldExcludeMyself(HelpfulDataClass helpfulData) {
+        int numTotalExcessFloating = helpfulData.numTotalFloating - helpfulData.numTotalAvailable;
+        return numTotalExcessFloating > 0 && numTotalExcessFloating % 2 == 1 && !helpfulData.hasSomeoneBeenExcluded;
     }
 
     private List<Space> getEmptySpaces(Workspace workspace) {
@@ -112,6 +147,9 @@ public class RecommendationService {
                 .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
                 .forEach(space -> availablePairs.put(space.getPeople().get(0), space));
 
+        workspace.getPeople()
+                .forEach(floatingPerson -> availablePairs.put(floatingPerson, null));
+
         return availablePairs;
     }
 
@@ -124,6 +162,12 @@ public class RecommendationService {
             List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
 
             for (Person availablePerson : availablePairs.keySet()) {
+
+                /*
+                 * Don't make a pairing history for yourself
+                 */
+                if(availablePerson.equals(floatingPerson))
+                    continue;
 
                 List<PairingHistory> matchingPairingHistories = getPairingHistoryForPerson(availablePerson, floatingPersonPairingHistories);
 
@@ -147,5 +191,17 @@ public class RecommendationService {
                 .stream()
                 .filter(pairingHistory -> pairingHistory.getPersonOne().equals(person) || pairingHistory.getPersonTwo().equals(person))
                 .collect(Collectors.toList());
+    }
+
+    private class HelpfulDataClass {
+        public final int numTotalFloating;
+        public final int numTotalAvailable;
+        public boolean hasSomeoneBeenExcluded;
+
+        public HelpfulDataClass(int floating, int available) {
+            this.numTotalFloating = floating;
+            this.numTotalAvailable = available;
+            this.hasSomeoneBeenExcluded = false;
+        }
     }
 }
