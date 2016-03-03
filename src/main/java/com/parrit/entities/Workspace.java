@@ -21,6 +21,9 @@ public class Workspace {
     @JoinColumn(name="workspace_id")
     private List<Person> people;
 
+    public Workspace() {
+    }
+
     public Workspace(String name, List<Space> spaces, List<Person> people) {
         this.name = name;
         this.spaces = spaces;
