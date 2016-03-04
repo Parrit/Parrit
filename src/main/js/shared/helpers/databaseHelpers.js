@@ -9,8 +9,8 @@ function postWorkspaceAndDo(workspace, callback) {
         });
 }
 
-function postNewWorkspaceAndDo(workspaceName, callback) {
-    Axios.post('/api/workspace/new', workspaceName)
+function postNewWorkspaceAndDo(name, password, callback) {
+    Axios.post('/api/workspace/new', {name, password})
         .then(function (response) {
             callback(response.data);
         })

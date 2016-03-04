@@ -7,10 +7,10 @@ var Mocker = require('support/ComponentMocker.js');
 var Dashboard = require('dashboard/components/Dashboard.js');
 var PrimaryButtonMock = Mocker("Button1");
 var ModalMock = Mocker("Modal");
-var NameFormMock = Mocker("NameForm");
+var NewWorkspaceFormMock = Mocker("NewWorkspaceForm");
 Dashboard.__set__('PrimaryButton', PrimaryButtonMock);
 Dashboard.__set__('Modal', ModalMock);
-Dashboard.__set__('NameForm', NameFormMock);
+Dashboard.__set__('NewWorkspaceForm', NewWorkspaceFormMock);
 
 describe('Dashboard', function() {
     var props;
@@ -28,7 +28,7 @@ describe('Dashboard', function() {
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
         newWorkspaceModal = ReactTestUtils.findRenderedComponentWithType(dashboard, ModalMock);
-        newWorkspaceForm = ReactTestUtils.findRenderedComponentWithType(newWorkspaceModal, NameFormMock);
+        newWorkspaceForm = ReactTestUtils.findRenderedComponentWithType(newWorkspaceModal, NewWorkspaceFormMock);
     });
 
     it('has link tags with hrefs to the workspaces', function() {
@@ -56,8 +56,8 @@ describe('Dashboard', function() {
 
         describe('#createWorkspaceWithName', function() {
             it('should call the createWorkspace action with the passed in name', function() {
-                dashboard.createWorkspaceWithName('Alaska');
-                expect(props.createWorkspace).toHaveBeenCalledWith('Alaska');
+                dashboard.createWorkspaceWithName('Alaska', 'Pass');
+                expect(props.createWorkspace).toHaveBeenCalledWith('Alaska', 'Pass');
             });
 
             it('should close the modal', function() {

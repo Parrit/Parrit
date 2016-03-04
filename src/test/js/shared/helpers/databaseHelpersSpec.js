@@ -51,13 +51,14 @@ describe('databaseHelpers', function() {
         var stubbedPost;
         var callbackSpy;
 
-        var workspaceNameToSave = 'Meeple';
+        var workspaceName = 'Meeple';
+        var workspacePassword = 'SuperSecretPassword';
 
         beforeEach(function () {
             stubbedPost = jasmine.Ajax.stubRequest('/api/workspace/new', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.postNewWorkspaceAndDo(workspaceNameToSave, callbackSpy);
+            databaseHelpers.postNewWorkspaceAndDo(workspaceName, workspacePassword, callbackSpy);
         });
 
         it('makes an Ajax call to post the new workspace name', function (done) {
@@ -65,8 +66,7 @@ describe('databaseHelpers', function() {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
                 expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/new');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                //TODO: Fix this when we send more than just a name to the backend (Only fails in testing)
-                //expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspaceNameToSave);
+                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({name: workspaceName, password: workspacePassword});
                 done();
             });
         });

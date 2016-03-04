@@ -19,9 +19,9 @@ public class WorkspaceRepositoryTest extends SpringTestBase {
 
     @Test
     public void getAllWorkspaceNames_returnsListOfNamesOfEachWorkspaceInTheDB() throws Exception {
-        Workspace workspace1 = new Workspace("Hello", new ArrayList<>(), new ArrayList<>());
-        Workspace workspace2 = new Workspace("Cheese", new ArrayList<>(), new ArrayList<>());
-        Workspace workspace3 = new Workspace("McCow", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace1 = new Workspace("Hello", "password", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace2 = new Workspace("Cheese", "password", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace3 = new Workspace("McCow", "password", new ArrayList<>(), new ArrayList<>());
 
         workspaceRepository.save(workspace1);
         workspaceRepository.save(workspace2);

@@ -16,7 +16,7 @@ describe('dashboardThunks', function() {
 
     describe('#createWorkspaceThunk', function () {
         beforeEach(function() {
-            thunk = dashboardThunks.createWorkspaceThunk("New Workspace");
+            thunk = dashboardThunks.createWorkspaceThunk("New Workspace", "S3cr3tP@$$w0rd");
         });
 
         it('returns a function', function() {
@@ -34,11 +34,11 @@ describe('dashboardThunks', function() {
             });
 
             it('calls postNewWorkspaceAndDo helper with correct arguments', function() {
-                expect(postNewWorkspaceAndDoSpy).toHaveBeenCalledWith("New Workspace", jasmine.anything());
+                expect(postNewWorkspaceAndDoSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd", jasmine.anything());
             });
 
             it('passes in a callback that will dispatch a updateWorkspaceNameList action', function() {
-                var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[1];
+                var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[2];
                 callback(newWorkspaceNames);
 
                 expect(updateWorkspaceNameListCreatorSpy).toHaveBeenCalledWith(newWorkspaceNames);

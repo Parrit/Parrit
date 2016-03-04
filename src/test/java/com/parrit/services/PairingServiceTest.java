@@ -58,7 +58,7 @@ public class PairingServiceTest extends MockitoTestBase {
         Space space1 = new Space(1L, Arrays.asList(p1, p2), "The Space");
         List<Space> spaces = Collections.singletonList(space1);
 
-        Workspace workspace = new Workspace("One", spaces, new ArrayList<>());
+        Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
 
         when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
 
@@ -82,7 +82,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
         List<Space> spaces = Arrays.asList(space1, space2);
 
-        Workspace workspace = new Workspace("One", spaces, new ArrayList<>());
+        Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
 
         when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
 
@@ -106,7 +106,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
         List<Space> spaces = Collections.singletonList(space1);
 
-        Workspace workspace = new Workspace("One", spaces, new ArrayList<>());
+        Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
 
         when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
 
@@ -124,7 +124,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
     @Test
     public void getRecommendation_getsTheWorkspaceAndItsPairingHistory_andCallsTheRecommendationService() {
-        Workspace workspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
         PairingHistory pairingHistory = new PairingHistory();
         List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
 
@@ -140,11 +140,11 @@ public class PairingServiceTest extends MockitoTestBase {
 
     @Test
     public void getRecommendation_persistsTheResultFromTheRecommendationService_andReturnsTheWorkspace() {
-        Workspace workspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
+        Workspace workspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
         PairingHistory pairingHistory = new PairingHistory();
         List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
 
-        Workspace recommendedWorkspace = new Workspace("One", new ArrayList<>(), new ArrayList<>());
+        Workspace recommendedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
         when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
         when(mockPairingHistoryRepository.findByWorkspace(any(Workspace.class))).thenReturn(pairingHistories);

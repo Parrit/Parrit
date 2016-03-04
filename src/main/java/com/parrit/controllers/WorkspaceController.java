@@ -1,5 +1,6 @@
 package com.parrit.controllers;
 
+import com.parrit.DTOs.NewWorkspaceDTO;
 import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.WorkspaceRepository;
@@ -7,6 +8,7 @@ import com.parrit.transformers.WorkspaceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,9 +56,13 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<List<String>> createWorkspace(@RequestBody String name) {
-        Workspace workspace = new Workspace(name, new ArrayList<>(), new ArrayList<>());
+    public ResponseEntity<List<String>> createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) {
+        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+        String hashedPassword = encoder.encodePassword(newWorkspaceDTO.getPassword(), null);
+
+        Workspace workspace = new Workspace(newWorkspaceDTO.getName(), hashedPassword, new ArrayList<>(), new ArrayList<>());
         workspaceRepository.save(workspace);
+
         return new ResponseEntity<>(workspaceRepository.getAllWorkspaceNames(), HttpStatus.OK);
     }
 }

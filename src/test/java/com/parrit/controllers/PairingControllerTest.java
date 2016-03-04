@@ -36,7 +36,7 @@ public class PairingControllerTest extends ControllerTestBase {
     @Before
     public void setUp() {
         Space space1 = new Space(1L, new ArrayList<>(), "Super Space");
-        exampleWorkspace = new Workspace(2L, "Nancy", Collections.singletonList(space1), new ArrayList<>());
+        exampleWorkspace = new Workspace(2L, "Nancy", "nancypass", Collections.singletonList(space1), new ArrayList<>());
 
         String space1String = "{\"id\":1,\"people\":[],\"name\":\"Super Space\"}";
         exampleWorkspaceString = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":[]}";

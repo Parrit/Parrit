@@ -2,7 +2,7 @@ var React = require('react');
 var Modal = require('react-modal');
 var ModalStyles = require('shared/misc/OverrideBullshitModalStyles.js');
 
-var NameForm = require('shared/components/NameForm.js');
+var NewWorkspaceForm = require('shared/components/NewWorkspaceForm.js');
 var Buttons = require('shared/components/Buttons.js');
 var PrimaryButton = Buttons.PrimaryButton;
 
@@ -23,13 +23,13 @@ var Dashboard = React.createClass({
                 })}
             </ul>
             <Modal isOpen={this.props.isNewWorkspaceModalOpen} onRequestClose={this.closeNewWorkspaceModal} style={ModalStyles}>
-                <NameForm confirmFunction={this.createWorkspaceWithName} cancelFunction={this.closeNewWorkspaceModal}/>
+                <NewWorkspaceForm confirmFunction={this.createWorkspaceWithName} cancelFunction={this.closeNewWorkspaceModal}/>
             </Modal>
         </div>
     },
 
-    createWorkspaceWithName: function(name) {
-        this.props.createWorkspace(name);
+    createWorkspaceWithName: function(name, pass) {
+        this.props.createWorkspace(name, pass);
         this.closeNewWorkspaceModal();
     },
 
