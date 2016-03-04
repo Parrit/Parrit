@@ -8,6 +8,7 @@ import com.parrit.transformers.WorkspaceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class WorkspaceController {
         return "dashboard";
     }
 
+    @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspaceName)")
     @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET)
     public String getWorkspace(@PathVariable String workspaceName, Model model) {
         Workspace workspace = workspaceRepository.findByName(workspaceName);
@@ -47,13 +49,6 @@ public class WorkspaceController {
     //******  APIs  ******//
     //********************//
 
-    @RequestMapping(path = "/api/workspace", method = RequestMethod.POST, consumes = {"application/json"})
-    @ResponseBody
-    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody Workspace workspace) { //TODO: Have it take in a workspaceDTO
-        Workspace savedWorkspace = workspaceRepository.save(workspace);
-        return new ResponseEntity<>(WorkspaceTransformer.transform(savedWorkspace), HttpStatus.OK);
-    }
-
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public ResponseEntity<List<String>> createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) {
@@ -64,5 +59,13 @@ public class WorkspaceController {
         workspaceRepository.save(workspace);
 
         return new ResponseEntity<>(workspaceRepository.getAllWorkspaceNames(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspace)")
+    @RequestMapping(path = "/api/workspace", method = RequestMethod.POST, consumes = {"application/json"})
+    @ResponseBody
+    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody Workspace workspace) { //TODO: Have it take in a workspaceDTO
+        Workspace savedWorkspace = workspaceRepository.save(workspace);
+        return new ResponseEntity<>(WorkspaceTransformer.transform(savedWorkspace), HttpStatus.OK);
     }
 }
