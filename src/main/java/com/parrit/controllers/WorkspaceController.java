@@ -39,7 +39,7 @@ public class WorkspaceController {
     @RequestMapping(path = "/{workspaceName:.+}", method = RequestMethod.GET)
     public String getWorkspace(@PathVariable String workspaceName, Model model) {
         Workspace workspace = workspaceRepository.findByName(workspaceName);
-        model.addAttribute("workspace", workspace); //TODO: Use DTO
+        model.addAttribute("workspace", WorkspaceTransformer.transform(workspace));
         return "workspace";
     }
 
@@ -57,11 +57,14 @@ public class WorkspaceController {
         workspaceRepository.save(workspace);
     }
 
-    @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspace)")
+    //TODO: This authorization will not work if the workspace name is being changed.....
+    @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspaceDTO)")
     @RequestMapping(path = "/api/workspace", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody Workspace workspace) { //TODO: Have it take in a workspaceDTO
-        Workspace savedWorkspace = workspaceRepository.save(workspace);
-        return new ResponseEntity<>(WorkspaceTransformer.transform(savedWorkspace), HttpStatus.OK);
+    public ResponseEntity<WorkspaceDTO> saveWorkspace(@RequestBody WorkspaceDTO workspaceDTO) {
+        Workspace savedWorkspace = workspaceRepository.findOne(workspaceDTO.getId());
+        Workspace updatedWorkspace = WorkspaceTransformer.merge(savedWorkspace, workspaceDTO);
+        updatedWorkspace = workspaceRepository.save(updatedWorkspace);
+        return new ResponseEntity<>(WorkspaceTransformer.transform(updatedWorkspace), HttpStatus.OK);
     }
 }

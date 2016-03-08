@@ -36,32 +36,44 @@ public class Workspace {
         this.people = people;
     }
 
-    public Workspace(long id, String name, String password, List<Space> spaces, List<Person> people) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.spaces = spaces;
-        this.people = people;
-    }
-
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Space> getSpaces() {
         return spaces;
     }
 
+    public void setSpaces(List<Space> spaces) {
+        this.spaces = spaces;
+    }
+
     public List<Person> getPeople() {
         return people;
+    }
+
+    public void setPeople(List<Person> people) {
+        this.people = people;
     }
 
     @Override

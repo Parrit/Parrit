@@ -1,5 +1,6 @@
 package com.parrit.services;
 
+import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class AuthorizationService {
 
     public boolean canAccessWorkspace(User user, long workspaceId) {
         return canAccessWorkspace(user, workspaceRepository.findOne(workspaceId));
+    }
+
+    public boolean canAccessWorkspace(User user, WorkspaceDTO workspaceDTO) {
+        return canAccessWorkspace(user, workspaceDTO.getName());
     }
 }

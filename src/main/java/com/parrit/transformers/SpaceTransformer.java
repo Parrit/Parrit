@@ -24,4 +24,18 @@ public class SpaceTransformer {
                 .collect(Collectors.toList());
     }
 
+    public static Space reverse(SpaceDTO spaceDTO) {
+        Space space = new Space();
+        space.setId(spaceDTO.getId());
+        space.setName(spaceDTO.getName());
+        space.setPeople(PersonTransformer.reverse(spaceDTO.getPeople()));
+        return space;
+    }
+
+    public static List<Space> reverse(List<SpaceDTO> spaceDTOs) {
+        if(spaceDTOs == null || spaceDTOs.isEmpty()) return Collections.emptyList();
+        return spaceDTOs.stream()
+            .map(SpaceTransformer::reverse)
+            .collect(Collectors.toList());
+    }
 }

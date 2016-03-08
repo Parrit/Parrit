@@ -14,4 +14,13 @@ public class WorkspaceTransformer {
         return workspaceDTO;
     }
 
+    public static Workspace merge(Workspace workspace, WorkspaceDTO workspaceDTO) {
+        Workspace mergedWorkspace = new Workspace();
+        mergedWorkspace.setId(workspace.getId());
+        mergedWorkspace.setName(workspaceDTO.getName());
+        mergedWorkspace.setPassword(workspace.getPassword());
+        mergedWorkspace.setPeople(PersonTransformer.reverse(workspaceDTO.getPeople()));
+        mergedWorkspace.setSpaces(SpaceTransformer.reverse(workspaceDTO.getSpaces()));
+        return mergedWorkspace;
+    }
 }

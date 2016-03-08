@@ -8,9 +8,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
 import com.parrit.support.ControllerTestBase;
+import com.parrit.transformers.WorkspaceTransformer;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -33,15 +35,24 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     @InjectMocks
     WorkspaceController workspaceController;
 
-    Workspace exampleWorkspace;
-    String exampleWorkspaceString;
+    Workspace persistedWorkspace;
+    Workspace updatedWorkspace;
+    WorkspaceDTO updatedWorkspaceDTO;
+    String persistedWorkspaceString;
+    String updatedWorkspaceDTOString;
     List<String> workspaceNames;
 
     @Before
     public void setUp() {
-        exampleWorkspace = new Workspace(1L, "Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        persistedWorkspace = new Workspace("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        persistedWorkspace.setId(1L);
+        persistedWorkspaceString = "{\"id\":1,\"name\":\"Henry\",\"password\":\"henrypass\",\"spaces\":[],\"people\":[]}";
 
-        exampleWorkspaceString = "{\"id\":1,\"name\":\"Henry\",\"spaces\":[],\"people\":[]}";
+        updatedWorkspaceDTO = WorkspaceTransformer.transform(persistedWorkspace);
+        updatedWorkspaceDTOString = "{\"id\":1,\"name\":\"Bob\",\"spaces\":[],\"people\":[]}";
+
+        updatedWorkspace = new Workspace("Bob", "henrypass", new ArrayList<>(), new ArrayList<>());
+        updatedWorkspace.setId(1L);
 
         workspaceNames = Arrays.asList("Henry", "Nancy");
     }
@@ -59,12 +70,12 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void getWorkspace_returnsResultFromRepository() throws Exception {
-        when(mockWorkspaceRepository.findByName("workspaceName")).thenReturn(exampleWorkspace);
+        when(mockWorkspaceRepository.findByName("workspaceName")).thenReturn(persistedWorkspace);
 
         mvc.perform(get("/workspaceName"))
             .andExpect(status().isOk())
             .andExpect(view().name("workspace"))
-            .andExpect(model().attribute("workspace", exampleWorkspace));
+            .andExpect(model().attribute("workspace", updatedWorkspaceDTO));
 
         verify(mockWorkspaceRepository, never()).save(any(Workspace.class));
         verify(mockWorkspaceRepository).findByName("workspaceName");
@@ -76,7 +87,11 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void createWorkspace_savesTheNewWorkspace_andReturnsListOfAllWorkspaceNames() throws Exception {
+<<<<<<< Updated upstream
         when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
+=======
+        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(persistedWorkspace);
+>>>>>>> Stashed changes
 
         mvc.perform(post("/api/workspace/new")
             .contentType(MediaType.APPLICATION_JSON)
@@ -90,18 +105,20 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     }
 
     @Test
-    public void saveWorkspace_persistsTheWorkspace_andReturnsTheResult() throws Exception {
-        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
+    public void saveWorkspace_persistsTheWorkspaceWithChanges_andReturnsTheResult() throws Exception {
+        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(persistedWorkspace);
+        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(updatedWorkspace);
 
         MvcResult mvcResult = mvc.perform(post("/api/workspace")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(exampleWorkspaceString))
+            .content(updatedWorkspaceDTOString))
             .andExpect(status().isOk())
             .andReturn();
 
         String returnedState = mvcResult.getResponse().getContentAsString();
-        assertThat(returnedState, equalTo(exampleWorkspaceString));
+        assertThat(returnedState, equalTo(updatedWorkspaceDTOString));
 
-        verify(mockWorkspaceRepository).save(any(Workspace.class));
+        verify(mockWorkspaceRepository).findOne(1L);
+        verify(mockWorkspaceRepository).save(eq(updatedWorkspace));
     }
 }

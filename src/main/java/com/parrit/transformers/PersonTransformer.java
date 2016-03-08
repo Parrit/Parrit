@@ -23,4 +23,18 @@ public class PersonTransformer {
                 .collect(Collectors.toList());
     }
 
+    public static Person reverse(PersonDTO personDTO) {
+        Person person = new Person();
+        person.setId(personDTO.getId());
+        person.setName(personDTO.getName());
+        return person;
+    }
+
+    public static List<Person> reverse(List<PersonDTO> personDTOs) {
+        if(personDTOs == null || personDTOs.isEmpty()) return Collections.emptyList();
+        return personDTOs.stream()
+            .map(PersonTransformer::reverse)
+            .collect(Collectors.toList());
+    }
+
 }

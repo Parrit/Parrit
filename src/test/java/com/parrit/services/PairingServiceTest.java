@@ -52,10 +52,13 @@ public class PairingServiceTest extends MockitoTestBase {
 
     @Test
     public void savePairing_createsAPairingHistory_andPersistsIt() {
-        Person p1 = new Person(1L, "John");
-        Person p2 = new Person(2L, "Mary");
+        Person p1 = new Person("John");
+        p1.setId(1L);
+        Person p2 = new Person("Mary");
+        p2.setId(2L);
 
-        Space space1 = new Space(1L, Arrays.asList(p1, p2), "The Space");
+        Space space1 = new Space("The Space", Arrays.asList(p1, p2));
+        space1.setId(1L);
         List<Space> spaces = Collections.singletonList(space1);
 
         Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
@@ -72,13 +75,19 @@ public class PairingServiceTest extends MockitoTestBase {
 
     @Test
     public void savePairing_createsMultiplePairingHistoriesWithIncrementedGroupIds_whenThereAreMoreThanOneSpaces() {
-        Person p1 = new Person(1L, "John");
-        Person p2 = new Person(2L, "Mary");
-        Person p3 = new Person(3L, "Steve");
-        Person p4 = new Person(4L, "Tammy");
+        Person p1 = new Person("John");
+        p1.setId(1L);
+        Person p2 = new Person("Mary");
+        p2.setId(2L);
+        Person p3 = new Person("Steve");
+        p3.setId(3L);
+        Person p4 = new Person("Tammy");
+        p4.setId(4L);
 
-        Space space1 = new Space(1L, Arrays.asList(p1, p2), "The Space");
-        Space space2 = new Space(1L, Arrays.asList(p3, p4), "The Second Space");
+        Space space1 = new Space("The Space", Arrays.asList(p1, p2));
+        space1.setId(1L);
+        Space space2 = new Space("The Second Space", Arrays.asList(p3, p4));
+        space2.setId(2L);
 
         List<Space> spaces = Arrays.asList(space1, space2);
 
@@ -98,11 +107,15 @@ public class PairingServiceTest extends MockitoTestBase {
 
     @Test
     public void savePairing_createsMultiplePairingHistoriesWithSameGroupId_whenSpaceHasMoreThanTwoPeople() {
-        Person p1 = new Person(1L, "John");
-        Person p2 = new Person(2L, "Mary");
-        Person p3 = new Person(3L, "Steve");
+        Person p1 = new Person("John");
+        p1.setId(1L);
+        Person p2 = new Person("Mary");
+        p2.setId(2L);
+        Person p3 = new Person("Steve");
+        p3.setId(3L);
 
-        Space space1 = new Space(1L, Arrays.asList(p1, p2, p3), "The Space");
+        Space space1 = new Space("The Space", Arrays.asList(p1, p2, p3));
+        space1.setId(1L);
 
         List<Space> spaces = Collections.singletonList(space1);
 

@@ -45,6 +45,8 @@ public class LoginController {
     @RequestMapping(path = "/login/workspace", method = RequestMethod.GET)
     public String loginWorkspace(final HttpServletRequest request, final HttpServletResponse response, Model model) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+
+        //TODO: Check to make sure this isn't null -- maybe redirect to homepage if it is
         String originalRequestUrl = savedRequest.getRedirectUrl();
         String workspaceName = originalRequestUrl.substring(originalRequestUrl.lastIndexOf('/') + 1);
 

@@ -39,4 +39,18 @@ public class WorkspaceDTO {
     public void setPeople(List<PersonDTO> people) {
         this.people = people;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WorkspaceDTO)) return false;
+
+        WorkspaceDTO that = (WorkspaceDTO) o;
+
+        if (getId() != that.getId()) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getSpaces() != null ? !getSpaces().equals(that.getSpaces()) : that.getSpaces() != null) return false;
+        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null;
+
+    }
 }
