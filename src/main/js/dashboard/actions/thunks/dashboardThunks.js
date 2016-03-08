@@ -1,10 +1,13 @@
-var { postNewWorkspaceAndDo } = require('shared/helpers/databaseHelpers.js');
-var { updateWorkspaceNameListCreator } = require('dashboard/actions/creators/dashboardCreators.js');
+var { postNewWorkspaceAndDo, postLoginAndRedirect } = require('shared/helpers/databaseHelpers.js');
 
 export function createWorkspaceThunk(name, password) {
-    return function (dispatch) {
-        postNewWorkspaceAndDo(name, password, function(workspace) {
-            dispatch(updateWorkspaceNameListCreator(workspace));
-        });
-    }
+    postNewWorkspaceAndDo(name, password, function() {
+        postLoginAndRedirect(name, password);
+    });
 }
+
+export function loginThunk(name, password) {
+    postLoginAndRedirect(name, password);
+}
+
+

@@ -4,7 +4,6 @@ import com.parrit.services.WorkspaceDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -42,16 +41,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .httpBasic()
-            .and()
             .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
-            .antMatchers(HttpMethod.GET, "/built/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/workspace/new").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/built/**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/api/workspace/new").permitAll()
+                .anyRequest().authenticated()
             .and()
-            .csrf().csrfTokenRepository(csrfTokenRepository())
+            .csrf()
+                .csrfTokenRepository(csrfTokenRepository())
             .and()
             .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }

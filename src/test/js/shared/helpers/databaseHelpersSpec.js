@@ -159,4 +159,39 @@ describe('databaseHelpers', function() {
             });
         });
     });
+
+    describe('#postLoginAndRedirect', function () {
+        var stubbedPost;
+
+        beforeEach(function () {
+            stubbedPost = jasmine.Ajax.stubRequest('/login', undefined, 'POST');
+
+            databaseHelpers.postLoginAndRedirect("Username", "Password");
+        });
+
+        it('makes an Ajax call to GET recommended pairing with the workspaceId', function (done) {
+            setTimeout(function () {
+                expect(jasmine.Ajax.requests.count()).toBe(1);
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/login');
+                expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
+                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({name: "Username", password: "Password"});
+                done();
+            });
+        });
+
+        //TODO: Figure out how to test this
+        //describe('when the Ajax call returns with a response', function () {
+        //    var responseText = "/cow";
+        //    beforeEach(function () {
+        //        stubbedPost.andReturn({responseText: responseText});
+        //    });
+        //
+        //    it('redirects the the returned route', function (done) {
+        //        setTimeout(function () {
+        //            expect(windowLocationHrefSpy).toHaveBeenCalledWith(responseText);
+        //            done();
+        //        });
+        //    });
+        //});
+    });
 });

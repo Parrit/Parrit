@@ -1,31 +1,12 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var ReactRedux = require('react-redux');
-var Redux = require('redux');
-var Thunk = require('redux-thunk');
 
-var Provider = ReactRedux.Provider;
+var Dashboard = require('dashboard/components/Dashboard.js');
+var DashboardActions = require('dashboard/actions/dashboardActions.js');
 
-var DashboardContainer = require('dashboard/containers/DashboardContainer.js');
-var dashboardReducer = require('dashboard/reducers/dashboardReducer.js');
-
-function createStore(initialState) {
-    var createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
-    return createStoreMW(dashboardReducer, initialState);
-}
-
-function runDashboard(workspaceNames) {
-    var initialState = {
-        isNewWorkspaceModalOpen: false,
-        workspaceNames: workspaceNames
-    };
-
-    var store = createStore(initialState);
-
+function runDashboard() {
     ReactDOM.render(
-        <Provider store={store}>
-            <DashboardContainer/>
-        </Provider>,
+        <Dashboard {...DashboardActions}/>,
         document.getElementById('reactRoot')
     );
 }

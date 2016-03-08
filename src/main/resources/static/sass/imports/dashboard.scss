@@ -5,28 +5,12 @@
   margin: 4em auto;
   background-color: white;
   border-radius: 10px;
-
-  .workspaceList {
-    padding: 0;
-
-    .workspaceItem {
-      list-style-type: none;
-    }
-  }
 }
 
 @media (max-width: 767px) {
   .dashboard {
     width: 80%;
     padding: 20px 30px;
-
-    .workspaceList {
-      .workspaceItem {
-        a {
-          font-size: 20px;
-        }
-      }
-    }
   }
 }
 
@@ -34,13 +18,5 @@
   .dashboard {
     width: 40%;
     padding: 40px 50px;
-
-    .workspaceList {
-      .workspaceItem {
-        a {
-          font-size: 28px;
-        }
-      }
-    }
   }
 }

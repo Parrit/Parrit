@@ -6,9 +6,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.parrit.entities.*;
 import com.parrit.repositories.*;
@@ -53,15 +51,10 @@ public class WorkspaceControllerTest extends ControllerTestBase {
     //*********************//
 
     @Test
-    public void getWorkspaceNames_returnsAllWorkspaceNames() throws Exception {
-        when(mockWorkspaceRepository.getAllWorkspaceNames()).thenReturn(workspaceNames);
-
+    public void getDashboard_returnsDashboardView() throws Exception {
         mvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("dashboard"))
-                .andExpect(model().attribute("workspaceNames", workspaceNames));
-
-        verify(mockWorkspaceRepository).getAllWorkspaceNames();
+            .andExpect(status().isOk())
+            .andExpect(view().name("dashboard"));
     }
 
     @Test
@@ -69,9 +62,9 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         when(mockWorkspaceRepository.findByName("workspaceName")).thenReturn(exampleWorkspace);
 
         mvc.perform(get("/workspaceName"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("workspace"))
-                .andExpect(model().attribute("workspace", exampleWorkspace));
+            .andExpect(status().isOk())
+            .andExpect(view().name("workspace"))
+            .andExpect(model().attribute("workspace", exampleWorkspace));
 
         verify(mockWorkspaceRepository, never()).save(any(Workspace.class));
         verify(mockWorkspaceRepository).findByName("workspaceName");
@@ -106,10 +99,10 @@ public class WorkspaceControllerTest extends ControllerTestBase {
         when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
 
         MvcResult mvcResult = mvc.perform(post("/api/workspace")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(exampleWorkspaceString))
-                .andExpect(status().isOk())
-                .andReturn();
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(exampleWorkspaceString))
+            .andExpect(status().isOk())
+            .andReturn();
 
         String returnedState = mvcResult.getResponse().getContentAsString();
         assertThat(returnedState, equalTo(exampleWorkspaceString));

@@ -1,6 +1,7 @@
 package com.parrit.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,9 +11,11 @@ public class Workspace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @Column(unique = true)
     private String name;
 
+    @NotNull
     private String password;
 
     @OneToMany(targetEntity = Space.class, cascade = CascadeType.ALL, orphanRemoval = true)

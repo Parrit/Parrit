@@ -32,8 +32,7 @@ public class WorkspaceController {
     //*********************//
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String getWorkspaceNames(Model model) {
-        model.addAttribute("workspaceNames", workspaceRepository.getAllWorkspaceNames());
+    public String getDashboard() {
         return "dashboard";
     }
 

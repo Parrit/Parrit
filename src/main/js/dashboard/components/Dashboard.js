@@ -1,6 +1,4 @@
 var React = require('react');
-var Modal = require('react-modal');
-var ModalStyles = require('shared/misc/OverrideBullshitModalStyles.js');
 
 var NewWorkspaceForm = require('shared/components/NewWorkspaceForm.js');
 var Buttons = require('shared/components/Buttons.js');
@@ -8,37 +6,56 @@ var PrimaryButton = Buttons.PrimaryButton;
 
 var Dashboard = React.createClass({
     propTypes: {
-        workspaceNames: React.PropTypes.array.isRequired,
-        isNewWorkspaceModalOpen: React.PropTypes.bool.isRequired,
-        setNewWorkspaceModalOpen: React.PropTypes.func.isRequired,
+        login: React.PropTypes.func.isRequired,
         createWorkspace: React.PropTypes.func.isRequired
     },
 
     render: function() {
         return <div className="dashboard">
-            <PrimaryButton name="Add Workspace" clickFunction={this.openNewWorkspaceModal}/>
-            <ul className="workspaceList">
-                {this.props.workspaceNames.map(function(workspaceName, idx) {
-                    return <li key={idx} className="workspaceItem"><a href={'/' + workspaceName}>{workspaceName}</a></li>
-                })}
-            </ul>
-            <Modal isOpen={this.props.isNewWorkspaceModalOpen} onRequestClose={this.closeNewWorkspaceModal} style={ModalStyles}>
-                <NewWorkspaceForm confirmFunction={this.createWorkspaceWithName} cancelFunction={this.closeNewWorkspaceModal}/>
-            </Modal>
+            <div className="form-group">
+                <input type="text" className="form-control" placeholder="New Workspace Name" onChange={this.handleNewWorkspaceName}/>
+                <input type="text" className="form-control" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
+                <PrimaryButton name="Add Workspace" clickFunction={this.createWorkspaceWithName}/>
+            </div>
+            <div className="form-group">
+                <input type="text" className="form-control" placeholder="Workspace Name" onChange={this.handleLoginName}/>
+                <input type="text" className="form-control" placeholder="Password" onChange={this.handleLoginPassword}/>
+                <PrimaryButton name="Login" clickFunction={this.handleLogin}/>
+            </div>
         </div>
     },
 
-    createWorkspaceWithName: function(name, pass) {
-        this.props.createWorkspace(name, pass);
-        this.closeNewWorkspaceModal();
+    getInitialState: function() {
+        return {
+            loginWorkspaceName: '',
+            loginWorkspacePassword: '',
+            newWorkspaceName: '',
+            newWorkspacePassword: ''
+        };
     },
 
-    openNewWorkspaceModal: function () {
-        this.props.setNewWorkspaceModalOpen(true);
+    handleLoginName: function(event) {
+        this.setState({loginWorkspaceName: event.target.value});
     },
 
-    closeNewWorkspaceModal: function () {
-        this.props.setNewWorkspaceModalOpen(false);
+    handleLoginPassword: function(event) {
+        this.setState({loginWorkspacePassword: event.target.value});
+    },
+
+    handleNewWorkspaceName: function(event) {
+        this.setState({newWorkspaceName: event.target.value});
+    },
+
+    handleNewWorkspacePassword: function(event) {
+        this.setState({newWorkspacePassword: event.target.value});
+    },
+
+    handleLogin: function() {
+        this.props.login(this.state.loginWorkspaceName, this.state.loginWorkspacePassword)
+    },
+
+    createWorkspaceWithName: function() {
+        this.props.createWorkspace(this.state.newWorkspaceName, this.state.newWorkspacePassword)
     }
 });
 

@@ -1,49 +1,43 @@
 var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
 
-describe('dashboardThunks', function() {
+describe('dashboardThunks', function () {
     var thunk;
     var dispatchSpy;
     var postNewWorkspaceAndDoSpy;
-    var updateWorkspaceNameListCreatorSpy;
+    var postLoginAndRedirectSpy;
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDoSpy');
-        updateWorkspaceNameListCreatorSpy = jasmine.createSpy('updateWorkspaceNameListCreatorSpy');
+        postLoginAndRedirectSpy = jasmine.createSpy('postLoginAndRedirectSpy');
 
         dashboardThunks.__set__('postNewWorkspaceAndDo', postNewWorkspaceAndDoSpy);
-        dashboardThunks.__set__('updateWorkspaceNameListCreator', updateWorkspaceNameListCreatorSpy);
+        dashboardThunks.__set__('postLoginAndRedirect', postLoginAndRedirectSpy);
     });
 
     describe('#createWorkspaceThunk', function () {
-        beforeEach(function() {
-            thunk = dashboardThunks.createWorkspaceThunk("New Workspace", "S3cr3tP@$$w0rd");
+        beforeEach(function () {
+            dashboardThunks.createWorkspaceThunk("New Workspace", "S3cr3tP@$$w0rd");
         });
 
-        it('returns a function', function() {
-            expect(typeof thunk).toBe('function');
+        it('calls postNewWorkspaceAndDo helper with correct arguments', function () {
+            expect(postNewWorkspaceAndDoSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd", jasmine.anything());
         });
 
-        describe('when calling the returned function', function() {
-            var newWorkspaceNames = {data: 'blarg'};
-            var updateWorkspaceNamesAction = {workspaceNames: newWorkspaceNames};
+        it('passes in a callback that will call the postLoginAndRedirect with the name and password', function () {
+            var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[2];
+            callback();
 
-            beforeEach(function () {
-                updateWorkspaceNameListCreatorSpy.and.returnValue(updateWorkspaceNamesAction);
-
-                thunk(dispatchSpy);
-            });
-
-            it('calls postNewWorkspaceAndDo helper with correct arguments', function() {
-                expect(postNewWorkspaceAndDoSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd", jasmine.anything());
-            });
-
-            it('passes in a callback that will dispatch a updateWorkspaceNameList action', function() {
-                var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[2];
-                callback(newWorkspaceNames);
-
-                expect(updateWorkspaceNameListCreatorSpy).toHaveBeenCalledWith(newWorkspaceNames);
-                expect(dispatchSpy).toHaveBeenCalledWith(updateWorkspaceNamesAction);
-            });
+            expect(postLoginAndRedirectSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd");
         });
     });
+
+    describe('#loginThunk', function () {
+        beforeEach(function () {
+            dashboardThunks.loginThunk("New Workspace", "S3cr3tP@$$w0rd");
+        });
+
+        it('calls postLoginAndRedirect with the name and password', function () {
+            expect(postLoginAndRedirectSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd");
+        });
+    })
 });

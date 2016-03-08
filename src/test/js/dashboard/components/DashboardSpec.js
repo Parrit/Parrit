@@ -6,64 +6,33 @@ var Mocker = require('support/ComponentMocker.js');
 
 var Dashboard = require('dashboard/components/Dashboard.js');
 var PrimaryButtonMock = Mocker("Button1");
-var ModalMock = Mocker("Modal");
-var NewWorkspaceFormMock = Mocker("NewWorkspaceForm");
 Dashboard.__set__('PrimaryButton', PrimaryButtonMock);
-Dashboard.__set__('Modal', ModalMock);
-Dashboard.__set__('NewWorkspaceForm', NewWorkspaceFormMock);
 
 describe('Dashboard', function() {
     var props;
     var dashboard;
-    var newWorkspaceModal;
-    var newWorkspaceForm;
     beforeEach(function() {
         props = {
-            workspaceNames: ["Deathstar", "Chuck-e-Cheese"],
-            isNewWorkspaceModalOpen: false,
-            setNewWorkspaceModalOpen: jasmine.createSpy('newWorkspaceModalSpy'),
+            login: jasmine.createSpy('loginSpy'),
             createWorkspace: jasmine.createSpy('createWorkspaceSpy')
         };
 
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
-
-        newWorkspaceModal = ReactTestUtils.findRenderedComponentWithType(dashboard, ModalMock);
-        newWorkspaceForm = ReactTestUtils.findRenderedComponentWithType(newWorkspaceModal, NewWorkspaceFormMock);
     });
 
-    it('has link tags with hrefs to the workspaces', function() {
-        var workspaceLinks = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'a');
-        expect(workspaceLinks[0].getAttribute('href')).toBe("/Deathstar");
-        expect(workspaceLinks[1].getAttribute('href')).toBe('/Chuck-e-Cheese');
+    describe('#createWorkspaceWithName', function() {
+        it('calls the login function with the username and password on the state', function() {
+            dashboard.setState({newWorkspaceName: "Hello", newWorkspacePassword: "Bye"});
+            dashboard.createWorkspaceWithName();
+            expect(props.createWorkspace).toHaveBeenCalledWith("Hello", "Bye");
+        })
     });
 
-    describe('newWorkspaceModal', function() {
-        it('has a configured newWorkspaceModal component as a child', function() {
-            expect(newWorkspaceModal.props.onRequestClose).toBe(dashboard.closeNewWorkspaceModal);
-        });
-
-        it('has a configured new workspace form in a modal', function() {
-            expect(newWorkspaceForm.props.confirmFunction).toBe(dashboard.createWorkspaceWithName);
-            expect(newWorkspaceForm.props.cancelFunction).toBe(dashboard.closeNewWorkspaceModal);
-        });
-
-        describe('#openNewWorkspaceModal', function() {
-            it('shows the modal', function() {
-                dashboard.openNewWorkspaceModal();
-                expect(props.setNewWorkspaceModalOpen).toHaveBeenCalledWith(true);
-            });
-        });
-
-        describe('#createWorkspaceWithName', function() {
-            it('should call the createWorkspace action with the passed in name', function() {
-                dashboard.createWorkspaceWithName('Alaska', 'Pass');
-                expect(props.createWorkspace).toHaveBeenCalledWith('Alaska', 'Pass');
-            });
-
-            it('should close the modal', function() {
-                dashboard.createWorkspaceWithName('Alaska');
-                expect(props.setNewWorkspaceModalOpen).toHaveBeenCalledWith(false);
-            });
-        });
+    describe('#handleLogin', function() {
+        it('calls the login function with the username and password on the state', function() {
+            dashboard.setState({loginWorkspaceName: "Hello", loginWorkspacePassword: "Bye"});
+            dashboard.handleLogin();
+            expect(props.login).toHaveBeenCalledWith("Hello", "Bye");
+        })
     });
 });
