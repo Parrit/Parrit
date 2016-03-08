@@ -87,11 +87,7 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void createWorkspace_savesTheNewWorkspace_andReturnsListOfAllWorkspaceNames() throws Exception {
-<<<<<<< Updated upstream
-        when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
-=======
         when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(persistedWorkspace);
->>>>>>> Stashed changes
 
         mvc.perform(post("/api/workspace/new")
             .contentType(MediaType.APPLICATION_JSON)
