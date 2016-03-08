@@ -41,6 +41,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .formLogin()
+                .loginPage("/login/workspace")
+                .permitAll()
+            .and()
             .authorizeRequests()
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/built/**").permitAll()
