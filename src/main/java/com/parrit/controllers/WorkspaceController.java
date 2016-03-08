@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class WorkspaceController {
@@ -50,14 +49,12 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<List<String>> createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) {
+    public void createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) {
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
         String hashedPassword = encoder.encodePassword(newWorkspaceDTO.getPassword(), null);
 
         Workspace workspace = new Workspace(newWorkspaceDTO.getName(), hashedPassword, new ArrayList<>(), new ArrayList<>());
         workspaceRepository.save(workspace);
-
-        return new ResponseEntity<>(workspaceRepository.getAllWorkspaceNames(), HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspace)")

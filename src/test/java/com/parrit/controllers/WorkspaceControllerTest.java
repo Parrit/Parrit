@@ -76,22 +76,17 @@ public class WorkspaceControllerTest extends ControllerTestBase {
 
     @Test
     public void createWorkspace_savesTheNewWorkspace_andReturnsListOfAllWorkspaceNames() throws Exception {
-        when(mockWorkspaceRepository.getAllWorkspaceNames()).thenReturn(workspaceNames);
         when(mockWorkspaceRepository.save(any(Workspace.class))).thenReturn(exampleWorkspace);
 
-        MvcResult mvcResult = mvc.perform(post("/api/workspace/new")
+        mvc.perform(post("/api/workspace/new")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"bob\",\"password\":\"bobpass\"}"))
             .andExpect(status().isOk())
             .andReturn();
 
-        String returnedNames = mvcResult.getResponse().getContentAsString();
-        assertThat(returnedNames, equalTo("[\"Henry\",\"Nancy\"]"));
-
         Workspace newWorkspace = new Workspace("bob", "da7655b5bf67039c3e76a99d8e6fb6969370bbc0fa440cae699cf1a3e2f1e0a1", new ArrayList<>(), new ArrayList<>());
 
         verify(mockWorkspaceRepository).save(eq(newWorkspace));
-        verify(mockWorkspaceRepository).getAllWorkspaceNames();
     }
 
     @Test
