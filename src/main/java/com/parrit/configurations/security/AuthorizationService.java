@@ -1,4 +1,4 @@
-package com.parrit.services;
+package com.parrit.configurations.security;
 
 import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.Workspace;

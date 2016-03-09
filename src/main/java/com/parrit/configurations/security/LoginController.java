@@ -1,4 +1,4 @@
-package com.parrit.controllers;
+package com.parrit.configurations.security;
 
 import com.parrit.DTOs.NewWorkspaceDTO;
 import org.springframework.beans.factory.annotation.Autowired;

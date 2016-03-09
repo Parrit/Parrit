@@ -1,4 +1,4 @@
-package com.parrit.services;
+package com.parrit.configurations.security;
 
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.WorkspaceRepository;

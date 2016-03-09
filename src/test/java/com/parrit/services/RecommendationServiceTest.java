@@ -324,7 +324,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
         Space space2Expected = new Space("New Space", Arrays.asList(p2, p4)); //Null Id
         expectedWorkspace.getSpaces().add(space2Expected);
 
-        Space space3Expected = new Space("New Space", Arrays.asList(p3)); //Null Id
+        Space space3Expected = new Space("New Space", Collections.singletonList(p3)); //Null Id
         expectedWorkspace.getSpaces().add(space3Expected);
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));

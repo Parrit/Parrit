@@ -1,6 +1,6 @@
 package com.parrit.configurations;
 
-import com.parrit.services.WorkspaceDetailsService;
+import com.parrit.configurations.security.WorkspaceDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -44,7 +44,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login/workspace")
                 .permitAll()
-            .and()
+                .and()
             .authorizeRequests()
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/built/**").permitAll()
@@ -52,10 +52,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/workspace/new").permitAll()
                 .anyRequest().authenticated()
-            .and()
+                .and()
             .csrf()
                 .csrfTokenRepository(csrfTokenRepository())
-            .and()
+                .and()
             .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
 
