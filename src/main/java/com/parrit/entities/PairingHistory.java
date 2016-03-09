@@ -24,17 +24,17 @@ public class PairingHistory {
 
     private Timestamp timestamp;
 
-    private long groupId;
+    private String spaceName;
 
     public PairingHistory() {
     }
 
-    public PairingHistory(Workspace workspace, Person personOne, Person personTwo, Timestamp timestamp, long groupId) {
+    public PairingHistory(Workspace workspace, Person personOne, Person personTwo, Timestamp timestamp, String spaceName) {
         this.workspace = workspace;
         this.personOne = personOne;
         this.personTwo = personTwo;
         this.timestamp = timestamp;
-        this.groupId = groupId;
+        this.spaceName = spaceName;
     }
 
     public long getId() {
@@ -77,12 +77,12 @@ public class PairingHistory {
         this.timestamp = timestamp;
     }
 
-    public long getGroupId() {
-        return groupId;
+    public String getSpaceName() {
+        return spaceName;
     }
 
-    public void setGroupId(long groupId) {
-        this.groupId = groupId;
+    public void setSpaceName(String spaceName) {
+        this.spaceName = spaceName;
     }
 
     @Override
@@ -93,14 +93,15 @@ public class PairingHistory {
         PairingHistory that = (PairingHistory) o;
 
         if (getId() != that.getId()) return false;
-        if (getGroupId() != that.getGroupId()) return false;
         if (getWorkspace() != null ? !getWorkspace().equals(that.getWorkspace()) : that.getWorkspace() != null)
             return false;
         if (getPersonOne() != null ? !getPersonOne().equals(that.getPersonOne()) : that.getPersonOne() != null)
             return false;
         if (getPersonTwo() != null ? !getPersonTwo().equals(that.getPersonTwo()) : that.getPersonTwo() != null)
             return false;
-        return getTimestamp() != null ? getTimestamp().equals(that.getTimestamp()) : that.getTimestamp() == null;
+        if (getTimestamp() != null ? !getTimestamp().equals(that.getTimestamp()) : that.getTimestamp() != null)
+            return false;
+        return getSpaceName() != null ? getSpaceName().equals(that.getSpaceName()) : that.getSpaceName() == null;
 
     }
 
@@ -111,7 +112,7 @@ public class PairingHistory {
         result = 31 * result + (getPersonOne() != null ? getPersonOne().hashCode() : 0);
         result = 31 * result + (getPersonTwo() != null ? getPersonTwo().hashCode() : 0);
         result = 31 * result + (getTimestamp() != null ? getTimestamp().hashCode() : 0);
-        result = 31 * result + (int) (getGroupId() ^ (getGroupId() >>> 32));
+        result = 31 * result + (getSpaceName() != null ? getSpaceName().hashCode() : 0);
         return result;
     }
 
@@ -123,7 +124,7 @@ public class PairingHistory {
             ", personOne=" + personOne +
             ", personTwo=" + personTwo +
             ", timestamp=" + timestamp +
-            ", groupId=" + groupId +
+            ", spaceName='" + spaceName + '\'' +
             '}';
     }
 }

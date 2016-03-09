@@ -142,10 +142,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p3);
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(1), 1L);
+        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(1), "The Space");
         pairingHistories.add(p1p2);
 
-        PairingHistory p3p1 = new PairingHistory(workspace, p3, p1, daysAgo(2), 2L);
+        PairingHistory p3p1 = new PairingHistory(workspace, p3, p1, daysAgo(2), "The Second Space");
         pairingHistories.add(p3p1);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
@@ -174,16 +174,16 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p4);
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(1), 1L);
+        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(1), "The Space");
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(3), 2L);
+        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(3), "The Second Space");
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(2), 3L);
+        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(2), "The Third Space");
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(3), 4L);
+        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(3), "The Fourth Space");
         pairingHistories.add(p2p4);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
@@ -211,16 +211,16 @@ public class RecommendationServiceTest extends MockitoTestBase {
         space2.getPeople().add(p4);
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), 1L);
+        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), "The Space");
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), 2L);
+        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), "The Second Space");
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(20), 3L);
+        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(20), "The Third Space");
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(35), 4L);
+        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(35), "The Fourth Space");
         pairingHistories.add(p2p4);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
@@ -247,10 +247,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space2);
 
-        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(15), 1L);
+        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(15), "The Space");
         pairingHistories.add(p1p2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), 1L);
+        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), "The Space");
         pairingHistories.add(p1p3);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
@@ -279,13 +279,13 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         workspace.getSpaces().add(space2);
 
-        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), 1L);
+        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), "The Space");
         pairingHistories.add(p4p1);
 
-        PairingHistory p4p2 = new PairingHistory(workspace, p4, p2, daysAgo(20), 1L);
+        PairingHistory p4p2 = new PairingHistory(workspace, p4, p2, daysAgo(20), "The Space");
         pairingHistories.add(p4p2);
 
-        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(10), 1L);
+        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(10), "The Space");
         pairingHistories.add(p1p2);
 
         Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);

@@ -67,7 +67,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory = new PairingHistory(workspace, p1, p2, currentTime, 1L);
+        PairingHistory expectedPairingHistory = new PairingHistory(workspace, p1, p2, currentTime, "The Space");
 
         verify(mockWorkspaceRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
@@ -97,8 +97,8 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(workspace, p1, p2, currentTime, 1L);
-        PairingHistory expectedPairingHistory2 = new PairingHistory(workspace, p3, p4, currentTime, 2L);
+        PairingHistory expectedPairingHistory1 = new PairingHistory(workspace, p1, p2, currentTime, "The Space");
+        PairingHistory expectedPairingHistory2 = new PairingHistory(workspace, p3, p4, currentTime, "The Second Space");
 
         verify(mockWorkspaceRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
@@ -125,9 +125,9 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(workspace, p1, p2, currentTime, 1L);
-        PairingHistory expectedPairingHistory2 = new PairingHistory(workspace, p1, p3, currentTime, 1L);
-        PairingHistory expectedPairingHistory3 = new PairingHistory(workspace, p2, p3, currentTime, 1L);
+        PairingHistory expectedPairingHistory1 = new PairingHistory(workspace, p1, p2, currentTime, "The Space");
+        PairingHistory expectedPairingHistory2 = new PairingHistory(workspace, p1, p3, currentTime, "The Space");
+        PairingHistory expectedPairingHistory3 = new PairingHistory(workspace, p2, p3, currentTime, "The Space");
 
         verify(mockWorkspaceRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
