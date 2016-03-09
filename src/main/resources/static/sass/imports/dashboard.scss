@@ -41,7 +41,7 @@ $dashboardMobileContentHeight: 800px;
         }
 
         input {
-          width: calc(100% - 16px);
+          width: calc(100% - 16px - 2px);
           height: 50px;
           border-radius: 3px;
           border: solid 1px #cccccc;
@@ -64,7 +64,7 @@ $dashboardMobileContentHeight: 800px;
           line-height: 25px;
           font-family: Avenir-Book;
           font-size: 18px;
-          color: #ffffff;
+          color: white;
         }
       }
     }
@@ -117,7 +117,7 @@ $dashboardMobileContentHeight: 800px;
 
       .logo {
         width: 400px;
-        height: 111.5px;
+        height: 112px;
       }
 
       .description {
