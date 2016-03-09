@@ -41,18 +41,18 @@ public class RecommendationService {
                  * Pairing two Floating People in an empty space
                  */
                 if (pairSpace == null) {
-                    pairSpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
+                    pairSpace = popNextEmptySpace(workspace, emptySpaces);
 
                     pairSpace.getPeople().add(floatingPerson);
                     pairSpace.getPeople().add(personToPairWith);
+
                     workspace.getPeople().remove(floatingPerson);
                     workspace.getPeople().remove(personToPairWith);
                     recHelper.removeFloatingPerson(floatingPerson);
                     recHelper.removeFloatingPerson(personToPairWith);
-
-                    emptySpaces.remove(pairSpace);
                 } else {
                     pairSpace.getPeople().add(floatingPerson);
+
                     workspace.getPeople().remove(floatingPerson);
                     recHelper.removeFloatingPerson(floatingPerson);
                 }
@@ -65,7 +65,7 @@ public class RecommendationService {
         if (recHelper.hasSoloPerson()) {
             Person soloPerson = recHelper.getSoloPerson();
 
-            Space emptySpace = emptySpaces.get(0); //TODO: Check if there is an emptySpace, if not add one and use it
+            Space emptySpace = popNextEmptySpace(workspace, emptySpaces);
             emptySpace.getPeople().add(soloPerson);
             workspace.getPeople().remove(soloPerson);
         }
@@ -109,6 +109,18 @@ public class RecommendationService {
                 .stream()
                 .filter(space -> space.getPeople().isEmpty())
                 .collect(Collectors.toList());
+    }
+
+    private Space popNextEmptySpace(Workspace workspace, List<Space> emptySpaces) {
+        Space space;
+        if(emptySpaces.isEmpty()) {
+            space = new Space("New Space", new ArrayList<>());
+            workspace.getSpaces().add(space);
+        }
+        else {
+            space = emptySpaces.remove(0);
+        }
+        return space;
     }
 
     private class PairRecommendationHelper {

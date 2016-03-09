@@ -302,4 +302,31 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         assertThat(returnedWorkspace, equalTo(expectedWorkspace));
     }
+
+    @Test
+    public void get_pairsFloatingPeopleInANewlyCreatedSpace_ifThereAreNotEnoughSpacesLeft() {
+        workspace.getPeople().add(p1);
+        workspace.getPeople().add(p2);
+        workspace.getPeople().add(p3);
+        workspace.getPeople().add(p4);
+        workspace.getPeople().add(p5);
+
+        workspace.getSpaces().add(space1);
+
+        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+
+        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+
+        Space space1Expected = new Space("One", Arrays.asList(p1, p5));
+        space1Expected.setId(1L);
+        expectedWorkspace.getSpaces().add(space1Expected);
+
+        Space space2Expected = new Space("New Space", Arrays.asList(p2, p4)); //Null Id
+        expectedWorkspace.getSpaces().add(space2Expected);
+
+        Space space3Expected = new Space("New Space", Arrays.asList(p3)); //Null Id
+        expectedWorkspace.getSpaces().add(space3Expected);
+
+        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+    }
 }
