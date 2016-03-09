@@ -51,7 +51,7 @@ public class LoginController {
         String workspaceName = originalRequestUrl.substring(originalRequestUrl.lastIndexOf('/') + 1);
 
         model.addAttribute("workspaceName", workspaceName);
-        return "workspaceLogin";
+        return "workspace-login";
     }
 
 }

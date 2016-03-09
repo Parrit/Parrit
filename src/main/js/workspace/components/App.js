@@ -2,6 +2,7 @@ var React = require('react');
 
 var Menu = require('workspace/components/Menu.js');
 var Workspace = require('workspace/components/Workspace.js');
+var Footer = require('shared/components/Footer.js');
 
 var App = React.createClass({
     propTypes: {
@@ -48,6 +49,7 @@ var App = React.createClass({
                     <Workspace {...workspaceProps}/>
                 </div>
             </div>
+            <Footer/>
 		</div>
 	}
 });

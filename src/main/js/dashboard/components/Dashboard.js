@@ -1,6 +1,7 @@
 var React = require('react');
 
 var NewWorkspaceForm = require('shared/components/NewWorkspaceForm.js');
+var Footer = require('shared/components/Footer.js');
 var Buttons = require('shared/components/Buttons.js');
 var PrimaryButton = Buttons.PrimaryButton;
 
@@ -34,10 +35,7 @@ var Dashboard = React.createClass({
                     </div>
                 </div>
             </div>
-            <footer>
-                <div className="fake-copyright">&copy; Parrit 2016</div>
-                <div className="github-link"><a target="_blank" href="http://www.github.com/pinwheeler/Parrit">GitHub</a></div>
-            </footer>
+            <Footer/>
         </div>
     },
 
