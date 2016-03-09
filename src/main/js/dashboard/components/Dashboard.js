@@ -11,17 +11,33 @@ var Dashboard = React.createClass({
     },
 
     render: function() {
-        return <div className="dashboard">
-            <div className="form-group">
-                <input type="text" className="form-control" placeholder="New Workspace Name" onChange={this.handleNewWorkspaceName}/>
-                <input type="password" className="form-control" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
-                <PrimaryButton name="Add Workspace" clickFunction={this.createWorkspaceWithName}/>
+        return <div className="dashboard-container">
+            <div className="dashboard-content-container">
+                <div className="dashboard-content">
+                    <div className="logo"></div>
+                    <div className="description">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.
+                    </div>
+                    <div className="forms-container">
+                        <div className="form">
+                            <div className="form-label">Create Project</div>
+                            <input type="text" placeholder="Project/URL name" onChange={this.handleNewWorkspaceName}/>
+                            <input type="password" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
+                            <PrimaryButton name="Create" clickFunction={this.createWorkspaceWithName}/>
+                        </div>
+                        <div className="form">
+                            <div className="form-label">Sign In</div>
+                            <input type="text" placeholder="Project/URL name" onChange={this.handleLoginName}/>
+                            <input type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
+                            <PrimaryButton name="Sign In" clickFunction={this.handleLogin}/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="form-group">
-                <input type="text" className="form-control" placeholder="Workspace Name" onChange={this.handleLoginName}/>
-                <input type="password" className="form-control" placeholder="Password" onChange={this.handleLoginPassword}/>
-                <PrimaryButton name="Login" clickFunction={this.handleLogin}/>
-            </div>
+            <footer>
+                <div className="fake-copyright">&copy; Parrit 2016</div>
+                <div className="github-link"><a href="github.com/pinwheeler/Parrit">GitHub</a></div>
+            </footer>
         </div>
     },
 

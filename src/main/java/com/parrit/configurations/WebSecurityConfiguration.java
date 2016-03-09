@@ -48,6 +48,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/built/**").permitAll()
+                .antMatchers("/svg/**").permitAll()
+                .antMatchers("/img/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/workspace/new").permitAll()
