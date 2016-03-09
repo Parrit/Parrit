@@ -29,7 +29,7 @@ import java.io.IOException;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Profile("default")
+@Profile("cloud")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
