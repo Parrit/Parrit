@@ -14,12 +14,12 @@ var Dashboard = React.createClass({
         return <div className="dashboard">
             <div className="form-group">
                 <input type="text" className="form-control" placeholder="New Workspace Name" onChange={this.handleNewWorkspaceName}/>
-                <input type="text" className="form-control" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
+                <input type="password" className="form-control" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
                 <PrimaryButton name="Add Workspace" clickFunction={this.createWorkspaceWithName}/>
             </div>
             <div className="form-group">
                 <input type="text" className="form-control" placeholder="Workspace Name" onChange={this.handleLoginName}/>
-                <input type="text" className="form-control" placeholder="Password" onChange={this.handleLoginPassword}/>
+                <input type="password" className="form-control" placeholder="Password" onChange={this.handleLoginPassword}/>
                 <PrimaryButton name="Login" clickFunction={this.handleLogin}/>
             </div>
         </div>
