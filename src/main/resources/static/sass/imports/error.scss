@@ -1,0 +1,66 @@
+.error-container {
+  overflow: auto;
+
+  .error-image-wrapper {
+    .parrit-talk-bubble {
+      width: 431px;
+      height: 265px;
+      display: block;
+      object-fit: contain;
+      margin: 0 auto 52.5px auto;
+      background-image: url("../svg/parrit-talk-bubble.svg");
+
+      .error-message {
+        position: relative;
+        top: 82px;
+        left: 56px;
+
+        line-height: 44px;
+        font-family: Overlock-Black;
+        font-size: 36px;
+
+      }
+
+      .home-page-link {
+        position: relative;
+        top: 90px;
+        left: 88px;
+
+        line-height: 16px;
+        font-family: Raleway-ExtraBold;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        color: #f3736c;
+        text-decoration: none;
+      }
+
+      .carrot {
+        width: 9px;
+        height: 12.8px;
+        display: inline-block;
+        object-fit: contain;
+        margin-left: 5px;
+        background-image: url("../svg/carrot.svg");
+      }
+
+    }
+  }
+}
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  .error-image-wrapper {
+    margin-top: 160px;
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  .error-image-wrapper {
+    margin-top: 400px;
+  }
+}

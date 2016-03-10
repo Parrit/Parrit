@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="67px" height="80px" viewBox="0 0 67 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>parrit head</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Wireframes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Error-Page" transform="translate(-869.000000, -480.000000)" fill="#4A4A4A">
+            <g id="parrit-head" transform="translate(902.500000, 520.000000) scale(-1, 1) translate(-902.500000, -520.000000) translate(869.000000, 480.000000)">
+                <path d="M53.44,14 L53,14 L53,44.1 C57.66,44.01 59.08,41.77 60.84,38.1 L66.97,38.1 C66.87,25.67 62.3,19.36 53.44,14 L53.44,14 Z" id="Shape"></path>
+                <path d="M47.08,63.11 C44.36,46.67 19.18,28.18 39.68,10.11 C36.68,9.18 7.54,0 7.54,0 C5.76,4 7.28,6 12.93,10.14 L0,10.14 C0,15.88 5.49,18.92 10.52,20.54 C1.26,28.92 1.95,35.82 2.08,66.89 C14.1453213,77.3840394 30.4340556,81.6117063 46.08,78.31 C47.552484,73.3830641 47.8943052,68.1873825 47.08,63.11 L47.08,63.11 Z M41.31,50.98 C41.302216,50.9992426 41.302216,51.0207574 41.31,51.04 C41.302216,51.0207574 41.302216,50.9992426 41.31,50.98 L41.31,50.98 Z" id="Shape"></path>
+                <ellipse id="Oval" cx="44.66" cy="21.38" rx="4.66" ry="4.38"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -54,4 +54,9 @@ public class LoginController {
         return "workspace-login";
     }
 
+    @RequestMapping(path = "/error", method = RequestMethod.GET)
+    public String error() {
+        return "error";
+    }
+
 }

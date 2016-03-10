@@ -43,6 +43,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .formLogin()
                 .loginPage("/login/workspace")
+                .failureUrl("/error")
                 .permitAll()
                 .and()
             .authorizeRequests()
