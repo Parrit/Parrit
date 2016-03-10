@@ -3,8 +3,6 @@
 
   .error-image-wrapper {
     .parrit-talk-bubble {
-      width: 431px;
-      height: 265px;
       display: block;
       object-fit: contain;
       margin: 0 auto 52.5px auto;
@@ -12,23 +10,14 @@
 
       .error-message {
         position: relative;
-        top: 82px;
-        left: 56px;
-
         line-height: 44px;
         font-family: Overlock-Black;
-        font-size: 36px;
-
       }
 
       .home-page-link {
         position: relative;
-        top: 90px;
-        left: 88px;
-
         line-height: 16px;
         font-family: Raleway-ExtraBold;
-        font-size: 14px;
         letter-spacing: 0.5px;
         color: #f3736c;
         text-decoration: none;
@@ -53,6 +42,24 @@
 @media (max-width: $desktopContentWidth) {
   .error-image-wrapper {
     margin-top: 160px;
+
+    .parrit-talk-bubble {
+      width: 349px;
+      height: 212px;
+      background-size: 100%;
+
+      .error-message {
+        top: 58px;
+        left: 44px;
+        font-size: 30px;
+      }
+
+      .home-page-link {
+        top: 60px;
+        left: 68px;
+        font-size: 12px;
+      }
+    }
   }
 }
 
@@ -62,5 +69,22 @@
 @media (min-width: $desktopContentWidth) {
   .error-image-wrapper {
     margin-top: 400px;
+
+    .parrit-talk-bubble {
+      width: 431px;
+      height: 265px;
+
+      .error-message {
+        top: 82px;
+        left: 56px;
+        font-size: 36px;
+      }
+
+      .home-page-link {
+        top: 90px;
+        left: 88px;
+        font-size: 14px;
+      }
+    }
   }
 }
