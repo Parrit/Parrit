@@ -1,8 +1,10 @@
 $desktopContentWidth: 875px;
 $mobileContentWidth: 375px;
 
-@import "imports/browser-override";
 @import "imports/colors";
+@import "imports/fonts";
+
+@import "imports/browser-override";
 @import "imports/dashboard";
 @import "imports/drag-n-drop";
 @import "imports/error";

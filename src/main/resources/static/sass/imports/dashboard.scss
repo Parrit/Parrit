@@ -18,7 +18,7 @@
       }
 
       .description {
-        font-family: Raleway;
+        font: $Raleway;
         font-size: 18px;
         color: $coolGrey;
         margin: 0 auto 62px auto;
@@ -31,7 +31,7 @@
 
           .form-label {
             line-height: 26px;
-            font-family: Raleway-SemiBold;
+            font: $Raleway-SemiBold;
             font-size: 22px;
             color: $coolGrey;
             margin-bottom: 12px;
@@ -45,9 +45,9 @@
             border: solid 1px white;
 
             padding-left: 16px;
-            line-height: 25px;
-            font-family: Avenir-Book;
-            font-size: 18px;
+            line-height: 18px;
+            font: $Raleway-Medium;
+            font-size: 15px;
             color: $coolGrey;
           }
 
@@ -59,7 +59,7 @@
             margin-bottom: 7px;
 
             line-height: 25px;
-            font-family: Avenir-Book;
+            font: $Raleway-SemiBold;
             font-size: 18px;
             color: white;
           }

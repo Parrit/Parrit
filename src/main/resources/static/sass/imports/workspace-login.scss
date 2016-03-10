@@ -25,7 +25,7 @@
     .workspace-name {
       text-align: center;
       line-height: 44px;
-      font-family: Avenir-Heavy;
+      font: $Overlock-Black;
       font-size: 36px;
       color: $slateGrey;
       margin-bottom: 31px;
@@ -38,10 +38,10 @@
       border: solid 1px white;
 
       padding-left: 16px;
-      line-height: 25px;
-      font-family: Avenir-Book;
-      font-size: 18px;
-      color: $silver;
+      line-height: 18px;
+      font: $Raleway-Medium;
+      font-size: 15px;
+      color: $coolGrey;
     }
 
     input[type=submit] {

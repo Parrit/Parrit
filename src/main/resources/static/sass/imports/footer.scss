@@ -11,7 +11,7 @@ footer {
     float: left;
     padding-left: 10px;
     line-height: 14px;
-    font-family: Avenir-Heavy;
+    font: $Raleway-Medium;
     font-size: 10px;
     color: $coolGrey;
   }
@@ -22,7 +22,7 @@ footer {
     line-height: 14px;
 
     a {
-      font-family: Avenir-Heavy;
+      font: $Raleway-Medium;
       font-size: 10px;
       color: $coolGrey;
     }

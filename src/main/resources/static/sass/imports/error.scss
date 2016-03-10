@@ -22,16 +22,20 @@ $mobileImageHeight: 212px;
       .error-message {
         position: relative;
         line-height: 44px;
-        font-family: Overlock-Black;
+        font: $Overlock-Black;
       }
 
       .home-page-link {
         position: relative;
         line-height: 16px;
-        font-family: Raleway-ExtraBold;
+        font: $Raleway-ExtraBold;
         letter-spacing: 0.5px;
-        color: #f3736c;
+        color: $salmon;
         text-decoration: none;
+
+        &:hover {
+          color: $tomato;
+        }
       }
 
       .carrot {
@@ -64,9 +68,9 @@ $mobileImageHeight: 212px;
         background-size: 100%;
 
         .error-message {
-          width: 208px;
+          width: 216px;
           top: 58px;
-          left: 44px;
+          left: 36px;
           font-size: 30px;
         }
 
@@ -97,7 +101,7 @@ $mobileImageHeight: 212px;
 
         .error-message {
           top: 82px;
-          left: 56px;
+          left: 45px;
           font-size: 36px;
         }
 
