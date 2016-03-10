@@ -13,6 +13,7 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.NestedServletException;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,11 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public void createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) {
+    public void createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) throws NestedServletException {
+        if(newWorkspaceDTO.getName().isEmpty() || newWorkspaceDTO.getPassword().isEmpty()) {
+            throw new NestedServletException("Workspace Name and/or Password is empty!");
+        }
+
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
         String hashedPassword = encoder.encodePassword(newWorkspaceDTO.getPassword(), null);
 
