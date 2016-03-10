@@ -33,7 +33,7 @@
             line-height: 26px;
             font-family: Raleway-SemiBold;
             font-size: 22px;
-            color: #847f7a;
+            color: $coolGrey;
             margin-bottom: 12px;
             text-align: center;
           }
@@ -42,13 +42,13 @@
             width: calc(100% - 16px - 2px);
             height: 50px;
             border-radius: 3px;
-            border: solid 1px #cccccc;
+            border: solid 1px white;
 
             padding-left: 16px;
             line-height: 25px;
             font-family: Avenir-Book;
             font-size: 18px;
-            color: #847f7a;
+            color: $coolGrey;
           }
 
           button {
