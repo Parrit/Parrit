@@ -1,3 +1,6 @@
+$desktopContentWidth: 875px;
+$mobileContentWidth: 375px;
+
 @import "imports/browser-override";
 @import "imports/colors";
 @import "imports/dashboard";
@@ -7,3 +10,4 @@
 @import "imports/modal";
 @import "imports/sidenav";
 @import "imports/workspace";
+@import "imports/workspace-login";

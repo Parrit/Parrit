@@ -8,21 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="robots" content="noindex, nofollow"/>
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../built/bundle.css"/>
 </head>
-<body>
-
-<div class="form-wrapper">
-    <form action="/login/workspace" method="POST">
-        <label class="workspace-name" th:text="${workspaceName}"></label>
-        <input type="hidden" name="username" th:value="${workspaceName}"/>
-        <input type="password" name="password" placeholder="Password"/>
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <input type="submit" value="Login"/>
-    </form>
-</div>
-
+<body style="background-color: #e0e0e0;">
+<div id="reactRoot"></div>
 <script src="../built/bundle.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var workspaceName = /*[[${workspaceName}]]*/ null;
+    var csrfParameterName = /*[[${_csrf.parameterName}]]*/ null;
+    var csrfToken = /*[[${_csrf.token}]]*/ null;
+    runWorkspaceLogin(workspaceName, csrfParameterName, csrfToken);
+    /*]]>*/
+</script>
 </body>
 </html>

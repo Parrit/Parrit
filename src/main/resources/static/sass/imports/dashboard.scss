@@ -1,5 +1,3 @@
-$dashboardDesktopContentWidth: 875px;
-$dashboardMobileContentWidth: 375px;
 .dashboard-container {
   overflow: auto;
 
@@ -71,9 +69,9 @@ $dashboardMobileContentWidth: 375px;
 /*
  *  Mobile
  */
-@media (max-width: $dashboardDesktopContentWidth) {
+@media (max-width: $desktopContentWidth) {
   .dashboard-content-container {
-    width: $dashboardMobileContentWidth;
+    width: $mobileContentWidth;
     margin-top: 20px;
 
     .dashboard-content {
@@ -104,9 +102,9 @@ $dashboardMobileContentWidth: 375px;
 /*
  *  Desktop
  */
-@media (min-width: $dashboardDesktopContentWidth) {
+@media (min-width: $desktopContentWidth) {
   .dashboard-content-container {
-    width: $dashboardDesktopContentWidth;
+    width: $desktopContentWidth;
     margin-top: 200px;
 
     .dashboard-content {
