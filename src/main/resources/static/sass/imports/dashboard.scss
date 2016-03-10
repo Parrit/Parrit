@@ -18,10 +18,10 @@
       }
 
       .description {
-        font-family: Avenir-Book;
+        font-family: Raleway;
         font-size: 18px;
-        color: #333333;
-        margin: 0 auto 63px auto;
+        color: $coolGrey;
+        margin: 0 auto 62px auto;
         text-align: center;
       }
 
@@ -30,11 +30,12 @@
           width: 325px;
 
           .form-label {
-            line-height: 25px;
-            font-family: Avenir-Book;
-            font-size: 18px;
+            line-height: 26px;
+            font-family: Raleway-SemiBold;
+            font-size: 22px;
             color: #847f7a;
             margin-bottom: 12px;
+            text-align: center;
           }
 
           input {
@@ -55,13 +56,28 @@
             height: 50px;
             border: none;
             border-radius: 3px;
-            background-color: #4a4a4a;
             margin-bottom: 7px;
 
             line-height: 25px;
             font-family: Avenir-Book;
             font-size: 18px;
             color: white;
+          }
+        }
+
+        .new-form button {
+          background-color: $lightTeal;
+
+          &:hover {
+            background-color: $lightCyan;
+          }
+        }
+
+        .signin-form button {
+          background-color: $slimyGreen;
+
+          &:hover {
+            background-color: $yellowyGreen;
           }
         }
       }
@@ -126,18 +142,27 @@
         }
 
         .description {
-          width: 562.3px;
+          width: 538px;
         }
 
         .forms-container {
           .form {
             display: inline-block;
+            vertical-align: middle;
           }
 
           .form:first-child {
-            padding-right: 62px;
-            margin-right: 61px;
-            border-right: dashed 2px #dddddd;
+            margin-right: 51px;
+          }
+
+          .dotted-line {
+            width: 5px;
+            height: 238px;
+            display: inline-block;
+            object-fit: contain;
+            margin-right: 50px;
+            vertical-align: middle;
+            background-image: url("../svg/dotted-line.svg");
           }
         }
       }

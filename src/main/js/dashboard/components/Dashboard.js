@@ -17,16 +17,17 @@ var Dashboard = React.createClass({
                 <div className="dashboard-content">
                     <div className="logo"></div>
                     <div className="description">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.
+                        A recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
                     </div>
                     <div className="forms-container">
-                        <form className="form" onSubmit={this.createWorkspaceWithName}>
+                        <form className="form new-form" onSubmit={this.createWorkspaceWithName}>
                             <div className="form-label">Create Project</div>
                             <input type="text" placeholder="Project/URL name" onChange={this.handleNewWorkspaceName}/>
                             <input type="password" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
                             <PrimaryButton name="Create" type="submit"/>
                         </form>
-                        <form className="form" onSubmit={this.handleLogin}>
+                        <div className="dotted-line"></div>
+                        <form className="form signin-form" onSubmit={this.handleLogin}>
                             <div className="form-label">Sign In</div>
                             <input type="text" placeholder="Project/URL name" onChange={this.handleLoginName}/>
                             <input type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
