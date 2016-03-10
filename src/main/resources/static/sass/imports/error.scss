@@ -1,11 +1,22 @@
+$desktopImageWidth: 431px;
+$desktopImageHeight: 265px;
+$mobileImageWidth: 349px;
+$mobileImageHeight: 212px;
+
 .error-container {
   overflow: auto;
 
   .error-image-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
     .parrit-talk-bubble {
       display: block;
       object-fit: contain;
-      margin: 0 auto 52.5px auto;
       background-image: url("../svg/parrit-talk-bubble.svg");
 
       .error-message {
@@ -40,25 +51,30 @@
  *  Mobile
  */
 @media (max-width: $desktopContentWidth) {
-  .error-image-wrapper {
-    margin-top: 160px;
+  .error-container {
+    height: calc(#{$mobileImageHeight} + 25px);
 
-    .parrit-talk-bubble {
-      width: 349px;
-      height: 212px;
-      background-size: 100%;
+    .error-image-wrapper {
+      width: $mobileImageWidth;
+      height: $mobileImageHeight;
 
-      .error-message {
-        width: 208px;
-        top: 58px;
-        left: 44px;
-        font-size: 30px;
-      }
+      .parrit-talk-bubble {
+        width: $mobileImageWidth;
+        height: $mobileImageHeight;
+        background-size: 100%;
 
-      .home-page-link {
-        top: 60px;
-        left: 68px;
-        font-size: 12px;
+        .error-message {
+          width: 208px;
+          top: 58px;
+          left: 44px;
+          font-size: 30px;
+        }
+
+        .home-page-link {
+          top: 60px;
+          left: 68px;
+          font-size: 12px;
+        }
       }
     }
   }
@@ -68,23 +84,28 @@
  *  Desktop
  */
 @media (min-width: $desktopContentWidth) {
-  .error-image-wrapper {
-    margin-top: 400px;
+  .error-container {
+    height: calc(#{$desktopImageHeight} + 25px);
 
-    .parrit-talk-bubble {
-      width: 431px;
-      height: 265px;
+    .error-image-wrapper {
+      width: $desktopImageWidth;
+      height: $desktopImageHeight;
 
-      .error-message {
-        top: 82px;
-        left: 56px;
-        font-size: 36px;
-      }
+      .parrit-talk-bubble {
+        width: $desktopImageWidth;
+        height: $desktopImageHeight;
 
-      .home-page-link {
-        top: 90px;
-        left: 88px;
-        font-size: 14px;
+        .error-message {
+          top: 82px;
+          left: 56px;
+          font-size: 36px;
+        }
+
+        .home-page-link {
+          top: 90px;
+          left: 88px;
+          font-size: 14px;
+        }
       }
     }
   }

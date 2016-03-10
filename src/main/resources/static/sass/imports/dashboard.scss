@@ -1,10 +1,15 @@
+
+
 .dashboard-container {
   overflow: auto;
 
   .dashboard-content-container {
-    margin-left: auto;
-    margin-right: auto;
-    padding-bottom: 25px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 
     .dashboard-content {
       .logo {
@@ -70,29 +75,33 @@
  *  Mobile
  */
 @media (max-width: $desktopContentWidth) {
-  .dashboard-content-container {
-    width: $mobileContentWidth;
-    margin-top: 20px;
+  .dashboard-container {
+    height: 875px;
 
-    .dashboard-content {
-      margin: 0 10px;
+    .dashboard-content-container {
+      width: $mobileContentWidth;
+      height: 850px;
 
-      .logo {
-        width: 325px;
-        height: 91px;
-      }
+      .dashboard-content {
+        margin: 0 10px;
 
-      .description {
-        width: 325px;
-      }
-
-      .forms-container {
-        .form {
-          margin: auto;
+        .logo {
+          width: 325px;
+          height: 91px;
         }
 
-        .form:first-child {
-          margin-bottom: 30px;
+        .description {
+          width: 325px;
+        }
+
+        .forms-container {
+          .form {
+            margin: auto;
+          }
+
+          .form:first-child {
+            margin-bottom: 30px;
+          }
         }
       }
     }
@@ -103,31 +112,35 @@
  *  Desktop
  */
 @media (min-width: $desktopContentWidth) {
-  .dashboard-content-container {
-    width: $desktopContentWidth;
-    margin-top: 200px;
+  .dashboard-container {
+    height: 675px;
 
-    .dashboard-content {
-      margin: 0 50px;
+    .dashboard-content-container {
+      width: $desktopContentWidth;
+      height: 650px;
 
-      .logo {
-        width: 400px;
-        height: 112px;
-      }
+      .dashboard-content {
+        margin: 0 50px;
 
-      .description {
-        width: 562.3px;
-      }
-
-      .forms-container {
-        .form {
-          display: inline-block;
+        .logo {
+          width: 400px;
+          height: 112px;
         }
 
-        .form:first-child {
-          padding-right: 62px;
-          margin-right: 61px;
-          border-right: dashed 2px #dddddd;
+        .description {
+          width: 562.3px;
+        }
+
+        .forms-container {
+          .form {
+            display: inline-block;
+          }
+
+          .form:first-child {
+            padding-right: 62px;
+            margin-right: 61px;
+            border-right: dashed 2px #dddddd;
+          }
         }
       }
     }
