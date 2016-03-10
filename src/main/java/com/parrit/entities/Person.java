@@ -1,5 +1,7 @@
 package com.parrit.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,7 @@ public class Person {
     private long id;
 
     @NotNull
+    @Length(min = 1, max = 10)
     private String name;
 
     public Person() {
