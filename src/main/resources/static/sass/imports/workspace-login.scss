@@ -26,8 +26,8 @@
       text-align: center;
       line-height: 44px;
       font-family: Avenir-Heavy;
-      font-size: 32px;
-      color: #4a4a4a;
+      font-size: 36px;
+      color: $slateGrey;
       margin-bottom: 31px;
     }
 
@@ -35,13 +35,13 @@
       width: calc(100% - 16px - 2px);
       height: 50px;
       border-radius: 3px;
-      border: solid 1px #cccccc;
+      border: solid 1px white;
 
       padding-left: 16px;
       line-height: 25px;
       font-family: Avenir-Book;
       font-size: 18px;
-      color: #847f7a;
+      color: $silver;
     }
 
     input[type=submit] {
