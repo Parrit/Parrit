@@ -20,18 +20,18 @@ var Dashboard = React.createClass({
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.
                     </div>
                     <div className="forms-container">
-                        <div className="form">
+                        <form className="form" onSubmit={this.createWorkspaceWithName}>
                             <div className="form-label">Create Project</div>
                             <input type="text" placeholder="Project/URL name" onChange={this.handleNewWorkspaceName}/>
                             <input type="password" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
-                            <PrimaryButton name="Create" clickFunction={this.createWorkspaceWithName}/>
-                        </div>
-                        <div className="form">
+                            <PrimaryButton name="Create" type="submit"/>
+                        </form>
+                        <form className="form" onSubmit={this.handleLogin}>
                             <div className="form-label">Sign In</div>
                             <input type="text" placeholder="Project/URL name" onChange={this.handleLoginName}/>
                             <input type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
-                            <PrimaryButton name="Sign In" clickFunction={this.handleLogin}/>
-                        </div>
+                            <PrimaryButton name="Sign In" type="submit"/>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -41,10 +41,10 @@ var Dashboard = React.createClass({
 
     getInitialState: function() {
         return {
-            loginWorkspaceName: '',
-            loginWorkspacePassword: '',
             newWorkspaceName: '',
-            newWorkspacePassword: ''
+            newWorkspacePassword: '',
+            loginWorkspaceName: '',
+            loginWorkspacePassword: ''
         };
     },
 
@@ -56,6 +56,11 @@ var Dashboard = React.createClass({
         this.setState({loginWorkspacePassword: event.target.value});
     },
 
+    handleLogin: function(event) {
+        event.preventDefault();
+        this.props.login(this.state.loginWorkspaceName, this.state.loginWorkspacePassword)
+    },
+
     handleNewWorkspaceName: function(event) {
         this.setState({newWorkspaceName: event.target.value});
     },
@@ -64,11 +69,8 @@ var Dashboard = React.createClass({
         this.setState({newWorkspacePassword: event.target.value});
     },
 
-    handleLogin: function() {
-        this.props.login(this.state.loginWorkspaceName, this.state.loginWorkspacePassword)
-    },
-
-    createWorkspaceWithName: function() {
+    createWorkspaceWithName: function(event) {
+        event.preventDefault();
         this.props.createWorkspace(this.state.newWorkspaceName, this.state.newWorkspacePassword)
     }
 });
