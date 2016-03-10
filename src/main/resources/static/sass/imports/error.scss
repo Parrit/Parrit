@@ -52,7 +52,7 @@ $mobileImageHeight: 212px;
  */
 @media (max-width: $desktopContentWidth) {
   .error-container {
-    height: calc(#{$mobileImageHeight} + 25px);
+    height: calc(#{$mobileImageHeight} + 50px);
 
     .error-image-wrapper {
       width: $mobileImageWidth;
@@ -85,7 +85,7 @@ $mobileImageHeight: 212px;
  */
 @media (min-width: $desktopContentWidth) {
   .error-container {
-    height: calc(#{$desktopImageHeight} + 25px);
+    height: calc(#{$desktopImageHeight} + 50px);
 
     .error-image-wrapper {
       width: $desktopImageWidth;
