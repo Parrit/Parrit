@@ -1,6 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800);
 @import url(https://fonts.googleapis.com/css?family=Overlock:900);
 
+/*
+ *  Use these with the "font:" property.
+ *
+ *  Place overrides below, eg font-size, line-height
+ */
+
 $Overlock-Black: normal normal 900 30px Overlock;
 $Raleway-Thin: normal normal 300 30px Raleway;
 $Raleway: normal normal 400 30px Raleway;

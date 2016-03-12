@@ -173,7 +173,6 @@
             }
 
             .person-list {
-
               .person {
                 position: relative;
                 display: inline-block;
@@ -192,7 +191,7 @@
               }
             }
 
-            &:hover {
+            &:hover:not(.drop-active) {
               background-color: $lightKhaki;
 
               .delete-pairing-board {
