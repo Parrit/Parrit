@@ -5,18 +5,18 @@ var ReactTestUtils = require('react-addons-test-utils');
 var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
-var Space = require('workspace/components/Space.js');
+var PairingBoard = require('workspace/components/PairingBoard.js');
 var PersonListMock = Mocker("PersonList");
 var DangerButtonMock = Mocker('DangerButton');
-Space.__set__('PersonList', PersonListMock);
-Space.__set__('DangerButton', DangerButtonMock);
+PairingBoard.__set__('PersonList', PersonListMock);
+PairingBoard.__set__('DangerButton', DangerButtonMock);
 
-describe('Space', function() {
+describe('PairingBoard', function() {
     var props;
-    var space;
+    var pairingBoard;
     beforeEach(function() {
         props  = {
-            name: "Space1",
+            name: "PairingBoard1",
             people: [
                 {
                     name: "George"
@@ -29,29 +29,28 @@ describe('Space', function() {
             deleteSpace: jasmine.createSpy('deleteSpaceSpy')
         };
 
-        space = RenderComponent(Space, <Space {...props} />);
+        pairingBoard = RenderComponent(PairingBoard, <PairingBoard {...props} />);
     });
 
     it('renders the space element with an id relative to index', function() {
-        var spaceElement = ReactDOM.findDOMNode(space);
+        var spaceElement = ReactDOM.findDOMNode(pairingBoard);
         expect(spaceElement.id).toBe("space_1", "No correct id");
     });
 
     it('renders the list of people', function() {
-        var people = ReactTestUtils.findRenderedComponentWithType(space, PersonListMock);
+        var people = ReactTestUtils.findRenderedComponentWithType(pairingBoard, PersonListMock);
         expect(people.props.people).toBe(props.people);
         expect(people.props.index).toBe(props.index);
     });
 
     it('renders a delete button', function() {
-        var deleteButton = ReactTestUtils.findRenderedComponentWithType(space, DangerButtonMock);
-        expect(deleteButton.props.name).toBe("X");
-        expect(deleteButton.props.clickFunction).toBe(space.deleteSpace);
+        var deleteButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'delete-pairing-board');
+        expect(deleteButton).toBeTruthy();
     });
 
     describe('#deleteSpace', function() {
         it('calls the deleteSpace prop function with the index prop', function() {
-            space.deleteSpace();
+            pairingBoard.deleteSpace();
             expect(props.deleteSpace).toHaveBeenCalledWith(1);
         })
     });

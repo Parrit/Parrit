@@ -1,33 +1,65 @@
 .ReactModal__Overlay {
-  background-color: $overlayColor;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 
 .ReactModal__Content {
   position: absolute;
-  top: 40%;
-  padding: 15px;
-  border-radius: 6px;
-  background-color: white;
+  top: 0;
+  bottom: 40%;
+  left: 0;
+  right: 0;
+  margin: auto;
 
-  button {
-    width: 47%;
-  }
+  width: 326px;
+  height: 111px;
 
-  button + button {
-    margin-left: 6%;
-  }
-}
+  padding: 32px;
+  border-radius: 3px;
+  background-color: $duckEggBlue;
+  z-index: 3;
 
-@media (max-width: 767px) {
-  .ReactModal__Content {
-    width: 60%;
-    left: 20%;
-  }
-}
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.3);
 
-@media (min-width: 768px) {
-  .ReactModal__Content {
-    width: 30%;
-    left: 35%;
+  form {
+    .form-header {
+      .form-title {
+        float: left;
+        font: $Raleway-SemiBold;
+        font-size: 22px;
+        line-height: 26px;
+        color: $coolGrey;
+        margin-bottom: 35px;
+      }
+
+      .form-cancel {
+        float: right;
+        display: inline-block;
+        cursor: pointer;
+
+        margin-top: 9px;
+        width: 13px;
+        height: 13px;
+        object-fit: contain;
+        background-image: url("../svg/close-modal-dark.svg");
+
+        &:hover {
+          background-image: url("../svg/close-modal-bright.svg");
+        }
+      }
+    }
+
+    input {
+      width: calc(100% - 16px);
+      height: 50px;
+      border: none;
+      border-radius: 3px;
+
+      padding-left: 16px;
+      font: $Raleway;
+      font-size: 15px;
+      line-height: 18px;
+      color: $coolGrey;
+    }
   }
 }

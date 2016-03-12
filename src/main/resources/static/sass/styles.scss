@@ -4,13 +4,15 @@ $mobileContentWidth: 375px;
 @import "imports/colors";
 @import "imports/fonts";
 
-@import "imports/browser-override";
-@import "imports/dashboard";
-@import "imports/drag-n-drop";
-@import "imports/error";
+@import "imports/header";
 @import "imports/footer";
+
+@import "imports/browser-override";
+@import "imports/drag-n-drop";
 @import "imports/inputs";
 @import "imports/modal";
-@import "imports/sidenav";
+
+@import "imports/dashboard";
 @import "imports/workspace";
 @import "imports/workspace-login";
+@import "imports/error";

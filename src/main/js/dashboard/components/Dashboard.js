@@ -1,6 +1,5 @@
 var React = require('react');
 
-var NewWorkspaceForm = require('shared/components/NewWorkspaceForm.js');
 var Footer = require('shared/components/Footer.js');
 var Buttons = require('shared/components/Buttons.js');
 var PrimaryButton = Buttons.PrimaryButton;

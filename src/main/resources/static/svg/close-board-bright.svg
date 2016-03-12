@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>close</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Visual-Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Pairing-Board---Board-Hover" transform="translate(-852.000000, -295.000000)" fill="#D4F338">
+            <g id="close" transform="translate(852.000000, 295.000000)">
+                <path d="M12.7121429,2.50714286 L10.2421429,0.0371428571 L6.37309524,3.90619048 L2.47,0 L0,2.47 L3.90619048,6.37309524 L0,10.2792857 L2.47,12.7492857 L6.37309524,8.84309524 L10.2421429,12.7121429 L12.7121429,10.2421429 L8.84309524,6.37309524 L12.7121429,2.50714286 L12.7121429,2.50714286 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

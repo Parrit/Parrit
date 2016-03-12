@@ -1,34 +1,14 @@
 /* Drag and drop Styling */
-.space.drop-active {
-  border-color: $lightGrey;
-}
-
-.space.drop-target {
-  background-color: $lightBlue;
-  border-color: white;
-  border-style: solid;
-}
-
-.workspace.drop-active {
-  border-color: $lightGrey;
-}
-
-.workspace.drop-target {
-  background-color: white;
-  border-color: $lightGrey;
-  border-style: solid;
+.pairing-board.drop-target {
+  background-color: $lightKhaki !important;
 }
 
 .person.can-drop {
-  color: black;
-  background-color: $successGreen;
-  z-index: 1;
+  color: white !important;
+  background-color: $salmon !important;
+  z-index: 5 !important;
 }
 
-.trash.drop-target {
-  background-color: $lightBlue;
-}
-
-.trash.drop-active {
-  visibility: visible;
+.delete-parrit.drop-target {
+  opacity: 1 !important;
 }

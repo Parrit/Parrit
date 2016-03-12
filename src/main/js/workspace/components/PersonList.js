@@ -9,7 +9,7 @@ var PersonList = React.createClass({
 
     render: function() {
         var spaceIndex = this.props.index;
-        return <div className="personList">
+        return <div className="person-list">
             {this.props.people.map(function (person, idx) {
                 return <Person key={idx} name={person.name} index={idx} spaceIndex={spaceIndex}/>
             })}

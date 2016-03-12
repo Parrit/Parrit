@@ -3,49 +3,39 @@ var ReactDOM = require('react-dom');
 var ReactTestUtils = require('react-addons-test-utils');
 
 var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
 
 var NameForm = require('shared/components/NameForm.js');
 
-var PrimaryButtonMock = Mocker("Button1");
-var SuccessButtonMock = Mocker("Button2");
-NameForm.__set__('PrimaryButton', PrimaryButtonMock);
-NameForm.__set__('SuccessButton', SuccessButtonMock);
-
 describe('NameForm', function() {
     var props;
-    var newSpaceForm;
-    var newSpaceFormElement;
-    var nameInput;
-    var confirmButton;
-    var cancelButton;
+    var nameForm;
+    var nameFormElement;
+    var input;
     beforeEach(function() {
         props  = {
-            confirmFunction: jasmine.createSpy('newSpaceConfirmSpy'),
-            cancelFunction: function() {}
+            formTitle: "Form Title",
+            confirmFunction: jasmine.createSpy('confirmFunctionSpy'),
+            cancelFunction: jasmine.createSpy('cancelFunctionSpy')
         };
 
-        newSpaceForm = RenderComponent(NameForm, <NameForm {...props} />);
-        newSpaceFormElement = ReactDOM.findDOMNode(newSpaceForm);
+        nameForm = RenderComponent(NameForm, <NameForm {...props} />);
+        nameFormElement = ReactDOM.findDOMNode(nameForm);
 
-        nameInput = ReactTestUtils.findRenderedDOMComponentWithTag(newSpaceForm, 'input');
+        input = ReactTestUtils.findRenderedDOMComponentWithTag(nameForm, 'input');
+    });
 
-        confirmButton = ReactTestUtils.findRenderedComponentWithType(newSpaceForm, SuccessButtonMock);
-        cancelButton = ReactTestUtils.findRenderedComponentWithType(newSpaceForm, PrimaryButtonMock);
+    it('displays the form title', function() {
+        var formTitle = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'form-title');
+        expect(formTitle.innerHTML).toBe("Form Title");
+    });
+
+    it('has a cancel button', function() {
+        var cancel = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'form-cancel');
+        expect(cancel).toBeTruthy();
     });
 
     it('has an input field', function() {
-        expect(nameInput).toBeTruthy();
-    });
-
-    it('has a confirm button of type submit', function() {
-        expect(confirmButton.props.name).toBe('Save');
-        expect(confirmButton.props.type).toBe('submit');
-    });
-
-    it('has a cancel button that calls the cancelFunction', function() {
-        expect(cancelButton.props.name).toBe('Cancel');
-        expect(cancelButton.props.clickFunction).toBe(props.cancelFunction);
+        expect(input).toBeTruthy();
     });
 
     describe('#submit', function() {
@@ -55,14 +45,14 @@ describe('NameForm', function() {
         });
 
         it('calls prevent default', function() {
-            newSpaceForm.setState({name: "stuff"});
-            newSpaceForm.submit(e);
+            nameForm.setState({name: "stuff"});
+            nameForm.submit(e);
             expect(e.preventDefault).toHaveBeenCalled();
         });
 
         it('should call the confirm function with the name on the state', function() {
-            newSpaceForm.setState({name: "stuff"});
-            newSpaceForm.submit(e);
+            nameForm.setState({name: "stuff"});
+            nameForm.submit(e);
             expect(props.confirmFunction).toHaveBeenCalledWith('stuff');
         });
     });

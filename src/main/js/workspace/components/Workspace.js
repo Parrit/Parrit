@@ -1,155 +1,84 @@
 var React = require('react');
-var Interact = require('interact.js');
-var _ = require('lodash');
+var Modal = require('react-modal');
+var ModalStyles = require('shared/misc/OverrideBullshitModalStyles.js');
 
 var PersonList = require('workspace/components/PersonList.js');
-var Space = require('workspace/components/Space.js');
+var PairingBoard = require('workspace/components/PairingBoard.js');
+var NameForm = require('shared/components/NameForm.js');
 
 var Workspace = React.createClass({
     propTypes: {
+        settings: React.PropTypes.object.isRequired,
         people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         spaces: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-
-        movePerson: React.PropTypes.func.isRequired,
-        deletePerson: React.PropTypes.func.isRequired,
+        setNewPersonModalOpen: React.PropTypes.func.isRequired,
+        setNewSpaceModalOpen: React.PropTypes.func.isRequired,
+        createPerson: React.PropTypes.func.isRequired,
+        createSpace: React.PropTypes.func.isRequired,
         deleteSpace: React.PropTypes.func.isRequired
     },
 
-    fromSpaceIndex: undefined,
-    toSpaceIndex: undefined,
-
-    componentDidMount: function() {
-        Interact('.draggable').draggable({
-                restrict: {
-                    restriction: ".workspace"
-                },
-                autoScroll: true,
-
-                onmove: function dragMoveListener (event) {
-                    var target = event.target;
-                    var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-                    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
-                },
-
-                onend: function(event) {
-                    event.target.removeAttribute('style');
-                    event.target.removeAttribute('data-x');
-                    event.target.removeAttribute('data-y');
-                }
-            });
-
-        Interact('.dropzone').dropzone({
-                accept: '.draggable.person',
-                overlap: 'center',
-
-                ondropactivate: function (event) {
-                    event.target.classList.add('drop-active');
-                },
-                ondropdeactivate: function (event) {
-                    event.target.classList.remove('drop-active');
-                },
-                ondragenter: this.dropzoneOnDragEnter,
-                ondragleave: this.dropzoneOnDragLeave,
-                ondrop: this.dropzoneOnDrop
-            });
-
-        Interact('.trash').dropzone({
-                accept: '.draggable.person',
-                overlap: 'center',
-
-                ondropactivate: function (event) {
-                    event.target.classList.add('drop-active');
-                },
-                ondropdeactivate: function (event) {
-                    event.target.classList.remove('drop-active');
-                },
-                ondragenter: function (event) {
-                    event.target.classList.add('drop-target');
-                    event.relatedTarget.classList.add('can-drop');
-                },
-                ondragleave: function (event) {
-                    event.target.classList.remove('drop-target');
-                    event.relatedTarget.classList.remove('can-drop');
-                },
-                ondrop: this.trashOnDrop
-            });
-    },
-
-	render: function() {
+    render: function() {
         var deleteSpace = this.props.deleteSpace;
 
-		return <div id="space_-1" className="container-fluid workspace dropzone">
+        return <div className="workspace">
 
-            <div className="floatingSpace">
-                <h2>Floating</h2>
+            <div className="floating-parrits">
+                <div className="floating-parrit-title">Floating Parrits</div>
                 <PersonList people={this.props.people} index={-1} />
+                <div className="floating-parrit-actions">
+                    <div className="add-parrit-button" onClick={this.openNewPersonModal}></div>
+                    <div className="delete-parrit"></div>
+                </div>
             </div>
 
-            <div className="spaces">
-                {this.props.spaces.map(function (space, idx) {
-                    return <Space key={idx} name={space.name} people={space.people} index={idx} deleteSpace={deleteSpace}/>;
-                })}
+            <div className="dotted-line"></div>
+
+            <div className="pairing-boards-container">
+                <div className="pairing-boards-title">Pairing Boards</div>
+                <div className="pairing-boards">
+                    {this.props.spaces.map(function (pairingBoard, idx) {
+                        return <PairingBoard key={idx} name={pairingBoard.name} people={pairingBoard.people}
+                                             index={idx} deleteSpace={deleteSpace}/>;
+                    })}
+                </div>
+                <div className="add-board-button" onClick={this.openNewSpaceModal}></div>
             </div>
 
-            <div className="trash"></div>
+            <Modal isOpen={this.props.settings.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal} style={ModalStyles}>
+                <NameForm formTitle="Add Parrit Teammate" confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>
+            </Modal>
+            <Modal isOpen={this.props.settings.isNewSpaceModalOpen} onRequestClose={this.closeNewSpaceModal} style={ModalStyles}>
+                <NameForm formTitle="Add Pairing Board" confirmFunction={this.createSpaceWithName} cancelFunction={this.closeNewSpaceModal}/>
+            </Modal>
 
         </div>
-	},
-
-    dropzoneOnDragEnter: function (event) {
-        event.target.classList.add('drop-target');
-        event.relatedTarget.classList.add('can-drop');
-
-        this.toSpaceIndex = this.getIndexFromId(event.target.id);
     },
 
-    dropzoneOnDragLeave: function (event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-
-        if(this.fromSpaceIndex === undefined) {
-            this.fromSpaceIndex = this.getIndexFromId(event.target.id);
-        }
+    createPersonWithName: function(name) {
+        this.props.createPerson(name);
+        this.closeNewPersonModal();
     },
 
-    dropzoneOnDrop: function(event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-
-        var personIndex = this.getIndexFromId(event.relatedTarget.id);
-
-        if(this.fromSpaceIndex === undefined) {
-            this.fromSpaceIndex = this.toSpaceIndex;
-        }
-
-        this.props.movePerson(this.fromSpaceIndex, this.toSpaceIndex, personIndex);
-
-        this.fromSpaceIndex = undefined;
-        this.toSpaceIndex = undefined;
+    openNewPersonModal: function () {
+        this.props.setNewPersonModalOpen(true);
     },
 
-    trashOnDrop: function(event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-
-        var personIndex = this.getIndexFromId(event.relatedTarget.id);
-
-        this.props.deletePerson(this.fromSpaceIndex, personIndex);
-
-        this.fromSpaceIndex = undefined;
-        this.toSpaceIndex = undefined;
+    closeNewPersonModal: function () {
+        this.props.setNewPersonModalOpen(false);
     },
 
-    getIndexFromId: function(idString) {
-        if(idString === undefined) return -1;
+    createSpaceWithName: function(name) {
+        this.props.createSpace(name);
+        this.closeNewSpaceModal();
+    },
 
-        var segments = _.split(idString, '_');
-        return parseInt(segments[segments.length-1]);
+    openNewSpaceModal: function () {
+        this.props.setNewSpaceModalOpen(true);
+    },
+
+    closeNewSpaceModal: function () {
+        this.props.setNewSpaceModalOpen(false);
     }
 });
 

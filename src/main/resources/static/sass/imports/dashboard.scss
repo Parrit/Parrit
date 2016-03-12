@@ -18,8 +18,9 @@
       }
 
       .description {
-        font: $Raleway;
+        font: $Raleway-Thin;
         font-size: 18px;
+        line-height: 28px;
         color: $coolGrey;
         margin: 0 auto 62px auto;
         text-align: center;
@@ -44,9 +45,10 @@
             border-radius: 3px;
             border: solid 1px white;
 
+            margin-bottom: 10px;
             padding-left: 16px;
             line-height: 18px;
-            font: $Raleway-Medium;
+            font: $Raleway;
             font-size: 15px;
             color: $coolGrey;
           }
@@ -59,7 +61,7 @@
             margin-bottom: 7px;
 
             line-height: 25px;
-            font: $Raleway-SemiBold;
+            font: $Raleway;
             font-size: 18px;
             color: white;
           }
@@ -157,12 +159,12 @@
 
           .dotted-line {
             width: 5px;
-            height: 238px;
+            height: 240px;
             display: inline-block;
             object-fit: contain;
             margin-right: 50px;
             vertical-align: middle;
-            background-image: url("../svg/dotted-line.svg");
+            background-image: url("../svg/dot-dark.svg");
           }
         }
       }

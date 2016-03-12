@@ -1,111 +1,235 @@
-.content {
-  position: relative;
-}
+.project-page-container {
+  overflow: auto;
 
-@media (min-width: 768px) {
-  .workspace-wrapper {
-    margin-left: 25%;
-  }
-}
+  .project {
+    margin: 80px 50px 25px;
 
-.workspace-wrapper {
-  padding: 15px;
+    .sub-header {
+      height: 135px;
 
-  .workspace {
-    min-height: 80em;
-    background-color: white;
-    border: $lightGrey 4px solid;
+      .project-name {
+        float: left;
 
-    .spaces {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+        margin-top: 36px;
+        line-height: 44px;
+        font: $Overlock-Black;
+        font-size: 36px;
+        color: $slateGrey;
+      }
 
-      .space {
-        width: 47%;
-        min-height: 8.1em;
-        margin: 10px;
-        padding: 10px;
-        flex-grow: 1;
+      .project-actions {
+        float: right;
+        margin-top: 32px;
 
-        .space-header {
-          position: relative;
-          width: 100%;
+        button {
+          height: 50px;
+          padding: 0 20px;
+          border: none;
+          border-radius: 3px;
 
-          .space-name {
-            float: left;
-            font-size: 18px;
+          line-height: 21px;
+          font: $Raleway;
+          font-size: 18px;
+          color: white;
+
+          &:first-child {
+            margin-right: 15px;
+            background-color: $lightTeal;
+
+            &:hover {
+              background-color: $lightCyan;
+            }
           }
 
-          .btn-danger {
-            float: right;
-            width: 20px;
-            height: 20px;
-            font-size: 10px;
-            padding: 0;
+          &:last-child {
+            background-color: $slimyGreen;
+
+            &:hover {
+              background-color: $yellowyGreen;
+            }
           }
         }
       }
-
-      .space-header::after {
-        content: "";
-        clear: both;
-        display: block;
-      }
     }
 
-    .floatingSpace {
-      width: 80%;
-      margin-right: 19%;
-      margin-left: 1%;
-      margin-top: 20px;
-      min-height: 8.1em;
+    .workspace {
+      display: flex;
+      justify-content: space-between;
+      min-height: 870px;
 
-      h2 {
-        margin: 0;
-      }
-    }
-
-    .personList {
-      margin-top: 10px;
-
-      &:empty {
-        margin-top: 0;
-      }
-
-      .person {
+      .floating-parrits {
         position: relative;
-        display: inline-block;
-        min-width: 80px;
-        padding: 1em 0.5em;
-        margin: 2px 4px;
-        border-radius: 10px;
-        text-align: center;
+        width: 250px;
 
-        color: white;
-        background-color: $primaryBlue;
-        border: solid 2px white;
+        .floating-parrit-title {
+          font: $Raleway-SemiBold;
+          font-size: 22px;
+          line-height: 26px;
+          color: $coolGrey;
+          margin-bottom: 36px;
+        }
 
-        -webkit-transform: translate(0px, 0px);
-        transform: translate(0px, 0px);
+        .person-list {
+          margin-bottom: 100px;
 
-        transition: background-color 0.3s;
+          .person {
+            position: relative;
+            display: inline-block;
+            border-radius: 26px;
+            background-color: $veryLightPink;
+
+            padding: 17.5px 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+
+            font: $Raleway-Bold;
+            font-size: 13px;
+            line-height: 15px;
+            letter-spacing: -0.5px;
+            color: $salmon;
+          }
+        }
+
+        .floating-parrit-actions {
+          position: absolute;
+          bottom: 0;
+
+          .add-parrit-button {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background-image: url("../svg/add-parrit.svg");
+
+            cursor: pointer;
+            opacity: .30;
+            margin-right: 26px;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+
+          .delete-parrit {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background-image: url("../svg/delete-parrit.svg");
+
+            opacity: .30;
+          }
+
+        }
+      }
+
+      .dotted-line {
+        width: 5px;
+        object-fit: contain;
+        margin: 0 50px 0 45px;
+        background-image: url("../svg/dot-light.svg");
+      }
+
+      .pairing-boards-container {
+        position: relative;
+        flex-grow: 1;
+        width: 78%;
+
+        .pairing-boards-title {
+          width: 100%;
+          font: $Raleway-SemiBold;
+          font-size: 22px;
+          line-height: 26px;
+          color: $coolGrey;
+          margin-bottom: 36px;
+        }
+
+        .pairing-boards {
+          display: flex;
+          flex-wrap: wrap;
+          align-content: flex-start;
+          margin-bottom: 100px;
+
+          .pairing-board {
+            width: 495px;
+            min-height: 150px;
+            border-radius: 4px;
+            border: solid 1px $lightGrey;
+            padding: 10px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+
+            .pairing-board-header {
+              margin-bottom: 10px;
+
+              .pairing-board-name {
+                font: $Overlock-Black;
+                font-size: 15px;
+                line-height: 18px;
+                color: $coolGrey;
+
+                text-transform: uppercase;
+              }
+            }
+
+            .person-list {
+
+              .person {
+                position: relative;
+                display: inline-block;
+                border-radius: 26px;
+                background-color: $salmon;
+
+                padding: 17.5px 20px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+
+                font: $Raleway-Bold;
+                font-size: 13px;
+                line-height: 15px;
+                letter-spacing: -0.5px;
+                color: white;
+              }
+            }
+
+            &:hover {
+              background-color: $lightKhaki;
+
+              .delete-pairing-board {
+                float: right;
+                display: inline-block;
+                cursor: pointer;
+
+                width: 13px;
+                height: 13px;
+                object-fit: contain;
+                background-image: url("../svg/close-board-dark.svg");
+
+                &:hover {
+                  background-image: url("../svg/close-board-bright.svg");
+                }
+              }
+            }
+          }
+        }
+
+        .add-board-button {
+          position: absolute;
+          bottom: 4px;
+          right: 0;
+          cursor: pointer;
+
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
+          background-image: url("../svg/add-board.svg");
+          opacity: .30;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
       }
     }
-  }
-
-  .trash {
-    visibility: hidden;
-    position: absolute;
-    right: 40px;
-    top: 40px;
-    height: 88px;
-    width: 73px;
-
-    background: white url('../img/trash.png') no-repeat center;
-    background-size: 90%;
-
-    border: 1px solid $lightGrey;
-    border-radius: 4px;
   }
 }

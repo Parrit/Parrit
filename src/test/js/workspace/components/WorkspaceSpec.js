@@ -5,16 +5,27 @@ var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var Workspace = require('workspace/components/Workspace.js');
-var SpaceMock = Mocker("Space");
+var PairingBoardMock = Mocker("PairingBoard");
 var PersonListMock = Mocker("PersonList");
-Workspace.__set__('Space', SpaceMock);
+var ModalMock = Mocker("Modal");
+var NameFormMock = Mocker("NameForm");
+Workspace.__set__('PairingBoard', PairingBoardMock);
 Workspace.__set__('PersonList', PersonListMock);
+Workspace.__set__('Modal', ModalMock);
+Workspace.__set__('NameForm', NameFormMock);
 
 describe('Workspace', function() {
     var props;
     var workspace;
+    var newPersonModal;
+    var newPersonForm;
+    var newSpaceModal;
+    var newSpaceForm;
     beforeEach(function() {
         props  = {
+            settings: {
+                isNewPersonModalOpen: false
+            },
             people: [
                 {name:"Mike Wazowski"},
                 {name:"Sully"}
@@ -37,16 +48,27 @@ describe('Workspace', function() {
                     ]
                 }
             ],
-            movePerson: jasmine.createSpy(),
-            deletePerson: jasmine.createSpy(),
+
+            createPerson: jasmine.createSpy('createPersonSpy'),
+            createSpace: jasmine.createSpy('createSpaceSpy'),
+            setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
+            setNewSpaceModalOpen: jasmine.createSpy('setNewSpaceModalOpenSpy'),
+
             deleteSpace: function(){}
         };
 
         workspace = RenderComponent(Workspace, <Workspace {...props} />);
+
+        var Modals = ReactTestUtils.scryRenderedComponentsWithType(workspace, ModalMock);
+        newPersonModal = Modals[0];
+        newSpaceModal = Modals[1];
+
+        newPersonForm = ReactTestUtils.findRenderedComponentWithType(newPersonModal, NameFormMock);
+        newSpaceForm = ReactTestUtils.findRenderedComponentWithType(newSpaceModal, NameFormMock);
     });
 
     it('renders all of the spaces in the workspace', function() {
-        var spaces = ReactTestUtils.scryRenderedComponentsWithType(workspace, SpaceMock);
+        var spaces = ReactTestUtils.scryRenderedComponentsWithType(workspace, PairingBoardMock);
         expect(spaces.length).toBe(2, 'Not enough spaces');
 
         expect(spaces[0].props.name).toBe("Space1");
@@ -67,182 +89,65 @@ describe('Workspace', function() {
         expect(people.props.index).toBe(-1);
     });
 
-    describe('#dropzoneOnDragEnter', function() {
-        var event;
-        beforeEach(function() {
-            event = {
-                target: { id: "albert_5", classList: { add: function(){} } },
-                relatedTarget: { classList: { add: function(){} } }
-            };
+    describe('newPersonModal', function() {
+        it('has a configured newPersonModal component as a child', function() {
+            expect(newPersonModal.props.onRequestClose).toBe(workspace.closeNewPersonModal);
         });
 
-        it('adds correct classes to dropzone and draggable elements', function() {
-            spyOn(event.target.classList, 'add');
-            spyOn(event.relatedTarget.classList, 'add');
-
-            workspace.dropzoneOnDragEnter(event);
-
-            expect(event.target.classList.add).toHaveBeenCalledWith('drop-target');
-            expect(event.relatedTarget.classList.add).toHaveBeenCalledWith('can-drop');
+        it('has a configured new person form in a modal', function() {
+            expect(newPersonForm.props.formTitle).toBe("Add Parrit Teammate");
+            expect(newPersonForm.props.confirmFunction).toBe(workspace.createPersonWithName);
+            expect(newPersonForm.props.cancelFunction).toBe(workspace.closeNewPersonModal);
         });
 
-        it('sets toSpaceIndex to the result of getIndexFromId with the dropzone id', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(5);
-
-            workspace.dropzoneOnDragEnter(event);
-
-            expect(workspace.getIndexFromId).toHaveBeenCalledWith("albert_5");
-            expect(workspace.toSpaceIndex).toBe(5);
-        });
-    });
-
-    describe('#dropzoneOnDragLeave', function() {
-        var event;
-        beforeEach(function() {
-            event = {
-                target: { id: "albert_5", classList: { remove: function(){} } },
-                relatedTarget: { classList: { remove: function(){} } }
-            };
+        describe('#openNewPersonModal', function() {
+            it('shows the modal', function() {
+                workspace.openNewPersonModal();
+                expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(true);
+            });
         });
 
-        it('removes correct classes from dropzone and draggable elements', function() {
-            spyOn(event.target.classList, 'remove');
-            spyOn(event.relatedTarget.classList, 'remove');
+        describe('#createPersonWithName', function() {
+            it('should call the createPerson action with the passed in name', function() {
+                workspace.createPersonWithName('Luke Skywalker');
+                expect(props.createPerson).toHaveBeenCalledWith('Luke Skywalker');
+            });
 
-            workspace.dropzoneOnDragLeave(event);
-
-            expect(event.target.classList.remove).toHaveBeenCalledWith('drop-target');
-            expect(event.relatedTarget.classList.remove).toHaveBeenCalledWith('can-drop');
-        });
-
-        it('sets fromSpaceIndex to the result of getIndexFromId with the dropzone id if fromSpaceIndex is UNDEFINED', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(5);
-
-            workspace.dropzoneOnDragLeave(event);
-
-            expect(workspace.getIndexFromId).toHaveBeenCalledWith("albert_5");
-            expect(workspace.fromSpaceIndex).toBe(5);
-        });
-
-        it('DOES NOT set fromSpaceIndex to the result of getIndexFromId with the dropzone id if fromSpaceIndex is DEFINED', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(5);
-            workspace.fromSpaceIndex = 7;
-
-            workspace.dropzoneOnDragLeave(event);
-
-            expect(workspace.getIndexFromId).not.toHaveBeenCalledWith("albert_5");
-            expect(workspace.fromSpaceIndex).toBe(7);
+            it('should close the modal', function() {
+                workspace.createPersonWithName('Luke Skywalker');
+                expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
+            });
         });
     });
 
-    describe('#dropzoneOnDrop', function() {
-        var event;
-        beforeEach(function() {
-            event = {
-                target: { id: "albert_5", classList: { remove: function(){} } },
-                relatedTarget: { id: "steve_8", classList: { remove: function(){} } }
-            };
+    describe('newSpaceModal', function() {
+        it('has a configured newSpaceModal component as a child', function() {
+            expect(newSpaceModal.props.onRequestClose).toBe(workspace.closeNewSpaceModal);
         });
 
-        it('removes correct classes from dropzone and draggable elements', function() {
-            spyOn(event.target.classList, 'remove');
-            spyOn(event.relatedTarget.classList, 'remove');
-
-            workspace.dropzoneOnDrop(event);
-
-            expect(event.target.classList.remove).toHaveBeenCalledWith('drop-target');
-            expect(event.relatedTarget.classList.remove).toHaveBeenCalledWith('can-drop');
+        it('has a configured new space form in a modal', function() {
+            expect(newSpaceForm.props.formTitle).toBe("Add Pairing Board");
+            expect(newSpaceForm.props.confirmFunction).toBe(workspace.createSpaceWithName);
+            expect(newSpaceForm.props.cancelFunction).toBe(workspace.closeNewSpaceModal);
         });
 
-        it('calls movePerson with workspace variables and the result of the getIndexFromId', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(4);
-
-            workspace.fromSpaceIndex = 3;
-            workspace.toSpaceIndex = 9;
-
-            workspace.dropzoneOnDrop(event);
-
-            expect(workspace.getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(props.movePerson).toHaveBeenCalledWith(3, 9, 4);
+        describe('#openNewSpaceModal', function() {
+            it('shows the modal', function() {
+                workspace.openNewSpaceModal();
+                expect(props.setNewSpaceModalOpen).toHaveBeenCalledWith(true);
+            });
         });
 
-        it('set fromSpaceIndex to toSpaceIndex if the fromSpaceIndex is UNDEFINED', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(4);
+        describe('#createSpaceWithName', function() {
+            it('should call the createSpace action with the passed in name', function() {
+                workspace.createSpaceWithName('Luke Skywalker');
+                expect(props.createSpace).toHaveBeenCalledWith('Luke Skywalker');
+            });
 
-            workspace.fromSpaceIndex = undefined;
-            workspace.toSpaceIndex = 9;
-
-            workspace.dropzoneOnDrop(event);
-
-            expect(workspace.getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(props.movePerson).toHaveBeenCalledWith(9, 9, 4);
-        });
-
-        it('sets the workspace variables to undefined', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(4);
-
-            workspace.fromSpaceIndex = 3;
-            workspace.toSpaceIndex = 9;
-
-            workspace.dropzoneOnDrop(event);
-
-            expect(workspace.fromSpaceIndex).toBeUndefined();
-            expect(workspace.toSpaceIndex).toBeUndefined();
-        });
-    });
-
-    describe('#trashOnDrop', function() {
-        var event;
-        beforeEach(function() {
-            event = {
-                target: { id: "albert_5", classList: { remove: function(){} } },
-                relatedTarget: { id: "steve_8", classList: { remove: function(){} } }
-            };
-        });
-
-        it('removes correct classes from dropzone and draggable elements', function() {
-            spyOn(event.target.classList, 'remove');
-            spyOn(event.relatedTarget.classList, 'remove');
-
-            workspace.trashOnDrop(event);
-
-            expect(event.target.classList.remove).toHaveBeenCalledWith('drop-target');
-            expect(event.relatedTarget.classList.remove).toHaveBeenCalledWith('can-drop');
-        });
-
-        it('calls deletePerson with fromSpaceIndex and the result of the getIndexFromId', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(4);
-
-            workspace.fromSpaceIndex = 3;
-            workspace.toSpaceIndex = 9;
-
-            workspace.trashOnDrop(event);
-
-            expect(workspace.getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(props.deletePerson).toHaveBeenCalledWith(3, 4);
-        });
-
-        it('sets the workspace variables to undefined', function() {
-            spyOn(workspace, 'getIndexFromId').and.returnValue(4);
-
-            workspace.fromSpaceIndex = 3;
-            workspace.toSpaceIndex = 9;
-
-            workspace.trashOnDrop(event);
-
-            expect(workspace.fromSpaceIndex).toBeUndefined();
-            expect(workspace.toSpaceIndex).toBeUndefined();
-        });
-    });
-
-    describe('#getIndexFromId', function() {
-        it('returns the integer after the last underscore', function() {
-            expect(workspace.getIndexFromId('happy_happy_32_joy_382')).toBe(382);
-            expect(workspace.getIndexFromId('happy_happy_32_neg_-382')).toBe(-382);
-        });
-
-        it('returns -1 when the argument is undefined', function() {
-            expect(workspace.getIndexFromId(undefined)).toBe(-1);
+            it('should close the modal', function() {
+                workspace.createSpaceWithName('Luke Skywalker');
+                expect(props.setNewSpaceModalOpen).toHaveBeenCalledWith(false);
+            });
         });
     });
 });
