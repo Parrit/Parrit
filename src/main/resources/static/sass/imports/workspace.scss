@@ -191,7 +191,7 @@
               }
             }
 
-            &:hover:not(.drop-active) {
+            &:hover:not(.drop-active), &.drop-target {
               background-color: $lightKhaki;
 
               .delete-pairing-board {
