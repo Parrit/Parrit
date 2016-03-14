@@ -40,46 +40,12 @@
           }
 
           input {
-            width: calc(100% - 16px - 2px);
-            height: 50px;
-            border-radius: 3px;
-            border: solid 1px white;
-
             margin-bottom: 10px;
-            padding-left: 16px;
-            line-height: 18px;
-            font: $Raleway;
-            font-size: 15px;
-            color: $coolGrey;
           }
 
           button {
             width: 100%;
-            height: 50px;
-            border: none;
-            border-radius: 3px;
             margin-bottom: 7px;
-
-            line-height: 25px;
-            font: $Raleway;
-            font-size: 18px;
-            color: white;
-          }
-        }
-
-        .new-form button {
-          background-color: $lightTeal;
-
-          &:hover {
-            background-color: $lightCyan;
-          }
-        }
-
-        .signin-form button {
-          background-color: $slimyGreen;
-
-          &:hover {
-            background-color: $yellowyGreen;
           }
         }
       }

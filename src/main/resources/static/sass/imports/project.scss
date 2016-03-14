@@ -14,31 +14,7 @@
 
       .project-actions {
         button {
-          height: 50px;
           padding: 0 20px;
-          border: none;
-          border-radius: 3px;
-
-          line-height: 21px;
-          font: $Raleway;
-          font-size: 18px;
-          color: white;
-
-          &:first-child {
-            background-color: $lightTeal;
-
-            &:hover {
-              background-color: $lightCyan;
-            }
-          }
-
-          &:last-child {
-            background-color: $slimyGreen;
-
-            &:hover {
-              background-color: $yellowyGreen;
-            }
-          }
         }
       }
     }

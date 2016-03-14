@@ -11,10 +11,15 @@ describe('Button', function() {
         var renderedButton;
         beforeEach(function() {
             props = {
-                name: 'button'
+                name: 'button',
+                className: 'ooga-booga'
             };
 
             renderedButton = RenderComponent(Button, <Button {...props} />);
+        });
+
+        it('should have the passed in css classes', function() {
+            expect(ReactDOM.findDOMNode(renderedButton).classList).toContain('ooga-booga');
         });
 
         it('should have a button type', function() {

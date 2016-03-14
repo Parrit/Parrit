@@ -53,6 +53,7 @@ describe('Project', function() {
         var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
         var recommendPairsButton = allButtons[0];
 
+        expect(recommendPairsButton.props.className).toBe('button-blue');
         expect(recommendPairsButton.props.name).toBe('Recommend Pairs');
         expect(recommendPairsButton.props.shortName).toBe('Recommend');
         expect(recommendPairsButton.props.clickFunction).toBe(props.getRecommendedPairs);
@@ -62,6 +63,7 @@ describe('Project', function() {
         var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
         var recordPairs = allButtons[1];
 
+        expect(recordPairs.props.className).toBe('button-green');
         expect(recordPairs.props.name).toBe('Record Pairs');
         expect(recordPairs.props.shortName).toBe('Record');
         expect(recordPairs.props.clickFunction).toBe(props.savePairing);

@@ -1,9 +1,47 @@
 button {
   cursor: pointer;
+
+  height: 50px;
+
+  border: none;
+  border-radius: 3px;
+
+  font: $Raleway;
+  font-size: 18px;
+  color: white;
+
+  &.button-blue {
+    background-color: $lightTeal;
+
+    &:hover {
+      background-color: $lightCyan;
+    }
+  }
+
+  &.button-green {
+    background-color: $slimyGreen;
+
+    &:hover {
+      background-color: $yellowyGreen;
+    }
+  }
 }
 
 input {
   width: 100%;
+  height: 50px;
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 0 0 16px;
+
+  border: none;
+  border-radius: 3px;
+  outline: 0;
+
+  font: $Raleway;
+  font-size: 15px;
+  color: $coolGrey;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
