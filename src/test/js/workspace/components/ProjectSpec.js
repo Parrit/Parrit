@@ -5,9 +5,9 @@ var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var Project = require('workspace/components/Project.js');
-var PrimaryButtonMock = Mocker('PrimaryButton');
+var ButtonMock = Mocker('Button');
 var WorkspaceMock = Mocker('Workspace');
-Project.__set__('PrimaryButton', PrimaryButtonMock);
+Project.__set__('Button', ButtonMock);
 Project.__set__('Workspace', WorkspaceMock);
 
 describe('Project', function() {
@@ -50,7 +50,7 @@ describe('Project', function() {
     });
 
     it('has a recommend pairs button', function() {
-        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, PrimaryButtonMock);
+        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
         var recommendPairsButton = allButtons[0];
 
         expect(recommendPairsButton.props.name).toBe('Recommend Pairs');
@@ -59,7 +59,7 @@ describe('Project', function() {
     });
 
     it('has a records pairs button', function() {
-        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, PrimaryButtonMock);
+        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
         var recordPairs = allButtons[1];
 
         expect(recordPairs.props.name).toBe('Record Pairs');

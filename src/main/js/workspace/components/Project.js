@@ -1,9 +1,7 @@
 var React = require('react');
 
 var Workspace = require('workspace/components/Workspace.js');
-var Buttons = require('shared/components/Buttons.js');
-
-var PrimaryButton = Buttons.PrimaryButton;
+var Button = require('shared/components/Button.js');
 
 var Project = React.createClass({
     propTypes: {
@@ -35,8 +33,8 @@ var Project = React.createClass({
             <div className="sub-header">
                 <div className="project-name">{this.props.data.workspace.name}</div>
                 <div className="project-actions">
-                    <PrimaryButton name="Recommend Pairs" shortName="Recommend" clickFunction={this.props.getRecommendedPairs}/>
-                    <PrimaryButton name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>
+                    <Button name="Recommend Pairs" shortName="Recommend" clickFunction={this.props.getRecommendedPairs}/>
+                    <Button name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>
                 </div>
             </div>
             <div className="sub-header-dotted-line"></div>

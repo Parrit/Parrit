@@ -5,8 +5,8 @@ var RenderComponent = require('support/RenderComponent.js');
 var Mocker = require('support/ComponentMocker.js');
 
 var Dashboard = require('dashboard/components/Dashboard.js');
-var PrimaryButtonMock = Mocker("Button1");
-Dashboard.__set__('PrimaryButton', PrimaryButtonMock);
+var ButtonMock = Mocker("Button");
+Dashboard.__set__('Button', ButtonMock);
 
 describe('Dashboard', function() {
     var props;

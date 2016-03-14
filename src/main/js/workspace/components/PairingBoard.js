@@ -1,8 +1,6 @@
 var React = require('react');
 var PersonList = require('workspace/components/PersonList.js');
 
-var DangerButton = require('shared/components/Buttons.js').DangerButton;
-
 var PairingBoard = React.createClass({
     propTypes: {
         name: React.PropTypes.string.isRequired,

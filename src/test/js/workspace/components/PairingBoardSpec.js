@@ -7,9 +7,7 @@ var Mocker = require('support/ComponentMocker.js');
 
 var PairingBoard = require('workspace/components/PairingBoard.js');
 var PersonListMock = Mocker("PersonList");
-var DangerButtonMock = Mocker('DangerButton');
 PairingBoard.__set__('PersonList', PersonListMock);
-PairingBoard.__set__('DangerButton', DangerButtonMock);
 
 describe('PairingBoard', function() {
     var props;

@@ -1,8 +1,7 @@
 var React = require('react');
 
 var Footer = require('shared/components/Footer.js');
-var Buttons = require('shared/components/Buttons.js');
-var PrimaryButton = Buttons.PrimaryButton;
+var Button = require('shared/components/Button.js');
 
 var Dashboard = React.createClass({
     propTypes: {
@@ -23,14 +22,14 @@ var Dashboard = React.createClass({
                             <div className="form-label">Create Project</div>
                             <input type="text" placeholder="Project name" onChange={this.handleNewWorkspaceName}/>
                             <input type="password" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
-                            <PrimaryButton name="Create" type="submit"/>
+                            <Button name="Create" type="submit"/>
                         </form>
                         <div className="dotted-line"></div>
                         <form className="form signin-form" onSubmit={this.handleLogin}>
                             <div className="form-label">Sign In</div>
                             <input type="text" placeholder="Project name" onChange={this.handleLoginName}/>
                             <input type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
-                            <PrimaryButton name="Sign In" type="submit"/>
+                            <Button name="Sign In" type="submit"/>
                         </form>
                     </div>
                 </div>
