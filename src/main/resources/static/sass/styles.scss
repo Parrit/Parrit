@@ -8,11 +8,12 @@ $mobileContentWidth: 375px;
 @import "imports/footer";
 
 @import "imports/browser-override";
-@import "imports/drag-n-drop";
 @import "imports/inputs";
 @import "imports/modal";
 
 @import "imports/dashboard";
 @import "imports/workspace";
+@import "imports/pairing-boards";
+@import "imports/person";
 @import "imports/workspace-login";
 @import "imports/error";

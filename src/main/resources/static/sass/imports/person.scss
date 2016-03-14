@@ -1,0 +1,29 @@
+.floating-parrits .person {
+  background-color: $veryLightPink;
+  color: $salmon;
+}
+
+.pairing-board .person,
+.person.can-drop {
+  background-color: $salmon;
+  color: white;
+}
+
+.person {
+  position: relative;
+  display: inline-block;
+  border-radius: 26px;
+
+  padding: 17.5px 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  font: $Raleway-Bold;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.5px;
+
+  &.can-drop {
+    z-index: 5;
+  }
+}

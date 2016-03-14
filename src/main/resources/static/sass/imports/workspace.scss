@@ -71,23 +71,6 @@
 
         .person-list {
           margin-bottom: 100px;
-
-          .person {
-            position: relative;
-            display: inline-block;
-            border-radius: 26px;
-            background-color: $veryLightPink;
-
-            padding: 17.5px 20px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-
-            font: $Raleway-Bold;
-            font-size: 13px;
-            line-height: 15px;
-            letter-spacing: -0.5px;
-            color: $salmon;
-          }
         }
 
         .floating-parrit-actions {
@@ -118,6 +101,10 @@
             background-image: url("../svg/delete-parrit.svg");
 
             opacity: .30;
+
+            &.drop-target {
+              opacity: 1;
+            }
           }
 
         }
@@ -142,74 +129,6 @@
           line-height: 26px;
           color: $coolGrey;
           margin-bottom: 36px;
-        }
-
-        .pairing-boards {
-          display: flex;
-          flex-wrap: wrap;
-          align-content: flex-start;
-          margin-bottom: 100px;
-
-          .pairing-board {
-            width: 495px;
-            min-height: 150px;
-            border-radius: 4px;
-            border: solid 1px $lightGrey;
-            padding: 10px;
-            margin-right: 15px;
-            margin-bottom: 15px;
-
-            .pairing-board-header {
-              margin-bottom: 10px;
-
-              .pairing-board-name {
-                font: $Overlock-Black;
-                font-size: 15px;
-                line-height: 18px;
-                color: $coolGrey;
-
-                text-transform: uppercase;
-              }
-            }
-
-            .person-list {
-              .person {
-                position: relative;
-                display: inline-block;
-                border-radius: 26px;
-                background-color: $salmon;
-
-                padding: 17.5px 20px;
-                margin-right: 10px;
-                margin-bottom: 10px;
-
-                font: $Raleway-Bold;
-                font-size: 13px;
-                line-height: 15px;
-                letter-spacing: -0.5px;
-                color: white;
-              }
-            }
-
-            &:hover:not(.drop-active), &.drop-target {
-              background-color: $lightKhaki;
-
-              .delete-pairing-board {
-                float: right;
-                display: inline-block;
-                cursor: pointer;
-
-                width: 13px;
-                height: 13px;
-                object-fit: contain;
-                background-image: url("../svg/close-board-dark.svg");
-
-                &:hover {
-                  background-image: url("../svg/close-board-bright.svg");
-                }
-              }
-            }
-          }
         }
 
         .add-board-button {
