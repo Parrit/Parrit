@@ -35,10 +35,11 @@ var Project = React.createClass({
             <div className="sub-header">
                 <div className="project-name">{this.props.data.workspace.name}</div>
                 <div className="project-actions">
-                    <PrimaryButton name="Recommend Pairs" clickFunction={this.props.getRecommendedPairs}/>
-                    <PrimaryButton name="Record Pairs" clickFunction={this.props.savePairing}/>
+                    <PrimaryButton name="Recommend Pairs" shortName="Recommend" clickFunction={this.props.getRecommendedPairs}/>
+                    <PrimaryButton name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>
                 </div>
             </div>
+            <div className="sub-header-dotted-line"></div>
             <Workspace {...workspaceProps}/>
         </div>
     }

@@ -2,25 +2,17 @@
   overflow: auto;
 
   .project {
-    margin: 80px 50px 25px;
 
     .sub-header {
-      height: 135px;
 
       .project-name {
-        float: left;
-
-        margin-top: 36px;
-        line-height: 44px;
         font: $Overlock-Black;
         font-size: 36px;
+        line-height: 44px;
         color: $slateGrey;
       }
 
       .project-actions {
-        float: right;
-        margin-top: 32px;
-
         button {
           height: 50px;
           padding: 0 20px;
@@ -33,7 +25,6 @@
           color: white;
 
           &:first-child {
-            margin-right: 15px;
             background-color: $lightTeal;
 
             &:hover {
@@ -50,6 +41,118 @@
           }
         }
       }
+    }
+  }
+}
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  .project-page-container {
+    margin: 0 auto;
+
+    .project {
+      margin: 0 6.667% 25px;
+
+      .sub-header {
+        padding: 60px 0;
+        text-align: center;
+
+        .project-name {
+        }
+
+        .project-actions {
+          margin-top: 23px;
+
+          button:first-child {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .sub-header-dotted-line {
+        height: 5px;
+        object-fit: contain;
+        margin: 0 auto 26px;
+        background-image: url("../svg/dot-light.svg");
+      }
+
+      .workspace {
+
+        .floating-parrits {
+          margin: 0 auto;
+
+          .floating-parrit-title {
+            font: $Raleway-SemiBold;
+            font-size: 22px;
+            line-height: 26px;
+            color: $coolGrey;
+            margin-bottom: 36px;
+          }
+
+          .person-list {
+            margin-bottom: 32px;
+          }
+
+          .floating-parrit-actions {
+            display: none;
+          }
+        }
+
+        .dotted-line {
+          height: 5px;
+          object-fit: contain;
+          margin: 0 auto 26px;
+          background-image: url("../svg/dot-light.svg");
+        }
+
+        .pairing-boards-container {
+
+          .pairing-boards-title {
+            font: $Raleway-SemiBold;
+            font-size: 22px;
+            line-height: 26px;
+            color: $coolGrey;
+            margin-bottom: 36px;
+          }
+
+          .add-board-button {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  .project {
+    margin: 0 50px 25px;
+
+    .sub-header {
+      height: 135px;
+
+      .project-name {
+        float: left;
+        margin-top: 36px;
+      }
+
+      .project-actions {
+        float: right;
+        margin-top: 32px;
+
+        button:first-child {
+          margin-right: 15px;
+        }
+      }
+    }
+
+    .sub-header-dotted-line {
+      display: none;
     }
 
     .workspace {

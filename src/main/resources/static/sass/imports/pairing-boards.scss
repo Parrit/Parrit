@@ -1,16 +1,11 @@
 .pairing-boards {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
   margin-bottom: 100px;
 
   .pairing-board {
-    width: 495px;
     min-height: 150px;
     border-radius: 4px;
     border: solid 1px $lightGrey;
     padding: 10px;
-    margin-right: 15px;
     margin-bottom: 15px;
 
     .pairing-board-header {
@@ -44,6 +39,28 @@
           background-image: url("../svg/close-board-bright.svg");
         }
       }
+    }
+  }
+}
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  .pairing-boards {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    .pairing-board {
+      width: 495px;
+      margin-right: 15px;
     }
   }
 }

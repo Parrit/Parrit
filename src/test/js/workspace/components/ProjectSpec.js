@@ -54,6 +54,7 @@ describe('Project', function() {
         var recommendPairsButton = allButtons[0];
 
         expect(recommendPairsButton.props.name).toBe('Recommend Pairs');
+        expect(recommendPairsButton.props.shortName).toBe('Recommend');
         expect(recommendPairsButton.props.clickFunction).toBe(props.getRecommendedPairs);
     });
 
@@ -62,6 +63,7 @@ describe('Project', function() {
         var recordPairs = allButtons[1];
 
         expect(recordPairs.props.name).toBe('Record Pairs');
+        expect(recordPairs.props.shortName).toBe('Record');
         expect(recordPairs.props.clickFunction).toBe(props.savePairing);
     });
 

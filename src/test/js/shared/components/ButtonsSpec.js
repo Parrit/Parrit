@@ -9,13 +9,14 @@ var createButtonClass = Buttons.__get__('createButtonClass');
 
 describe('Buttons', function() {
     describe('#createButtonClass', function() {
-        var props = {
-            name: 'button'
-        };
-
+        var props;
         var ButtonClass;
         var renderedButtonClass;
         beforeEach(function() {
+            props = {
+                name: 'button'
+            };
+
             ButtonClass = createButtonClass('ooga-booga');
             renderedButtonClass = RenderComponent(ButtonClass, <ButtonClass {...props} />);
         });
@@ -41,6 +42,19 @@ describe('Buttons', function() {
             expect(props.clickFunction).not.toHaveBeenCalled();
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(renderedButtonClass));
             expect(props.clickFunction).toHaveBeenCalled();
+        });
+
+        it('should display the alternate short name given', function() {
+            props.shortName = 'short';
+            renderedButtonClass = RenderComponent(ButtonClass, <ButtonClass {...props} />);
+
+            var shortName = ReactTestUtils.findRenderedDOMComponentWithClass(renderedButtonClass, 'short-name');
+            expect(shortName.innerHTML).toBe("short");
+        });
+
+        it('defaults short name to the name property when no short name is provided', function() {
+            var shortName = ReactTestUtils.findRenderedDOMComponentWithClass(renderedButtonClass, 'short-name');
+            expect(shortName.innerHTML).toBe("button");
         });
     });
 });

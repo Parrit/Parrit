@@ -1,18 +1,13 @@
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
   height: 80px;
   width: 100%;
   background-color: $duckEggBlue;
-  z-index: 1;
 
   .header-logo {
     width: 185px;
     height: 47px;
     object-fit: contain;
     margin-top: 16px;
-    margin-left: 50px;
     float: left;
     background-image: url("../svg/parrit-logo.svg");
   }
@@ -20,30 +15,86 @@ header {
   .links {
     float: right;
     margin-top: 33px;
-    margin-right: 50px;
+  }
+}
 
-    .logout {
-      line-height: 18px;
-      font: $Overlock-Black;
-      font-size: 15px;
-      color: $coolGrey;
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  header {
+    .header-logo {
+      margin-left: 20px;
+    }
+
+    .links {
       margin-right: 20px;
     }
 
+    .logout {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      vertical-align: middle;
+      object-fit: contain;
+      background: url("../svg/logout-icon.svg") no-repeat;
+      margin-right: 20px;
+      color: transparent;
+      font-size: 0;
+    }
+
     .history {
-      line-height: 18px;
-      font: $Overlock-Black;
-      font-size: 15px;
-      color: $coolGrey;
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      vertical-align: middle;
+      object-fit: contain;
+      background: url("../svg/history-icon.svg") no-repeat;
+      color: transparent;
+      font-size: 0;
 
       .history-carrot {
-        display: inline-block;
-        width: 9.1px;
-        height: 13px;
-        object-fit: contain;
-        margin-left: 5px;
-        margin-bottom: -1px;
-        background-image: url("../svg/history-carrot.svg");
+        display: none;
+      }
+    }
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  header {
+    .header-logo {
+      margin-left: 50px;
+    }
+
+    .links {
+      margin-right: 50px;
+
+      .logout {
+        line-height: 18px;
+        font: $Overlock-Black;
+        font-size: 15px;
+        color: $coolGrey;
+        margin-right: 20px;
+      }
+
+      .history {
+        line-height: 18px;
+        font: $Overlock-Black;
+        font-size: 15px;
+        color: $coolGrey;
+
+        .history-carrot {
+          display: inline-block;
+          width: 9.1px;
+          height: 13px;
+          object-fit: contain;
+          margin-left: 5px;
+          margin-bottom: -1px;
+          background-image: url("../svg/history-carrot.svg");
+        }
       }
     }
   }

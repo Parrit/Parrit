@@ -9,12 +9,33 @@ input {
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
   color: $silver;
 }
+
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
   color: $silver;
 }
+
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
   color: $silver;
 }
+
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: $silver;
+}
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  button .name {
+    display: none;
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  button .short-name {
+    display: none;
+  }
 }
