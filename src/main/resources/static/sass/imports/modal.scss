@@ -25,10 +25,6 @@
     .form-header {
       .form-title {
         float: left;
-        font: $Raleway-SemiBold;
-        font-size: 22px;
-        line-height: 26px;
-        color: $coolGrey;
         margin-bottom: 35px;
       }
 
@@ -40,7 +36,6 @@
         margin-top: 9px;
         width: 13px;
         height: 13px;
-        object-fit: contain;
         background-image: url("../svg/close-modal-dark.svg");
 
         &:hover {

@@ -17,7 +17,7 @@ var NameForm = React.createClass({
     render: function() {
         return <form onSubmit={this.submit}>
             <div className="form-header">
-                <div className="form-title">{this.props.formTitle}</div>
+                <h2 className="form-title">{this.props.formTitle}</h2>
                 <div className="form-cancel" onClick={this.props.cancelFunction}></div>
             </div>
             <input ref="input" type="text" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleChange}/>

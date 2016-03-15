@@ -31,7 +31,7 @@ var Project = React.createClass({
 
         return <div className="project">
             <div className="sub-header">
-                <div className="project-name">{this.props.data.workspace.name}</div>
+                <h1 className="project-name">{this.props.data.workspace.name}</h1>
                 <div className="project-actions">
                     <Button className="button-blue" name="Recommend Pairs" shortName="Recommend" clickFunction={this.props.getRecommendedPairs}/>
                     <Button className="button-green" name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>

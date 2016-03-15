@@ -3,32 +3,20 @@
   height: 325px;
 
   .workspace-login {
+    @include absolutely-centered;
+
     width: 325px;
     height: 300px;
-
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
 
     .lock-icon {
       width: 53px;
       height: 75px;
-      display: block;
-      object-fit: contain;
-      margin: 0 auto 25px;
       background-image: url("../svg/lock-icon.svg");
+      margin: 0 auto;
     }
 
     .workspace-name {
       text-align: center;
-      line-height: 44px;
-      font: $Overlock-Black;
-      font-size: 36px;
-      color: $slateGrey;
-      margin-bottom: 31px;
     }
 
     input[type=submit] {

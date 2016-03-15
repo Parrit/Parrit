@@ -13,7 +13,7 @@ var PairingBoard = React.createClass({
         var spaceIndex = this.props.index;
 		return <div id={"space_" + spaceIndex} className="pairing-board dropzone">
             <div className="pairing-board-header">
-                <span className="pairing-board-name">{this.props.name}</span>
+                <h3 className="pairing-board-name">{this.props.name}</h3>
                 <div className="delete-pairing-board" onClick={this.deleteSpace}></div>
             </div>
             <PersonList people={this.props.people} index={spaceIndex} />

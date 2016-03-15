@@ -20,7 +20,7 @@ var WorkspaceLogin = React.createClass({
         return <div className="workspace-login-container">
             <div className="workspace-login">
                 <div className="lock-icon"></div>
-                <div className="workspace-name">{this.props.workspaceName}</div>
+                <h1 className="workspace-name">{this.props.workspaceName}</h1>
                 <form action="/login/workspace" method="POST">
                     <input type="hidden" name="username" value={this.props.workspaceName}/>
                     <input type="password" ref="passwordInput" name="password" placeholder="Password"/>

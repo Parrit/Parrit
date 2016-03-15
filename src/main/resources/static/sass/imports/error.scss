@@ -7,46 +7,40 @@ $mobileImageHeight: 212px;
   overflow: auto;
 
   .error-image-wrapper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    @include absolutely-centered;
 
     .parrit-talk-bubble {
-      display: block;
-      object-fit: contain;
       background-image: url("../svg/parrit-talk-bubble.svg");
 
       .error-message {
         position: relative;
-        line-height: 44px;
-        font: $Overlock-Black;
       }
 
       .home-page-link {
         position: relative;
-        line-height: 16px;
         font: $Raleway-ExtraBold;
+        font-size: 14px;
+        line-height: 16px;
         letter-spacing: 0.5px;
         color: $salmon;
         text-decoration: none;
 
+        .carrot {
+          width: 9px;
+          height: 12.8px;
+          display: inline-block;
+          margin-left: 5px;
+          background-image: url("../svg/error-page-carrot.svg");
+        }
+
         &:hover {
           color: $tomato;
+
+          .carrot {
+            background-image: url("../svg/error-page-carrot-bright.svg");
+          }
         }
       }
-
-      .carrot {
-        width: 9px;
-        height: 12.8px;
-        display: inline-block;
-        object-fit: contain;
-        margin-left: 5px;
-        background-image: url("../svg/error-page-carrot.svg");
-      }
-
     }
   }
 }
@@ -68,16 +62,14 @@ $mobileImageHeight: 212px;
         background-size: 100%;
 
         .error-message {
-          width: 216px;
-          top: 58px;
-          left: 36px;
+          top: 62px;
+          left: 34px;
           font-size: 30px;
         }
 
         .home-page-link {
-          top: 60px;
-          left: 68px;
-          font-size: 12px;
+          top: 45px;
+          left: 60px;
         }
       }
     }
@@ -102,13 +94,11 @@ $mobileImageHeight: 212px;
         .error-message {
           top: 82px;
           left: 45px;
-          font-size: 36px;
         }
 
         .home-page-link {
-          top: 90px;
-          left: 88px;
-          font-size: 14px;
+          top: 65px;
+          left: 90px;
         }
       }
     }

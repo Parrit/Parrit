@@ -24,7 +24,7 @@ var Workspace = React.createClass({
         return <div className="workspace">
 
             <div className="floating-parrits">
-                <div className="floating-parrit-title">Floating Parrits</div>
+                <h2 className="floating-parrit-title">Floating Parrits</h2>
                 <PersonList people={this.props.people} index={-1} />
                 <div className="floating-parrit-actions">
                     <div className="add-parrit-button" onClick={this.openNewPersonModal}></div>
@@ -35,7 +35,7 @@ var Workspace = React.createClass({
             <div className="dotted-line"></div>
 
             <div className="pairing-boards-container">
-                <div className="pairing-boards-title">Pairing Boards</div>
+                <h2 className="pairing-boards-title">Pairing Boards</h2>
                 <div className="pairing-boards">
                     {this.props.spaces.map(function (pairingBoard, idx) {
                         return <PairingBoard key={idx} name={pairingBoard.name} people={pairingBoard.people}

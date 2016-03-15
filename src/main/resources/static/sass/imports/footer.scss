@@ -3,27 +3,23 @@ footer {
   right: 0;
   bottom: 0;
   left: 0;
+
   height: 20px;
-  clear: both;
-  padding-top: 5px;
+  padding: 5px 10px 0;
+
+  font: $Raleway-Medium;
+  font-size: 10px;
+  line-height: 14px;
+  color: $coolGrey;
 
   .fake-copyright {
     float: left;
-    padding-left: 10px;
-    line-height: 14px;
-    font: $Raleway-Medium;
-    font-size: 10px;
-    color: $coolGrey;
   }
 
   .github-link {
     float: right;
-    padding-right: 10px;
-    line-height: 14px;
 
     a {
-      font: $Raleway-Medium;
-      font-size: 10px;
       color: $coolGrey;
     }
   }

@@ -14,3 +14,36 @@ $Raleway-Medium: normal normal 500 30px Raleway;
 $Raleway-SemiBold: normal normal 600 30px Raleway;
 $Raleway-Bold: normal normal 700 30px Raleway;
 $Raleway-ExtraBold: normal normal 800 30px Raleway;
+
+body {
+  font: $Raleway-Thin;
+  font-size: 18px;
+  line-height: 28px;
+  color: $coolGrey;
+}
+
+h1 {
+  font: $Overlock-Black;
+  font-size: 36px;
+  line-height: 44px;
+  color: $slateGrey;
+}
+
+h2 {
+  font: $Raleway-SemiBold;
+  font-size: 22px;
+  line-height: 26px;
+  color: $coolGrey;
+
+  margin-top: 0;
+}
+
+h3 {
+  font: $Overlock-Black;
+  font-size: 15px;
+  line-height: 18px;
+  color: $coolGrey;
+
+  margin-top: 0;
+  text-transform: uppercase;
+}

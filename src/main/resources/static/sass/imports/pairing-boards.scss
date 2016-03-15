@@ -12,12 +12,8 @@
       margin-bottom: 10px;
 
       .pairing-board-name {
-        font: $Overlock-Black;
-        font-size: 15px;
-        line-height: 18px;
-        color: $coolGrey;
-
-        text-transform: uppercase;
+        display: inline;
+        vertical-align: top;
       }
     }
 
@@ -32,7 +28,6 @@
 
         width: 13px;
         height: 13px;
-        object-fit: contain;
         background-image: url("../svg/close-board-dark.svg");
 
         &:hover {

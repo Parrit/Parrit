@@ -4,12 +4,12 @@ $mobileContentWidth: 375px;
 @import "imports/colors";
 @import "imports/fonts";
 
-@import "imports/header";
-@import "imports/footer";
-
-@import "imports/browser-override";
+@import "imports/layout";
 @import "imports/inputs";
 @import "imports/modal";
+
+@import "imports/header";
+@import "imports/footer";
 
 @import "imports/dashboard";
 @import "imports/project";

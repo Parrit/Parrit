@@ -2,26 +2,15 @@
   overflow: auto;
 
   .dashboard-content-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    @include absolutely-centered;
 
     .dashboard-content {
       .logo {
-        display: block;
-        object-fit: contain;
         margin: 0 auto 52.5px auto;
         background-image: url("../svg/parrit-logo-with-tag.svg");
       }
 
       .description {
-        font: $Raleway-Thin;
-        font-size: 18px;
-        line-height: 28px;
-        color: $coolGrey;
         margin: 0 auto 62px auto;
         text-align: center;
       }
@@ -31,11 +20,6 @@
           width: 325px;
 
           .form-label {
-            line-height: 26px;
-            font: $Raleway-SemiBold;
-            font-size: 22px;
-            color: $coolGrey;
-            margin-bottom: 12px;
             text-align: center;
           }
 
@@ -110,6 +94,8 @@
         }
 
         .forms-container {
+          text-align: center;
+
           .form {
             display: inline-block;
             vertical-align: middle;
@@ -120,13 +106,12 @@
           }
 
           .dotted-line {
+            display: inline-block;
+            vertical-align: middle;
             width: 5px;
             height: 240px;
-            display: inline-block;
-            object-fit: contain;
-            margin-right: 50px;
-            vertical-align: middle;
             background-image: url("../svg/dot-dark.svg");
+            margin-right: 50px;
           }
         }
       }

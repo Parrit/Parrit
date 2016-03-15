@@ -2,20 +2,21 @@
   overflow: auto;
 
   .project {
-
     .sub-header {
-
-      .project-name {
-        font: $Overlock-Black;
-        font-size: 36px;
-        line-height: 44px;
-        color: $slateGrey;
-      }
-
       .project-actions {
         button {
           padding: 0 20px;
         }
+      }
+    }
+
+    .workspace {
+      .floating-parrit-title {
+        margin-bottom: 36px;
+      }
+
+      .pairing-boards-title {
+        margin-bottom: 36px;
       }
     }
   }
@@ -35,9 +36,6 @@
         padding: 60px 0;
         text-align: center;
 
-        .project-name {
-        }
-
         .project-actions {
           margin-top: 23px;
 
@@ -49,23 +47,13 @@
 
       .sub-header-dotted-line {
         height: 5px;
-        object-fit: contain;
         margin: 0 auto 26px;
         background-image: url("../svg/dot-light.svg");
       }
 
       .workspace {
-
         .floating-parrits {
           margin: 0 auto;
-
-          .floating-parrit-title {
-            font: $Raleway-SemiBold;
-            font-size: 22px;
-            line-height: 26px;
-            color: $coolGrey;
-            margin-bottom: 36px;
-          }
 
           .person-list {
             margin-bottom: 32px;
@@ -78,21 +66,11 @@
 
         .dotted-line {
           height: 5px;
-          object-fit: contain;
           margin: 0 auto 26px;
           background-image: url("../svg/dot-light.svg");
         }
 
         .pairing-boards-container {
-
-          .pairing-boards-title {
-            font: $Raleway-SemiBold;
-            font-size: 22px;
-            line-height: 26px;
-            color: $coolGrey;
-            margin-bottom: 36px;
-          }
-
           .add-board-button {
             display: none;
           }
@@ -140,14 +118,6 @@
         position: relative;
         width: 250px;
 
-        .floating-parrit-title {
-          font: $Raleway-SemiBold;
-          font-size: 22px;
-          line-height: 26px;
-          color: $coolGrey;
-          margin-bottom: 36px;
-        }
-
         .person-list {
           margin-bottom: 100px;
         }
@@ -160,7 +130,6 @@
             display: inline-block;
             width: 80px;
             height: 80px;
-            object-fit: contain;
             background-image: url("../svg/add-parrit.svg");
 
             cursor: pointer;
@@ -176,7 +145,6 @@
             display: inline-block;
             width: 80px;
             height: 80px;
-            object-fit: contain;
             background-image: url("../svg/delete-parrit.svg");
 
             opacity: .30;
@@ -191,7 +159,6 @@
 
       .dotted-line {
         width: 5px;
-        object-fit: contain;
         margin: 0 50px 0 45px;
         background-image: url("../svg/dot-light.svg");
       }
@@ -203,11 +170,6 @@
 
         .pairing-boards-title {
           width: 100%;
-          font: $Raleway-SemiBold;
-          font-size: 22px;
-          line-height: 26px;
-          color: $coolGrey;
-          margin-bottom: 36px;
         }
 
         .add-board-button {
@@ -218,7 +180,6 @@
 
           width: 80px;
           height: 80px;
-          object-fit: contain;
           background-image: url("../svg/add-board.svg");
           opacity: .30;
 

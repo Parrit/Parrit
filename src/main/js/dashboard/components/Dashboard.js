@@ -19,17 +19,17 @@ var Dashboard = React.createClass({
                     </div>
                     <div className="forms-container">
                         <form className="form new-form" onSubmit={this.createWorkspaceWithName}>
-                            <div className="form-label">Create Project</div>
+                            <h2 className="form-label">Create Project</h2>
                             <input type="text" placeholder="Project name" onChange={this.handleNewWorkspaceName}/>
                             <input type="password" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
                             <Button className="button-blue" name="Create" type="submit"/>
                         </form>
                         <div className="dotted-line"></div>
                         <form className="form signin-form" onSubmit={this.handleLogin}>
-                            <div className="form-label">Sign In</div>
+                            <h2 className="form-label">Login to Project</h2>
                             <input type="text" placeholder="Project name" onChange={this.handleLoginName}/>
                             <input type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
-                            <Button className="button-green" name="Sign In" type="submit"/>
+                            <Button className="button-green" name="Login" type="submit"/>
                         </form>
                     </div>
                 </div>
