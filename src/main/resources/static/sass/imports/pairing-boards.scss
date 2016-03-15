@@ -2,36 +2,71 @@
   margin-bottom: 100px;
 
   .pairing-board {
+    position: relative;
     min-height: 150px;
     border-radius: 4px;
     border: solid 1px $lightGrey;
-    padding: 10px;
+    padding: 0 10px 10px;
     margin-bottom: 15px;
+
+    &:not(.editing) .pairing-board-header .pairing-board-name-wrapper {
+      display: inline-block;
+    }
 
     .pairing-board-header {
       margin-bottom: 10px;
 
-      .pairing-board-name {
-        display: inline;
-        vertical-align: top;
+      .pairing-board-name-wrapper {
+        .pairing-board-name {
+          display: inline;
+        }
+
+        .editing-pairing-board-name {
+          width: 94%;
+          height: 18px;
+          padding: 0;
+
+          font: $Overlock-Black;
+          font-size: 15px;
+          line-height: 18px;
+          color: $coolGrey;
+          text-transform: uppercase;
+        }
       }
     }
 
     &:hover:not(.drop-active),
-    &.drop-target {
+    &.drop-target,
+    &.editing {
       background-color: $lightKhaki;
 
-      .delete-pairing-board {
-        float: right;
+      .rename-pairing-board {
         display: inline-block;
+        cursor: pointer;
+        margin-left: 10px;
+
+        width: 13px;
+        height: 13px;
+        background-image: url("../svg/rename-pairing-board-dark.svg");
+
+        &:hover {
+          background-image: url("../svg/rename-pairing-board-bright.svg");
+        }
+      }
+
+      .delete-pairing-board {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
         cursor: pointer;
 
         width: 13px;
         height: 13px;
-        background-image: url("../svg/close-board-dark.svg");
+        background-image: url("../svg/delete-pairing-board-dark.svg");
 
         &:hover {
-          background-image: url("../svg/close-board-bright.svg");
+          background-image: url("../svg/delete-pairing-board-bright.svg");
         }
       }
     }

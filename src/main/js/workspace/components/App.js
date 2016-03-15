@@ -19,7 +19,8 @@ var App = React.createClass({
         setNewSpaceModalOpen: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
-        deleteSpace: React.PropTypes.func.isRequired
+        deleteSpace: React.PropTypes.func.isRequired,
+        renameSpace: React.PropTypes.func.isRequired
     },
 
     fromSpaceIndex: undefined,
@@ -97,7 +98,8 @@ var App = React.createClass({
             setNewSpaceModalOpen: this.props.setNewSpaceModalOpen,
             createPerson: this.props.createPerson,
             createSpace: this.props.createSpace,
-            deleteSpace: this.props.deleteSpace
+            deleteSpace: this.props.deleteSpace,
+            renameSpace: this.props.renameSpace
         };
 
 		return <div id="space_-1" className="project-page-container dropzone">

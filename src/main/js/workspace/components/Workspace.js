@@ -15,11 +15,13 @@ var Workspace = React.createClass({
         setNewSpaceModalOpen: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createSpace: React.PropTypes.func.isRequired,
-        deleteSpace: React.PropTypes.func.isRequired
+        deleteSpace: React.PropTypes.func.isRequired,
+        renameSpace: React.PropTypes.func.isRequired,
     },
 
     render: function() {
         var deleteSpace = this.props.deleteSpace;
+        var renameSpace = this.props.renameSpace;
 
         return <div className="workspace">
 
@@ -39,7 +41,7 @@ var Workspace = React.createClass({
                 <div className="pairing-boards">
                     {this.props.spaces.map(function (pairingBoard, idx) {
                         return <PairingBoard key={idx} name={pairingBoard.name} people={pairingBoard.people}
-                                             index={idx} deleteSpace={deleteSpace}/>;
+                                             index={idx} deleteSpace={deleteSpace} renameSpace={renameSpace}/>;
                     })}
                 </div>
                 <div className="add-board-button" onClick={this.openNewSpaceModal}></div>

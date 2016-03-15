@@ -24,7 +24,8 @@ describe('PairingBoard', function() {
                 }
             ],
             index: 1,
-            deleteSpace: jasmine.createSpy('deleteSpaceSpy')
+            deleteSpace: jasmine.createSpy('deleteSpaceSpy'),
+            renameSpace: jasmine.createSpy('renameSpaceSpy')
         };
 
         pairingBoard = RenderComponent(PairingBoard, <PairingBoard {...props} />);
@@ -41,6 +42,11 @@ describe('PairingBoard', function() {
         expect(people.props.index).toBe(props.index);
     });
 
+    it('renders a rename button', function() {
+        var renameButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'rename-pairing-board');
+        expect(renameButton).toBeTruthy();
+    });
+
     it('renders a delete button', function() {
         var deleteButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'delete-pairing-board');
         expect(deleteButton).toBeTruthy();
@@ -51,5 +57,13 @@ describe('PairingBoard', function() {
             pairingBoard.deleteSpace();
             expect(props.deleteSpace).toHaveBeenCalledWith(1);
         })
+    });
+
+    describe('#renameSpace', function() {
+        it('calls the renameSpace prop function with the index prop and event target value', function() {
+            var event = {target: {value: 'Cheese'}};
+            pairingBoard.renameSpace(event);
+            expect(props.renameSpace).toHaveBeenCalledWith(1, 'Cheese');
+        });
     });
 });

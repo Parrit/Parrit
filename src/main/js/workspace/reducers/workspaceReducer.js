@@ -47,6 +47,12 @@ var workspaceReducer = function(state, action) {
             _.pullAt(stateClone.spaces, action.spaceIndex);
 
             return stateClone;
+        case "RENAME_SPACE":
+            var stateClone = _.cloneDeep(state);
+
+            stateClone.spaces[action.spaceIndex].name = action.name;
+
+            return stateClone;
         default:
             return state;
     }

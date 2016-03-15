@@ -5,7 +5,7 @@ describe('dataCreators', function () {
 
     describe('#movePersonCreator', function () {
         var expectedAction = {
-            type: "MOVE_PERSON",
+            type: 'MOVE_PERSON',
             fromSpaceIndex: 1,
             toSpaceIndex: 2,
             personIndex: 3
@@ -22,8 +22,8 @@ describe('dataCreators', function () {
 
     describe('#createPersonCreator', function () {
         var expectedAction = {
-            type: "CREATE_PERSON",
-            name: "Dirk Dirkenson"
+            type: 'CREATE_PERSON',
+            name: 'Dirk Dirkenson'
         };
 
         beforeEach(function() {
@@ -84,11 +84,27 @@ describe('dataCreators', function () {
     describe('#loadWorkspaceCreator', function() {
         var expectedAction = {
             type: 'LOAD_WORKSPACE',
-            workspace: {data: "Weeeee"}
+            workspace: {data: 'Weeeee'}
         };
 
         beforeEach(function() {
-            result = dataCreators.loadWorkspaceCreator({data: "Weeeee"});
+            result = dataCreators.loadWorkspaceCreator({data: 'Weeeee'});
+        });
+
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
+        });
+    });
+
+    describe('#renameSpaceCreator', function() {
+        var expectedAction = {
+            type: 'RENAME_SPACE',
+            spaceIndex: 2,
+            name: 'cheese'
+        };
+
+        beforeEach(function() {
+            result = dataCreators.renameSpaceCreator(2, 'cheese');
         });
 
         it('returns the expected action', function () {

@@ -22,12 +22,17 @@ function deleteSpaceCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.deleteSpaceCreator(...args));
 }
 
+function renameSapceCombo(...args) {
+    return dataThunks.autoSaveThunk(dataCreators.renameSpaceCreator(...args));
+}
+
 module.exports = {
     movePerson: movePersonCombo,
     createPerson: createPersonCombo,
     createSpace: createSpaceCombo,
     deletePerson: deletePersonCombo,
     deleteSpace: deleteSpaceCombo,
+    renameSpace: renameSapceCombo,
     savePairing: dataThunks.savePairingThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,

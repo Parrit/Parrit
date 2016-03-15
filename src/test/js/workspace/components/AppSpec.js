@@ -40,7 +40,8 @@ describe('App', function() {
         createSpace: function(){},
         movePerson: jasmine.createSpy("movePersonSpy"),
         deletePerson: jasmine.createSpy("deletePersonSpy"),
-        deleteSpace: function(){}
+        deleteSpace: function(){},
+        renameSpace: function(){}
     };
 
     var app;
@@ -68,6 +69,7 @@ describe('App', function() {
         expect(projectComponent.props.createPerson).toBe(props.createPerson, 'No createPerson passed to workspace');
         expect(projectComponent.props.createSpace).toBe(props.createSpace, 'No createSpace passed to workspace');
         expect(projectComponent.props.deleteSpace).toBe(props.deleteSpace, 'No deleteSpace passed to workspace');
+        expect(projectComponent.props.renameSpace).toBe(props.renameSpace, 'No renameSpace passed to workspace');
     });
 
     it('has a Footer', function() {

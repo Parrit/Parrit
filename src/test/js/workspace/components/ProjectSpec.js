@@ -36,7 +36,8 @@ describe('Project', function() {
         setNewSpaceModalOpen: function(){},
         createPerson: function(){},
         createSpace: function(){},
-        deleteSpace: function(){}
+        deleteSpace: function(){},
+        renameSpace: function(){}
     };
 
     var project;
@@ -83,5 +84,6 @@ describe('Project', function() {
         expect(workspaceComponent.props.createSpace).toBe(props.createSpace, 'No createSpace passed to workspace');
 
         expect(workspaceComponent.props.deleteSpace).toBe(props.deleteSpace, 'No deleteSpace passed to workspace');
+        expect(workspaceComponent.props.renameSpace).toBe(props.renameSpace, 'No renameSpace passed to workspace');
     });
 });

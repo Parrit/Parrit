@@ -449,5 +449,58 @@ describe("workspaceReducer", function () {
                 ).toEqual(stateAfter);
             });
         });
+
+        describe("RENAME_SPACE", function () {
+            it('should rename a space', function () {
+                var stateBefore = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            people: []
+                        }
+                    ]
+                };
+
+                var action = {
+                    type: "RENAME_SPACE",
+                    spaceIndex: 1,
+                    name: "Awesome Space"
+                };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [],
+                    spaces: [
+                        {
+                            name: "USS Enterprise",
+                            people: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Awesome Space",
+                            people: []
+                        }
+                    ]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    workspaceReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
     });
 });

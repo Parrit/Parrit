@@ -42,3 +42,11 @@ export function loadWorkspaceCreator(workspace) {
         workspace: workspace
     };
 }
+
+export function renameSpaceCreator(spaceIndex, newName) {
+    return {
+        type: 'RENAME_SPACE',
+        spaceIndex: spaceIndex,
+        name: newName
+    }
+}
