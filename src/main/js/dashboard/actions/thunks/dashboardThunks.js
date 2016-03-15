@@ -1,3 +1,4 @@
+var { setLoginErrorCreator } = require('dashboard/actions/creators/dashboardCreators.js');
 var { postNewWorkspaceAndDo, postLoginAndRedirect } = require('shared/helpers/databaseHelpers.js');
 
 export function createWorkspaceThunk(name, password) {
@@ -7,7 +8,11 @@ export function createWorkspaceThunk(name, password) {
 }
 
 export function loginThunk(name, password) {
-    postLoginAndRedirect(name, password);
+    return function(dispatch, getState) {
+        postLoginAndRedirect(name, password, function(errorMessage) {
+            dispatch(setLoginErrorCreator(errorMessage));
+        });
+    }
 }
 
 

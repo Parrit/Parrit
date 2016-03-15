@@ -35,13 +35,17 @@ input {
   margin: 0;
   padding: 0 0 0 16px;
 
-  border: none;
+  border: solid 1px white;
   border-radius: 3px;
   outline: 0;
 
   font: $Raleway;
   font-size: 15px;
   color: $coolGrey;
+
+  &.error {
+    border: solid 1px $salmon;
+  }
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */

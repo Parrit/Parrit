@@ -1,6 +1,6 @@
 package com.parrit.controllers;
 
-import com.parrit.DTOs.NewWorkspaceDTO;
+import com.parrit.DTOs.UsernameAndPasswordDTO;
 import com.parrit.DTOs.WorkspaceDTO;
 import com.parrit.entities.Workspace;
 import com.parrit.repositories.WorkspaceRepository;
@@ -50,15 +50,15 @@ public class WorkspaceController {
 
     @RequestMapping(path = "/api/workspace/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public void createWorkspace(@RequestBody NewWorkspaceDTO newWorkspaceDTO) throws NestedServletException {
-        if(newWorkspaceDTO.getName().isEmpty() || newWorkspaceDTO.getPassword().isEmpty()) {
+    public void createWorkspace(@RequestBody UsernameAndPasswordDTO usernameAndPasswordDTO) throws NestedServletException {
+        if(usernameAndPasswordDTO.getName().isEmpty() || usernameAndPasswordDTO.getPassword().isEmpty()) {
             throw new NestedServletException("Workspace Name and/or Password is empty!");
         }
 
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        String hashedPassword = encoder.encodePassword(newWorkspaceDTO.getPassword(), null);
+        String hashedPassword = encoder.encodePassword(usernameAndPasswordDTO.getPassword(), null);
 
-        Workspace workspace = new Workspace(newWorkspaceDTO.getName(), hashedPassword, new ArrayList<>(), new ArrayList<>());
+        Workspace workspace = new Workspace(usernameAndPasswordDTO.getName(), hashedPassword, new ArrayList<>(), new ArrayList<>());
         workspaceRepository.save(workspace);
     }
 

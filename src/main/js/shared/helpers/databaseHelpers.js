@@ -30,11 +30,16 @@ function getRecommendedPairingAndDo(workspaceId, callback) {
         });
 }
 
-function postLoginAndRedirect(name, password) {
+function postLoginAndRedirect(name, password, errorCallback) {
     Axios.post('/login', {name: name, password: password})
-        .then(function(response) {
-            window.location.href = response.data;
-        });
+        .then(
+            function onSuccess(response) {
+                window.location.href = response.data;
+            },
+            function onReject(response) {
+                errorCallback(response.data);
+            }
+        );
 }
 
 module.exports = {

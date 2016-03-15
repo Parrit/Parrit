@@ -1,14 +1,14 @@
 package com.parrit.DTOs;
 
-public class NewWorkspaceDTO {
+public class UsernameAndPasswordDTO {
 
     private String name;
     private String password;
 
-    public NewWorkspaceDTO() {
+    public UsernameAndPasswordDTO() {
     }
 
-    public NewWorkspaceDTO(String name, String password) {
+    public UsernameAndPasswordDTO(String name, String password) {
         this.name = name;
         this.password = password;
     }

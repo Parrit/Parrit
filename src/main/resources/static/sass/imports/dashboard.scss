@@ -31,6 +31,15 @@
             width: 100%;
             margin-bottom: 7px;
           }
+
+          .error-message {
+            height: 15px;
+
+            font: $Raleway-SemiBold;
+            font-size: 13px;
+            color: $salmon;
+            text-align: left;
+          }
         }
       }
     }
@@ -61,7 +70,7 @@
             margin: auto;
           }
 
-          .form:first-child {
+          .form.new-form {
             margin-bottom: 30px;
           }
         }
@@ -101,7 +110,7 @@
             vertical-align: middle;
           }
 
-          .form:first-child {
+          .form.new-form {
             margin-right: 51px;
           }
 

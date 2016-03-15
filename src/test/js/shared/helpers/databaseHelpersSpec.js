@@ -1,6 +1,6 @@
 var databaseHelpers = require('shared/helpers/databaseHelpers.js');
 
-describe('databaseHelpers', function() {
+describe('databaseHelpers', function () {
     beforeEach(function () {
         jasmine.Ajax.install();
     });
@@ -66,7 +66,10 @@ describe('databaseHelpers', function() {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
                 expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/new');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({name: workspaceName, password: workspacePassword});
+                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({
+                    name: workspaceName,
+                    password: workspacePassword
+                });
                 done();
             });
         });
@@ -161,12 +164,14 @@ describe('databaseHelpers', function() {
     });
 
     describe('#postLoginAndRedirect', function () {
+        var errorCallbackSpy;
         var stubbedPost;
 
         beforeEach(function () {
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
             stubbedPost = jasmine.Ajax.stubRequest('/login', undefined, 'POST');
 
-            databaseHelpers.postLoginAndRedirect("Username", "Password");
+            databaseHelpers.postLoginAndRedirect("Username", "Password", errorCallbackSpy);
         });
 
         it('makes an Ajax call to GET recommended pairing with the workspaceId', function (done) {
@@ -179,7 +184,7 @@ describe('databaseHelpers', function() {
             });
         });
 
-        //TODO: Figure out how to test this
+        //TODO: Figure out how to test window.location.href
         //describe('when the Ajax call returns with a response', function () {
         //    var responseText = "/cow";
         //    beforeEach(function () {
@@ -193,5 +198,19 @@ describe('databaseHelpers', function() {
         //        });
         //    });
         //});
+
+        describe('when the Ajax call returns with a reject', function () {
+            var responseText = "ERROR MESSAGE HERE";
+            beforeEach(function () {
+                stubbedPost.andReturn({status: 400, responseText: responseText});
+            });
+
+            it('calls the errorCallback with the response data', function (done) {
+                setTimeout(function () {
+                    expect(errorCallbackSpy).toHaveBeenCalledWith("ERROR MESSAGE HERE");
+                    done();
+                });
+            })
+        });
     });
 });
