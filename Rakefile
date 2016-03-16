@@ -17,6 +17,6 @@ task :build do
 end
 
 task :create_migration do
-  filename = "#{Time.now.utc.to_i}_#{ARGV.last}"
+  filename = "V#{Time.now.utc.to_i}__#{ARGV.last}"
   system("vi src/main/resources/db/migration/#{filename}.sql")
 end
