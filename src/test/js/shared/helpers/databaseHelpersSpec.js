@@ -9,25 +9,25 @@ describe('databaseHelpers', function () {
         jasmine.Ajax.uninstall();
     });
 
-    describe('#postWorkspaceAndDo', function () {
+    describe('#postProjectAndDo', function () {
         var stubbedPost;
         var callbackSpy;
 
-        var workspaceToSave = {MISSISSIPPI: "Anthony is more fun than that"};
+        var projectToSave = {MISSISSIPPI: "Anthony is more fun than that"};
 
         beforeEach(function () {
-            stubbedPost = jasmine.Ajax.stubRequest('/api/workspace', undefined, 'POST');
+            stubbedPost = jasmine.Ajax.stubRequest('/api/project', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.postWorkspaceAndDo(workspaceToSave, callbackSpy);
+            databaseHelpers.postProjectAndDo(projectToSave, callbackSpy);
         });
 
-        it('makes an Ajax call to post the workspace', function (done) {
+        it('makes an Ajax call to post the project', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/project');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(workspaceToSave);
+                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual(projectToSave);
                 done();
             });
         });
@@ -47,28 +47,28 @@ describe('databaseHelpers', function () {
         });
     });
 
-    describe('#postNewWorkspaceAndDo', function () {
+    describe('#postNewProjectAndDo', function () {
         var stubbedPost;
         var callbackSpy;
 
-        var workspaceName = 'Meeple';
-        var workspacePassword = 'SuperSecretPassword';
+        var projectName = 'Meeple';
+        var projectPassword = 'SuperSecretPassword';
 
         beforeEach(function () {
-            stubbedPost = jasmine.Ajax.stubRequest('/api/workspace/new', undefined, 'POST');
+            stubbedPost = jasmine.Ajax.stubRequest('/api/project/new', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.postNewWorkspaceAndDo(workspaceName, workspacePassword, callbackSpy);
+            databaseHelpers.postNewProjectAndDo(projectName, projectPassword, callbackSpy);
         });
 
-        it('makes an Ajax call to post the new workspace name', function (done) {
+        it('makes an Ajax call to post the new project name', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/new');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/project/new');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
                 expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({
-                    name: workspaceName,
-                    password: workspacePassword
+                    name: projectName,
+                    password: projectPassword
                 });
                 done();
             });
@@ -89,23 +89,23 @@ describe('databaseHelpers', function () {
         });
     });
 
-    describe('#postWorkspacePairingAndDo', function () {
+    describe('#postProjectPairingAndDo', function () {
         var stubbedPost;
         var callbackSpy;
 
-        var workspaceId = 42;
+        var projectId = 42;
 
         beforeEach(function () {
-            stubbedPost = jasmine.Ajax.stubRequest('/api/workspace/42/pairing', undefined, 'POST');
+            stubbedPost = jasmine.Ajax.stubRequest('/api/project/42/pairing', undefined, 'POST');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.postWorkspacePairingAndDo(workspaceId, callbackSpy);
+            databaseHelpers.postProjectPairingAndDo(projectId, callbackSpy);
         });
 
-        it('makes an Ajax call to post the workspace', function (done) {
+        it('makes an Ajax call to post the project', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/42/pairing');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/project/42/pairing');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
                 done();
             });
@@ -130,19 +130,19 @@ describe('databaseHelpers', function () {
         var stubbedGet;
         var callbackSpy;
 
-        var workspaceId = 42;
+        var projectId = 42;
 
         beforeEach(function () {
-            stubbedGet = jasmine.Ajax.stubRequest('/api/workspace/42/pairing/recommend', undefined, 'GET');
+            stubbedGet = jasmine.Ajax.stubRequest('/api/project/42/pairing/recommend', undefined, 'GET');
             callbackSpy = jasmine.createSpy('callbackSpy');
 
-            databaseHelpers.getRecommendedPairingAndDo(workspaceId, callbackSpy);
+            databaseHelpers.getRecommendedPairingAndDo(projectId, callbackSpy);
         });
 
-        it('makes an Ajax call to GET recommended pairing with the workspaceId', function (done) {
+        it('makes an Ajax call to GET recommended pairing with the projectId', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
-                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/workspace/42/pairing/recommend');
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/project/42/pairing/recommend');
                 expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
                 done();
             });
@@ -174,7 +174,7 @@ describe('databaseHelpers', function () {
             databaseHelpers.postLoginAndRedirect("Username", "Password", errorCallbackSpy);
         });
 
-        it('makes an Ajax call to GET recommended pairing with the workspaceId', function (done) {
+        it('makes an Ajax call to GET recommended pairing with the projectId', function (done) {
             setTimeout(function () {
                 expect(jasmine.Ajax.requests.count()).toBe(1);
                 expect(jasmine.Ajax.requests.mostRecent().url).toBe('/login');

@@ -1,9 +1,9 @@
 package com.parrit.services;
 
+import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
-import com.parrit.entities.Space;
-import com.parrit.entities.Workspace;
+import com.parrit.entities.Project;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,9 +24,9 @@ public class RecommendationService {
         this.currentTimeProvider = currentTimeProvider;
     }
 
-    public Workspace get(Workspace workspace, List<PairingHistory> workspacePairingHistories) {
-        PairRecommendationHelper recHelper = new PairRecommendationHelper(workspace, workspacePairingHistories);
-        List<Space> emptySpaces = getEmptySpaces(workspace);
+    public Project get(Project project, List<PairingHistory> projectPairingHistories) {
+        PairRecommendationHelper recHelper = new PairRecommendationHelper(project, projectPairingHistories);
+        List<PairingBoard> emptyPairingBoards = getEmptyPairingBoards(project);
 
         if (recHelper.canAPairingBeMade()) {
 
@@ -35,25 +35,25 @@ public class RecommendationService {
             Map<Person, Person> bestPairingMap = recHelper.getBestPairingMap();
             for (Person floatingPerson : bestPairingMap.keySet()) {
                 Person personToPairWith = bestPairingMap.get(floatingPerson);
-                Space pairSpace = recHelper.getSpaceForAvailabelPerson(personToPairWith);
+                PairingBoard pairPairingBoard = recHelper.getPairingBoardForAvailabelPerson(personToPairWith);
 
                 /*
-                 * Pairing two Floating People in an empty space
+                 * Pairing two Floating People in an empty pairing board
                  */
-                if (pairSpace == null) {
-                    pairSpace = popNextEmptySpace(workspace, emptySpaces);
+                if (pairPairingBoard == null) {
+                    pairPairingBoard = popNextEmptyPairingBoard(project, emptyPairingBoards);
 
-                    pairSpace.getPeople().add(floatingPerson);
-                    pairSpace.getPeople().add(personToPairWith);
+                    pairPairingBoard.getPeople().add(floatingPerson);
+                    pairPairingBoard.getPeople().add(personToPairWith);
 
-                    workspace.getPeople().remove(floatingPerson);
-                    workspace.getPeople().remove(personToPairWith);
+                    project.getPeople().remove(floatingPerson);
+                    project.getPeople().remove(personToPairWith);
                     recHelper.removeFloatingPerson(floatingPerson);
                     recHelper.removeFloatingPerson(personToPairWith);
                 } else {
-                    pairSpace.getPeople().add(floatingPerson);
+                    pairPairingBoard.getPeople().add(floatingPerson);
 
-                    workspace.getPeople().remove(floatingPerson);
+                    project.getPeople().remove(floatingPerson);
                     recHelper.removeFloatingPerson(floatingPerson);
                 }
             }
@@ -65,12 +65,12 @@ public class RecommendationService {
         if (recHelper.hasSoloPerson()) {
             Person soloPerson = recHelper.getSoloPerson();
 
-            Space emptySpace = popNextEmptySpace(workspace, emptySpaces);
-            emptySpace.getPeople().add(soloPerson);
-            workspace.getPeople().remove(soloPerson);
+            PairingBoard emptyPairingBoard = popNextEmptyPairingBoard(project, emptyPairingBoards);
+            emptyPairingBoard.getPeople().add(soloPerson);
+            project.getPeople().remove(soloPerson);
         }
 
-        return workspace;
+        return project;
     }
 
     private void findBestPairing(PairRecommendationHelper recHelper) {
@@ -104,27 +104,27 @@ public class RecommendationService {
         }
     }
 
-    private List<Space> getEmptySpaces(Workspace workspace) {
-        return workspace.getSpaces()
+    private List<PairingBoard> getEmptyPairingBoards(Project project) {
+        return project.getPairingBoards()
                 .stream()
-                .filter(space -> space.getPeople().isEmpty())
+                .filter(pairingBoard -> pairingBoard.getPeople().isEmpty())
                 .collect(Collectors.toList());
     }
 
-    private Space popNextEmptySpace(Workspace workspace, List<Space> emptySpaces) {
-        Space space;
-        if(emptySpaces.isEmpty()) {
-            space = new Space("New Space", new ArrayList<>());
-            workspace.getSpaces().add(space);
+    private PairingBoard popNextEmptyPairingBoard(Project project, List<PairingBoard> emptyPairingBoards) {
+        PairingBoard pairingBoard;
+        if(emptyPairingBoards.isEmpty()) {
+            pairingBoard = new PairingBoard("New Pairing Board", new ArrayList<>());
+            project.getPairingBoards().add(pairingBoard);
         }
         else {
-            space = emptySpaces.remove(0);
+            pairingBoard = emptyPairingBoards.remove(0);
         }
-        return space;
+        return pairingBoard;
     }
 
     private class PairRecommendationHelper {
-        private static final int FULL_SPACE_SIZE = 2;
+        private static final int FULL_PAIRING_BOARD_SIZE = 2;
 
         private final List<Person> initialFloatingPeople;
         private final List<Person> initialUnpairedStickingPeople;
@@ -132,7 +132,7 @@ public class RecommendationService {
         private List<Person> currentFloatingPeople;
         private List<Person> currentUnpairedStickingPeople;
 
-        private final Map<Person, Space> availablePersonToSpaceMap;
+        private final Map<Person, PairingBoard> availablePersonToPairingBoardMap;
         private final Map<Person, List<Pair<Person, Timestamp>>> floatingPeoplePairChoiceMap;
 
         private long bestPairingCostTotal;
@@ -143,15 +143,15 @@ public class RecommendationService {
 
         private boolean hasSomeoneBeenExcluded;
 
-        public PairRecommendationHelper(Workspace workspace, List<PairingHistory> workspacePairingHistories) {
-            initialFloatingPeople = new ArrayList<>(workspace.getPeople());
-            initialUnpairedStickingPeople = new ArrayList<>(getUnpairedStickingPeople(workspace));
+        public PairRecommendationHelper(Project project, List<PairingHistory> projectPairingHistories) {
+            initialFloatingPeople = new ArrayList<>(project.getPeople());
+            initialUnpairedStickingPeople = new ArrayList<>(getUnpairedStickingPeople(project));
 
             currentFloatingPeople = new ArrayList<>(initialFloatingPeople);
             currentUnpairedStickingPeople = new ArrayList<>(initialUnpairedStickingPeople);
 
-            availablePersonToSpaceMap = getAvailablePairsMap(workspace);
-            floatingPeoplePairChoiceMap = getFloatingPeoplePairChoiceMap(initialFloatingPeople, availablePersonToSpaceMap, workspacePairingHistories);
+            availablePersonToPairingBoardMap = getAvailablePairsMap(project);
+            floatingPeoplePairChoiceMap = getFloatingPeoplePairChoiceMap(initialFloatingPeople, availablePersonToPairingBoardMap, projectPairingHistories);
 
             bestPairingCostTotal = Long.MAX_VALUE;
             bestPairingMap = new HashMap<>();
@@ -162,37 +162,37 @@ public class RecommendationService {
             hasSomeoneBeenExcluded = false;
         }
 
-        private List<Person> getUnpairedStickingPeople(Workspace workspace) {
-            return workspace.getSpaces()
+        private List<Person> getUnpairedStickingPeople(Project project) {
+            return project.getPairingBoards()
                     .stream()
-                    .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
-                    .map(space -> space.getPeople().get(0))
+                    .filter(pairingBoard -> !pairingBoard.getPeople().isEmpty() && pairingBoard.getPeople().size() < FULL_PAIRING_BOARD_SIZE)
+                    .map(pairingBoard -> pairingBoard.getPeople().get(0))
                     .collect(Collectors.toList());
         }
 
-        private Map<Person, Space> getAvailablePairsMap(Workspace workspace) {
-            Map<Person, Space> availablePairs = new HashMap<>();
+        private Map<Person, PairingBoard> getAvailablePairsMap(Project project) {
+            Map<Person, PairingBoard> availablePairs = new HashMap<>();
 
-            workspace.getSpaces()
+            project.getPairingBoards()
                     .stream()
-                    .filter(space -> !space.getPeople().isEmpty() && space.getPeople().size() < FULL_SPACE_SIZE)
-                    .forEach(space -> availablePairs.put(space.getPeople().get(0), space));
+                    .filter(pairingBoard -> !pairingBoard.getPeople().isEmpty() && pairingBoard.getPeople().size() < FULL_PAIRING_BOARD_SIZE)
+                    .forEach(pairingBoard -> availablePairs.put(pairingBoard.getPeople().get(0), pairingBoard));
 
-            workspace.getPeople()
+            project.getPeople()
                     .forEach(floatingPerson -> availablePairs.put(floatingPerson, null));
 
             return availablePairs;
         }
 
-        private Map<Person, List<Pair<Person, Timestamp>>> getFloatingPeoplePairChoiceMap(List<Person> initialFloatingPeople, Map<Person, Space> availablePersonToSpaceMap, List<PairingHistory> workspacePairingHistories) {
+        private Map<Person, List<Pair<Person, Timestamp>>> getFloatingPeoplePairChoiceMap(List<Person> initialFloatingPeople, Map<Person, PairingBoard> availablePersonToPairingBoardMap, List<PairingHistory> projectPairingHistories) {
             Map<Person, List<Pair<Person, Timestamp>>> floatingPersonListMap = new HashMap<>();
 
             for (Person floatingPerson : initialFloatingPeople) {
                 List<Pair<Person, Timestamp>> floatingPersonList = new ArrayList<>();
 
-                List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, workspacePairingHistories);
+                List<PairingHistory> floatingPersonPairingHistories = getPairingHistoryForPerson(floatingPerson, projectPairingHistories);
 
-                for (Person availablePerson : availablePersonToSpaceMap.keySet()) {
+                for (Person availablePerson : availablePersonToPairingBoardMap.keySet()) {
 
                     /*
                      * Don't make a pairing history for yourself
@@ -339,8 +339,8 @@ public class RecommendationService {
             return bestPairingMap;
         }
 
-        public Space getSpaceForAvailabelPerson(Person personToPairWith) {
-            return availablePersonToSpaceMap.get(personToPairWith);
+        public PairingBoard getPairingBoardForAvailabelPerson(Person personToPairWith) {
+            return availablePersonToPairingBoardMap.get(personToPairWith);
         }
 
         public boolean hasSoloPerson() {

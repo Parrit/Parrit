@@ -1,9 +1,9 @@
-var runWorkspace = require('workspace/runWorkspace.js');
+var runProject = require('project/runProject.js');
 var runDashboard = require('dashboard/runDashboard.js');
-var runWorkspaceLogin = require('workspace-login/runWorkspaceLogin.js');
+var runProjectLogin = require('project-login/runProjectLogin.js');
 var runError = require('error/runError.js');
 
-window.runWorkspace = runWorkspace;
+window.runProject = runProject;
 window.runDashboard = runDashboard;
-window.runWorkspaceLogin = runWorkspaceLogin;
+window.runProjectLogin = runProjectLogin;
 window.runError = runError;

@@ -7,7 +7,7 @@ var Dashboard = React.createClass({
     propTypes: {
         loginErrorType: React.PropTypes.number.isRequired,
         login: React.PropTypes.func.isRequired,
-        createWorkspace: React.PropTypes.func.isRequired
+        createProject: React.PropTypes.func.isRequired
     },
 
     render: function() {
@@ -37,10 +37,10 @@ var Dashboard = React.createClass({
                         A recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
                     </div>
                     <div className="forms-container">
-                        <form className="form new-form" onSubmit={this.createWorkspaceWithName}>
+                        <form className="form new-form" onSubmit={this.createProjectWithName}>
                             <h2 className="form-label">Create Project</h2>
-                            <input type="text" placeholder="Project name" onChange={this.handleNewWorkspaceName}/>
-                            <input type="password" placeholder="Password" onChange={this.handleNewWorkspacePassword}/>
+                            <input type="text" placeholder="Project name" onChange={this.handleNewProjectName}/>
+                            <input type="password" placeholder="Password" onChange={this.handleNewProjectPassword}/>
                             <Button className="button-blue" name="Create" type="submit"/>
                             <div className="error-message"></div>
                         </form>
@@ -61,37 +61,37 @@ var Dashboard = React.createClass({
 
     getInitialState: function() {
         return {
-            newWorkspaceName: '',
-            newWorkspacePassword: '',
-            loginWorkspaceName: '',
-            loginWorkspacePassword: ''
+            newProjectName: '',
+            newProjectPassword: '',
+            loginProjectName: '',
+            loginProjectPassword: ''
         };
     },
 
     handleLoginName: function(event) {
-        this.setState({loginWorkspaceName: event.target.value});
+        this.setState({loginProjectName: event.target.value});
     },
 
     handleLoginPassword: function(event) {
-        this.setState({loginWorkspacePassword: event.target.value});
+        this.setState({loginProjectPassword: event.target.value});
     },
 
     handleLogin: function(event) {
         event.preventDefault();
-        this.props.login(this.state.loginWorkspaceName, this.state.loginWorkspacePassword)
+        this.props.login(this.state.loginProjectName, this.state.loginProjectPassword)
     },
 
-    handleNewWorkspaceName: function(event) {
-        this.setState({newWorkspaceName: event.target.value});
+    handleNewProjectName: function(event) {
+        this.setState({newProjectName: event.target.value});
     },
 
-    handleNewWorkspacePassword: function(event) {
-        this.setState({newWorkspacePassword: event.target.value});
+    handleNewProjectPassword: function(event) {
+        this.setState({newProjectPassword: event.target.value});
     },
 
-    createWorkspaceWithName: function(event) {
+    createProjectWithName: function(event) {
         event.preventDefault();
-        this.props.createWorkspace(this.state.newWorkspaceName, this.state.newWorkspacePassword)
+        this.props.createProject(this.state.newProjectName, this.state.newProjectPassword)
     }
 });
 

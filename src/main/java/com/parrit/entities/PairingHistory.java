@@ -10,9 +10,9 @@ public class PairingHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(targetEntity = Workspace.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "workspace_id")
-    private Workspace workspace;
+    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "person_one_id")
@@ -29,8 +29,8 @@ public class PairingHistory {
     public PairingHistory() {
     }
 
-    public PairingHistory(Workspace workspace, Person personOne, Person personTwo, Timestamp timestamp, String spaceName) {
-        this.workspace = workspace;
+    public PairingHistory(Project project, Person personOne, Person personTwo, Timestamp timestamp, String spaceName) {
+        this.project = project;
         this.personOne = personOne;
         this.personTwo = personTwo;
         this.timestamp = timestamp;
@@ -45,12 +45,12 @@ public class PairingHistory {
         this.id = id;
     }
 
-    public Workspace getWorkspace() {
-        return workspace;
+    public Project getProject() {
+        return project;
     }
 
-    public void setWorkspace(Workspace workspace) {
-        this.workspace = workspace;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Person getPersonOne() {
@@ -93,7 +93,7 @@ public class PairingHistory {
         PairingHistory that = (PairingHistory) o;
 
         if (getId() != that.getId()) return false;
-        if (getWorkspace() != null ? !getWorkspace().equals(that.getWorkspace()) : that.getWorkspace() != null)
+        if (getProject() != null ? !getProject().equals(that.getProject()) : that.getProject() != null)
             return false;
         if (getPersonOne() != null ? !getPersonOne().equals(that.getPersonOne()) : that.getPersonOne() != null)
             return false;
@@ -108,7 +108,7 @@ public class PairingHistory {
     @Override
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + (getWorkspace() != null ? getWorkspace().hashCode() : 0);
+        result = 31 * result + (getProject() != null ? getProject().hashCode() : 0);
         result = 31 * result + (getPersonOne() != null ? getPersonOne().hashCode() : 0);
         result = 31 * result + (getPersonTwo() != null ? getPersonTwo().hashCode() : 0);
         result = 31 * result + (getTimestamp() != null ? getTimestamp().hashCode() : 0);
@@ -120,7 +120,7 @@ public class PairingHistory {
     public String toString() {
         return "PairingHistory{" +
             "id=" + id +
-            ", workspace=" + workspace +
+            ", project=" + project +
             ", personOne=" + personOne +
             ", personTwo=" + personTwo +
             ", timestamp=" + timestamp +

@@ -1,8 +1,8 @@
 package com.parrit.configurations.security;
 
-import com.parrit.DTOs.WorkspaceDTO;
-import com.parrit.entities.Workspace;
-import com.parrit.repositories.WorkspaceRepository;
+import com.parrit.DTOs.ProjectDTO;
+import com.parrit.entities.Project;
+import com.parrit.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -11,21 +11,21 @@ import org.springframework.stereotype.Service;
 public class AuthorizationService {
 
     @Autowired
-    WorkspaceRepository workspaceRepository;
+    ProjectRepository projectRepository;
 
-    public boolean canAccessWorkspace(User user, String workspaceName) {
-        return user != null && user.getUsername().equals(workspaceName);
+    public boolean canAccessProject(User user, String projectName) {
+        return user != null && user.getUsername().equals(projectName);
     }
 
-    public boolean canAccessWorkspace(User user, Workspace workspace) {
-        return canAccessWorkspace(user, workspace.getName());
+    public boolean canAccessProject(User user, Project project) {
+        return canAccessProject(user, project.getName());
     }
 
-    public boolean canAccessWorkspace(User user, long workspaceId) {
-        return canAccessWorkspace(user, workspaceRepository.findOne(workspaceId));
+    public boolean canAccessProject(User user, long projectId) {
+        return canAccessProject(user, projectRepository.findOne(projectId));
     }
 
-    public boolean canAccessWorkspace(User user, WorkspaceDTO workspaceDTO) {
-        return canAccessWorkspace(user, workspaceDTO.getName());
+    public boolean canAccessProject(User user, ProjectDTO projectDTO) {
+        return canAccessProject(user, projectDTO.getName());
     }
 }

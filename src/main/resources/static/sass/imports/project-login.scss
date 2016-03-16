@@ -1,0 +1,26 @@
+.project-login-container {
+  overflow: auto;
+  height: 325px;
+
+  .project-login {
+    @include absolutely-centered;
+
+    width: 325px;
+    height: 300px;
+
+    .lock-icon {
+      width: 53px;
+      height: 75px;
+      background-image: url("../svg/lock-icon.svg");
+      margin: 0 auto;
+    }
+
+    .project-name {
+      text-align: center;
+    }
+
+    input[type=submit] {
+      visibility: hidden;
+    }
+  }
+}

@@ -1,11 +1,11 @@
 package com.parrit.services;
 
+import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
-import com.parrit.entities.Space;
-import com.parrit.entities.Workspace;
+import com.parrit.entities.Project;
 import com.parrit.repositories.PairingHistoryRepository;
-import com.parrit.repositories.WorkspaceRepository;
+import com.parrit.repositories.ProjectRepository;
 import com.parrit.support.MockitoTestBase;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
@@ -30,7 +30,7 @@ public class PairingServiceTest extends MockitoTestBase {
     PairingHistoryRepository mockPairingHistoryRepository;
 
     @Mock
-    WorkspaceRepository mockWorkspaceRepository;
+    ProjectRepository mockProjectRepository;
 
     @Mock
     RecommendationService mockRecommendationService;
@@ -44,7 +44,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
     @Before
     public void setup() {
-        pairingService = new PairingService(mockPairingHistoryRepository, mockWorkspaceRepository, mockRecommendationService,
+        pairingService = new PairingService(mockPairingHistoryRepository, mockProjectRepository, mockRecommendationService,
                 mockCurrentTimeProvider);
 
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(currentTime);
@@ -57,24 +57,24 @@ public class PairingServiceTest extends MockitoTestBase {
         Person p2 = new Person("Mary");
         p2.setId(2L);
 
-        Space space1 = new Space("The Space", Arrays.asList(p1, p2));
-        space1.setId(1L);
-        List<Space> spaces = Collections.singletonList(space1);
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Arrays.asList(p1, p2));
+        pairingBoard.setId(1L);
+        List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
 
-        Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
+        Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory = new PairingHistory(workspace, p1, p2, currentTime, "The Space");
+        PairingHistory expectedPairingHistory = new PairingHistory(project, p1, p2, currentTime, "The Pairing Board");
 
-        verify(mockWorkspaceRepository).findOne(7L);
+        verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
     }
 
     @Test
-    public void savePairing_createsMultiplePairingHistoriesWithIncrementedGroupIds_whenThereAreMoreThanOneSpaces() {
+    public void savePairing_createsMultiplePairingHistoriesWithIncrementedGroupIds_whenThereAreMoreThanOnePairingBoards() {
         Person p1 = new Person("John");
         p1.setId(1L);
         Person p2 = new Person("Mary");
@@ -84,29 +84,29 @@ public class PairingServiceTest extends MockitoTestBase {
         Person p4 = new Person("Tammy");
         p4.setId(4L);
 
-        Space space1 = new Space("The Space", Arrays.asList(p1, p2));
-        space1.setId(1L);
-        Space space2 = new Space("The Second Space", Arrays.asList(p3, p4));
-        space2.setId(2L);
+        PairingBoard pairingBoard1 = new PairingBoard("The Pairing Board", Arrays.asList(p1, p2));
+        pairingBoard1.setId(1L);
+        PairingBoard pairingBoard2 = new PairingBoard("The Second Pairing Board", Arrays.asList(p3, p4));
+        pairingBoard2.setId(2L);
 
-        List<Space> spaces = Arrays.asList(space1, space2);
+        List<PairingBoard> pairingBoards = Arrays.asList(pairingBoard1, pairingBoard2);
 
-        Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
+        Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(workspace, p1, p2, currentTime, "The Space");
-        PairingHistory expectedPairingHistory2 = new PairingHistory(workspace, p3, p4, currentTime, "The Second Space");
+        PairingHistory expectedPairingHistory1 = new PairingHistory(project, p1, p2, currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory2 = new PairingHistory(project, p3, p4, currentTime, "The Second Pairing Board");
 
-        verify(mockWorkspaceRepository).findOne(7L);
+        verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
     }
 
     @Test
-    public void savePairing_createsMultiplePairingHistoriesWithSameGroupId_whenSpaceHasMoreThanTwoPeople() {
+    public void savePairing_createsMultiplePairingHistoriesWithSameGroupId_whenAPairingBoardHasMoreThanTwoPeople() {
         Person p1 = new Person("John");
         p1.setId(1L);
         Person p2 = new Person("Mary");
@@ -114,59 +114,59 @@ public class PairingServiceTest extends MockitoTestBase {
         Person p3 = new Person("Steve");
         p3.setId(3L);
 
-        Space space1 = new Space("The Space", Arrays.asList(p1, p2, p3));
-        space1.setId(1L);
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Arrays.asList(p1, p2, p3));
+        pairingBoard.setId(1L);
 
-        List<Space> spaces = Collections.singletonList(space1);
+        List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
 
-        Workspace workspace = new Workspace("One", "onepass", spaces, new ArrayList<>());
+        Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(workspace, p1, p2, currentTime, "The Space");
-        PairingHistory expectedPairingHistory2 = new PairingHistory(workspace, p1, p3, currentTime, "The Space");
-        PairingHistory expectedPairingHistory3 = new PairingHistory(workspace, p2, p3, currentTime, "The Space");
+        PairingHistory expectedPairingHistory1 = new PairingHistory(project, p1, p2, currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory2 = new PairingHistory(project, p1, p3, currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory3 = new PairingHistory(project, p2, p3, currentTime, "The Pairing Board");
 
-        verify(mockWorkspaceRepository).findOne(7L);
+        verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory3));
     }
 
     @Test
-    public void getRecommendation_getsTheWorkspaceAndItsPairingHistory_andCallsTheRecommendationService() {
-        Workspace workspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+    public void getRecommendation_getsTheProjectAndItsPairingHistory_andCallsTheRecommendationService() {
+        Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
         PairingHistory pairingHistory = new PairingHistory();
         List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
 
-        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
-        when(mockPairingHistoryRepository.findByWorkspace(any(Workspace.class))).thenReturn(pairingHistories);
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.findByProject(any(Project.class))).thenReturn(pairingHistories);
 
         pairingService.getRecommendation(77L);
 
-        verify(mockWorkspaceRepository).findOne(77L);
-        verify(mockPairingHistoryRepository).findByWorkspace(workspace);
-        verify(mockRecommendationService).get(workspace, pairingHistories);
+        verify(mockProjectRepository).findOne(77L);
+        verify(mockPairingHistoryRepository).findByProject(project);
+        verify(mockRecommendationService).get(project, pairingHistories);
     }
 
     @Test
-    public void getRecommendation_persistsTheResultFromTheRecommendationService_andReturnsTheWorkspace() {
-        Workspace workspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+    public void getRecommendation_persistsTheResultFromTheRecommendationService_andReturnsTheProject() {
+        Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
         PairingHistory pairingHistory = new PairingHistory();
         List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
 
-        Workspace recommendedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project recommendedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        when(mockWorkspaceRepository.findOne(anyLong())).thenReturn(workspace);
-        when(mockPairingHistoryRepository.findByWorkspace(any(Workspace.class))).thenReturn(pairingHistories);
-        when(mockRecommendationService.get(any(Workspace.class), anyListOf(PairingHistory.class))).thenReturn(recommendedWorkspace);
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.findByProject(any(Project.class))).thenReturn(pairingHistories);
+        when(mockRecommendationService.get(any(Project.class), anyListOf(PairingHistory.class))).thenReturn(recommendedProject);
 
-        Workspace returnedWorkspace = pairingService.getRecommendation(77L);
+        Project returnedProject = pairingService.getRecommendation(77L);
 
-        assertThat(returnedWorkspace, equalTo(recommendedWorkspace));
+        assertThat(returnedProject, equalTo(recommendedProject));
 
-        verify(mockWorkspaceRepository).save(recommendedWorkspace);
+        verify(mockProjectRepository).save(recommendedProject);
     }
 }

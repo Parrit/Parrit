@@ -1,9 +1,9 @@
 package com.parrit.controllers;
 
-import com.parrit.DTOs.WorkspaceDTO;
-import com.parrit.entities.Workspace;
+import com.parrit.DTOs.ProjectDTO;
+import com.parrit.entities.Project;
 import com.parrit.services.PairingService;
-import com.parrit.transformers.WorkspaceTransformer;
+import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,18 +28,18 @@ public class PairingController {
     //******  APIs  ******//
     //********************//
 
-    @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspaceId)")
-    @RequestMapping(path = "/api/workspace/{workspaceId}/pairing", method = RequestMethod.POST)
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/pairing", method = RequestMethod.POST)
     @ResponseBody
-    public void savePairing(@PathVariable long workspaceId) {
-        pairingService.savePairing(workspaceId);
+    public void savePairing(@PathVariable long projectId) {
+        pairingService.savePairing(projectId);
     }
 
-    @PreAuthorize("@authorizationService.canAccessWorkspace(principal, #workspaceId)")
-    @RequestMapping(path = "/api/workspace/{workspaceId}/pairing/recommend", method = RequestMethod.GET)
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/pairing/recommend", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<WorkspaceDTO> getRecommendation(@PathVariable long workspaceId) {
-        Workspace workspace = pairingService.getRecommendation(workspaceId);
-        return new ResponseEntity<>(WorkspaceTransformer.transform(workspace), HttpStatus.OK);
+    public ResponseEntity<ProjectDTO> getRecommendation(@PathVariable long projectId) {
+        Project project = pairingService.getRecommendation(projectId);
+        return new ResponseEntity<>(ProjectTransformer.transform(project), HttpStatus.OK);
     }
 }

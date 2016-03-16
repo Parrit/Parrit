@@ -2,10 +2,10 @@ package com.parrit.services;
 
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
-import com.parrit.entities.Space;
-import com.parrit.entities.Workspace;
+import com.parrit.entities.Project;
+import com.parrit.entities.PairingBoard;
 import com.parrit.repositories.PairingHistoryRepository;
-import com.parrit.repositories.WorkspaceRepository;
+import com.parrit.repositories.ProjectRepository;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,33 +16,33 @@ import java.util.List;
 public class PairingService {
 
     PairingHistoryRepository pairingHistoryRepository;
-    WorkspaceRepository workspaceRepository;
+    ProjectRepository projectRepository;
     RecommendationService recommendationService;
     CurrentTimeProvider currentTimeProvider;
 
     @Autowired
     public PairingService(PairingHistoryRepository pairingHistoryRepository,
-                          WorkspaceRepository workspaceRepository,
+                          ProjectRepository projectRepository,
                           RecommendationService recommendationService,
                           CurrentTimeProvider currentTimeProvider) {
         this.pairingHistoryRepository = pairingHistoryRepository;
-        this.workspaceRepository = workspaceRepository;
+        this.projectRepository = projectRepository;
         this.recommendationService = recommendationService;
         this.currentTimeProvider = currentTimeProvider;
     }
 
-    public void savePairing(long workspaceId) {
-        Workspace workspace = workspaceRepository.findOne(workspaceId);
+    public void savePairing(long projectId) {
+        Project project = projectRepository.findOne(projectId);
 
-        for(Space space : workspace.getSpaces()) {
-            List<Person> people = space.getPeople();
+        for(PairingBoard pairingBoard : project.getPairingBoards()) {
+            List<Person> people = pairingBoard.getPeople();
 
             for(int i = 0; i<people.size(); i++) {
                 Person currentPerson = people.get(i);
 
                 for(int j=i+1; j<people.size(); j++) {
-                    PairingHistory pairingHistory = new PairingHistory(workspace, currentPerson,
-                        people.get(j), currentTimeProvider.getCurrentTime(), space.getName());
+                    PairingHistory pairingHistory = new PairingHistory(project, currentPerson,
+                        people.get(j), currentTimeProvider.getCurrentTime(), pairingBoard.getName());
                     pairingHistoryRepository.save(pairingHistory);
                 }
 
@@ -51,13 +51,13 @@ public class PairingService {
 
     }
 
-    public Workspace getRecommendation(long workspaceId) {
-        Workspace workspace = workspaceRepository.findOne(workspaceId);
-        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByWorkspace(workspace);
+    public Project getRecommendation(long projectId) {
+        Project project = projectRepository.findOne(projectId);
+        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProject(project);
 
-        Workspace recommendedWorkspace = recommendationService.get(workspace, pairingHistory);
+        Project recommendedProject = recommendationService.get(project, pairingHistory);
 
-        workspaceRepository.save(recommendedWorkspace);
-        return recommendedWorkspace;
+        projectRepository.save(recommendedProject);
+        return recommendedProject;
     }
 }

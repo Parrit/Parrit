@@ -1,9 +1,9 @@
 package com.parrit.services;
 
+import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
-import com.parrit.entities.Space;
-import com.parrit.entities.Workspace;
+import com.parrit.entities.Project;
 import com.parrit.support.MockitoTestBase;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
@@ -27,10 +27,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
     RecommendationService recommendationService;
 
-    Workspace workspace;
-    Space space1;
-    Space space2;
-    Space space3;
+    Project project;
+    PairingBoard pairingBoard1;
+    PairingBoard pairingBoard2;
+    PairingBoard pairingBoard3;
     Person p1;
     Person p2;
     Person p3;
@@ -49,14 +49,14 @@ public class RecommendationServiceTest extends MockitoTestBase {
     public void setup() {
         recommendationService = new RecommendationService(currentTimeProvider);
 
-        workspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        space1 = new Space("One", new ArrayList<>());
-        space1.setId(1L);
-        space2 = new Space("Two", new ArrayList<>());
-        space2.setId(2L);
-        space3 = new Space("Three", new ArrayList<>());
-        space3.setId(3L);
+        pairingBoard1 = new PairingBoard("One", new ArrayList<>());
+        pairingBoard1.setId(1L);
+        pairingBoard2 = new PairingBoard("Two", new ArrayList<>());
+        pairingBoard2.setId(2L);
+        pairingBoard3 = new PairingBoard("Three", new ArrayList<>());
+        pairingBoard3.setId(3L);
 
         p1 = new Person("Alpha");
         p1.setId(1L);
@@ -77,256 +77,256 @@ public class RecommendationServiceTest extends MockitoTestBase {
     }
 
     @Test
-    public void get_returnsTheSameWorkspace_ifThereAreNotFloatingPeople() {
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+    public void get_returnsTheSameProject_ifThereAreNotFloatingPeople() {
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        assertThat(returnedWorkspace, equalTo(workspace));
+        assertThat(returnedProject, equalTo(project));
     }
 
     @Test
-    public void get_movesAFloatingPersonIntoASpace_ifThereIsOnlyOneSpaceAndNoOneInTheSpace() {
-        workspace.getPeople().add(p1);
-        workspace.getSpaces().add(space1);
+    public void get_movesAFloatingPersonIntoAPairingBoard_ifThereIsOnlyOnePairingBoardAndNoOneInThePairingBoard() {
+        project.getPeople().add(p1);
+        project.getPairingBoards().add(pairingBoard1);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        Space expectedSpace = new Space("One", Collections.singletonList(p1));
-        expectedSpace.setId(1L);
+        PairingBoard expectedPairingBoard = new PairingBoard("One", Collections.singletonList(p1));
+        expectedPairingBoard.setId(1L);
 
-        Workspace expectedWorkspace = new Workspace("One", "onepass", Collections.singletonList(expectedSpace), new ArrayList<>());
+        Project expectedProject = new Project("One", "onepass", Collections.singletonList(expectedPairingBoard), new ArrayList<>());
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
     public void get_movesAFloatingPersonIntoAnEmptySpace_ifAllOtherSpacesHaveAtLeastTwoPeopleInThem() {
-        workspace.getPeople().add(p1);
+        project.getPeople().add(p1);
 
-        space1.getPeople().add(p2);
-        space1.getPeople().add(p3);
-        workspace.getSpaces().add(space1);
+        pairingBoard1.getPeople().add(p2);
+        pairingBoard1.getPeople().add(p3);
+        project.getPairingBoards().add(pairingBoard1);
 
-        space2.getPeople().add(p4);
-        space2.getPeople().add(p5);
-        space2.getPeople().add(p6);
-        workspace.getSpaces().add(space2);
+        pairingBoard2.getPeople().add(p4);
+        pairingBoard2.getPeople().add(p5);
+        pairingBoard2.getPeople().add(p6);
+        project.getPairingBoards().add(pairingBoard2);
 
-        workspace.getSpaces().add(space3);
+        project.getPairingBoards().add(pairingBoard3);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Arrays.asList(p2, p3));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p2, p3));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("Two", Arrays.asList(p4, p5, p6));
-        space2Expected.setId(2L);
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p4, p5, p6));
+        pairingBoard2Expected.setId(2L);
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        Space space3Expected = new Space("Three", Collections.singletonList(p1));
-        space3Expected.setId(3L);
-        expectedWorkspace.getSpaces().add(space3Expected);
+        PairingBoard pairingBoard3Expected = new PairingBoard("Three", Collections.singletonList(p1));
+        pairingBoard3Expected.setId(3L);
+        expectedProject.getPairingBoards().add(pairingBoard3Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
-    public void get_pairsAFloatingPersonWithALessRecentlyPairedPerson_whenGivenAChoiceBetweenTwoViableSpaces() {
-        workspace.getPeople().add(p1);
+    public void get_pairsAFloatingPersonWithALessRecentlyPairedPerson_whenGivenAChoiceBetweenTwoViablePairingBoards() {
+        project.getPeople().add(p1);
 
-        space1.getPeople().add(p2);
-        workspace.getSpaces().add(space1);
+        pairingBoard1.getPeople().add(p2);
+        project.getPairingBoards().add(pairingBoard1);
 
-        space2.getPeople().add(p3);
-        workspace.getSpaces().add(space2);
+        pairingBoard2.getPeople().add(p3);
+        project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(1), "The Space");
+        PairingHistory p1p2 = new PairingHistory(project, p1, p2, daysAgo(1), "The Pairing Board");
         pairingHistories.add(p1p2);
 
-        PairingHistory p3p1 = new PairingHistory(workspace, p3, p1, daysAgo(2), "The Second Space");
+        PairingHistory p3p1 = new PairingHistory(project, p3, p1, daysAgo(2), "The Second Pairing Board");
         pairingHistories.add(p3p1);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Collections.singletonList(p2));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Collections.singletonList(p2));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("Two", Arrays.asList(p3, p1));
-        space2Expected.setId(2L);
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p3, p1));
+        pairingBoard2Expected.setId(2L);
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
     public void get_pairsTwoFloatingPeopleWithTwoLessRecentlyPairedPeople_whenBothLessRecentlyPairedWithTheSamePerson() {
-        workspace.getPeople().add(p1);
-        workspace.getPeople().add(p2);
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
 
-        space1.getPeople().add(p3);
-        workspace.getSpaces().add(space1);
+        pairingBoard1.getPeople().add(p3);
+        project.getPairingBoards().add(pairingBoard1);
 
-        space2.getPeople().add(p4);
-        workspace.getSpaces().add(space2);
+        pairingBoard2.getPeople().add(p4);
+        project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(1), "The Space");
+        PairingHistory p1p3 = new PairingHistory(project, p1, p3, daysAgo(1), "The Pairing Board");
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(3), "The Second Space");
+        PairingHistory p4p1 = new PairingHistory(project, p4, p1, daysAgo(3), "The Second Pairing Board");
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(2), "The Third Space");
+        PairingHistory p2p3 = new PairingHistory(project, p2, p3, daysAgo(2), "The Third Pairing Board");
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(3), "The Fourth Space");
+        PairingHistory p2p4 = new PairingHistory(project, p2, p4, daysAgo(3), "The Fourth Pairing Board");
         pairingHistories.add(p2p4);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project returnedProject = recommendationService.get(project, pairingHistories);
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Arrays.asList(p3, p2));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p3, p2));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("Two", Arrays.asList(p4, p1));
-        space2Expected.setId(2L);
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p4, p1));
+        pairingBoard2Expected.setId(2L);
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
     public void get_pairsFloatingPeopleWithPairsThatLeaveGoodChoicesForOthers_whenTheBestChoiceIsNotTheObviousOne() {
-        workspace.getPeople().add(p1);
-        workspace.getPeople().add(p2);
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
 
-        space1.getPeople().add(p3);
-        workspace.getSpaces().add(space1);
+        pairingBoard1.getPeople().add(p3);
+        project.getPairingBoards().add(pairingBoard1);
 
-        space2.getPeople().add(p4);
-        workspace.getSpaces().add(space2);
+        pairingBoard2.getPeople().add(p4);
+        project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), "The Space");
+        PairingHistory p1p3 = new PairingHistory(project, p1, p3, daysAgo(25), "The Pairing Board");
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), "The Second Space");
+        PairingHistory p4p1 = new PairingHistory(project, p4, p1, daysAgo(30), "The Second Pairing Board");
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(workspace, p2, p3, daysAgo(20), "The Third Space");
+        PairingHistory p2p3 = new PairingHistory(project, p2, p3, daysAgo(20), "The Third Pairing Board");
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(workspace, p2, p4, daysAgo(35), "The Fourth Space");
+        PairingHistory p2p4 = new PairingHistory(project, p2, p4, daysAgo(35), "The Fourth Pairing Board");
         pairingHistories.add(p2p4);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project returnedProject = recommendationService.get(project, pairingHistories);
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Arrays.asList(p3, p1));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p3, p1));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("Two", Arrays.asList(p4, p2));
-        space2Expected.setId(2L);
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p4, p2));
+        pairingBoard2Expected.setId(2L);
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
     public void get_pairsFloatingPeopleWithPairs_whenThereAreMoreFloatingPeopleThanAvailable() {
-        workspace.getPeople().add(p1);
-        workspace.getPeople().add(p2);
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
 
-        space1.getPeople().add(p3);
-        workspace.getSpaces().add(space1);
+        pairingBoard1.getPeople().add(p3);
+        project.getPairingBoards().add(pairingBoard1);
 
-        workspace.getSpaces().add(space2);
+        project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(15), "The Space");
+        PairingHistory p1p2 = new PairingHistory(project, p1, p2, daysAgo(15), "The Pairing Board");
         pairingHistories.add(p1p2);
 
-        PairingHistory p1p3 = new PairingHistory(workspace, p1, p3, daysAgo(25), "The Space");
+        PairingHistory p1p3 = new PairingHistory(project, p1, p3, daysAgo(25), "The Pairing Board");
         pairingHistories.add(p1p3);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Arrays.asList(p3, p2));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p3, p2));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("Two", Collections.singletonList(p1));
-        space2Expected.setId(2L);
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Collections.singletonList(p1));
+        pairingBoard2Expected.setId(2L);
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
     public void get_pairsFloatingPeopleWithEachOtherEfficientlyOverall_whenThereAreMoreFloatingPeopleThanAvailable() {
-        workspace.getPeople().add(p1);
-        workspace.getPeople().add(p2);
-        workspace.getPeople().add(p3);
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
+        project.getPeople().add(p3);
 
-        space1.getPeople().add(p4);
-        workspace.getSpaces().add(space1);
+        pairingBoard1.getPeople().add(p4);
+        project.getPairingBoards().add(pairingBoard1);
 
-        workspace.getSpaces().add(space2);
+        project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p4p1 = new PairingHistory(workspace, p4, p1, daysAgo(30), "The Space");
+        PairingHistory p4p1 = new PairingHistory(project, p4, p1, daysAgo(30), "The Pairing Board");
         pairingHistories.add(p4p1);
 
-        PairingHistory p4p2 = new PairingHistory(workspace, p4, p2, daysAgo(20), "The Space");
+        PairingHistory p4p2 = new PairingHistory(project, p4, p2, daysAgo(20), "The Pairing Board");
         pairingHistories.add(p4p2);
 
-        PairingHistory p1p2 = new PairingHistory(workspace, p1, p2, daysAgo(10), "The Space");
+        PairingHistory p1p2 = new PairingHistory(project, p1, p2, daysAgo(10), "The Pairing Board");
         pairingHistories.add(p1p2);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Arrays.asList(p4, p1));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p4, p1));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("Two", Arrays.asList(p2, p3));
-        space2Expected.setId(2L);
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p2, p3));
+        pairingBoard2Expected.setId(2L);
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 
     @Test
-    public void get_pairsFloatingPeopleInANewlyCreatedSpace_ifThereAreNotEnoughSpacesLeft() {
-        workspace.getPeople().add(p1);
-        workspace.getPeople().add(p2);
-        workspace.getPeople().add(p3);
-        workspace.getPeople().add(p4);
-        workspace.getPeople().add(p5);
+    public void get_pairsFloatingPeopleInANewlyCreatedPairingBoard_ifThereAreNotEnoughPairingBoardsLeft() {
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
+        project.getPeople().add(p3);
+        project.getPeople().add(p4);
+        project.getPeople().add(p5);
 
-        workspace.getSpaces().add(space1);
+        project.getPairingBoards().add(pairingBoard1);
 
-        Workspace returnedWorkspace = recommendationService.get(workspace, pairingHistories);
+        Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        Workspace expectedWorkspace = new Workspace("One", "onepass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        Space space1Expected = new Space("One", Arrays.asList(p1, p5));
-        space1Expected.setId(1L);
-        expectedWorkspace.getSpaces().add(space1Expected);
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p1, p5));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        Space space2Expected = new Space("New Space", Arrays.asList(p2, p4)); //Null Id
-        expectedWorkspace.getSpaces().add(space2Expected);
+        PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", Arrays.asList(p2, p4)); //Null Id
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        Space space3Expected = new Space("New Space", Collections.singletonList(p3)); //Null Id
-        expectedWorkspace.getSpaces().add(space3Expected);
+        PairingBoard pairingBoard3Expected = new PairingBoard("New Pairing Board", Collections.singletonList(p3)); //Null Id
+        expectedProject.getPairingBoards().add(pairingBoard3Expected);
 
-        assertThat(returnedWorkspace, equalTo(expectedWorkspace));
+        assertThat(returnedProject, equalTo(expectedProject));
     }
 }

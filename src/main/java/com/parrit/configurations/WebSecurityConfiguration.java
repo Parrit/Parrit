@@ -1,6 +1,6 @@
 package com.parrit.configurations;
 
-import com.parrit.configurations.security.WorkspaceDetailsService;
+import com.parrit.configurations.security.ProjectDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -37,13 +37,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
 
     @Autowired
-    WorkspaceDetailsService workspaceDetailsService;
+    ProjectDetailsService projectDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .formLogin()
-                .loginPage("/login/workspace")
+                .loginPage("/login/project")
                 .failureUrl("/error")
                 .permitAll()
                 .and()
@@ -54,7 +54,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/api/workspace/new").permitAll()
+                .antMatchers("/api/project/new").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .csrf()
@@ -66,7 +66,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         DaoAuthenticationProvider customAuthenticationProvider = new DaoAuthenticationProvider();
-        customAuthenticationProvider.setUserDetailsService(workspaceDetailsService);
+        customAuthenticationProvider.setUserDetailsService(projectDetailsService);
         customAuthenticationProvider.setPasswordEncoder(new ShaPasswordEncoder(256));
         customAuthenticationProvider.setHideUserNotFoundExceptions(false);
 

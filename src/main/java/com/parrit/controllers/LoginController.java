@@ -39,16 +39,16 @@ public class LoginController {
      *
      *  @returns: project-login page with the project name as a model attribute
      */
-    @RequestMapping(path = "/login/workspace", method = RequestMethod.GET)
-    public String loginWorkspace(final HttpServletRequest request, final HttpServletResponse response, Model model) {
+    @RequestMapping(path = "/login/project", method = RequestMethod.GET)
+    public String loginProject(final HttpServletRequest request, final HttpServletResponse response, Model model) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
 
         //TODO: Check to make sure this isn't null -- maybe redirect to homepage if it is
         String originalRequestUrl = savedRequest.getRedirectUrl();
-        String workspaceName = originalRequestUrl.substring(originalRequestUrl.lastIndexOf('/') + 1);
+        String projectName = originalRequestUrl.substring(originalRequestUrl.lastIndexOf('/') + 1);
 
-        model.addAttribute("workspaceName", workspaceName);
-        return "workspace-login";
+        model.addAttribute("projectName", projectName);
+        return "project-login";
     }
 
     @RequestMapping(path = "/error", method = RequestMethod.GET)
@@ -63,7 +63,7 @@ public class LoginController {
     /*
      *  Attempts to log the user in and returns a href to the project that was logged into
      *
-     *  @returns: href string for the workspace that was logged into
+     *  @returns: href string for the project that was logged into
      *  @throws: InternalAuthenticationServiceException if somehow the user does not get authenticated and nothing else throws an exception
      */
     @RequestMapping(path = "/login", method = RequestMethod.POST)

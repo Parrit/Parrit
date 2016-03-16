@@ -30,19 +30,19 @@ public class PairingControllerTest extends ControllerTestBase {
     @InjectMocks
     PairingController pairingController;
 
-    Workspace exampleWorkspace;
-    String exampleWorkspaceString;
+    Project exampleProject;
+    String exampleProjectString;
 
     @Before
     public void setUp() {
-        Space space1 = new Space("Super Space", new ArrayList<>());
-        space1.setId(1L);
+        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", new ArrayList<>());
+        pairingBoard.setId(1L);
 
-        exampleWorkspace = new Workspace("Nancy", "nancypass", Collections.singletonList(space1), new ArrayList<>());
-        exampleWorkspace.setId(2L);
+        exampleProject = new Project("Nancy", "nancypass", Collections.singletonList(pairingBoard), new ArrayList<>());
+        exampleProject.setId(2L);
 
-        String space1String = "{\"id\":1,\"people\":[],\"name\":\"Super Space\"}";
-        exampleWorkspaceString = "{\"id\":2,\"name\":\"Nancy\",\"spaces\":[" + space1String + "],\"people\":[]}";
+        String pairingBoardString = "{\"id\":1,\"people\":[],\"name\":\"Super Pairing Board\"}";
+        exampleProjectString = "{\"id\":2,\"name\":\"Nancy\",\"pairingBoards\":[" + pairingBoardString + "],\"people\":[]}";
     }
 
     //********************//
@@ -50,8 +50,8 @@ public class PairingControllerTest extends ControllerTestBase {
     //********************//
 
     @Test
-    public void savePairing_passesTheWorkspaceToThePairingHistoryService() throws Exception {
-        mvc.perform(post("/api/workspace/42/pairing")
+    public void savePairing_passesTheProjectToThePairingHistoryService() throws Exception {
+        mvc.perform(post("/api/project/42/pairing")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -59,16 +59,16 @@ public class PairingControllerTest extends ControllerTestBase {
     }
 
     @Test
-    public void getRecommendation_passesTheWorkspaceToThePairingService_andReturnsAModifiedWorkspace() throws Exception {
-        when(mockPairingService.getRecommendation(anyLong())).thenReturn(exampleWorkspace);
+    public void getRecommendation_passesTheProjectToThePairingService_andReturnsAModifiedProject() throws Exception {
+        when(mockPairingService.getRecommendation(anyLong())).thenReturn(exampleProject);
 
-        MvcResult mvcResult = mvc.perform(get("/api/workspace/42/pairing/recommend")
+        MvcResult mvcResult = mvc.perform(get("/api/project/42/pairing/recommend")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String returnedState = mvcResult.getResponse().getContentAsString();
-        assertThat(returnedState, equalTo(exampleWorkspaceString));
+        String returnedProject = mvcResult.getResponse().getContentAsString();
+        assertThat(returnedProject, equalTo(exampleProjectString));
 
         verify(mockPairingService).getRecommendation(42);
     }

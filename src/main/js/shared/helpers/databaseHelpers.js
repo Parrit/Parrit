@@ -2,29 +2,29 @@ var Axios = require('axios');
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-function postWorkspaceAndDo(workspace, callback) {
-    Axios.post('/api/workspace', workspace)
+function postProjectAndDo(project, callback) {
+    Axios.post('/api/project', project)
         .then(function (response) {
             callback(response.data);
         });
 }
 
-function postNewWorkspaceAndDo(name, password, callback) {
-    Axios.post('/api/workspace/new', {name, password})
+function postNewProjectAndDo(name, password, callback) {
+    Axios.post('/api/project/new', {name, password})
         .then(function (response) {
             callback(response.data);
         })
 }
 
-function postWorkspacePairingAndDo(workspaceId, callback) {
-    Axios.post('/api/workspace/' + encodeURIComponent(workspaceId) + '/pairing')
+function postProjectPairingAndDo(projectId, callback) {
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairing')
         .then(function (response) {
             callback(response.data);
         })
 }
 
-function getRecommendedPairingAndDo(workspaceId, callback) {
-    Axios.get('/api/workspace/' + encodeURIComponent(workspaceId) + '/pairing/recommend')
+function getRecommendedPairingAndDo(projectId, callback) {
+    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/recommend')
         .then(function (response) {
             callback(response.data);
         });
@@ -43,9 +43,9 @@ function postLoginAndRedirect(name, password, errorCallback) {
 }
 
 module.exports = {
-    postWorkspaceAndDo,
-    postNewWorkspaceAndDo,
-    postWorkspacePairingAndDo,
+    postProjectAndDo,
+    postNewProjectAndDo,
+    postProjectPairingAndDo,
     getRecommendedPairingAndDo,
     postLoginAndRedirect
 };

@@ -5,40 +5,40 @@ describe('dashboardThunks', function () {
     var dispatchSpy;
     var getStateSpy;
     var setLoginErrorCreatorSpy;
-    var postNewWorkspaceAndDoSpy;
+    var postNewProjectAndDoSpy;
     var postLoginAndRedirectSpy;
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
         setLoginErrorCreatorSpy = jasmine.createSpy('setLoginErrorCreatorSpy');
-        postNewWorkspaceAndDoSpy = jasmine.createSpy('postNewWorkspaceAndDoSpy');
+        postNewProjectAndDoSpy = jasmine.createSpy('postNewProjectAndDoSpy');
         postLoginAndRedirectSpy = jasmine.createSpy('postLoginAndRedirectSpy');
 
         dashboardThunks.__set__('setLoginErrorCreator', setLoginErrorCreatorSpy);
-        dashboardThunks.__set__('postNewWorkspaceAndDo', postNewWorkspaceAndDoSpy);
+        dashboardThunks.__set__('postNewProjectAndDo', postNewProjectAndDoSpy);
         dashboardThunks.__set__('postLoginAndRedirect', postLoginAndRedirectSpy);
     });
 
-    describe('#createWorkspaceThunk', function () {
+    describe('#createProjectThunk', function () {
         beforeEach(function () {
-            dashboardThunks.createWorkspaceThunk("New Workspace", "S3cr3tP@$$w0rd");
+            dashboardThunks.createProjectThunk("New Project", "S3cr3tP@$$w0rd");
         });
 
-        it('calls postNewWorkspaceAndDo helper with correct arguments', function () {
-            expect(postNewWorkspaceAndDoSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd", jasmine.anything());
+        it('calls postNewProjectAndDo helper with correct arguments', function () {
+            expect(postNewProjectAndDoSpy).toHaveBeenCalledWith("New Project", "S3cr3tP@$$w0rd", jasmine.anything());
         });
 
         it('passes in a callback that will call the postLoginAndRedirect with the name and password', function () {
-            var callback = postNewWorkspaceAndDoSpy.calls.mostRecent().args[2];
+            var callback = postNewProjectAndDoSpy.calls.mostRecent().args[2];
             callback();
 
-            expect(postLoginAndRedirectSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd");
+            expect(postLoginAndRedirectSpy).toHaveBeenCalledWith("New Project", "S3cr3tP@$$w0rd");
         });
     });
 
     describe('#loginThunk', function () {
         beforeEach(function () {
-            thunk = dashboardThunks.loginThunk("New Workspace", "S3cr3tP@$$w0rd");
+            thunk = dashboardThunks.loginThunk("Existing Project", "S3cr3tP@$$w0rd");
         });
 
         it('returns a function', function() {
@@ -54,7 +54,7 @@ describe('dashboardThunks', function () {
             });
 
             it('calls postLoginAndRedirect with the name, password and an error callback', function () {
-                expect(postLoginAndRedirectSpy).toHaveBeenCalledWith("New Workspace", "S3cr3tP@$$w0rd", jasmine.anything());
+                expect(postLoginAndRedirectSpy).toHaveBeenCalledWith("Existing Project", "S3cr3tP@$$w0rd", jasmine.anything());
             });
 
             it('passes in a callback that will dispatch a setLoginError action', function() {

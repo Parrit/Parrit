@@ -16,7 +16,7 @@ describe('Dashboard', function() {
         props = {
             loginErrorType: 0,
             login: jasmine.createSpy('loginSpy'),
-            createWorkspace: jasmine.createSpy('createWorkspaceSpy')
+            createProject: jasmine.createSpy('createProjectSpy')
         };
 
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
@@ -68,22 +68,22 @@ describe('Dashboard', function() {
         });
     });
 
-    describe('#createWorkspaceWithName', function() {
+    describe('#createProjectWithName', function() {
         it('calls the login function with the username and password on the state', function() {
-            dashboard.setState({newWorkspaceName: 'Hello', newWorkspacePassword: 'Bye'});
-            dashboard.createWorkspaceWithName(event);
-            expect(props.createWorkspace).toHaveBeenCalledWith('Hello', 'Bye');
+            dashboard.setState({newProjectName: 'Hello', newProjectPassword: 'Bye'});
+            dashboard.createProjectWithName(event);
+            expect(props.createProject).toHaveBeenCalledWith('Hello', 'Bye');
         });
 
         it('calls preventDefault on the event', function() {
-            dashboard.createWorkspaceWithName(event);
+            dashboard.createProjectWithName(event);
             expect(event.preventDefault).toHaveBeenCalled();
         });
     });
 
     describe('#handleLogin', function() {
         it('calls the login function with the username and password on the state', function() {
-            dashboard.setState({loginWorkspaceName: 'Hello', loginWorkspacePassword: 'Bye'});
+            dashboard.setState({loginProjectName: 'Hello', loginProjectPassword: 'Bye'});
             dashboard.handleLogin(event);
             expect(props.login).toHaveBeenCalledWith('Hello', 'Bye');
         });

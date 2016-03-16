@@ -1,8 +1,8 @@
 var { setLoginErrorCreator } = require('dashboard/actions/creators/dashboardCreators.js');
-var { postNewWorkspaceAndDo, postLoginAndRedirect } = require('shared/helpers/databaseHelpers.js');
+var { postNewProjectAndDo, postLoginAndRedirect } = require('shared/helpers/databaseHelpers.js');
 
-export function createWorkspaceThunk(name, password) {
-    postNewWorkspaceAndDo(name, password, function successCallback() {
+export function createProjectThunk(name, password) {
+    postNewProjectAndDo(name, password, function successCallback() {
         postLoginAndRedirect(name, password);
     });
 }
