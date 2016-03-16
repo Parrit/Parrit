@@ -5,21 +5,28 @@ var Button = require('shared/components/Button.js');
 
 var Dashboard = React.createClass({
     propTypes: {
-        loginErrorMessage: React.PropTypes.string.isRequired,
+        loginErrorType: React.PropTypes.number.isRequired,
         login: React.PropTypes.func.isRequired,
         createWorkspace: React.PropTypes.func.isRequired
     },
 
     render: function() {
-        var loginNameErrorClassed = '';
+        var loginErrorMessage = '';
+        var loginUsernameErrorClassed = '';
         var loginPasswordErrorClassed = '';
-        if(this.props.loginErrorMessage.length) {
-            if(this.props.loginErrorMessage.indexOf('project name') !== -1) {
-                loginNameErrorClassed = 'error';
-            }
-            else if(this.props.loginErrorMessage.indexOf('password') !== -1) {
+        switch(this.props.loginErrorType) {
+            case 0:
+                break;
+            case 400:
+                loginErrorMessage = 'Keeaa!? That’s not your project name.';
+                loginUsernameErrorClassed = 'error';
+                break;
+            case 401:
+                loginErrorMessage = 'Polly want a cracker? Try another password.';
                 loginPasswordErrorClassed = 'error';
-            }
+                break;
+            default:
+                loginErrorMessage = 'Unknown error.';
         }
 
         return <div className="dashboard-container">
@@ -40,10 +47,10 @@ var Dashboard = React.createClass({
                         <div className="dotted-line"></div>
                         <form className="form login-form" onSubmit={this.handleLogin}>
                             <h2 className="form-label">Login to Project</h2>
-                            <input className={loginNameErrorClassed} type="text" placeholder="Project name" onChange={this.handleLoginName}/>
+                            <input className={loginUsernameErrorClassed} type="text" placeholder="Project name" onChange={this.handleLoginName}/>
                             <input className={loginPasswordErrorClassed} type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
                             <Button className="button-green" name="Login" type="submit"/>
-                            <div className="error-message">{this.props.loginErrorMessage}</div>
+                            <div className="error-message">{loginErrorMessage}</div>
                         </form>
                     </div>
                 </div>

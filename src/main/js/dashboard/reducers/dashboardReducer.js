@@ -3,7 +3,7 @@ var _ = require('lodash');
 var dashboardReducer = function(state, action) {
     if(typeof state === 'undefined') {
         return {
-            loginErrorMessage: ''
+            loginErrorType: 0
         };
     }
 
@@ -11,7 +11,7 @@ var dashboardReducer = function(state, action) {
         case "SET_LOGIN_ERROR":
             var stateClone = _.cloneDeep(state);
 
-            stateClone.loginErrorMessage = action.errorMessage;
+            stateClone.loginErrorType = action.errorStatus;
 
             return stateClone;
         default:

@@ -14,7 +14,7 @@ describe('Dashboard', function() {
     var event = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
     beforeEach(function() {
         props = {
-            loginErrorMessage: 'OMFG DONT LET IT KILL ME',
+            loginErrorType: 0,
             login: jasmine.createSpy('loginSpy'),
             createWorkspace: jasmine.createSpy('createWorkspaceSpy')
         };
@@ -22,10 +22,50 @@ describe('Dashboard', function() {
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
     });
 
-    it('displays a login error message', function() {
-        var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-        var loginErrorMessage = errorMessage[1];
-        expect(loginErrorMessage.innerHTML).toBe('OMFG DONT LET IT KILL ME');
+    describe('#loginErrorType', function() {
+        it('does not display a login error message when loginErrorType is 0', function() {
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var loginErrorMessage = errorMessage[1];
+            expect(loginErrorMessage.innerHTML).toBe('');
+        });
+
+        it('displays a username error when the loginErrorType is 400', function() {
+            props.loginErrorType = 400;
+
+            dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var loginErrorMessage = errorMessage[1];
+            expect(loginErrorMessage.innerHTML).toBe('Keeaa!? That’s not your project name.');
+
+            var allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            var loginUsernameInput = allInputs[2];
+            expect(loginUsernameInput.classList).toContain('error');
+        });
+
+        it('displays a username error when the loginErrorType is 400', function() {
+            props.loginErrorType = 401;
+
+            dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var loginErrorMessage = errorMessage[1];
+            expect(loginErrorMessage.innerHTML).toBe('Polly want a cracker? Try another password.');
+
+            var allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            var loginPasswordInput = allInputs[3];
+            expect(loginPasswordInput.classList).toContain('error');
+        });
+
+        it('displays a panic error when the loginErrorType is not recognized', function() {
+            props.loginErrorType = 9999;
+
+            dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var loginErrorMessage = errorMessage[1];
+            expect(loginErrorMessage.innerHTML).toBe('Unknown error.');
+        });
     });
 
     describe('#createWorkspaceWithName', function() {

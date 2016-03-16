@@ -1,6 +1,6 @@
-export function setLoginErrorCreator(errorMessage) {
+export function setLoginErrorCreator(errorStatus) {
     return {
         type: 'SET_LOGIN_ERROR',
-        errorMessage: errorMessage
+        errorStatus: errorStatus
     };
 }

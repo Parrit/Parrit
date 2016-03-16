@@ -37,7 +37,7 @@ function postLoginAndRedirect(name, password, errorCallback) {
                 window.location.href = response.data;
             },
             function onReject(response) {
-                errorCallback(response.data);
+                errorCallback(response.status);
             }
         );
 }

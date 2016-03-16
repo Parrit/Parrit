@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -21,11 +22,11 @@ public class WorkspaceDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String name) {
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         Workspace workspace = workspaceRepository.findByName(name);
 
         if(workspace == null)
-            return null;
+            throw new UsernameNotFoundException("Username <" + name + "> was not found");
 
         return new User(workspace.getName(), workspace.getPassword(), Collections.emptyList());
     }

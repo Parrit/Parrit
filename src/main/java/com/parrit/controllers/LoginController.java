@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,34 +64,21 @@ public class LoginController {
      *  Attempts to log the user in and returns a href to the project that was logged into
      *
      *  @returns: href string for the workspace that was logged into
-     *  @exception: returns a 400 and an error message when failing to login
+     *  @throws: InternalAuthenticationServiceException if somehow the user does not get authenticated and nothing else throws an exception
      */
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> login(@RequestBody UsernameAndPasswordDTO loginDetails) {
-        try {
-            String username = loginDetails.getName();
-            String password = loginDetails.getPassword();
+    public ResponseEntity<String> login(@RequestBody UsernameAndPasswordDTO loginDetails) throws InternalAuthenticationServiceException {
+        String username = loginDetails.getName();
+        String password = loginDetails.getPassword();
 
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList()));
 
-            if (authentication.isAuthenticated()) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                return new ResponseEntity<>("/" + authentication.getName(), HttpStatus.OK);
-            }
-        }
-        catch(InternalAuthenticationServiceException e) {
-            /* No project exists for this name */
-            return new ResponseEntity<>("Keeaa!? That’s not your project name.", HttpStatus.BAD_REQUEST);
-        }
-        catch(BadCredentialsException e) {
-            /* Wrong password for existing project */
-            return new ResponseEntity<>("Polly want a cracker? Try another password.", HttpStatus.BAD_REQUEST);
-        }
-        catch(Exception e) {
-            return new ResponseEntity<>("/error", HttpStatus.OK);
+        if (authentication.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return new ResponseEntity<>("/" + authentication.getName(), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("/error", HttpStatus.OK);
+        throw new InternalAuthenticationServiceException("Unknown authentication problem.");
     }
 }

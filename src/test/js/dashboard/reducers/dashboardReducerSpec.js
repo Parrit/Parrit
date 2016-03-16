@@ -1,12 +1,12 @@
 var deepFreeze = require('deep-freeze');
 var dashboardReducer = require('dashboard/reducers/dashboardReducer.js');
 
-describe("dashboardReducer", function () {
-    it("should get the default state", function () {
+describe('dashboardReducer', function () {
+    it('should get the default state', function () {
         var stateBefore = undefined;
         var action = {};
         var stateAfter = {
-            loginErrorMessage: ''
+            loginErrorType: 0
         };
 
         expect(
@@ -14,20 +14,20 @@ describe("dashboardReducer", function () {
         ).toEqual(stateAfter);
     });
 
-    describe("actions", function () {
-        describe("SET_LOGIN_ERROR", function () {
-            it("should set the state to the passed in 'settings'", function () {
+    describe('actions', function () {
+        describe('SET_LOGIN_ERROR', function () {
+            it('should set the login error type', function () {
                 var stateBefore = {
-                    loginErrorMessage: ''
+                    loginErrorType: 0
                 };
 
                 var action = {
-                    type: "SET_LOGIN_ERROR",
-                    errorMessage: "IT'S ALL ON FIRE!"
+                    type: 'SET_LOGIN_ERROR',
+                    errorStatus: 400
                 };
 
                 var stateAfter = {
-                    loginErrorMessage: "IT'S ALL ON FIRE!"
+                    loginErrorType: 400
                 };
 
                 deepFreeze(stateBefore);

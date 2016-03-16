@@ -59,9 +59,9 @@ describe('dashboardThunks', function () {
 
             it('passes in a callback that will dispatch a setLoginError action', function() {
                 var callback = postLoginAndRedirectSpy.calls.mostRecent().args[2];
-                callback("ERROR");
+                callback(401);
 
-                expect(setLoginErrorCreatorSpy).toHaveBeenCalledWith("ERROR");
+                expect(setLoginErrorCreatorSpy).toHaveBeenCalledWith(401);
                 expect(dispatchSpy).toHaveBeenCalledWith({type: 'SET_LOGIN_ERROR'});
             });
         });

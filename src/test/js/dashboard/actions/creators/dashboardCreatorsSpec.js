@@ -6,11 +6,11 @@ describe('dashboardCreators', function () {
     describe('#setLoginErrorCreator', function () {
         var expectedAction = {
             type: 'SET_LOGIN_ERROR',
-            errorMessage: 'HALP'
+            errorStatus: 400
         };
 
         beforeEach(function() {
-            result = dashboardCreators.setLoginErrorCreator('HALP');
+            result = dashboardCreators.setLoginErrorCreator(400);
         });
 
         it('returns the expected action', function () {

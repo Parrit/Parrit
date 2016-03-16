@@ -4,6 +4,7 @@ import com.parrit.configurations.security.WorkspaceDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -64,7 +65,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(workspaceDetailsService).passwordEncoder(new ShaPasswordEncoder(256));
+        DaoAuthenticationProvider customAuthenticationProvider = new DaoAuthenticationProvider();
+        customAuthenticationProvider.setUserDetailsService(workspaceDetailsService);
+        customAuthenticationProvider.setPasswordEncoder(new ShaPasswordEncoder(256));
+        customAuthenticationProvider.setHideUserNotFoundExceptions(false);
+
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 
     private Filter csrfHeaderFilter() {

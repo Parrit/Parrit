@@ -200,14 +200,13 @@ describe('databaseHelpers', function () {
         //});
 
         describe('when the Ajax call returns with a reject', function () {
-            var responseText = "ERROR MESSAGE HERE";
             beforeEach(function () {
-                stubbedPost.andReturn({status: 400, responseText: responseText});
+                stubbedPost.andReturn({status: 400});
             });
 
-            it('calls the errorCallback with the response data', function (done) {
+            it('calls the errorCallback with the response status', function (done) {
                 setTimeout(function () {
-                    expect(errorCallbackSpy).toHaveBeenCalledWith("ERROR MESSAGE HERE");
+                    expect(errorCallbackSpy).toHaveBeenCalledWith(400);
                     done();
                 });
             })
