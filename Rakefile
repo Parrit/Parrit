@@ -18,5 +18,5 @@ end
 
 task :create_migration do
   filename = "#{Time.now.utc.to_i}_#{ARGV.last}"
-  system("vi src/main/resources/db/migration/#{filename}")
+  system("vi src/main/resources/db/migration/#{filename}.sql")
 end
