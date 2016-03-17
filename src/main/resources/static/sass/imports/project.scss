@@ -1,8 +1,15 @@
 .project-page-container {
-  overflow: auto;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 
   .project {
+    flex: 1 0 auto;
+    display: flex;
+    flex-flow: column;
+
     .sub-header {
+      flex-shrink: 0;
       .project-actions {
         button {
           padding: 0 20px;
@@ -11,6 +18,7 @@
     }
 
     .workspace {
+      flex: 1 0 auto;
       .floating-parrit-title {
         margin-bottom: 36px;
       }
@@ -112,7 +120,6 @@
     .workspace {
       display: flex;
       justify-content: space-between;
-      min-height: 870px;
 
       .floating-parrits {
         position: relative;

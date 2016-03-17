@@ -4,13 +4,21 @@ $mobileImageWidth: 349px;
 $mobileImageHeight: 212px;
 
 .error-container {
-  overflow: auto;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  background-color: $lightTan;
 
   .error-image-wrapper {
-    @include absolutely-centered;
+    flex: 1 0 auto;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 
     .parrit-talk-bubble {
       background-image: url("../svg/parrit-talk-bubble.svg");
+      margin: 30px auto 100px auto;
 
       .error-message {
         position: relative;
@@ -50,11 +58,8 @@ $mobileImageHeight: 212px;
  */
 @media (max-width: $desktopContentWidth) {
   .error-container {
-    height: calc(#{$mobileImageHeight} + 50px);
 
     .error-image-wrapper {
-      width: $mobileImageWidth;
-      height: $mobileImageHeight;
 
       .parrit-talk-bubble {
         width: $mobileImageWidth;
@@ -62,13 +67,13 @@ $mobileImageHeight: 212px;
         background-size: 100%;
 
         .error-message {
-          top: 62px;
+          top: 45px;
           left: 34px;
           font-size: 30px;
         }
 
         .home-page-link {
-          top: 45px;
+          top: 22px;
           left: 60px;
         }
       }
@@ -81,23 +86,20 @@ $mobileImageHeight: 212px;
  */
 @media (min-width: $desktopContentWidth) {
   .error-container {
-    height: calc(#{$desktopImageHeight} + 50px);
 
     .error-image-wrapper {
-      width: $desktopImageWidth;
-      height: $desktopImageHeight;
 
       .parrit-talk-bubble {
         width: $desktopImageWidth;
         height: $desktopImageHeight;
 
         .error-message {
-          top: 82px;
+          top: 65px;
           left: 45px;
         }
 
         .home-page-link {
-          top: 65px;
+          top: 40px;
           left: 90px;
         }
       }

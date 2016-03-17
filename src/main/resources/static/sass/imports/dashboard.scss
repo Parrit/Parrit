@@ -1,10 +1,19 @@
 .dashboard-container {
-  overflow: auto;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  background-color: $duckEggBlue;
 
   .dashboard-content-container {
-    @include absolutely-centered;
+    flex: 1 0 auto;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 
     .dashboard-content {
+      padding-bottom: 100px;
+
       .logo {
         margin: 0 auto 52.5px auto;
         background-image: url("../svg/parrit-logo-with-tag.svg");
@@ -51,18 +60,20 @@
  */
 @media (max-width: $desktopContentWidth) {
   .dashboard-container {
-    height: 875px;
 
     .dashboard-content-container {
-      width: $mobileContentWidth;
-      height: 850px;
 
       .dashboard-content {
         margin: 0 10px;
+        padding-top: 30px;
 
         .logo {
           width: 325px;
           height: 91px;
+        }
+
+        .description {
+          max-width: 400px;
         }
 
         .forms-container {
@@ -84,11 +95,8 @@
  */
 @media (min-width: $desktopContentWidth) {
   .dashboard-container {
-    height: 675px;
 
     .dashboard-content-container {
-      width: $desktopContentWidth;
-      height: 650px;
 
       .dashboard-content {
         margin: 0 50px;

@@ -1,12 +1,15 @@
 .project-login-container {
-  overflow: auto;
-  height: 325px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  background-color: $duckEggBlue;
 
   .project-login {
-    @include absolutely-centered;
+    flex: 1 0 auto;
 
-    width: 325px;
-    height: 300px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
 
     .lock-icon {
       width: 53px;
@@ -17,6 +20,12 @@
 
     .project-name {
       text-align: center;
+    }
+
+    input[type=password] {
+      width: 325px;
+      display: block;
+      margin: 0 auto;
     }
 
     input[type=submit] {
