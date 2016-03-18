@@ -6,15 +6,16 @@ var RenderComponent = require('support/RenderComponent.js');
 var Person = require('project/components/Person.js');
 
 describe('Person', function() {
-    var props = {
-        name: "person",
-        pairingBoardIndex: 1,
-        index: 1
-    };
-
+    var props;
     var person;
     var personElement;
     beforeEach(function() {
+        props = {
+            name: "person",
+            pairingBoardIndex: 1,
+            index: 1
+        };
+
         person = RenderComponent(Person, <Person {...props} />);
         personElement = ReactDOM.findDOMNode(person);
     });

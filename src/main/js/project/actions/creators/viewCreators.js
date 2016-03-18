@@ -12,6 +12,13 @@ export function setNewPairingBoardModalOpenCreator(isOpen) {
     }
 }
 
+export function setPairingHistoryPanelOpenCreator(isOpen) {
+    return {
+        type: 'SET_PAIRING_HISTORY_PANEL_OPEN',
+        isOpen: isOpen
+    }
+}
+
 export function setErrorTypeCreator(errorStatus) {
     return {
         type: 'SET_ERROR_TYPE',

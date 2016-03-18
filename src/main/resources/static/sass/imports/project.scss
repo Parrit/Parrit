@@ -3,6 +3,14 @@
   flex-flow: column;
   height: 100%;
 
+  position: relative;
+  transition: all 300ms ease;
+  right: 0;
+
+  &.shift-left {
+    right: 330px;
+  }
+
   .project {
     flex: 1 0 auto;
     display: flex;

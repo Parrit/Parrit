@@ -33,6 +33,7 @@ module.exports = {
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,
     setNewPairingBoardModalOpen: viewCreators.setNewPairingBoardModalOpenCreator,
+    setPairingHistoryPanelOpen: viewCreators.setPairingHistoryPanelOpenCreator,
     setErrorType: viewCreators.setErrorTypeCreator
 };
 

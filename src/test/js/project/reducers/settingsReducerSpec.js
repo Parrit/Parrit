@@ -8,6 +8,7 @@ describe("settingsReducer", function() {
 		var stateAfter = {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
+            isPairingHistoryPanelOpen: false,
             errorType: 0
 		};
 
@@ -54,6 +55,30 @@ describe("settingsReducer", function() {
 
                 var stateAfter = {
                     isNewPairingBoardModalOpen: true
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
+        describe("SET_PAIRING_HISTORY_PANEL_OPEN", function() {
+            it("should set isPairingHistoryPanelOpen to the passed in value", function() {
+                var stateBefore = {
+                    isPairingHistoryPanelOpen: false
+                };
+
+                var action = {
+                    type: "SET_PAIRING_HISTORY_PANEL_OPEN",
+                    isOpen: true
+                };
+
+                var stateAfter = {
+                    isPairingHistoryPanelOpen: true
                 };
 
                 deepFreeze(stateBefore);

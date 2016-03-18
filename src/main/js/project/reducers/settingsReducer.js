@@ -3,6 +3,7 @@ var settingsReducer = function(state, action) {
 		state = {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
+            isPairingHistoryPanelOpen: false,
             errorType: 0
 		};
 	}
@@ -12,6 +13,8 @@ var settingsReducer = function(state, action) {
             return Object.assign({}, state, {isNewPersonModalOpen: action.isOpen});
         case "SET_NEW_PAIRING_BOARD_MODAL_OPEN":
             return Object.assign({}, state, {isNewPairingBoardModalOpen: action.isOpen});
+        case "SET_PAIRING_HISTORY_PANEL_OPEN":
+            return Object.assign({}, state, {isPairingHistoryPanelOpen: action.isOpen});
         case "SET_ERROR_TYPE":
             return Object.assign({}, state, {errorType: action.errorType});
 		default:

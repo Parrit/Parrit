@@ -5,6 +5,7 @@ var _ = require('lodash');
 var Header = require('project/components/Header.js');
 var Project = require('project/components/Project.js');
 var Footer = require('shared/components/Footer.js');
+var PairingHistory = require('project/components/PairingHistory.js');
 
 var App = React.createClass({
     propTypes: {
@@ -17,6 +18,7 @@ var App = React.createClass({
         data: React.PropTypes.object.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewPairingBoardModalOpen: React.PropTypes.func.isRequired,
+        setPairingHistoryPanelOpen: React.PropTypes.func.isRequired,
         setErrorType: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createPairingBoard: React.PropTypes.func.isRequired,
@@ -90,6 +92,11 @@ var App = React.createClass({
     },
 
 	render: function() {
+        var pairingHistoryActionProps = {
+            setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
+            isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
+        };
+
         var projectProps = {
             savePairing: this.props.savePairing,
             getRecommendedPairs: this.props.getRecommendedPairs,
@@ -104,10 +111,12 @@ var App = React.createClass({
             renamePairingBoard: this.props.renamePairingBoard
         };
 
-		return <div id="pairing_board_-1" className="project-page-container dropzone">
-            <Header/>
+        var classes = "project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
+		return <div id="pairing_board_-1" className={classes}>
+            <Header {...pairingHistoryActionProps}/>
             <Project {...projectProps}/>
             <Footer/>
+            <PairingHistory {...pairingHistoryActionProps}/>
 		</div>
 	},
 

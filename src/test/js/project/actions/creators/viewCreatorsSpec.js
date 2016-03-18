@@ -25,6 +25,18 @@ describe('viewCreators', function () {
         });
     });
 
+    describe('#setPairingHistoryPanelOpenCreator', function () {
+        it('returns the right action type', function () {
+            var action = viewCreators.setPairingHistoryPanelOpenCreator();
+            expect(action.type).toBe('SET_PAIRING_HISTORY_PANEL_OPEN');
+        });
+
+        it('sets the new person modal open to be the passed in value', function () {
+            var action = viewCreators.setPairingHistoryPanelOpenCreator(true);
+            expect(action.isOpen).toBe(true);
+        });
+    });
+
     describe('#setErrorTypeCreator', function () {
         it('returns the right action type', function () {
             var action = viewCreators.setErrorTypeCreator();

@@ -20,6 +20,7 @@ function runProject(projectJSON) {
         settings: {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
+            isPairingHistoryPanelOpen: false,
             errorType: 0
         },
         data: {

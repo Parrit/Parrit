@@ -8,16 +8,20 @@ var App = require('project/components/App.js');
 var HeaderMock = Mocker("Header");
 var ProjectMock = Mocker("Project");
 var FooterMock = Mocker("Footer");
+var PairingHistoryMock = Mocker("PairingHistory");
 App.__set__('Header', HeaderMock);
 App.__set__('Project', ProjectMock);
 App.__set__('Footer', FooterMock);
+App.__set__('PairingHistory', PairingHistoryMock);
 
 describe('App', function() {
     var props = {
         getRecommendedPairs: function(){},
         savePairing: function(){},
 
-        settings: {},
+        settings: {
+            isPairingHistoryPanelOpen: true
+        },
         data: {
             project: {
                 name: 'The Best Around',
@@ -36,6 +40,7 @@ describe('App', function() {
         },
         setNewPersonModalOpen: function(){},
         setNewPairingBoardModalOpen: function(){},
+        setPairingHistoryPanelOpen: function(){},
         setErrorType: function(){},
         createPerson: function(){},
         createPairingBoard: function(){},
@@ -50,12 +55,20 @@ describe('App', function() {
         app = RenderComponent(App, <App {...props}/>);
     });
 
-    it('has a Header', function() {
-        var header = ReactTestUtils.findRenderedComponentWithType(app, HeaderMock);
-        expect(header).toBeTruthy();
+    it('adds the shift-left class on itself if isPairingHistoryPanelOpen is true', function () {
+        var shiftLeft = ReactTestUtils.findRenderedDOMComponentWithClass(app, 'shift-left');
+        expect(shiftLeft).toBeTruthy();
     });
 
-    it('has a Project', function() {
+    it('has a Header component', function() {
+        var headerComponent = ReactTestUtils.findRenderedComponentWithType(app, HeaderMock);
+        expect(headerComponent).toBeTruthy('No Header component found');
+
+        expect(headerComponent.props.setPairingHistoryPanelOpen).toBe(props.setPairingHistoryPanelOpen, 'No setPairingHistoryPanelOpen passed to header');
+        expect(headerComponent.props.isPairingHistoryPanelOpen).toBe(props.settings.isPairingHistoryPanelOpen, 'No isPairingHistoryPanelOpen passed to header');
+    });
+
+    it('has a Project component', function() {
         var projectComponent = ReactTestUtils.findRenderedComponentWithType(app, ProjectMock);
         expect(projectComponent).toBeTruthy('No Project component found');
 
@@ -74,9 +87,17 @@ describe('App', function() {
         expect(projectComponent.props.renamePairingBoard).toBe(props.renamePairingBoard, 'No renamePairingBoard passed to project');
     });
 
-    it('has a Footer', function() {
-        var footer = ReactTestUtils.findRenderedComponentWithType(app, FooterMock);
-        expect(footer).toBeTruthy();
+    it('has a Footer component', function() {
+        var footerComponent = ReactTestUtils.findRenderedComponentWithType(app, FooterMock);
+        expect(footerComponent).toBeTruthy('No Footer component found');
+    });
+
+    it('has a PairingHistory component', function() {
+        var pairingHistoryComponent = ReactTestUtils.findRenderedComponentWithType(app, PairingHistoryMock);
+        expect(pairingHistoryComponent).toBeTruthy('No PairingHistory component found');
+
+        expect(pairingHistoryComponent.props.setPairingHistoryPanelOpen).toBe(props.setPairingHistoryPanelOpen, 'No setPairingHistoryPanelOpen passed to pairingHistory');
+        expect(pairingHistoryComponent.props.isPairingHistoryPanelOpen).toBe(props.settings.isPairingHistoryPanelOpen, 'No isPairingHistoryPanelOpen passed to pairingHistory');
     });
 
     describe('#dropzoneOnDragEnter', function() {
