@@ -23,8 +23,11 @@ describe('Workspace', function() {
     var newPairingBoardForm;
     beforeEach(function() {
         props  = {
+            projectId: 77,
             settings: {
-                isNewPersonModalOpen: false
+                isNewPersonModalOpen: false,
+                isNewPairingBoardModalOpen: true,
+                errorType: 406
             },
             people: [
                 {name:"Mike Wazowski"},
@@ -53,6 +56,7 @@ describe('Workspace', function() {
             createPairingBoard: jasmine.createSpy('createPairingBoardSpy'),
             setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
             setNewPairingBoardModalOpen: jasmine.createSpy('setNewPairingBoardModalOpenSpy'),
+            setErrorType: jasmine.createSpy('setErrorTypeSpy'),
 
             deletePairingBoard: function(){},
             renamePairingBoard: function(){}
@@ -94,6 +98,7 @@ describe('Workspace', function() {
 
     describe('newPersonModal', function() {
         it('has a configured newPersonModal component as a child', function() {
+            expect(newPersonModal.props.isOpen).toBe(props.settings.isNewPersonModalOpen);
             expect(newPersonModal.props.onRequestClose).toBe(workspace.closeNewPersonModal);
         });
 
@@ -101,6 +106,10 @@ describe('Workspace', function() {
             expect(newPersonForm.props.formTitle).toBe("Add Parrit Teammate");
             expect(newPersonForm.props.confirmFunction).toBe(workspace.createPersonWithName);
             expect(newPersonForm.props.cancelFunction).toBe(workspace.closeNewPersonModal);
+        });
+
+        it('passes in the correct error message if errorType is set', function() {
+            expect(newPersonForm.props.errorMessage).toBe('Hey! This name is too long... 10 character max');
         });
 
         describe('#openNewPersonModal', function() {
@@ -111,20 +120,27 @@ describe('Workspace', function() {
         });
 
         describe('#createPersonWithName', function() {
-            it('should call the createPerson action with the passed in name', function() {
+            beforeEach(function() {
                 workspace.createPersonWithName('Luke Skywalker');
-                expect(props.createPerson).toHaveBeenCalledWith('Luke Skywalker');
             });
 
-            it('should close the modal', function() {
-                workspace.createPersonWithName('Luke Skywalker');
+            it('should call the createPerson action with the projectId, the passed in name and a callback', function() {
+                expect(props.createPerson).toHaveBeenCalledWith(77, 'Luke Skywalker', jasmine.anything());
+            });
+
+            it('the passed in callback should close the modal and clear the errorType', function() {
+                var callback = props.createPerson.calls.mostRecent().args[2];
+                callback();
+
                 expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
+                expect(props.setErrorType).toHaveBeenCalledWith(0);
             });
         });
     });
 
     describe('newPairingBoardModal', function() {
         it('has a configured newPairingBoardModal component as a child', function() {
+            expect(newPairingBoardModal.props.isOpen).toBe(props.settings.isNewPairingBoardModalOpen);
             expect(newPairingBoardModal.props.onRequestClose).toBe(workspace.closeNewPairingBoardModal);
         });
 

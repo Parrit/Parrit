@@ -18,6 +18,7 @@ describe('Project', function() {
         settings: {},
         data: {
             project: {
+                id: 77,
                 name: 'The Best Around',
                 people: [],
                 pairingBoards: [
@@ -34,6 +35,7 @@ describe('Project', function() {
         },
         setNewPersonModalOpen: function(){},
         setNewPairingBoardModalOpen: function(){},
+        setErrorType: function(){},
         createPerson: function(){},
         createPairingBoard: function(){},
         deletePairingBoard: function(){},
@@ -74,12 +76,14 @@ describe('Project', function() {
         var workspaceComponent = ReactTestUtils.findRenderedComponentWithType(project, WorkspaceMock);
         expect(workspaceComponent).toBeTruthy('No Menu component found');
 
+        expect(workspaceComponent.props.projectId).toBe(props.data.project.id, 'No projectId passed to project');
         expect(workspaceComponent.props.settings).toBe(props.settings, 'No pairingBoards passed to project');
         expect(workspaceComponent.props.people).toBe(props.data.project.people, 'No people passed to project');
         expect(workspaceComponent.props.pairingBoards).toBe(props.data.project.pairingBoards, 'No pairingBoards passed to project');
 
         expect(workspaceComponent.props.setNewPersonModalOpen).toBe(props.setNewPersonModalOpen, 'No setNewPersonModalOpen passed to project');
         expect(workspaceComponent.props.setNewPairingBoardModalOpen).toBe(props.setNewPairingBoardModalOpen, 'No setNewPairingBoardModalOpen passed to project');
+        expect(workspaceComponent.props.setErrorType).toBe(props.setErrorType, 'No setErrorType passed to project');
         expect(workspaceComponent.props.createPerson).toBe(props.createPerson, 'No createPerson passed to project');
         expect(workspaceComponent.props.createPairingBoard).toBe(props.createPairingBoard, 'No createPairingBoard passed to project');
 

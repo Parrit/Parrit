@@ -8,18 +8,32 @@ var NameForm = require('shared/components/NameForm.js');
 
 var Workspace = React.createClass({
     propTypes: {
+        projectId: React.PropTypes.number.isRequired,
         settings: React.PropTypes.object.isRequired,
         people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         pairingBoards: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewPairingBoardModalOpen: React.PropTypes.func.isRequired,
+        setErrorType: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createPairingBoard: React.PropTypes.func.isRequired,
         deletePairingBoard: React.PropTypes.func.isRequired,
-        renamePairingBoard: React.PropTypes.func.isRequired,
+        renamePairingBoard: React.PropTypes.func.isRequired
     },
 
     render: function() {
+        var newPersonModalErrorMessage = '';
+        switch(this.props.settings.errorType) {
+            case 0:
+                break;
+            case 406:
+                newPersonModalErrorMessage = 'Hey! This name is too long... 10 character max';
+                break;
+            default:
+                newPersonModalErrorMessage = 'Unknown error.';
+                break;
+        }
+
         var deletePairingBoard = this.props.deletePairingBoard;
         var renamePairingBoard = this.props.renamePairingBoard;
 
@@ -48,18 +62,19 @@ var Workspace = React.createClass({
             </div>
 
             <Modal isOpen={this.props.settings.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal} style={ModalStyles}>
-                <NameForm formTitle="Add Parrit Teammate" confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}/>
+                <NameForm formTitle="Add Parrit Teammate" confirmFunction={this.createPersonWithName} cancelFunction={this.closeNewPersonModal}
+                            errorMessage={newPersonModalErrorMessage}/>
             </Modal>
             <Modal isOpen={this.props.settings.isNewPairingBoardModalOpen} onRequestClose={this.closeNewPairingBoardModal} style={ModalStyles}>
-                <NameForm formTitle="Add Pairing Board" confirmFunction={this.createPairingBoardWithName} cancelFunction={this.closeNewPairingBoardModal}/>
+                <NameForm formTitle="Add Pairing Board" confirmFunction={this.createPairingBoardWithName} cancelFunction={this.closeNewPairingBoardModal}
+                          errorMessage=''/>
             </Modal>
 
         </div>
     },
 
     createPersonWithName: function(name) {
-        this.props.createPerson(name);
-        this.closeNewPersonModal();
+        this.props.createPerson(this.props.projectId, name, this.closeNewPersonModal);
     },
 
     openNewPersonModal: function () {
@@ -68,6 +83,7 @@ var Workspace = React.createClass({
 
     closeNewPersonModal: function () {
         this.props.setNewPersonModalOpen(false);
+        this.props.setErrorType(0);
     },
 
     createPairingBoardWithName: function(name) {

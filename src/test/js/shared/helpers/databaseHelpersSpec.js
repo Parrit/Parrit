@@ -11,15 +11,17 @@ describe('databaseHelpers', function () {
 
     describe('#postProjectAndDo', function () {
         var stubbedPost;
-        var callbackSpy;
+        var successCallbackSpy;
+        var errorCallbackSpy;
 
         var projectToSave = {MISSISSIPPI: "Anthony is more fun than that"};
 
         beforeEach(function () {
             stubbedPost = jasmine.Ajax.stubRequest('/api/project', undefined, 'POST');
-            callbackSpy = jasmine.createSpy('callbackSpy');
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
 
-            databaseHelpers.postProjectAndDo(projectToSave, callbackSpy);
+            databaseHelpers.postProjectAndDo(projectToSave, successCallbackSpy, errorCallbackSpy);
         });
 
         it('makes an Ajax call to post the project', function (done) {
@@ -40,7 +42,20 @@ describe('databaseHelpers', function () {
 
             it('calls the callback with the response', function (done) {
                 setTimeout(function () {
-                    expect(callbackSpy).toHaveBeenCalledWith(responseText);
+                    expect(successCallbackSpy).toHaveBeenCalledWith(responseText);
+                    done();
+                });
+            });
+        });
+
+        describe('when the Ajax call returns with an error', function () {
+            beforeEach(function () {
+                stubbedPost.andReturn({status: 403});
+            });
+
+            it('calls the error callback with the status', function (done) {
+                setTimeout(function () {
+                    expect(errorCallbackSpy).toHaveBeenCalledWith(403);
                     done();
                 });
             });
@@ -225,6 +240,60 @@ describe('databaseHelpers', function () {
                     done();
                 });
             })
+        });
+    });
+
+    describe('#postAddNewPersonAndDo', function () {
+        var stubbedPost;
+        var successCallbackSpy;
+        var errorCallbackSpy;
+
+        var projectId = 87;
+        var newPersonName = 'John';
+
+        beforeEach(function () {
+            stubbedPost = jasmine.Ajax.stubRequest('/api/project/87/addPerson', undefined, 'POST');
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
+
+            databaseHelpers.postAddNewPersonAndDo(projectId, newPersonName, successCallbackSpy, errorCallbackSpy);
+        });
+
+        it('makes an Ajax call to post the project', function (done) {
+            setTimeout(function () {
+                expect(jasmine.Ajax.requests.count()).toBe(1);
+                expect(jasmine.Ajax.requests.mostRecent().url).toBe('/api/project/87/addPerson');
+                expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
+                expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({name: newPersonName});
+                done();
+            });
+        });
+
+        describe('when the Ajax call returns with a response', function () {
+            var responseText = {iamaproperty: "blahblah"};
+            beforeEach(function () {
+                stubbedPost.andReturn({responseText: responseText});
+            });
+
+            it('calls the callback with the response', function (done) {
+                setTimeout(function () {
+                    expect(successCallbackSpy).toHaveBeenCalledWith(responseText);
+                    done();
+                });
+            });
+        });
+
+        describe('when the Ajax call returns with an error', function () {
+            beforeEach(function () {
+                stubbedPost.andReturn({status: 403});
+            });
+
+            it('calls the error callback with the status', function (done) {
+                setTimeout(function () {
+                    expect(errorCallbackSpy).toHaveBeenCalledWith(403);
+                    done();
+                });
+            });
         });
     });
 });

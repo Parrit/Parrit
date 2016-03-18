@@ -24,4 +24,16 @@ describe('viewCreators', function () {
             expect(action.isOpen).toBe(true);
         });
     });
+
+    describe('#setErrorTypeCreator', function () {
+        it('returns the right action type', function () {
+            var action = viewCreators.setErrorTypeCreator();
+            expect(action.type).toBe('SET_ERROR_TYPE');
+        });
+
+        it('sets the new person modal open to be the passed in value', function () {
+            var action = viewCreators.setErrorTypeCreator(401);
+            expect(action.errorType).toBe(401);
+        });
+    });
 });

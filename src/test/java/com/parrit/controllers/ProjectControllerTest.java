@@ -1,6 +1,7 @@
 package com.parrit.controllers;
 
 import com.parrit.DTOs.ProjectDTO;
+import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.support.ControllerTestBase;
@@ -53,7 +54,7 @@ public class ProjectControllerTest extends ControllerTestBase {
         updatedProjectDTO = ProjectTransformer.transform(persistedProject);
         updatedProjectDTOString = "{\"id\":1,\"name\":\"Bob\",\"pairingBoards\":[],\"people\":[]}";
 
-        updatedProject = new Project("Bob", "henrypass", new ArrayList<>(), new ArrayList<>());
+        updatedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
         updatedProject.setId(1L);
     }
 
@@ -110,6 +111,8 @@ public class ProjectControllerTest extends ControllerTestBase {
 
     @Test
     public void saveProject_persistsTheProjectWithChanges_andReturnsTheResult() throws Exception {
+        updatedProject.setName("Bob");
+
         when(mockProjectRepository.findOne(anyLong())).thenReturn(persistedProject);
         when(mockProjectRepository.save(any(Project.class))).thenReturn(updatedProject);
 
@@ -124,5 +127,26 @@ public class ProjectControllerTest extends ControllerTestBase {
 
         verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(eq(updatedProject));
+    }
+
+    @Test
+    public void addPerson_createsAPersonWithThePassedInName_andReturnsTheUpdatedProject() throws Exception {
+        Person newPerson = new Person("Steve");
+        updatedProject.getPeople().add(newPerson);
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(persistedProject);
+        when(mockProjectRepository.save(any(Project.class))).thenReturn(updatedProject);
+
+        MvcResult mvcResult = mvc.perform(post("/api/project/2/addPerson")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"Steve\"}"))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        String returnedProject = mvcResult.getResponse().getContentAsString();
+        assertThat(returnedProject, equalTo("{\"id\":1,\"name\":\"Henry\",\"pairingBoards\":[],\"people\":[{\"id\":0,\"name\":\"Steve\"}]}"));
+
+        verify(mockProjectRepository).findOne(2L);
+        verify(mockProjectRepository).save(updatedProject);
     }
 }

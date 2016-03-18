@@ -15,7 +15,8 @@ describe('NameForm', function() {
         props  = {
             formTitle: "Form Title",
             confirmFunction: jasmine.createSpy('confirmFunctionSpy'),
-            cancelFunction: jasmine.createSpy('cancelFunctionSpy')
+            cancelFunction: jasmine.createSpy('cancelFunctionSpy'),
+            errorMessage: 'ERROR'
         };
 
         nameForm = RenderComponent(NameForm, <NameForm {...props} />);
@@ -36,6 +37,11 @@ describe('NameForm', function() {
 
     it('has an input field', function() {
         expect(input).toBeTruthy();
+    });
+
+    it('displays the error message', function() {
+        var errorMessage = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'error-message');
+        expect(errorMessage.innerHTML).toBe('ERROR');
     });
 
     describe('#submit', function() {

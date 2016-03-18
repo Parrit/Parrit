@@ -2,11 +2,15 @@ var Axios = require('axios');
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-function postProjectAndDo(project, callback) {
+function postProjectAndDo(project, successCallback, errorCallback) {
     Axios.post('/api/project', project)
-        .then(function (response) {
-            callback(response.data);
-        });
+        .then(
+            function (response) {
+                successCallback(response.data);
+            }, function onError(response) {
+                errorCallback(response.status);
+            }
+        );
 }
 
 function postNewProjectAndDo(name, password, successCallback, errorCallback) {
@@ -46,10 +50,22 @@ function postLoginAndRedirect(name, password, errorCallback) {
         );
 }
 
+function postAddNewPersonAndDo(projectId, name, successCallback, errorCallback) {
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/addPerson', {name: name})
+        .then(
+            function (response) {
+                successCallback(response.data);
+            }, function onError(response) {
+                errorCallback(response.status);
+            }
+        );
+}
+
 module.exports = {
     postProjectAndDo,
     postNewProjectAndDo,
     postProjectPairingAndDo,
     getRecommendedPairingAndDo,
-    postLoginAndRedirect
+    postLoginAndRedirect,
+    postAddNewPersonAndDo
 };

@@ -7,7 +7,8 @@ describe("settingsReducer", function() {
 		var stateBefore = undefined;
 		var stateAfter = {
             isNewPersonModalOpen: false,
-            isNewPairingBoardModalOpen: false
+            isNewPairingBoardModalOpen: false,
+            errorType: 0
 		};
 
 		expect(
@@ -53,6 +54,30 @@ describe("settingsReducer", function() {
 
                 var stateAfter = {
                     isNewPairingBoardModalOpen: true
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
+        describe("SET_ERROR_TYPE", function() {
+            it("should set errorType to the passed in value", function() {
+                var stateBefore = {
+                    errorType: 0
+                };
+
+                var action = {
+                    type: "SET_ERROR_TYPE",
+                    errorType: 401
+                };
+
+                var stateAfter = {
+                    errorType: 401
                 };
 
                 deepFreeze(stateBefore);

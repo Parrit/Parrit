@@ -7,7 +7,8 @@ describe("appReducer", function() {
 		var stateAfter = {
             settings: {
                 isNewPersonModalOpen: false,
-                isNewPairingBoardModalOpen: false
+                isNewPairingBoardModalOpen: false,
+                errorType: 0
 			},
             data: {
                 project: {

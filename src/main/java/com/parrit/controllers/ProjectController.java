@@ -1,7 +1,9 @@
 package com.parrit.controllers;
 
-import com.parrit.DTOs.UsernameAndPasswordDTO;
+import com.parrit.DTOs.PersonDTO;
 import com.parrit.DTOs.ProjectDTO;
+import com.parrit.DTOs.UsernameAndPasswordDTO;
+import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
@@ -70,6 +72,19 @@ public class ProjectController {
         Project savedProject = projectRepository.findOne(projectDTO.getId());
         Project updatedProject = ProjectTransformer.merge(savedProject, projectDTO);
         updatedProject = projectRepository.save(updatedProject);
+        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+    }
+
+    @RequestMapping(path="api/project/{projectId}/addPerson", method = RequestMethod.POST, consumes = {"application/json"})
+    @ResponseBody
+    public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody PersonDTO personDTO) {
+        Project savedProject = projectRepository.findOne(projectId);
+
+        Person newPerson = new Person();
+        newPerson.setName(personDTO.getName());
+        savedProject.getPeople().add(newPerson);
+
+        Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 }

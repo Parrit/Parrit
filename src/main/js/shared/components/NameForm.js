@@ -5,7 +5,8 @@ var NameForm = React.createClass({
     propTypes: {
         formTitle: React.PropTypes.string.isRequired,
         confirmFunction: React.PropTypes.func.isRequired,
-        cancelFunction: React.PropTypes.func.isRequired
+        cancelFunction: React.PropTypes.func.isRequired,
+        errorMessage: React.PropTypes.string
     },
 
     componentDidMount: function() {
@@ -15,12 +16,16 @@ var NameForm = React.createClass({
     },
 
     render: function() {
+        var inputClasses = 'form-control';
+        inputClasses += this.props.errorMessage.length ? ' error': '';
+
         return <form onSubmit={this.submit}>
             <div className="form-header">
                 <h2 className="form-title">{this.props.formTitle}</h2>
                 <div className="form-cancel" onClick={this.props.cancelFunction}></div>
             </div>
-            <input ref="input" type="text" className="form-control" placeholder="Name" value={this.state.name} onChange={this.handleChange}/>
+            <div className="error-message">{this.props.errorMessage}</div>
+            <input className={inputClasses} ref="input" type="text" placeholder="Name" value={this.state.name} onChange={this.handleChange}/>
         </form>
     },
 

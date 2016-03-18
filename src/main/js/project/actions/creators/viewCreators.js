@@ -11,3 +11,10 @@ export function setNewPairingBoardModalOpenCreator(isOpen) {
         isOpen: isOpen
     }
 }
+
+export function setErrorTypeCreator(errorStatus) {
+    return {
+        type: 'SET_ERROR_TYPE',
+        errorType: errorStatus
+    }
+}

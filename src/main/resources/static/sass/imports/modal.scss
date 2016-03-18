@@ -24,16 +24,14 @@
   form {
     .form-header {
       .form-title {
-        float: left;
-        margin-bottom: 35px;
+        display: inline-block;
+        margin-bottom: 15px;
       }
 
       .form-cancel {
         float: right;
         display: inline-block;
         cursor: pointer;
-
-        margin-top: 9px;
         width: 13px;
         height: 13px;
         background-image: url("../svg/close-modal-dark.svg");
@@ -42,6 +40,16 @@
           background-image: url("../svg/close-modal-bright.svg");
         }
       }
+    }
+
+    .error-message {
+      height: 16px;
+      font: $Raleway;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0.5px;
+      color: $salmon;
+      margin-bottom: 4px;
     }
   }
 }

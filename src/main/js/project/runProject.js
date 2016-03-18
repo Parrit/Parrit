@@ -15,10 +15,12 @@ function createStore(initialState) {
 }
 
 function runProject(projectJSON) {
+    //TODO: Remove this when the first thing that page does (componentDidMount on App) is to fetch the project data
     var initialState = {
         settings: {
             isNewPersonModalOpen: false,
-            isNewPairingBoardModalOpen: false
+            isNewPairingBoardModalOpen: false,
+            errorType: 0
         },
         data: {
             project: projectJSON

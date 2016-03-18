@@ -12,6 +12,7 @@ var Project = React.createClass({
         data: React.PropTypes.object.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
         setNewPairingBoardModalOpen: React.PropTypes.func.isRequired,
+        setErrorType: React.PropTypes.func.isRequired,
         createPerson: React.PropTypes.func.isRequired,
         createPairingBoard: React.PropTypes.func.isRequired,
         deletePairingBoard: React.PropTypes.func.isRequired,
@@ -20,11 +21,13 @@ var Project = React.createClass({
 
     render: function() {
         var workspaceProps = {
+            projectId: this.props.data.project.id,
             settings: this.props.settings,
             people: this.props.data.project.people,
             pairingBoards: this.props.data.project.pairingBoards,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
+            setErrorType: this.props.setErrorType,
             createPerson: this.props.createPerson,
             createPairingBoard: this.props.createPairingBoard,
             deletePairingBoard: this.props.deletePairingBoard,

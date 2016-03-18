@@ -6,10 +6,6 @@ function movePersonCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.movePersonCreator(...args));
 }
 
-function createPersonCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.createPersonCreator(...args));
-}
-
 function createPairingBoardCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.createPairingBoardCreator(...args));
 }
@@ -28,7 +24,7 @@ function renamePairingBoardCombo(...args) {
 
 module.exports = {
     movePerson: movePersonCombo,
-    createPerson: createPersonCombo,
+    createPerson: dataThunks.addNewPersonThunk,
     createPairingBoard: createPairingBoardCombo,
     deletePerson: deletePersonCombo,
     deletePairingBoard: deletePairingBoardCombo,
@@ -36,6 +32,7 @@ module.exports = {
     savePairing: dataThunks.savePairingThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,
-    setNewPairingBoardModalOpen: viewCreators.setNewPairingBoardModalOpenCreator
+    setNewPairingBoardModalOpen: viewCreators.setNewPairingBoardModalOpenCreator,
+    setErrorType: viewCreators.setErrorTypeCreator
 };
 
