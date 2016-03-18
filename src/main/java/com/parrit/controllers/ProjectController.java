@@ -51,7 +51,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public void createProject(@RequestBody UsernameAndPasswordDTO usernameAndPasswordDTO) throws NestedServletException {
-        if(usernameAndPasswordDTO.getName().isEmpty() || usernameAndPasswordDTO.getPassword().isEmpty()) {
+        if(usernameAndPasswordDTO.getPassword().isEmpty()) {
             throw new NestedServletException("Project Name and/or Password is empty!");
         }
 

@@ -1,5 +1,7 @@
 package com.parrit.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -12,6 +14,7 @@ public class Project {
     private long id;
 
     @NotNull
+    @Length(min = 1, max = 36)
     @Column(unique = true)
     private String name;
 

@@ -100,15 +100,6 @@ public class ProjectControllerTest extends ControllerTestBase {
     }
 
     @Test
-    public void createProject_throwsAnException_whenTheProjectNameIsEmpty() throws Exception {
-        thrown.expect(NestedServletException.class);
-
-        mvc.perform(post("/api/project/new")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"name\":\"\",\"password\":\"bobpass\"}"));
-    }
-
-    @Test
     public void createProject_throwsAnException_whenThePasswordIsEmpty() throws Exception {
         thrown.expect(NestedServletException.class);
 

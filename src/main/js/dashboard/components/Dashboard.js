@@ -5,28 +5,44 @@ var Button = require('shared/components/Button.js');
 
 var Dashboard = React.createClass({
     propTypes: {
+        newProjectErrorType: React.PropTypes.number.isRequired,
         loginErrorType: React.PropTypes.number.isRequired,
         login: React.PropTypes.func.isRequired,
         createProject: React.PropTypes.func.isRequired
     },
 
     render: function() {
+        var newProjectErrorMessage = '';
+        var newProjectNameErrorClass = '';
+
         var loginErrorMessage = '';
-        var loginUsernameErrorClassed = '';
-        var loginPasswordErrorClassed = '';
+        var loginUsernameErrorClass = '';
+        var loginPasswordErrorClass = '';
+
         switch(this.props.loginErrorType) {
             case 0:
                 break;
             case 400:
                 loginErrorMessage = 'Keeaa!? That’s not your project name.';
-                loginUsernameErrorClassed = 'error';
+                loginUsernameErrorClass = 'error';
                 break;
             case 401:
                 loginErrorMessage = 'Polly want a cracker? Try another password.';
-                loginPasswordErrorClassed = 'error';
+                loginPasswordErrorClass = 'error';
                 break;
             default:
                 loginErrorMessage = 'Unknown error.';
+        }
+
+        switch(this.props.newProjectErrorType) {
+            case 0:
+                break;
+            case 406:
+                newProjectErrorMessage = 'Uh oh. Your project name is too long, try less than 36 characters.';
+                newProjectNameErrorClass = 'error';
+                break;
+            default:
+                newProjectErrorMessage = 'Unknown error.';
         }
 
         return <div className="dashboard-container">
@@ -39,16 +55,16 @@ var Dashboard = React.createClass({
                     <div className="forms-container">
                         <form className="form new-form" onSubmit={this.createProjectWithName}>
                             <h2 className="form-label">Create Project</h2>
-                            <input type="text" placeholder="Project name" onChange={this.handleNewProjectName}/>
+                            <input className={newProjectNameErrorClass} type="text" placeholder="Project name" onChange={this.handleNewProjectName}/>
                             <input type="password" placeholder="Password" onChange={this.handleNewProjectPassword}/>
                             <Button className="button-blue" name="Create" type="submit"/>
-                            <div className="error-message"></div>
+                            <div className="error-message">{newProjectErrorMessage}</div>
                         </form>
                         <div className="dotted-line"></div>
                         <form className="form login-form" onSubmit={this.handleLogin}>
                             <h2 className="form-label">Login to Project</h2>
-                            <input className={loginUsernameErrorClassed} type="text" placeholder="Project name" onChange={this.handleLoginName}/>
-                            <input className={loginPasswordErrorClassed} type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
+                            <input className={loginUsernameErrorClass} type="text" placeholder="Project name" onChange={this.handleLoginName}/>
+                            <input className={loginPasswordErrorClass} type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
                             <Button className="button-green" name="Login" type="submit"/>
                             <div className="error-message">{loginErrorMessage}</div>
                         </form>

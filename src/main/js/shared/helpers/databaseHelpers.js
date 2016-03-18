@@ -9,24 +9,28 @@ function postProjectAndDo(project, callback) {
         });
 }
 
-function postNewProjectAndDo(name, password, callback) {
+function postNewProjectAndDo(name, password, successCallback, errorCallback) {
     Axios.post('/api/project/new', {name, password})
-        .then(function (response) {
-            callback(response.data);
-        })
+        .then(
+            function onSuccess(response) {
+                successCallback(response.data);
+            }, function onError(response) {
+                errorCallback(response.status);
+            }
+        );
 }
 
-function postProjectPairingAndDo(projectId, callback) {
+function postProjectPairingAndDo(projectId, successCallback) {
     Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairing')
         .then(function (response) {
-            callback(response.data);
+            successCallback(response.data);
         })
 }
 
-function getRecommendedPairingAndDo(projectId, callback) {
+function getRecommendedPairingAndDo(projectId, successCallback) {
     Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/recommend')
         .then(function (response) {
-            callback(response.data);
+            successCallback(response.data);
         });
 }
 
@@ -36,7 +40,7 @@ function postLoginAndRedirect(name, password, errorCallback) {
             function onSuccess(response) {
                 window.location.href = response.data;
             },
-            function onReject(response) {
+            function onError(response) {
                 errorCallback(response.status);
             }
         );

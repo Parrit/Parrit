@@ -49,16 +49,18 @@ describe('databaseHelpers', function () {
 
     describe('#postNewProjectAndDo', function () {
         var stubbedPost;
-        var callbackSpy;
+        var successCallbackSpy;
+        var errorCallbackSpy;
 
         var projectName = 'Meeple';
         var projectPassword = 'SuperSecretPassword';
 
         beforeEach(function () {
             stubbedPost = jasmine.Ajax.stubRequest('/api/project/new', undefined, 'POST');
-            callbackSpy = jasmine.createSpy('callbackSpy');
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
 
-            databaseHelpers.postNewProjectAndDo(projectName, projectPassword, callbackSpy);
+            databaseHelpers.postNewProjectAndDo(projectName, projectPassword, successCallbackSpy, errorCallbackSpy);
         });
 
         it('makes an Ajax call to post the new project name', function (done) {
@@ -80,9 +82,22 @@ describe('databaseHelpers', function () {
                 stubbedPost.andReturn({responseText: responseText});
             });
 
-            it('calls the callback with the response', function (done) {
+            it('calls the sucess callback with the response', function (done) {
                 setTimeout(function () {
-                    expect(callbackSpy).toHaveBeenCalledWith(responseText);
+                    expect(successCallbackSpy).toHaveBeenCalledWith(responseText);
+                    done();
+                });
+            });
+        });
+
+        describe('when the Ajax call returns with an error', function () {
+            beforeEach(function () {
+                stubbedPost.andReturn({status: 403});
+            });
+
+            it('calls the error callback with the status', function (done) {
+                setTimeout(function () {
+                    expect(errorCallbackSpy).toHaveBeenCalledWith(403);
                     done();
                 });
             });

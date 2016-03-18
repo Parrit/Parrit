@@ -14,12 +14,45 @@ describe('Dashboard', function() {
     var event = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
     beforeEach(function() {
         props = {
+            newProjectErrorType: 0,
             loginErrorType: 0,
             login: jasmine.createSpy('loginSpy'),
             createProject: jasmine.createSpy('createProjectSpy')
         };
 
         dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+    });
+
+    describe('#newProjectErrorType', function() {
+        it('does not display a new project error message when newProjectErrorType is 0', function() {
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var newProjectErrorMessage = errorMessage[0];
+            expect(newProjectErrorMessage.innerHTML).toBe('');
+        });
+
+        it('displays a username error when the newProjectErrorType is 400', function() {
+            props.newProjectErrorType = 406;
+
+            dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var newProjectErrorMessage = errorMessage[0];
+            expect(newProjectErrorMessage.innerHTML).toBe('Uh oh. Your project name is too long, try less than 36 characters.');
+
+            var allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            var newProjectNameInput = allInputs[0];
+            expect(newProjectNameInput.classList).toContain('error');
+        });
+
+        it('displays a panic error when the newProjectErrorType is not recognized', function() {
+            props.newProjectErrorType = 9999;
+
+            dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+
+            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            var newProjectErrorMessage = errorMessage[0];
+            expect(newProjectErrorMessage.innerHTML).toBe('Unknown error.');
+        });
     });
 
     describe('#loginErrorType', function() {
