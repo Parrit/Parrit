@@ -19,8 +19,6 @@ CREATE TABLE pairing_history (
 );
 
 
-ALTER TABLE pairing_history OWNER TO pivotal;
-
 --
 -- Name: pairing_history_id_seq; Type: SEQUENCE; Schema: public; Owner: pivotal
 --
@@ -32,8 +30,6 @@ CREATE SEQUENCE pairing_history_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE pairing_history_id_seq OWNER TO pivotal;
 
 --
 -- Name: pairing_history_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pivotal
@@ -54,8 +50,6 @@ CREATE TABLE person (
 );
 
 
-ALTER TABLE person OWNER TO pivotal;
-
 --
 -- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: pivotal
 --
@@ -67,8 +61,6 @@ CREATE SEQUENCE person_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE person_id_seq OWNER TO pivotal;
 
 --
 -- Name: person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pivotal
@@ -88,8 +80,6 @@ CREATE TABLE space (
 );
 
 
-ALTER TABLE space OWNER TO pivotal;
-
 --
 -- Name: space_id_seq; Type: SEQUENCE; Schema: public; Owner: pivotal
 --
@@ -101,8 +91,6 @@ CREATE SEQUENCE space_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE space_id_seq OWNER TO pivotal;
 
 --
 -- Name: space_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pivotal
@@ -122,8 +110,6 @@ CREATE TABLE workspace (
 );
 
 
-ALTER TABLE workspace OWNER TO pivotal;
-
 --
 -- Name: workspace_id_seq; Type: SEQUENCE; Schema: public; Owner: pivotal
 --
@@ -135,8 +121,6 @@ CREATE SEQUENCE workspace_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE workspace_id_seq OWNER TO pivotal;
 
 --
 -- Name: workspace_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: pivotal

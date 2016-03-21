@@ -14,9 +14,6 @@ CREATE TABLE pairing_history_people (
     person_id bigint NOT NULL
 );
 
-
-ALTER TABLE pairing_history_people OWNER TO pivotal;
-
 --
 -- Name: fk_pairing_history_id; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
 --
