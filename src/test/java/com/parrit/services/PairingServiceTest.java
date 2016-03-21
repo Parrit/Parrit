@@ -21,6 +21,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -71,6 +72,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
+        verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
 
     @Test
@@ -103,6 +105,7 @@ public class PairingServiceTest extends MockitoTestBase {
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
+        verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
 
     @Test
@@ -133,6 +136,30 @@ public class PairingServiceTest extends MockitoTestBase {
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory3));
+        verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
+    }
+    
+    @Test
+    public void savePairing_createsAPairingHistory_whenThereIsOnlyOnePersonInAPairingBoard() {
+        Person p1 = new Person("John");
+        p1.setId(1L);
+
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Collections.singletonList(p1));
+        pairingBoard.setId(1L);
+
+        List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
+
+        Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+
+        pairingService.savePairing(7L);
+
+        PairingHistory expectedPairingHistory = new PairingHistory(project, p1, null, currentTime, "The Pairing Board");
+
+        verify(mockProjectRepository).findOne(7L);
+        verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
+        verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
 
     @Test

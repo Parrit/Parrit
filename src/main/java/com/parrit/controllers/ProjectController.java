@@ -75,6 +75,7 @@ public class ProjectController {
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
     @RequestMapping(path="api/project/{projectId}/addPerson", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody PersonDTO personDTO) {
