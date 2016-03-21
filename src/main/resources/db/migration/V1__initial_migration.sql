@@ -318,7 +318,7 @@ ALTER TABLE ONLY pairing_history
 --
 
 ALTER TABLE ONLY person
-    ADD CONSTRAINT fk_space_it FOREIGN KEY (space_id) REFERENCES space(id);
+    ADD CONSTRAINT fk_space_id FOREIGN KEY (space_id) REFERENCES space(id);
 
 
 --
