@@ -258,11 +258,11 @@ ALTER TABLE ONLY space
 
 
 --
--- Name: uk_br8l0q43h1ygdohbp4htocj3h; Type: CONSTRAINT; Schema: public; Owner: pivotal
+-- Name: uk_workspace_name; Type: CONSTRAINT; Schema: public; Owner: pivotal
 --
 
 ALTER TABLE ONLY workspace
-    ADD CONSTRAINT uk_br8l0q43h1ygdohbp4htocj3h UNIQUE (name);
+    ADD CONSTRAINT uk_workspace_name UNIQUE (name);
 
 
 --
@@ -274,51 +274,51 @@ ALTER TABLE ONLY workspace
 
 
 --
--- Name: fk_9q85alydclthb37brpehuydi6; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
+-- Name: fk_person_two_id; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
 --
 
 ALTER TABLE ONLY pairing_history
-    ADD CONSTRAINT fk_9q85alydclthb37brpehuydi6 FOREIGN KEY (person_two_id) REFERENCES person(id);
+    ADD CONSTRAINT fk_person_two_id FOREIGN KEY (person_two_id) REFERENCES person(id);
 
 
 --
--- Name: fk_dca5hx4jttj9saol6drrp7l4s; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
+-- Name: fk_workspace_id; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
 --
 
 ALTER TABLE ONLY person
-    ADD CONSTRAINT fk_dca5hx4jttj9saol6drrp7l4s FOREIGN KEY (workspace_id) REFERENCES workspace(id);
+    ADD CONSTRAINT fk_workspace_id FOREIGN KEY (workspace_id) REFERENCES workspace(id);
 
 
 --
--- Name: fk_k3thmwe29r51w5xocu0s9l1fn; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
+-- Name: fk_workspace_id; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
 --
 
 ALTER TABLE ONLY space
-    ADD CONSTRAINT fk_k3thmwe29r51w5xocu0s9l1fn FOREIGN KEY (workspace_id) REFERENCES workspace(id);
+    ADD CONSTRAINT fk_workspace_id FOREIGN KEY (workspace_id) REFERENCES workspace(id);
 
 
 --
--- Name: fk_lhfwbekib8r3i4gaxqkpvmou2; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
---
-
-ALTER TABLE ONLY pairing_history
-    ADD CONSTRAINT fk_lhfwbekib8r3i4gaxqkpvmou2 FOREIGN KEY (person_one_id) REFERENCES person(id);
-
-
---
--- Name: fk_sold493vt4sxitiyx2bjpd5xc; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
+-- Name: fk_person_one_id; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
 --
 
 ALTER TABLE ONLY pairing_history
-    ADD CONSTRAINT fk_sold493vt4sxitiyx2bjpd5xc FOREIGN KEY (workspace_id) REFERENCES workspace(id);
+    ADD CONSTRAINT fk_person_one_id FOREIGN KEY (person_one_id) REFERENCES person(id);
 
 
 --
--- Name: fk_tehcir5vr1x2pwsn4pfcijwb8; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
+-- Name: fk_workspace_id; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
+--
+
+ALTER TABLE ONLY pairing_history
+    ADD CONSTRAINT fk_workspace_id FOREIGN KEY (workspace_id) REFERENCES workspace(id);
+
+
+--
+-- Name: fk_space_it; Type: FK CONSTRAINT; Schema: public; Owner: pivotal
 --
 
 ALTER TABLE ONLY person
-    ADD CONSTRAINT fk_tehcir5vr1x2pwsn4pfcijwb8 FOREIGN KEY (space_id) REFERENCES space(id);
+    ADD CONSTRAINT fk_space_it FOREIGN KEY (space_id) REFERENCES space(id);
 
 
 --

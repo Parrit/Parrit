@@ -16,6 +16,7 @@ public class PairingHistory {
     private Project project;
 
     @ManyToMany(targetEntity = Person.class, fetch = FetchType.LAZY)
+    @JoinTable(inverseJoinColumns = @JoinColumn(name = "person_id"))
     private List<Person> people;
 
     private Timestamp timestamp;
