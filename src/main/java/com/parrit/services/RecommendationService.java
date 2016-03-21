@@ -220,7 +220,7 @@ public class RecommendationService {
         private List<PairingHistory> getPairingHistoryForPerson(Person person, List<PairingHistory> pairingHistories) {
             return pairingHistories
                     .stream()
-                    .filter(pairingHistory -> pairingHistory.getPersonOne().equals(person) || pairingHistory.getPersonTwo().equals(person))
+                    .filter(pairingHistory -> pairingHistory.getPeople().contains(person))
                     .collect(Collectors.toList());
         }
 

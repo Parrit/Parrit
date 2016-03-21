@@ -2,6 +2,7 @@ package com.parrit.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 public class PairingHistory {
@@ -14,27 +15,21 @@ public class PairingHistory {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_one_id")
-    private Person personOne;
-
-    @ManyToOne(targetEntity = Person.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_two_id")
-    private Person personTwo;
+    @ManyToMany(targetEntity = Person.class, fetch = FetchType.LAZY)
+    private List<Person> people;
 
     private Timestamp timestamp;
 
-    private String spaceName;
+    private String pairingBoardName;
 
     public PairingHistory() {
     }
 
-    public PairingHistory(Project project, Person personOne, Person personTwo, Timestamp timestamp, String spaceName) {
+    public PairingHistory(Project project, List<Person> people, Timestamp timestamp, String pairingBoardName) {
         this.project = project;
-        this.personOne = personOne;
-        this.personTwo = personTwo;
+        this.people = people;
         this.timestamp = timestamp;
-        this.spaceName = spaceName;
+        this.pairingBoardName = pairingBoardName;
     }
 
     public long getId() {
@@ -53,20 +48,12 @@ public class PairingHistory {
         this.project = project;
     }
 
-    public Person getPersonOne() {
-        return personOne;
+    public List<Person> getPeople() {
+        return people;
     }
 
-    public void setPersonOne(Person personOne) {
-        this.personOne = personOne;
-    }
-
-    public Person getPersonTwo() {
-        return personTwo;
-    }
-
-    public void setPersonTwo(Person personTwo) {
-        this.personTwo = personTwo;
+    public void setPeople(List<Person> people) {
+        this.people = people;
     }
 
     public Timestamp getTimestamp() {
@@ -77,12 +64,12 @@ public class PairingHistory {
         this.timestamp = timestamp;
     }
 
-    public String getSpaceName() {
-        return spaceName;
+    public String getPairingBoardName() {
+        return pairingBoardName;
     }
 
-    public void setSpaceName(String spaceName) {
-        this.spaceName = spaceName;
+    public void setPairingBoardName(String pairingBoardName) {
+        this.pairingBoardName = pairingBoardName;
     }
 
     @Override
@@ -93,15 +80,11 @@ public class PairingHistory {
         PairingHistory that = (PairingHistory) o;
 
         if (getId() != that.getId()) return false;
-        if (getProject() != null ? !getProject().equals(that.getProject()) : that.getProject() != null)
-            return false;
-        if (getPersonOne() != null ? !getPersonOne().equals(that.getPersonOne()) : that.getPersonOne() != null)
-            return false;
-        if (getPersonTwo() != null ? !getPersonTwo().equals(that.getPersonTwo()) : that.getPersonTwo() != null)
-            return false;
+        if (getProject() != null ? !getProject().equals(that.getProject()) : that.getProject() != null) return false;
+        if (getPeople() != null ? !getPeople().equals(that.getPeople()) : that.getPeople() != null) return false;
         if (getTimestamp() != null ? !getTimestamp().equals(that.getTimestamp()) : that.getTimestamp() != null)
             return false;
-        return getSpaceName() != null ? getSpaceName().equals(that.getSpaceName()) : that.getSpaceName() == null;
+        return getPairingBoardName() != null ? getPairingBoardName().equals(that.getPairingBoardName()) : that.getPairingBoardName() == null;
 
     }
 
@@ -109,10 +92,9 @@ public class PairingHistory {
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (getProject() != null ? getProject().hashCode() : 0);
-        result = 31 * result + (getPersonOne() != null ? getPersonOne().hashCode() : 0);
-        result = 31 * result + (getPersonTwo() != null ? getPersonTwo().hashCode() : 0);
+        result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
         result = 31 * result + (getTimestamp() != null ? getTimestamp().hashCode() : 0);
-        result = 31 * result + (getSpaceName() != null ? getSpaceName().hashCode() : 0);
+        result = 31 * result + (getPairingBoardName() != null ? getPairingBoardName().hashCode() : 0);
         return result;
     }
 
@@ -121,10 +103,9 @@ public class PairingHistory {
         return "PairingHistory{" +
             "id=" + id +
             ", project=" + project +
-            ", personOne=" + personOne +
-            ", personTwo=" + personTwo +
+            ", people=" + people +
             ", timestamp=" + timestamp +
-            ", spaceName='" + spaceName + '\'' +
+            ", pairingBoardName='" + pairingBoardName + '\'' +
             '}';
     }
 }

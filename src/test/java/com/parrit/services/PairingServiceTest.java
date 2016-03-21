@@ -21,9 +21,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PairingServiceTest extends MockitoTestBase {
 
@@ -68,7 +66,7 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory = new PairingHistory(project, p1, p2, currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory = new PairingHistory(project, Arrays.asList(p1, p2), currentTime, "The Pairing Board");
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
@@ -99,8 +97,8 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(project, p1, p2, currentTime, "The Pairing Board");
-        PairingHistory expectedPairingHistory2 = new PairingHistory(project, p3, p4, currentTime, "The Second Pairing Board");
+        PairingHistory expectedPairingHistory1 = new PairingHistory(project, Arrays.asList(p1, p2), currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory2 = new PairingHistory(project, Arrays.asList(p3, p4), currentTime, "The Second Pairing Board");
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
@@ -128,14 +126,10 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(project, p1, p2, currentTime, "The Pairing Board");
-        PairingHistory expectedPairingHistory2 = new PairingHistory(project, p1, p3, currentTime, "The Pairing Board");
-        PairingHistory expectedPairingHistory3 = new PairingHistory(project, p2, p3, currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory = new PairingHistory(project, Arrays.asList(p1, p2, p3), currentTime, "The Pairing Board");
 
         verify(mockProjectRepository).findOne(7L);
-        verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
-        verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
-        verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory3));
+        verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
     
@@ -155,10 +149,28 @@ public class PairingServiceTest extends MockitoTestBase {
 
         pairingService.savePairing(7L);
 
-        PairingHistory expectedPairingHistory = new PairingHistory(project, p1, null, currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory = new PairingHistory(project, Collections.singletonList(p1), currentTime, "The Pairing Board");
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
+        verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
+    }
+
+    @Test
+    public void savePairing_doesNotCreateAPairingHistory_whenThereIsNoOneInAPairingBoard() {
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Collections.emptyList());
+        pairingBoard.setId(1L);
+
+        List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
+
+        Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+
+        pairingService.savePairing(7L);
+
+        verify(mockProjectRepository).findOne(7L);
+        verifyZeroInteractions(mockPairingHistoryRepository);
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
 

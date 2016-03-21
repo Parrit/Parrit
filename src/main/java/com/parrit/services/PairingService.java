@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,24 +38,10 @@ public class PairingService {
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
 
         for(PairingBoard pairingBoard : project.getPairingBoards()) {
-            List<Person> people = pairingBoard.getPeople();
+            List<Person> pairingBoardPeople = pairingBoard.getPeople();
 
-            if(people.size() == 1) {
-                PairingHistory pairingHistory = new PairingHistory(project, people.get(0),
-                    null, currentTime, pairingBoard.getName());
-                pairingHistoryRepository.save(pairingHistory);
-                continue;
-            }
-
-            for(int i = 0; i<people.size(); i++) {
-                Person currentPerson = people.get(i);
-
-                for(int j=i+1; j<people.size(); j++) {
-                    PairingHistory pairingHistory = new PairingHistory(project, currentPerson,
-                        people.get(j), currentTime, pairingBoard.getName());
-                    pairingHistoryRepository.save(pairingHistory);
-                }
-
+            if(!pairingBoardPeople.isEmpty()) {
+                pairingHistoryRepository.save(new PairingHistory(project, new ArrayList<>(pairingBoardPeople), currentTime, pairingBoard.getName()));
             }
         }
 

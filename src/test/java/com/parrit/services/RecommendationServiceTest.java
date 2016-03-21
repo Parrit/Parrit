@@ -142,10 +142,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
         pairingBoard2.getPeople().add(p3);
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p2 = new PairingHistory(project, p1, p2, daysAgo(1), "The Pairing Board");
+        PairingHistory p1p2 = new PairingHistory(project, Arrays.asList(p1, p2), daysAgo(1), "The Pairing Board");
         pairingHistories.add(p1p2);
 
-        PairingHistory p3p1 = new PairingHistory(project, p3, p1, daysAgo(2), "The Second Pairing Board");
+        PairingHistory p3p1 = new PairingHistory(project, Arrays.asList(p3, p1), daysAgo(2), "The Second Pairing Board");
         pairingHistories.add(p3p1);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
@@ -174,16 +174,16 @@ public class RecommendationServiceTest extends MockitoTestBase {
         pairingBoard2.getPeople().add(p4);
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p3 = new PairingHistory(project, p1, p3, daysAgo(1), "The Pairing Board");
+        PairingHistory p1p3 = new PairingHistory(project, Arrays.asList(p1, p3), daysAgo(1), "The Pairing Board");
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(project, p4, p1, daysAgo(3), "The Second Pairing Board");
+        PairingHistory p4p1 = new PairingHistory(project, Arrays.asList(p4, p1), daysAgo(3), "The Second Pairing Board");
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(project, p2, p3, daysAgo(2), "The Third Pairing Board");
+        PairingHistory p2p3 = new PairingHistory(project, Arrays.asList(p2, p3), daysAgo(2), "The Third Pairing Board");
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(project, p2, p4, daysAgo(3), "The Fourth Pairing Board");
+        PairingHistory p2p4 = new PairingHistory(project, Arrays.asList(p2, p4), daysAgo(3), "The Fourth Pairing Board");
         pairingHistories.add(p2p4);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
@@ -211,16 +211,16 @@ public class RecommendationServiceTest extends MockitoTestBase {
         pairingBoard2.getPeople().add(p4);
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p3 = new PairingHistory(project, p1, p3, daysAgo(25), "The Pairing Board");
+        PairingHistory p1p3 = new PairingHistory(project, Arrays.asList(p1, p3), daysAgo(25), "The Pairing Board");
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(project, p4, p1, daysAgo(30), "The Second Pairing Board");
+        PairingHistory p4p1 = new PairingHistory(project, Arrays.asList(p4, p1), daysAgo(30), "The Second Pairing Board");
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(project, p2, p3, daysAgo(20), "The Third Pairing Board");
+        PairingHistory p2p3 = new PairingHistory(project, Arrays.asList(p2, p3), daysAgo(20), "The Third Pairing Board");
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(project, p2, p4, daysAgo(35), "The Fourth Pairing Board");
+        PairingHistory p2p4 = new PairingHistory(project, Arrays.asList(p2, p4), daysAgo(35), "The Fourth Pairing Board");
         pairingHistories.add(p2p4);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
@@ -247,10 +247,10 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p2 = new PairingHistory(project, p1, p2, daysAgo(15), "The Pairing Board");
+        PairingHistory p1p2 = new PairingHistory(project, Arrays.asList(p1, p2), daysAgo(15), "The Pairing Board");
         pairingHistories.add(p1p2);
 
-        PairingHistory p1p3 = new PairingHistory(project, p1, p3, daysAgo(25), "The Pairing Board");
+        PairingHistory p1p3 = new PairingHistory(project, Arrays.asList(p1, p3), daysAgo(25), "The Pairing Board");
         pairingHistories.add(p1p3);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
@@ -279,13 +279,13 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p4p1 = new PairingHistory(project, p4, p1, daysAgo(30), "The Pairing Board");
+        PairingHistory p4p1 = new PairingHistory(project, Arrays.asList(p4, p1), daysAgo(30), "The Pairing Board");
         pairingHistories.add(p4p1);
 
-        PairingHistory p4p2 = new PairingHistory(project, p4, p2, daysAgo(20), "The Pairing Board");
+        PairingHistory p4p2 = new PairingHistory(project, Arrays.asList(p4, p2), daysAgo(20), "The Pairing Board");
         pairingHistories.add(p4p2);
 
-        PairingHistory p1p2 = new PairingHistory(project, p1, p2, daysAgo(10), "The Pairing Board");
+        PairingHistory p1p2 = new PairingHistory(project, Arrays.asList(p1, p2), daysAgo(10), "The Pairing Board");
         pairingHistories.add(p1p2);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
@@ -326,6 +326,35 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         PairingBoard pairingBoard3Expected = new PairingBoard("New Pairing Board", Collections.singletonList(p3)); //Null Id
         expectedProject.getPairingBoards().add(pairingBoard3Expected);
+
+        assertThat(returnedProject, equalTo(expectedProject));
+    }
+
+    @Test
+    public void get_pairsFloatingPeopleWithPairsLeastRecentPaired_withATrairPairingHistory() {
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
+        project.getPeople().add(p3);
+
+        pairingBoard1.getPeople().add(p4);
+        project.getPairingBoards().add(pairingBoard1);
+
+        PairingHistory p1p2p3 = new PairingHistory(project, Arrays.asList(p1, p2, p3), daysAgo(2), "The Pairing Board");
+        pairingHistories.add(p1p2p3);
+
+        PairingHistory p4solo = new PairingHistory(project, Collections.singletonList(p4), daysAgo(2), "The Pairing Board");
+        pairingHistories.add(p4solo);
+
+        Project returnedProject = recommendationService.get(project, pairingHistories);
+
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
+
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p4, p1));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
+
+        PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", Arrays.asList(p2, p3)); //Null Id
+        expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
         assertThat(returnedProject, equalTo(expectedProject));
     }
