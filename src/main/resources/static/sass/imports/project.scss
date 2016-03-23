@@ -148,7 +148,7 @@
             background-image: url("../svg/add-parrit.svg");
 
             cursor: pointer;
-            opacity: .30;
+            opacity: .60;
             margin-right: 26px;
 
             &:hover {
@@ -162,7 +162,7 @@
             height: 80px;
             background-image: url("../svg/delete-parrit.svg");
 
-            opacity: .30;
+            opacity: .60;
 
             &.drop-target {
               opacity: 1;
@@ -196,7 +196,7 @@
           width: 80px;
           height: 80px;
           background-image: url("../svg/add-board.svg");
-          opacity: .30;
+          opacity: .60;
 
           &:hover {
             opacity: 1;
