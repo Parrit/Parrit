@@ -126,4 +126,19 @@ describe('dataCreators', function () {
             expect(result).toEqual(expectedAction);
         });
     });
+
+    describe('#updatePairingHistoriesCreator', function() {
+        var expectedAction = {
+            type: 'UPDATE_PAIRING_HISTORIES',
+            newPairingHistories: [{data: 'Weeeee'}]
+        };
+
+        beforeEach(function() {
+            result = dataCreators.updatePairingHistoriesCreator([{data: 'Weeeee'}]);
+        });
+
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
+        });
+    });
 });

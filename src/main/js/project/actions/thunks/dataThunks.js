@@ -6,7 +6,7 @@ var {
         getPairingHistoryAndDo
     } = require('shared/helpers/databaseHelpers.js');
 
-var { loadProjectCreator, loadPairingHistoryCreator } = require('project/actions/creators/dataCreators.js');
+var { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } = require('project/actions/creators/dataCreators.js');
 var { setErrorTypeCreator } = require('project/actions/creators/viewCreators.js');
 
 export function autoSaveThunk(action) {
@@ -25,7 +25,8 @@ export function autoSaveThunk(action) {
 
 export function savePairingThunk() {
     return function (dispatch, getState) {
-        postProjectPairingAndDo(getState().data.project.id, function successCallback() {
+        postProjectPairingAndDo(getState().data.project.id, function successCallback(newPairingHistories) {
+            dispatch(updatePairingHistoriesCreator(newPairingHistories));
             alert("Successfully Saved Pairing!");
         });
     }

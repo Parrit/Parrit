@@ -33,7 +33,9 @@ public class PairingService {
         this.currentTimeProvider = currentTimeProvider;
     }
 
-    public void savePairing(long projectId) {
+    public List<PairingHistory> savePairing(long projectId) {
+        List<PairingHistory> pairingHistories = new ArrayList<>();
+
         Project project = projectRepository.findOne(projectId);
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
 
@@ -41,10 +43,12 @@ public class PairingService {
             List<Person> pairingBoardPeople = pairingBoard.getPeople();
 
             if(!pairingBoardPeople.isEmpty()) {
-                pairingHistoryRepository.save(new PairingHistory(project, new ArrayList<>(pairingBoardPeople), currentTime, pairingBoard.getName()));
+                PairingHistory savedPairingHistory = pairingHistoryRepository.save(new PairingHistory(project, new ArrayList<>(pairingBoardPeople), currentTime, pairingBoard.getName()));
+                pairingHistories.add(savedPairingHistory);
             }
         }
 
+        return pairingHistories;
     }
 
     public Project getRecommendation(long projectId) {

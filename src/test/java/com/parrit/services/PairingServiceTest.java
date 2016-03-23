@@ -62,11 +62,14 @@ public class PairingServiceTest extends MockitoTestBase {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
-
-        pairingService.savePairing(7L);
-
         PairingHistory expectedPairingHistory = new PairingHistory(project, Arrays.asList(p1, p2), currentTime, "The Pairing Board");
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
+
+        List<PairingHistory> result = pairingService.savePairing(7L);
+
+        assertThat(result, equalTo(Collections.singletonList(expectedPairingHistory)));
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
@@ -74,7 +77,7 @@ public class PairingServiceTest extends MockitoTestBase {
     }
 
     @Test
-    public void savePairing_createsMultiplePairingHistoriesWithIncrementedGroupIds_whenThereAreMoreThanOnePairingBoards() {
+    public void savePairing_createsMultiplePairingHistoriesWithDifferentPairingBoardNames_whenThereAreMoreThanOnePairingBoards() {
         Person p1 = new Person("John");
         p1.setId(1L);
         Person p2 = new Person("Mary");
@@ -93,12 +96,16 @@ public class PairingServiceTest extends MockitoTestBase {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
-
-        pairingService.savePairing(7L);
-
         PairingHistory expectedPairingHistory1 = new PairingHistory(project, Arrays.asList(p1, p2), currentTime, "The Pairing Board");
         PairingHistory expectedPairingHistory2 = new PairingHistory(project, Arrays.asList(p3, p4), currentTime, "The Second Pairing Board");
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.save(expectedPairingHistory1)).thenReturn(expectedPairingHistory1);
+        when(mockPairingHistoryRepository.save(expectedPairingHistory2)).thenReturn(expectedPairingHistory2);
+
+        List<PairingHistory> result = pairingService.savePairing(7L);
+
+        assertThat(result, equalTo(Arrays.asList(expectedPairingHistory1, expectedPairingHistory2)));
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
@@ -107,7 +114,7 @@ public class PairingServiceTest extends MockitoTestBase {
     }
 
     @Test
-    public void savePairing_createsMultiplePairingHistoriesWithSameGroupId_whenAPairingBoardHasMoreThanTwoPeople() {
+    public void savePairing_createsMultiplePairingHistoriesWithSamePairingBoardName_whenAPairingBoardHasMoreThanTwoPeople() {
         Person p1 = new Person("John");
         p1.setId(1L);
         Person p2 = new Person("Mary");
@@ -122,11 +129,14 @@ public class PairingServiceTest extends MockitoTestBase {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
-
-        pairingService.savePairing(7L);
-
         PairingHistory expectedPairingHistory = new PairingHistory(project, Arrays.asList(p1, p2, p3), currentTime, "The Pairing Board");
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
+
+        List<PairingHistory> result = pairingService.savePairing(7L);
+
+        assertThat(result, equalTo(Collections.singletonList(expectedPairingHistory)));
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
@@ -145,11 +155,14 @@ public class PairingServiceTest extends MockitoTestBase {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
-
-        pairingService.savePairing(7L);
-
         PairingHistory expectedPairingHistory = new PairingHistory(project, Collections.singletonList(p1), currentTime, "The Pairing Board");
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
+
+        List<PairingHistory> result = pairingService.savePairing(7L);
+
+        assertThat(result, equalTo(Collections.singletonList(expectedPairingHistory)));
 
         verify(mockProjectRepository).findOne(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
@@ -167,7 +180,8 @@ public class PairingServiceTest extends MockitoTestBase {
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
 
-        pairingService.savePairing(7L);
+        List<PairingHistory> result = pairingService.savePairing(7L);
+        assertThat(result, equalTo(Collections.emptyList()));
 
         verify(mockProjectRepository).findOne(7L);
         verifyZeroInteractions(mockPairingHistoryRepository);

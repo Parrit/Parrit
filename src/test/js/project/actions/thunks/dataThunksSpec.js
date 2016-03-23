@@ -4,7 +4,7 @@ describe('dataThunks', function() {
     var thunk;
     var dispatchSpy, getStateSpy;
     var postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
-    var loadProjectCreatorSpy, loadPairingHistoryCreatorSpy, setErrorTypeCreatorSpy;
+    var loadProjectCreatorSpy, loadPairingHistoryCreatorSpy, updatePairingHistoriesCreatorSpy, setErrorTypeCreatorSpy;
     var alertSpy;
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
@@ -18,6 +18,7 @@ describe('dataThunks', function() {
         
         loadProjectCreatorSpy = jasmine.createSpy('loadProjectCreatorSpy');
         loadPairingHistoryCreatorSpy = jasmine.createSpy('loadPairingHistoryCreatorSpy');
+        updatePairingHistoriesCreatorSpy = jasmine.createSpy('updatePairingHistoriesCreatorSpy');
         setErrorTypeCreatorSpy = jasmine.createSpy('setErrorTypeCreatorSpy');
         
         alertSpy = jasmine.createSpy('alertSpy');
@@ -29,6 +30,7 @@ describe('dataThunks', function() {
         dataThunks.__set__('getPairingHistoryAndDo', getPairingHistoryAndDoSpy);
         dataThunks.__set__('loadProjectCreator', loadProjectCreatorSpy);
         dataThunks.__set__('loadPairingHistoryCreator', loadPairingHistoryCreatorSpy);
+        dataThunks.__set__('updatePairingHistoriesCreator', updatePairingHistoriesCreatorSpy);
         dataThunks.__set__('setErrorTypeCreator', setErrorTypeCreatorSpy);
         dataThunks.__set__('alert', alertSpy);
     });
@@ -97,8 +99,12 @@ describe('dataThunks', function() {
         describe('when calling the returned function', function() {
             var project = { id: 7, data: "le stuff" };
             var stateOfApp = { data: { project: project } };
+            var newPairingHistories = [{data: 1}, {data: 2}];
+            var updatePairingHistoriesAction = {type: 'UPDATE_PAIRING_HISTORIES', pairingHistories: newPairingHistories};
             beforeEach(function () {
                 getStateSpy.and.returnValue(stateOfApp);
+                postProjectPairingAndDoSpy.and.returnValue(newPairingHistories);
+                updatePairingHistoriesCreatorSpy.and.returnValue(updatePairingHistoriesAction);
 
                 thunk(dispatchSpy, getStateSpy);
             });
@@ -112,11 +118,13 @@ describe('dataThunks', function() {
                 expect(postProjectPairingAndDoSpy).toHaveBeenCalledWith(7, jasmine.anything());
             });
 
-            it('passes in a success callback that will alert to the browser', function() {
+            it('passes in a success callback that will alert to the browser and dispatch a updatePairingHistory action', function() {
                 var successCallback = postProjectPairingAndDoSpy.calls.mostRecent().args[1];
-                successCallback();
+                successCallback(newPairingHistories);
 
                 expect(alertSpy).toHaveBeenCalledWith("Successfully Saved Pairing!");
+                expect(updatePairingHistoriesCreatorSpy).toHaveBeenCalledWith(newPairingHistories);
+                expect(dispatchSpy).toHaveBeenCalledWith(updatePairingHistoriesAction)
             });
         });
     });

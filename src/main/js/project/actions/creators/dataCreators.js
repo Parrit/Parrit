@@ -57,3 +57,10 @@ export function loadPairingHistoryCreator(pairingHistoryList) {
         pairingHistoryList: pairingHistoryList
     };
 }
+
+export function updatePairingHistoriesCreator(newPairingHistories) {
+    return {
+        type: 'UPDATE_PAIRING_HISTORIES',
+        newPairingHistories: newPairingHistories
+    };
+}

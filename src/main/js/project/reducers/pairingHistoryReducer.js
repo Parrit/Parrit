@@ -12,6 +12,17 @@ var pairingHistoryReducer = function(state, action) {
             return {
                 pairingHistoryList: action.pairingHistoryList
             };
+        case "UPDATE_PAIRING_HISTORIES":
+            console.log("UPDATING with new=" , typeof action.newPairingHistories , " " , action.newPairingHistories);
+            var stateClone = _.cloneDeep(state);
+
+            stateClone.pairingHistoryList = action.newPairingHistories.concat(stateClone.pairingHistoryList);
+
+            console.log("NEW HISTORIES= " , typeof stateClone.pairingHistoryList , " " , stateClone.pairingHistoryList);
+
+            console.log(JSON.stringify(stateClone));
+
+            return stateClone;
         default:
             return state;
     }

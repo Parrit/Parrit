@@ -36,8 +36,9 @@ public class PairingController {
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
     @RequestMapping(path = "/api/project/{projectId}/pairing", method = RequestMethod.POST)
     @ResponseBody
-    public void savePairing(@PathVariable long projectId) {
-        pairingService.savePairing(projectId);
+    public ResponseEntity<List<PairingHistoryDTO>> savePairing(@PathVariable long projectId) {
+        List<PairingHistory> pairingHistoryList = pairingService.savePairing(projectId);
+        return new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")

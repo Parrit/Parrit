@@ -38,5 +38,29 @@ describe("pairingHistoryReducer", function () {
                 ).toEqual(stateAfter);
             });
         });
+
+        describe("UPDATE_PAIRING_HISTORIES", function () {
+            it("should add the new pairing histories to front of the pairingHistoryList", function () {
+                var stateBefore = {
+                    pairingHistoryList: [{shoobadooba: "doobadoowa"}]
+                };
+
+                var action = {
+                    type: "UPDATE_PAIRING_HISTORIES",
+                    newPairingHistories: [{newbadooba: "babadooba"}, {baduuuuba: "beboopa"}]
+                };
+
+                var stateAfter = {
+                    pairingHistoryList: [{newbadooba: "babadooba"}, {baduuuuba: "beboopa"}, {shoobadooba: "doobadoowa"}]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    pairingHistoryReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
     });
 });

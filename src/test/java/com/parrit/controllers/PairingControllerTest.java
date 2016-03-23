@@ -54,10 +54,26 @@ public class PairingControllerTest extends ControllerTestBase {
     //********************//
 
     @Test
-    public void savePairing_passesTheProjectToThePairingHistoryService() throws Exception {
-        mvc.perform(post("/api/project/42/pairing")
+    public void savePairing_passesTheProjectToThePairingHistoryService_andReturnsTheResultingPairingHistories() throws Exception {
+        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(120000), "Pairing Board 1");
+        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(60000), "Pairing Board 2");
+        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(60000), "Pairing Board 3");
+
+        when(mockPairingService.savePairing(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
+
+        MvcResult mvcResult = mvc.perform(post("/api/project/42/pairing")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String expectedResult = "[" +
+                "{\"pairingTime\":\"1970-01-01T00:02:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 1\"}," +
+                "{\"pairingTime\":\"1970-01-01T00:01:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 2\"}," +
+                "{\"pairingTime\":\"1970-01-01T00:01:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 3\"}" +
+            "]";
+
+        String returnedProject = mvcResult.getResponse().getContentAsString();
+        assertThat(returnedProject, equalTo(expectedResult));
 
         verify(mockPairingService).savePairing(42);
     }
