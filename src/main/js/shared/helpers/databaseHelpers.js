@@ -68,6 +68,13 @@ function getPairingHistoryAndDo(projectId, successCallback) {
         });
 }
 
+function postLogout() {
+    Axios.post('/logout/project')
+        .then(function onSuccess() {
+            window.location.href = "/";
+        });
+}
+
 module.exports = {
     postProjectAndDo,
     postNewProjectAndDo,
@@ -75,5 +82,6 @@ module.exports = {
     getRecommendedPairingAndDo,
     postLoginAndRedirect,
     postAddNewPersonAndDo,
-    getPairingHistoryAndDo
+    getPairingHistoryAndDo,
+    postLogout
 };

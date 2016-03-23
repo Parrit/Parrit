@@ -24,7 +24,9 @@ var App = React.createClass({
         createPairingBoard: React.PropTypes.func.isRequired,
         deletePairingBoard: React.PropTypes.func.isRequired,
         renamePairingBoard: React.PropTypes.func.isRequired,
-        fetchPairingHistory: React.PropTypes.func.isRequired
+        fetchPairingHistory: React.PropTypes.func.isRequired,
+
+        postLogout: React.PropTypes.func.isRequired
     },
 
     fromPairingBoardIndex: undefined,
@@ -95,7 +97,8 @@ var App = React.createClass({
 	render: function() {
         var headerProps = {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
-            isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
+            isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen,
+            postLogout: this.props.postLogout
         };
 
         var projectProps = {

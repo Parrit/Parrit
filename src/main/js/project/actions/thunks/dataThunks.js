@@ -3,7 +3,8 @@ var {
         postProjectPairingAndDo,
         getRecommendedPairingAndDo,
         postAddNewPersonAndDo,
-        getPairingHistoryAndDo
+        getPairingHistoryAndDo,
+        postLogout
     } = require('shared/helpers/databaseHelpers.js');
 
 var { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } = require('project/actions/creators/dataCreators.js');
@@ -58,5 +59,11 @@ export function getPairingHistoryThunk(projectId) {
         getPairingHistoryAndDo(projectId, function(pairingHistories) {
             dispatch(loadPairingHistoryCreator(pairingHistories));
         })
+    }
+}
+
+export function postLogoutThunk() {
+    return function(dispatch, getState) {
+        postLogout();
     }
 }

@@ -51,7 +51,8 @@ describe('App', function() {
         deletePerson: jasmine.createSpy("deletePersonSpy"),
         deletePairingBoard: function(){},
         renamePairingBoard: function(){},
-        fetchPairingHistory: function(){}
+        fetchPairingHistory: function(){},
+        postLogout: function(){}
     };
 
     var app;

@@ -3,7 +3,8 @@ var React = require('react');
 var Header = React.createClass({
     propTypes: {
         setPairingHistoryPanelOpen: React.PropTypes.func.isRequired,
-        isPairingHistoryPanelOpen: React.PropTypes.bool.isRequired
+        isPairingHistoryPanelOpen: React.PropTypes.bool.isRequired,
+        postLogout: React.PropTypes.func.isRequired
     },
 
     render: function() {
@@ -11,7 +12,7 @@ var Header = React.createClass({
         return <header>
             <a href="/" className="header-logo"/>
             <div className="links">
-                <h3 className="logout">LOGOUT</h3>
+                <h3 className="logout" onClick={this.props.postLogout}>LOGOUT</h3>
                 <h3 className={classes} onClick={this.props.isPairingHistoryPanelOpen ? this.closePairingHistoryPanel : this.openPairingHistoryPanel}>HISTORY
                     <div className={this.props.isPairingHistoryPanelOpen ? 'history-caret-right' : 'history-caret-left'}></div>
                 </h3>

@@ -14,7 +14,8 @@ describe('Header', function() {
     beforeEach(function() {
         props = {
             setPairingHistoryPanelOpen: jasmine.createSpy('setPairingHistoryPanelOpenSpy'),
-            isPairingHistoryPanelOpen: false
+            isPairingHistoryPanelOpen: false,
+            postLogout: jasmine.createSpy('postLogoutSpy')
         };
 
         header = RenderComponent(Header, <Header {...props}/>);

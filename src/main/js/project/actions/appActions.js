@@ -32,6 +32,7 @@ module.exports = {
     savePairing: dataThunks.savePairingThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     fetchPairingHistory: dataThunks.getPairingHistoryThunk,
+    postLogout: dataThunks.postLogoutThunk,
     setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,
     setNewPairingBoardModalOpen: viewCreators.setNewPairingBoardModalOpenCreator,
     setPairingHistoryPanelOpen: viewCreators.setPairingHistoryPanelOpenCreator,
