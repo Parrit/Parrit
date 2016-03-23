@@ -2,31 +2,33 @@ var dataThunks = require('project/actions/thunks/dataThunks.js');
 
 describe('dataThunks', function() {
     var thunk;
-    var dispatchSpy;
-    var getStateSpy;
-    var postStateAndDoSpy;
-    var postProjectPairingAndDoSpy;
-    var getRecommendedPairingAndDoSpy;
-    var postAddNewPersonAndDoSpy;
-    var loadProjectCreatorSpy;
-    var setErrorTypeCreatorSpy;
+    var dispatchSpy, getStateSpy;
+    var postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
+    var loadProjectCreatorSpy, loadPairingHistoryCreatorSpy, setErrorTypeCreatorSpy;
     var alertSpy;
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
+        
         postStateAndDoSpy = jasmine.createSpy('postStateAndDoSpy');
         postProjectPairingAndDoSpy = jasmine.createSpy('postProjectPairingAndDoSpy');
-        postAddNewPersonAndDoSpy = jasmine.createSpy('postAddNewPersonAndDoSpy');
-        loadProjectCreatorSpy = jasmine.createSpy('loadProjectCreatorSpy');
-        setErrorTypeCreatorSpy = jasmine.createSpy('setErrorTypeCreatorSpy');
         getRecommendedPairingAndDoSpy = jasmine.createSpy('getRecommendedPairingAndDoSpy');
+        postAddNewPersonAndDoSpy = jasmine.createSpy('postAddNewPersonAndDoSpy');
+        getPairingHistoryAndDoSpy = jasmine.createSpy('getPairingHistoryAndDoSpy');
+        
+        loadProjectCreatorSpy = jasmine.createSpy('loadProjectCreatorSpy');
+        loadPairingHistoryCreatorSpy = jasmine.createSpy('loadPairingHistoryCreatorSpy');
+        setErrorTypeCreatorSpy = jasmine.createSpy('setErrorTypeCreatorSpy');
+        
         alertSpy = jasmine.createSpy('alertSpy');
 
         dataThunks.__set__('postProjectAndDo', postStateAndDoSpy);
         dataThunks.__set__('postProjectPairingAndDo', postProjectPairingAndDoSpy);
         dataThunks.__set__('getRecommendedPairingAndDo', getRecommendedPairingAndDoSpy);
         dataThunks.__set__('postAddNewPersonAndDo', postAddNewPersonAndDoSpy);
+        dataThunks.__set__('getPairingHistoryAndDo', getPairingHistoryAndDoSpy);
         dataThunks.__set__('loadProjectCreator', loadProjectCreatorSpy);
+        dataThunks.__set__('loadPairingHistoryCreator', loadPairingHistoryCreatorSpy);
         dataThunks.__set__('setErrorTypeCreator', setErrorTypeCreatorSpy);
         dataThunks.__set__('alert', alertSpy);
     });
@@ -158,7 +160,7 @@ describe('dataThunks', function() {
             });
         });
     });
-
+    
     describe('#addNewPersonThunk', function() {
         var callbackSpy = jasmine.createSpy('callbackSpy');
 
@@ -203,4 +205,36 @@ describe('dataThunks', function() {
             });
         });
     })
+
+    describe('#getPairingHistoryThunk', function () {
+        beforeEach(function() {
+            thunk = dataThunks.getPairingHistoryThunk(77);
+        });
+
+        it('returns a function', function() {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', function() {
+            var pairingHistoryData = [{data:'Weeeee'}];
+            var pairingHistoryDataAction = { type: 'LOAD_PAIRING_HISTORY', pairingHistoryList: pairingHistoryData };
+            beforeEach(function () {
+                loadPairingHistoryCreatorSpy.and.returnValue(pairingHistoryDataAction);
+
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('calls getPairingHistoryAndDo helper with correct arguments', function() {
+                expect(getPairingHistoryAndDoSpy).toHaveBeenCalledWith(77, jasmine.anything());
+            });
+
+            it('passes in a success callback that will dispatch a loadPairingHistory action', function() {
+                var successCallback = getPairingHistoryAndDoSpy.calls.mostRecent().args[1];
+                successCallback(pairingHistoryData);
+
+                expect(loadPairingHistoryCreatorSpy).toHaveBeenCalledWith(pairingHistoryData);
+                expect(dispatchSpy).toHaveBeenCalledWith(pairingHistoryDataAction);
+            });
+        });
+    });
 });

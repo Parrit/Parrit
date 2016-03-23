@@ -11,4 +11,6 @@ import java.util.List;
 public interface PairingHistoryRepository extends CrudRepository<PairingHistory, Long> {
 
     List<PairingHistory> findByProject(Project project);
+
+    List<PairingHistory> findByProjectOrderByTimestampDesc(Project project);
 }

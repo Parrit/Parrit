@@ -111,4 +111,19 @@ describe('dataCreators', function () {
             expect(result).toEqual(expectedAction);
         });
     });
+
+    describe('#loadPairingHistoryCreator', function() {
+        var expectedAction = {
+            type: 'LOAD_PAIRING_HISTORY',
+            pairingHistoryList: [{data: 'Weeeee'}]
+        };
+
+        beforeEach(function() {
+            result = dataCreators.loadPairingHistoryCreator([{data: 'Weeeee'}]);
+        });
+
+        it('returns the expected action', function () {
+            expect(result).toEqual(expectedAction);
+        });
+    });
 });

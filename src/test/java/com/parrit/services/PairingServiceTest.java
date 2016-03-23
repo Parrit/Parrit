@@ -208,4 +208,24 @@ public class PairingServiceTest extends MockitoTestBase {
 
         verify(mockProjectRepository).save(recommendedProject);
     }
+
+    @Test
+    public void getSortedPairingHistory_getsThePairingHistoriesForAProject_sortedByMostRecentPairingHistory() {
+        Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
+
+        List<PairingHistory> pairingHistories = Arrays.asList(
+            new PairingHistory(project, new ArrayList<>(), new Timestamp(10), "Pairing Board"),
+            new PairingHistory(project, new ArrayList<>(), new Timestamp(50), "Pairing Board 2")
+        );
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
+        when(mockPairingHistoryRepository.findByProjectOrderByTimestampDesc(any(Project.class))).thenReturn(pairingHistories);
+
+        List<PairingHistory> result = pairingService.getSortedPairingHistory(7L);
+
+        assertThat(result, equalTo(pairingHistories));
+
+        verify(mockProjectRepository).findOne(7L);
+        verify(mockPairingHistoryRepository).findByProjectOrderByTimestampDesc(project);
+    }
 }

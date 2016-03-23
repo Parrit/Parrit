@@ -9,6 +9,9 @@ describe("dataReducer", function() {
                 id: 0,
                 people: [],
                 pairingBoards: []
+            },
+            pairingHistory: {
+                pairingHistoryList: []
             }
         };
 

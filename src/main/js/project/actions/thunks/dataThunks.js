@@ -2,10 +2,11 @@ var {
         postProjectAndDo,
         postProjectPairingAndDo,
         getRecommendedPairingAndDo,
-        postAddNewPersonAndDo
+        postAddNewPersonAndDo,
+        getPairingHistoryAndDo
     } = require('shared/helpers/databaseHelpers.js');
 
-var { loadProjectCreator } = require('project/actions/creators/dataCreators.js');
+var { loadProjectCreator, loadPairingHistoryCreator } = require('project/actions/creators/dataCreators.js');
 var { setErrorTypeCreator } = require('project/actions/creators/viewCreators.js');
 
 export function autoSaveThunk(action) {
@@ -52,3 +53,10 @@ export function addNewPersonThunk(projectId, name, callback) {
     }
 }
 
+export function getPairingHistoryThunk(projectId) {
+    return function(dispatch, getState) {
+        getPairingHistoryAndDo(projectId, function(pairingHistories) {
+            dispatch(loadPairingHistoryCreator(pairingHistories));
+        })
+    }
+}

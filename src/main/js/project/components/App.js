@@ -23,7 +23,8 @@ var App = React.createClass({
         createPerson: React.PropTypes.func.isRequired,
         createPairingBoard: React.PropTypes.func.isRequired,
         deletePairingBoard: React.PropTypes.func.isRequired,
-        renamePairingBoard: React.PropTypes.func.isRequired
+        renamePairingBoard: React.PropTypes.func.isRequired,
+        fetchPairingHistory: React.PropTypes.func.isRequired
     },
 
     fromPairingBoardIndex: undefined,
@@ -92,7 +93,7 @@ var App = React.createClass({
     },
 
 	render: function() {
-        var pairingHistoryActionProps = {
+        var headerProps = {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
         };
@@ -111,12 +112,20 @@ var App = React.createClass({
             renamePairingBoard: this.props.renamePairingBoard
         };
 
+        var pairingHistoryProps = {
+            projectId: this.props.data.project.id,
+            pairingHistoryList: this.props.data.pairingHistory.pairingHistoryList,
+            fetchPairingHistory: this.props.fetchPairingHistory,
+            setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
+            isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
+        };
+
         var classes = "project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
 		return <div id="pairing_board_-1" className={classes}>
-            <Header {...pairingHistoryActionProps}/>
+            <Header {...headerProps}/>
             <Project {...projectProps}/>
             <Footer/>
-            <PairingHistory {...pairingHistoryActionProps}/>
+            <PairingHistory {...pairingHistoryProps}/>
 		</div>
 	},
 

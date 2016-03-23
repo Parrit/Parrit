@@ -61,11 +61,19 @@ function postAddNewPersonAndDo(projectId, name, successCallback, errorCallback) 
         );
 }
 
+function getPairingHistoryAndDo(projectId, successCallback) {
+    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/history')
+        .then(function (response) {
+            successCallback(response.data);
+        });
+}
+
 module.exports = {
     postProjectAndDo,
     postNewProjectAndDo,
     postProjectPairingAndDo,
     getRecommendedPairingAndDo,
     postLoginAndRedirect,
-    postAddNewPersonAndDo
+    postAddNewPersonAndDo,
+    getPairingHistoryAndDo
 };

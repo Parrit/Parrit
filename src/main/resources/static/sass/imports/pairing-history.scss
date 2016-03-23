@@ -43,7 +43,7 @@
     }
   }
   
-  .body {
+  .no-history {
     .clock {
       background-image: url("../svg/history.svg");
       width: 40px;
@@ -51,7 +51,7 @@
       margin: 0 auto 15px auto;
     }
 
-    .content {
+    .no-history-content {
       text-align: center;
       font: $Raleway;
       font-size: 15px;

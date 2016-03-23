@@ -50,3 +50,10 @@ export function renamePairingBoardCreator(pairingBoardIndex, newName) {
         name: newName
     }
 }
+
+export function loadPairingHistoryCreator(pairingHistoryList) {
+    return {
+        type: 'LOAD_PAIRING_HISTORY',
+        pairingHistoryList: pairingHistoryList
+    };
+}

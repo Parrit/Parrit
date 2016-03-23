@@ -12,6 +12,7 @@
     "axios": "^0.9.1",
     "interact.js": "^1.2.6",
     "lodash": "^4.3.0",
+    "moment-timezone": "^0.5.2",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-modal": "^0.6.1",

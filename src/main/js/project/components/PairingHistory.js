@@ -1,12 +1,24 @@
 var React = require('react');
 
+var PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
+
 var PairingHistory = React.createClass({
     propTypes: {
+        pairingHistoryList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+        fetchPairingHistory: React.PropTypes.func.isRequired,
         setPairingHistoryPanelOpen: React.PropTypes.func.isRequired,
         isPairingHistoryPanelOpen: React.PropTypes.bool.isRequired
     },
+    
+    componentDidMount: function() {
+        this.props.fetchPairingHistory(this.props.projectId);
+    },
 
     render: function() {
+        var pairingHistoryRecordListProps = {
+            pairingHistoryList: this.props.pairingHistoryList
+        };
+
         var classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
         return <div className={classes}>
             <div className="header">
@@ -14,12 +26,19 @@ var PairingHistory = React.createClass({
                 <div className="cancel" onClick={this.closePairingHistoryPanel}></div>
             </div>
             <div className="body">
-                <div className="no-history">
-                    <div className="clock"></div>
-                    <div className="content">
-                        ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
-                    </div>
-                </div>
+                {(function(pairingHistoryList){
+                    if(pairingHistoryList.length == 0) {
+                        return <div className="no-history">
+                            <div className="clock"></div>
+                            <div className="no-history-content">
+                                ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
+                            </div>
+                        </div>
+                    }
+                    else {
+                        return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
+                    }
+                })(this.props.pairingHistoryList)}
             </div>
         </div>
     },

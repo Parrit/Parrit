@@ -56,4 +56,9 @@ public class PairingService {
         projectRepository.save(recommendedProject);
         return recommendedProject;
     }
+
+    public List<PairingHistory> getSortedPairingHistory(long projectId) {
+        Project project = projectRepository.findOne(projectId);
+        return pairingHistoryRepository.findByProjectOrderByTimestampDesc(project);
+    }
 }

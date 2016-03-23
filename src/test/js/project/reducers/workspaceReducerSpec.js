@@ -18,7 +18,7 @@ describe("projectReducer", function () {
 
     describe("actions", function () {
         describe("LOAD_PROJECT", function () {
-            it("should set the state to the passed in 'settings'", function () {
+            it("should set the project to the passed in project object", function () {
                 var stateBefore = {
                     pairingBoards: []
                 };

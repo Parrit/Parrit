@@ -31,6 +31,7 @@ module.exports = {
     renamePairingBoard: renamePairingBoardCombo,
     savePairing: dataThunks.savePairingThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
+    fetchPairingHistory: dataThunks.getPairingHistoryThunk,
     setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,
     setNewPairingBoardModalOpen: viewCreators.setNewPairingBoardModalOpenCreator,
     setPairingHistoryPanelOpen: viewCreators.setPairingHistoryPanelOpenCreator,

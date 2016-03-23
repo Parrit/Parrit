@@ -16,6 +16,9 @@ describe("appReducer", function() {
                     id: 0,
                     people: [],
                     pairingBoards: []
+                },
+                pairingHistory: {
+                    pairingHistoryList: []
                 }
             }
 		};

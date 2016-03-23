@@ -36,6 +36,9 @@ describe('App', function() {
                         ]
                     }
                 ]
+            },
+            pairingHistory: {
+                pairingHistoryList: [{data: 'blah'}]
             }
         },
         setNewPersonModalOpen: function(){},
@@ -47,7 +50,8 @@ describe('App', function() {
         movePerson: jasmine.createSpy("movePersonSpy"),
         deletePerson: jasmine.createSpy("deletePersonSpy"),
         deletePairingBoard: function(){},
-        renamePairingBoard: function(){}
+        renamePairingBoard: function(){},
+        fetchPairingHistory: function(){}
     };
 
     var app;
@@ -96,6 +100,9 @@ describe('App', function() {
         var pairingHistoryComponent = ReactTestUtils.findRenderedComponentWithType(app, PairingHistoryMock);
         expect(pairingHistoryComponent).toBeTruthy('No PairingHistory component found');
 
+        expect(pairingHistoryComponent.props.projectId).toBe(props.data.project.id, 'No projectId passed to pairingHistory');
+        expect(pairingHistoryComponent.props.pairingHistoryList).toBe(props.data.pairingHistory.pairingHistoryList, 'No pairingHistoryList passed to pairingHistory');
+        expect(pairingHistoryComponent.props.fetchPairingHistory).toBe(props.fetchPairingHistory, 'No fetchPairingHistory passed to pairingHistory');
         expect(pairingHistoryComponent.props.setPairingHistoryPanelOpen).toBe(props.setPairingHistoryPanelOpen, 'No setPairingHistoryPanelOpen passed to pairingHistory');
         expect(pairingHistoryComponent.props.isPairingHistoryPanelOpen).toBe(props.settings.isPairingHistoryPanelOpen, 'No isPairingHistoryPanelOpen passed to pairingHistory');
     });
