@@ -5,7 +5,6 @@ describe('dataThunks', function() {
     var dispatchSpy, getStateSpy;
     var postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
     var loadProjectCreatorSpy, loadPairingHistoryCreatorSpy, updatePairingHistoriesCreatorSpy, setErrorTypeCreatorSpy;
-    var alertSpy;
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
@@ -21,8 +20,6 @@ describe('dataThunks', function() {
         updatePairingHistoriesCreatorSpy = jasmine.createSpy('updatePairingHistoriesCreatorSpy');
         setErrorTypeCreatorSpy = jasmine.createSpy('setErrorTypeCreatorSpy');
         
-        alertSpy = jasmine.createSpy('alertSpy');
-
         dataThunks.__set__('postProjectAndDo', postStateAndDoSpy);
         dataThunks.__set__('postProjectPairingAndDo', postProjectPairingAndDoSpy);
         dataThunks.__set__('getRecommendedPairingAndDo', getRecommendedPairingAndDoSpy);
@@ -32,7 +29,6 @@ describe('dataThunks', function() {
         dataThunks.__set__('loadPairingHistoryCreator', loadPairingHistoryCreatorSpy);
         dataThunks.__set__('updatePairingHistoriesCreator', updatePairingHistoriesCreatorSpy);
         dataThunks.__set__('setErrorTypeCreator', setErrorTypeCreatorSpy);
-        dataThunks.__set__('alert', alertSpy);
     });
 
     describe('#autoSaveThunk', function () {
@@ -118,11 +114,10 @@ describe('dataThunks', function() {
                 expect(postProjectPairingAndDoSpy).toHaveBeenCalledWith(7, jasmine.anything());
             });
 
-            it('passes in a success callback that will alert to the browser and dispatch a updatePairingHistory action', function() {
+            it('passes in a success callback that will dispatch a updatePairingHistory action', function() {
                 var successCallback = postProjectPairingAndDoSpy.calls.mostRecent().args[1];
                 successCallback(newPairingHistories);
 
-                expect(alertSpy).toHaveBeenCalledWith("Successfully Saved Pairing!");
                 expect(updatePairingHistoriesCreatorSpy).toHaveBeenCalledWith(newPairingHistories);
                 expect(dispatchSpy).toHaveBeenCalledWith(updatePairingHistoriesAction)
             });

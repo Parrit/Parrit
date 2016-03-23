@@ -8,8 +8,10 @@
 
   width: 330px;
   box-sizing: border-box;
-  padding: 30px;
+  padding: 0 28px;
   background-color: $slateGrey;
+
+  overflow-y: auto;
 
   &.panel-open {
     right: 0;
@@ -20,8 +22,8 @@
   }
 
   .header {
-    margin-top: -2px;
-    margin-bottom: 50px;
+    margin-top: 26px;
+    margin-bottom: 38px;
 
     h2 {
       color: $silver;
@@ -41,6 +43,10 @@
         background-image: url("../svg/close-history-panel-bright.svg");
       }
     }
+  }
+
+  .body {
+    margin-bottom: 28px;
   }
   
   .no-history {

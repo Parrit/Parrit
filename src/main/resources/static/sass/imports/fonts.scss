@@ -30,7 +30,7 @@ h1 {
 }
 
 h2 {
-  font: $Raleway-SemiBold;
+  font: $Raleway-Medium;
   font-size: 22px;
   line-height: 26px;
   color: $coolGrey;
@@ -43,6 +43,7 @@ h3 {
   font-size: 15px;
   line-height: 18px;
   color: $coolGrey;
+  letter-spacing: 0.5px;
 
   margin-top: 0;
   text-transform: uppercase;

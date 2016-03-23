@@ -75,7 +75,7 @@ header {
           height: 13px;
           margin-left: 5px;
           margin-bottom: -1px;
-          background-image: url("../svg/history-caret-left.svg");
+          background-image: url("../svg/history-caret-left-bright.svg");
         }
 
         .history-caret-right {
@@ -84,7 +84,16 @@ header {
           height: 13px;
           margin-left: 5px;
           margin-bottom: -1px;
-          background-image: url("../svg/history-caret-right.svg");
+          background-image: url("../svg/history-caret-right-dark.svg");
+        }
+
+        &:hover,
+        &.open {
+          color: $slateGrey;
+
+          .history-caret-left {
+            background-image: url("../svg/history-caret-left-dark.svg");
+          }
         }
       }
     }

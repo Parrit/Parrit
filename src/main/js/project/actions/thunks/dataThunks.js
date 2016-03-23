@@ -27,7 +27,6 @@ export function savePairingThunk() {
     return function (dispatch, getState) {
         postProjectPairingAndDo(getState().data.project.id, function successCallback(newPairingHistories) {
             dispatch(updatePairingHistoriesCreator(newPairingHistories));
-            alert("Successfully Saved Pairing!");
         });
     }
 }

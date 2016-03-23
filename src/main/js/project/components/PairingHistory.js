@@ -1,4 +1,6 @@
 var React = require('react');
+var $ = require('jquery');
+require('malihu-custom-scrollbar-plugin')($);
 
 var PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
 
@@ -12,6 +14,7 @@ var PairingHistory = React.createClass({
     
     componentDidMount: function() {
         this.props.fetchPairingHistory(this.props.projectId);
+        $('.pairing-history-panel').mCustomScrollbar({theme:"minimal-dark"});
     },
 
     render: function() {

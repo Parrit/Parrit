@@ -17,16 +17,18 @@ var PairingHistoryRecord = React.createClass({
             <div className="pairing-history-record-clock"></div>
             <h3 className="pairing-time">{timeZoneAdjustedPairingTime}</h3>
             
-            {this.props.pairingBoardsWithPeople.map(function(pairingBoardWithPeople, idx) {
-                return <div className="pairing-boards-with-people" key={idx}>
-                    <span className="pairing-board-name">{pairingBoardWithPeople.pairingBoardName}:</span>
-                    {pairingBoardWithPeople.people.map(function(person, idx) {
-                        return <span key={idx} className="person-name">{person.name}
-                            <span className="person-names-plus-sign">+</span>
-                        </span>
-                    })}
-                </div>
-            })}
+            <div className="pairing-boards-with-people">
+                {this.props.pairingBoardsWithPeople.map(function(pairingBoardWithPeople, idx) {
+                    return <div className="pairing-board-with-people" key={idx}>
+                        <div className="pairing-board-name">{pairingBoardWithPeople.pairingBoardName}:</div>
+                        {pairingBoardWithPeople.people.map(function(person, idx) {
+                            return <span key={idx} className="person-name">{person.name}
+                                <span className="person-names-plus-sign">+</span>
+                            </span>
+                        })}
+                    </div>
+                })}
+            </div>
 
             <div className="dotted-line"></div>
         </div>
