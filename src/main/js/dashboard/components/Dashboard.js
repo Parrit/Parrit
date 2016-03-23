@@ -50,7 +50,7 @@ var Dashboard = React.createClass({
                 <div className="dashboard-content">
                     <div className="logo"></div>
                     <div className="description">
-                        A recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
+                        A historical recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
                     </div>
                     <div className="forms-container">
                         <form className="form new-form" onSubmit={this.createProjectWithName}>
