@@ -3,6 +3,7 @@ package com.parrit.controllers;
 import com.parrit.DTOs.PersonDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.DTOs.UsernameAndPasswordDTO;
+import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
@@ -61,6 +62,14 @@ public class ProjectController {
         String hashedPassword = encoder.encodePassword(usernameAndPasswordDTO.getPassword(), null);
 
         Project project = new Project(usernameAndPasswordDTO.getName(), hashedPassword, new ArrayList<>(), new ArrayList<>());
+
+        project.getPairingBoards().add(new PairingBoard("COCKATOO", new ArrayList<>()));
+        project.getPairingBoards().add(new PairingBoard("MACAW", new ArrayList<>()));
+        project.getPairingBoards().add(new PairingBoard("LOVEBIRD", new ArrayList<>()));
+        project.getPairingBoards().add(new PairingBoard("PARAKEET", new ArrayList<>()));
+        project.getPairingBoards().add(new PairingBoard("DESIGN", new ArrayList<>()));
+        project.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", new ArrayList<>()));
+
         projectRepository.save(project);
     }
 
