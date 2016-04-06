@@ -46,6 +46,7 @@ public class LoginController {
         //TODO: Check to make sure this isn't null -- maybe redirect to homepage if it is
         String originalRequestUrl = savedRequest.getRedirectUrl();
         String projectName = originalRequestUrl.substring(originalRequestUrl.lastIndexOf('/') + 1);
+        projectName = projectName.replace("%20", " ");
 
         model.addAttribute("projectName", projectName);
         return "project-login";
