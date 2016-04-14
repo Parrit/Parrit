@@ -69,6 +69,11 @@ var Dashboard = React.createClass({
                             <div className="error-message">{loginErrorMessage}</div>
                         </form>
                     </div>
+                    <div className="feedback-container">
+                        <div className="caption">What do you think of Parrit?</div>
+                        <a href="https://docs.google.com/forms/d/1Xg5xKGv0uLcRLA3WR9CiwE3tfz6-5ocGcImq6_MgLB4/viewform"
+                           target="_blank" className="text-link">Send feedback<span className="carrot"/></a>
+                    </div>
                 </div>
             </div>
             <Footer/>

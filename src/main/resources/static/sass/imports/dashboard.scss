@@ -51,6 +51,15 @@
           }
         }
       }
+
+      .feedback-container {
+        text-align: center;
+        margin-top: 62px;
+
+        > * {
+          margin: 4px auto;
+        }
+      }
     }
   }
 }

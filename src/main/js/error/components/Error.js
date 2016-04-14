@@ -8,7 +8,7 @@ var Error = React.createClass({
             <div className="error-image-wrapper">
                 <div className="parrit-talk-bubble">
                     <h1 className="error-message">What the heck?!</h1>
-                    <a className="home-page-link" href="/">GET ME OUT OF HERE<span className="carrot"/></a>
+                    <a className="text-link home-page-link" href="/">Get me out of here<span className="carrot"/></a>
                 </div>
             </div>
             <Footer/>

@@ -23,32 +23,6 @@ $mobileImageHeight: 212px;
       .error-message {
         position: relative;
       }
-
-      .home-page-link {
-        position: relative;
-        font: $Raleway-ExtraBold;
-        font-size: 14px;
-        line-height: 16px;
-        letter-spacing: 0.5px;
-        color: $salmon;
-        text-decoration: none;
-
-        .carrot {
-          width: 9px;
-          height: 12.8px;
-          display: inline-block;
-          margin-left: 5px;
-          background-image: url("../svg/error-page-carrot.svg");
-        }
-
-        &:hover {
-          color: $tomato;
-
-          .carrot {
-            background-image: url("../svg/error-page-carrot-bright.svg");
-          }
-        }
-      }
     }
   }
 }
