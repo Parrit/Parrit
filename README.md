@@ -52,6 +52,6 @@ If all of the tests pass, run the project as a spring project using your preferr
 ```
 $ rake build
 $ mvn package
-$ cf push <<APP_NAME>> -p target/parrit-<<Version>>.jar
+$ cf push
 ```
 
