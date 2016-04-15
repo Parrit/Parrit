@@ -1,34 +1,38 @@
 header {
-  flex-shrink: 0;
-  height: 80px;
-  background-color: $duckEggBlue;
+   flex-shrink: 0;
+   height: 80px;
+   background-color: $duckEggBlue;
 
-  .header-logo {
-    width: 185px;
-    height: 47px;
+   .header-logo {
+     width: 185px;
+     height: 47px;
 
-    float: left;
-    background-image: url("../svg/parrit-logo.svg");
-    margin-top: 16px;
-  }
+     float: left;
+     background-image: url("../svg/parrit-logo.svg");
+     margin-top: 16px;
+   }
 
-  .links {
-    float: right;
-    display: flex;
-    justify-content: center;
-    height: 100%;
+   .links {
+     float: right;
+     display: flex;
+     justify-content: center;
+     height: 100%;
 
-    > h3 {
-      margin-bottom: 0;
-      align-self: center;
-      cursor: pointer;
-    }
+     a {
+       color: inherit;
+       text-decoration: none;
+     }
 
-    .logout, .history {
-      cursor: pointer;
-    }
-  }
-}
+     h3 {
+       margin-bottom: 0;
+     }
+
+     > * {
+       align-self: center;
+       cursor: pointer;
+     }
+   }
+ }
 
 /*
  *  Mobile
@@ -38,16 +42,26 @@ header {
     padding: 0 20px;
 
     .links {
-      > h3 {
+      h3 {
         width: 22px;
         height: 22px;
         color: transparent;
         font-size: 0;
       }
 
+      > * {
+        margin-right: 20px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
       .logout {
         background: url("../svg/logout-icon.svg") no-repeat;
-        margin-right: 20px;
+      }
+
+      .feedback {
+        background: url("../svg/feedback-icon.svg") no-repeat;
       }
 
       .history {
@@ -65,12 +79,12 @@ header {
     padding: 0 50px;
 
     .links {
-      > h3 {
+      > * {
         margin-left: 20px;
-      }
 
-      .logout:hover {
-        color: $slateGrey;
+        &:hover {
+          color: $slateGrey;
+        }
       }
 
       .history {
