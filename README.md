@@ -6,10 +6,10 @@ Software development pairing management
 # Core Contributors
 Big shoutout to the following people for helping to guide the direction that Parrit took. Core contributors also please feel free to add others to the core contributor list for those who significantly shape the direction of Parrit.
 
-- [Darcie Fitzpatrick](dfitzpatrick@pivotal.io)
-- [Joseph Greubel](jgreubel@pivotal.io)
-- [Cat Zhang](czhang@pivotal.io)
-- [Sylvia Lai](slai@pivotal.io)
+- [Darcie Fitzpatrick](mailto:dfitzpatrick@pivotal.io)
+- [Joseph Greubel](mailto:jgreubel@pivotal.io)
+- [Cat Zhang](mailto:czhang@pivotal.io)
+- [Sylvia Lai](mailto:slai@pivotal.io)
 
 # Tech Stack
 - Maven
