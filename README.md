@@ -52,7 +52,7 @@ If all of the tests pass, run the project as a spring project using your preferr
 
 # Want to contribute?
 
-* We have a [tracker backlog](https://www.pivotaltracker.com/n/projects/1504460), feel free to pick up a story. If you want need clarification on it and/or want help pointing it, shoot me an email anthonydreessen@gmail.com
+We have a [tracker backlog](https://www.pivotaltracker.com/n/projects/1504460), feel free to pick up a story. If you want need clarification on it and/or want help pointing it, shoot me an email anthonydreessen@gmail.com
 
 # Set Environment Variables
 
