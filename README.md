@@ -3,6 +3,14 @@ Software development pairing management
 
 [![Build Status](https://travis-ci.org/Pinwheeler/Parrit.svg?branch=master)](https://travis-ci.org/Pinwheeler/Parrit)
 
+# Core Contributors
+Big shoutout to the following people for helping to guide the direction that Parrit took. Core contributors also please feel free to add others to the core contributor list for those who significantly shape the direction of Parrit.
+
+- [Darcie Fitzpatrick](dfitzpatrick@pivotal.io)
+- [Joseph Greubel](jgreubel@pivotal.io)
+- [Cat Zhang](czhang@pivotal.io)
+- [Sylvia Lai](slai@pivotal.io)
+
 # Tech Stack
 - Maven
 - Spring.io
@@ -45,7 +53,6 @@ If all of the tests pass, run the project as a spring project using your preferr
 # Want to contribute?
 
 * We have a [tracker backlog](https://www.pivotaltracker.com/n/projects/1504460), feel free to pick up a story. If you want need clarification on it and/or want help pointing it, shoot me an email anthonydreessen@gmail.com
-* I need help with setup instructions. If you become a contributor or otherwise clone this repo, please document the things you had to do in order to make it work. I've only done it once on my machine and it was not a new image.
 
 # Set Environment Variables
 
