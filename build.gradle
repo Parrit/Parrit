@@ -1,3 +1,7 @@
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+
 group "com.example"
 version "0.0.1-SNAPSHOT"
 description "parrit"
@@ -47,3 +51,36 @@ test {
         includeTestsMatching "*Test"
     }
 }
+
+task jsTest(type: Exec) {
+    workingDir project.projectDir
+    commandLine "./node_modules/karma/bin/karma", "start", "karma.conf.js"
+}
+
+test.dependsOn(jsTest)
+
+task gruntBuild(type: Exec) {
+    workingDir project.projectDir
+    commandLine "./node_modules/grunt-cli/bin/grunt", "build"
+}
+
+task jsBuild(type: Copy, dependsOn: gruntBuild) {
+    from "$project.projectDir/src/main/resources/static/built"
+    into "$project.projectDir/build/classes/main/static/built"
+}
+
+task createMigration << {
+    def utc = ZoneId.of("UTC")
+    def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
+    def path = "src/main/resources/db/migration/V${timestamp}__${migration}.sql"
+
+    "touch $project.projectDir/$path".execute()
+    println path
+}
+
+task deploy(type: Exec, dependsOn: build) {
+    workingDir project.projectDir
+    commandLine "cf", "push"
+}
+
+defaultTasks "clean", "build"
