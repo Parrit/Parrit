@@ -3,7 +3,7 @@ task :jasmine do
 end
 
 task :junit do
-  system('mvn test')
+  system('./gradlew clean build')
 end
 
 task :spec => [:junit, :jasmine] do

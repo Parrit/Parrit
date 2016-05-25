@@ -66,7 +66,7 @@ GOOGLE_ANALYTICS_TRACKING_ID=UA-XXXXXXXX-X
 
 ```
 $ rake build
-$ mvn package
+$ ./gradlew clean build
 $ cf push
 ```
 
