@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
-    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-sass');
 
     grunt.initConfig({
         browserify: {
