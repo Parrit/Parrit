@@ -69,6 +69,8 @@ task jsBuild(type: Copy, dependsOn: gruntBuild) {
     into "$project.projectDir/build/classes/main/static/built"
 }
 
+jar.dependsOn(jsBuild)
+
 task createMigration << {
     def utc = ZoneId.of("UTC")
     def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
