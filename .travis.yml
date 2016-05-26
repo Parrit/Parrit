@@ -9,6 +9,8 @@ addons:
 services:
   - postgresql
 
+install: /bin/true
+
 before_script:
   - npm install
   - export DISPLAY=:99.0
