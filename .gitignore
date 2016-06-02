@@ -1,14 +1,9 @@
-.mvn/
-.settings/
 .idea/
-target/
+build/
 node_modules/
 src/main/resources/static/built/
 src/test/js/built/
 
 .DS_Store
-parrit.iml
-Parrit.iml
-.project
-.classpath
-.springBeans
+*.iml
+.gradle

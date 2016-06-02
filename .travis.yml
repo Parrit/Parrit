@@ -9,6 +9,8 @@ addons:
 services:
   - postgresql
 
+install: /bin/true
+
 before_script:
   - npm install
   - export DISPLAY=:99.0
@@ -17,5 +19,4 @@ before_script:
   - psql -c 'CREATE DATABASE test OWNER = pivotal;' -U postgres
 
 script:
-  - mvn test
-  - node_modules/karma/bin/karma start karma.conf.js --single-run
+  - ./gradlew

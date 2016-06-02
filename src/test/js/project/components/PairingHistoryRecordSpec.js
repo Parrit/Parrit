@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactTestUtils = require('react-addons-test-utils');
 var Moment = require('moment-timezone');
+var Mocker = require('support/ComponentMocker.js');
 
 var RenderComponent = require('support/RenderComponent.js');
 
@@ -15,7 +16,6 @@ describe('PairingHistoryRecord', function() {
 
     beforeEach(function() {
         jasmine.clock().install();
-
         jasmine.clock().mockDate(Moment('2016-03-08T13:30:00.000−0800').toDate());
 
         props = {
@@ -25,6 +25,8 @@ describe('PairingHistoryRecord', function() {
                 {pairingBoardName: 'board2', people: [{name: 'Alice'}]}
             ]
         };
+
+        spyOn(Moment.tz, "guess").and.returnValue("America/Los_Angeles");
 
         pairingHistoryRecord = RenderComponent(PairingHistoryRecord, <PairingHistoryRecord {...props}/>);
     });

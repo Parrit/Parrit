@@ -1,5 +1,5 @@
 applications:
 - name: parrit
-  path: target/parrit-0.0.1-SNAPSHOT.jar
+  path: build/libs/parrit-0.0.1-SNAPSHOT.jar
 - name: parrit-test
-  path: target/parrit-0.0.1-SNAPSHOT.jar
+  path: build/libs/parrit-0.0.1-SNAPSHOT.jar

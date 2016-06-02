@@ -12,7 +12,7 @@ Big shoutout to the following people for helping to guide the direction that Par
 - [Sylvia Lai](mailto:slai@pivotal.io)
 
 # Tech Stack
-- Maven
+- Gradle
 - Spring.io
 - React.js
 - Browserify
@@ -22,16 +22,9 @@ Big shoutout to the following people for helping to guide the direction that Par
 
 Clone into a new repo, cd into that folder
 
-Make sure Ruby/Rake/Sass are install
-```
-gem install rake
-gem install sass
-```
-
 ```
 $ npm install
-$ rake build
-$ rake spec
+$ ./gradlew
 ```
 
 Before running tests make sure that a database called test exists
@@ -43,7 +36,7 @@ createdb test
 
 Build the static (JS and CSS) before attempting to run the application
 ```
-grunt build
+./gradlew jsBuild
 ```
 
 _This assumes that you have a psql database on port 5432 with username pivotal and no password._
@@ -65,8 +58,6 @@ GOOGLE_ANALYTICS_TRACKING_ID=UA-XXXXXXXX-X
 # Deploy to CloudFoundry
 
 ```
-$ rake build
-$ mvn package
-$ cf push
+$ ./gradlew deploy
 ```
 
