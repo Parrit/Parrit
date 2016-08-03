@@ -27,10 +27,7 @@ $ npm install
 $ ./gradlew
 ```
 
-Before running tests make sure that a database called test exists
-```
-createdb test
-```
+**Before running tests make sure that a database called test exists**
 
 # Running Locally
 
@@ -41,7 +38,10 @@ Build the static (JS and CSS) before attempting to run the application
 
 _This assumes that you have a psql database on port 5432 with username pivotal and no password._
 
-If all of the tests pass, run the project as a spring project using your preferred method
+If all of the tests pass, run the project as a spring project using your preferred method. To run the spring boot app locally using gradle, enter the following
+```
+./gradlew bootRun
+```
 
 # Want to contribute?
 
