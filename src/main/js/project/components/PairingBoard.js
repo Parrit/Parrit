@@ -8,6 +8,7 @@ var PairingBoard = React.createClass({
         name: React.PropTypes.string.isRequired,
         people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         index: React.PropTypes.number.isRequired,
+        isExempt: React.PropTypes.bool.isRequired,
         deletePairingBoard: React.PropTypes.func.isRequired,
         renamePairingBoard: React.PropTypes.func.isRequired
     },
@@ -25,6 +26,9 @@ var PairingBoard = React.createClass({
 
         var pairingBoardClasses = "pairing-board dropzone";
         var pairingBoardNameSection;
+        var pairingBoardHeaderClasses;
+        var pairingBoardDeleteSection;
+
         if (this.state.editMode) {
             pairingBoardClasses += " editing";
             pairingBoardNameSection = <div className="pairing-board-name-wrapper">
@@ -39,10 +43,19 @@ var PairingBoard = React.createClass({
             </div>;
         }
 
+        if (this.props.isExempt) {
+            pairingBoardHeaderClasses = "pairing-board-header exempt";
+            pairingBoardDeleteSection = null;
+        }
+        else {
+            pairingBoardHeaderClasses = "pairing-board-header";
+            pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard}></div>;
+        }
+
         return <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
-            <div className="pairing-board-header">
+            <div className={pairingBoardHeaderClasses}>
                 {pairingBoardNameSection}
-                <div className="delete-pairing-board" onClick={this.deletePairingBoard}></div>
+                {pairingBoardDeleteSection}
             </div>
             <PersonList people={this.props.people} index={pairingBoardIndex} />
 		</div>

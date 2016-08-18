@@ -24,6 +24,7 @@ describe('PairingBoard', function() {
                 }
             ],
             index: 1,
+            isExempt: false,
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
         };
@@ -64,6 +65,37 @@ describe('PairingBoard', function() {
             var event = {target: {value: 'Cheese'}};
             pairingBoard.renamePairingBoard(event);
             expect(props.renamePairingBoard).toHaveBeenCalledWith(1, 'Cheese');
+        });
+    });
+
+    describe('Exempt PairingBoard', function() {
+        beforeEach(function() {
+            props  = {
+                    name: "PairingBoard1",
+                    people: [
+                        {
+                            name: "George"
+                        },
+                        {
+                            name: "Hank Muchacho"
+                        }
+                    ],
+                    index: 1,
+                    isExempt: true,
+                    deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
+                    renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
+                };
+
+                pairingBoard = RenderComponent(PairingBoard, <PairingBoard {...props} />);
+        });
+
+        it('renders an exempt header', function() {
+            var exemptHeader = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'pairing-board-header exempt');
+            expect(exemptHeader).toBeTruthy();
+        });
+
+        it('does not render a delete button', function() {
+            expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(pairingBoard, 'delete-pairing-board').length).toEqual(0);
         });
     });
 });
