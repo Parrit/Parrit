@@ -54,8 +54,14 @@ var Workspace = React.createClass({
                 <h2 className="pairing-boards-title">Pairing Boards</h2>
                 <div className="pairing-boards">
                     {this.props.pairingBoards.map(function (pairingBoard, idx) {
-                        return <PairingBoard key={idx} name={pairingBoard.name} people={pairingBoard.people}
-                                             index={idx} deletePairingBoard={deletePairingBoard} renamePairingBoard={renamePairingBoard}/>;
+                        return <PairingBoard
+                                            key={idx}
+                                            name={pairingBoard.name}
+                                            people={pairingBoard.people}
+                                            index={idx}
+                                            exempt={pairingBoard.exempt}
+                                            deletePairingBoard={deletePairingBoard}
+                                            renamePairingBoard={renamePairingBoard}/>;
                     })}
                 </div>
                 <div className="add-board-button" onClick={this.openNewPairingBoardModal}></div>

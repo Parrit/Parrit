@@ -24,7 +24,7 @@ describe('PairingBoard', function() {
                 }
             ],
             index: 1,
-            isExempt: false,
+            exempt: false,
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
         };
@@ -81,7 +81,7 @@ describe('PairingBoard', function() {
                         }
                     ],
                     index: 1,
-                    isExempt: true,
+                    exempt: true,
                     deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
                     renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
                 };

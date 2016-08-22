@@ -8,7 +8,7 @@ var PairingBoard = React.createClass({
         name: React.PropTypes.string.isRequired,
         people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         index: React.PropTypes.number.isRequired,
-        isExempt: React.PropTypes.bool.isRequired,
+        exempt: React.PropTypes.bool.isRequired,
         deletePairingBoard: React.PropTypes.func.isRequired,
         renamePairingBoard: React.PropTypes.func.isRequired
     },
@@ -43,7 +43,7 @@ var PairingBoard = React.createClass({
             </div>;
         }
 
-        if (this.props.isExempt) {
+        if (this.props.exempt) {
             pairingBoardHeaderClasses = "pairing-board-header exempt";
             pairingBoardDeleteSection = null;
         }
