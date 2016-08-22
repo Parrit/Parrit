@@ -90,7 +90,7 @@ describe('PairingBoard', function() {
         });
 
         it('renders an exempt header', function() {
-            var exemptHeader = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'pairing-board-header exempt');
+            var exemptHeader = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'pairing-board exempt');
             expect(exemptHeader).toBeTruthy();
         });
 

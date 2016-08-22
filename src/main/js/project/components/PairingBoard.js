@@ -26,7 +26,6 @@ var PairingBoard = React.createClass({
 
         var pairingBoardClasses = "pairing-board dropzone";
         var pairingBoardNameSection;
-        var pairingBoardHeaderClasses;
         var pairingBoardDeleteSection;
 
         if (this.state.editMode) {
@@ -44,16 +43,15 @@ var PairingBoard = React.createClass({
         }
 
         if (this.props.exempt) {
-            pairingBoardHeaderClasses = "pairing-board-header exempt";
+            pairingBoardClasses += " exempt";
             pairingBoardDeleteSection = null;
         }
         else {
-            pairingBoardHeaderClasses = "pairing-board-header";
             pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard}></div>;
         }
 
         return <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
-            <div className={pairingBoardHeaderClasses}>
+            <div className="pairing-board-header">
                 {pairingBoardNameSection}
                 {pairingBoardDeleteSection}
             </div>

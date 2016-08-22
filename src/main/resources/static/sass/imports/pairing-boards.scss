@@ -35,6 +35,13 @@
         }
       }
     }
+	
+	&.exempt {
+	  border-color: $salmon;
+	  h3 {
+        color: $salmon;
+	  }
+	}
 
     &:hover:not(.drop-active),
     &.drop-target,
