@@ -69,6 +69,12 @@ task jsBuild(type: Copy, dependsOn: gruntBuild) {
     into "$project.projectDir/build/classes/main/static/built"
 }
 
+task jsClean(type:Exec) {
+    workingDir project.projectDir
+    commandLine "rm", "-rf", "src/main/resources/static/built/bundle.js"
+    commandLine "rm", "-rf", "src/main/resources/static/built/bundle.js"
+}
+
 jar.dependsOn(jsBuild)
 
 task createMigration << {
@@ -85,4 +91,4 @@ task deploy(type: Exec, dependsOn: build) {
     commandLine "cf", "push"
 }
 
-defaultTasks "clean", "build"
+defaultTasks "clean", "jsClean", "build", "jsBuild"
