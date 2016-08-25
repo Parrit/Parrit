@@ -10,6 +10,7 @@ Big shoutout to the following people for helping to guide the direction that Par
 - [Joseph Greubel](mailto:jgreubel@pivotal.io)
 - [Cat Zhang](mailto:czhang@pivotal.io)
 - [Sylvia Lai](mailto:slai@pivotal.io)
+- [Michael Oleske](mailto:moleske@pivotal.io)
 
 # Tech Stack
 - Gradle
