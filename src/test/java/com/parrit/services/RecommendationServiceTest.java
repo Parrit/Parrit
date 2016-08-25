@@ -386,4 +386,26 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         assertThat(returnedProject, equalTo(expectedProject));
     }
+
+    @Test
+    public void get_doesNotUseExemptPairingBoardsToPairFloatingPeople() {
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
+        project.getPairingBoards().add(exemptPairingBoard);
+
+        Project returnedProject = recommendationService.get(project, pairingHistories);
+
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
+
+        PairingBoard pairingBoardExpectedNew = new PairingBoard("New Pairing Board", Arrays.asList(p1,p2));
+        pairingBoardExpectedNew.setId(0L);
+
+        PairingBoard pairingBoardExpectedExempt = new PairingBoard("Exempt", new ArrayList<>());
+        pairingBoardExpectedExempt.setId(4L);
+
+        expectedProject.getPairingBoards().add(pairingBoardExpectedExempt);
+        expectedProject.getPairingBoards().add(pairingBoardExpectedNew);
+
+        assertThat(returnedProject, equalTo(expectedProject));
+    }
 }

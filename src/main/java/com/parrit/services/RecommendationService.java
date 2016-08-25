@@ -108,6 +108,7 @@ public class RecommendationService {
         return project.getPairingBoards()
                 .stream()
                 .filter(pairingBoard -> pairingBoard.getPeople().isEmpty())
+                .filter(pairingBoard -> !pairingBoard.getExempt())
                 .collect(Collectors.toList());
     }
 
