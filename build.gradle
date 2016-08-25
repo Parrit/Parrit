@@ -80,10 +80,9 @@ jar.dependsOn(jsBuild)
 task createMigration << {
     def utc = ZoneId.of("UTC")
     def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
-    def path = "src/main/resources/db/migration/V${timestamp}__${migration}.sql"
+    def path = "src/main/resources/db/migration/V${timestamp}__CHANGEME.sql"
 
     "touch $project.projectDir/$path".execute()
-    println path
 }
 
 task deploy(type: Exec, dependsOn: build) {
