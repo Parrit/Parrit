@@ -68,7 +68,10 @@ public class ProjectController {
         project.getPairingBoards().add(new PairingBoard("LOVEBIRD", new ArrayList<>()));
         project.getPairingBoards().add(new PairingBoard("PARAKEET", new ArrayList<>()));
         project.getPairingBoards().add(new PairingBoard("DESIGN", new ArrayList<>()));
-        project.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", new ArrayList<>()));
+
+        PairingBoard exemptBoard = new PairingBoard("OUT OF OFFICE", new ArrayList<>());
+        exemptBoard.setExempt(true);
+        project.getPairingBoards().add(exemptBoard);
 
         projectRepository.save(project);
     }
