@@ -69,15 +69,20 @@ task jsBuild(type: Copy, dependsOn: gruntBuild) {
     into "$project.projectDir/build/classes/main/static/built"
 }
 
+task jsClean(type:Exec) {
+    workingDir project.projectDir
+    commandLine "rm", "-rf", "src/main/resources/static/built/bundle.js"
+    commandLine "rm", "-rf", "src/main/resources/static/built/bundle.js"
+}
+
 jar.dependsOn(jsBuild)
 
 task createMigration << {
     def utc = ZoneId.of("UTC")
     def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
-    def path = "src/main/resources/db/migration/V${timestamp}__${migration}.sql"
+    def path = "src/main/resources/db/migration/V${timestamp}__CHANGEME.sql"
 
     "touch $project.projectDir/$path".execute()
-    println path
 }
 
 task deploy(type: Exec, dependsOn: build) {
@@ -85,4 +90,4 @@ task deploy(type: Exec, dependsOn: build) {
     commandLine "cf", "push"
 }
 
-defaultTasks "clean", "build"
+defaultTasks "clean", "jsClean", "build", "jsBuild"

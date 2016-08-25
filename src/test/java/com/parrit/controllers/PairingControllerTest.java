@@ -45,7 +45,7 @@ public class PairingControllerTest extends ControllerTestBase {
         exampleProject = new Project("Nancy", "nancypass", Collections.singletonList(pairingBoard), new ArrayList<>());
         exampleProject.setId(2L);
 
-        String pairingBoardString = "{\"id\":1,\"people\":[],\"name\":\"Super Pairing Board\"}";
+        String pairingBoardString = "{\"id\":1,\"people\":[],\"name\":\"Super Pairing Board\",\"exempt\":false}";
         exampleProjectString = "{\"id\":2,\"name\":\"Nancy\",\"pairingBoards\":[" + pairingBoardString + "],\"people\":[]}";
     }
 

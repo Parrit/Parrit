@@ -12,6 +12,8 @@ public class PairingBoard {
 
     private String name;
 
+    private Boolean isExempt; // Set to yes if floating people should NOT be moved into this space
+
     @OneToMany(targetEntity = Person.class)
     @JoinColumn(name="pairing_board_id")
     private List<Person> people;
@@ -21,6 +23,7 @@ public class PairingBoard {
     public PairingBoard(String name, List<Person> people) {
         this.name = name;
         this.people = people;
+        this.isExempt = false;
     }
 
     public long getId() {
@@ -38,6 +41,10 @@ public class PairingBoard {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Boolean getExempt() { return isExempt; }
+
+    public void setExempt(Boolean exempt) { isExempt = exempt; }
 
     public List<Person> getPeople() {
         return people;

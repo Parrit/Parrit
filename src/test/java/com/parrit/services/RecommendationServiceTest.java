@@ -31,6 +31,7 @@ public class RecommendationServiceTest extends MockitoTestBase {
     PairingBoard pairingBoard1;
     PairingBoard pairingBoard2;
     PairingBoard pairingBoard3;
+    PairingBoard exemptPairingBoard;
     Person p1;
     Person p2;
     Person p3;
@@ -57,6 +58,9 @@ public class RecommendationServiceTest extends MockitoTestBase {
         pairingBoard2.setId(2L);
         pairingBoard3 = new PairingBoard("Three", new ArrayList<>());
         pairingBoard3.setId(3L);
+        exemptPairingBoard = new PairingBoard("Exempt", new ArrayList<>());
+        exemptPairingBoard.setId(4L);
+        exemptPairingBoard.setExempt(true);
 
         p1 = new Person("Alpha");
         p1.setId(1L);
@@ -355,6 +359,52 @@ public class RecommendationServiceTest extends MockitoTestBase {
 
         PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", Arrays.asList(p2, p3)); //Null Id
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
+
+        assertThat(returnedProject, equalTo(expectedProject));
+    }
+
+    @Test
+    public void get_doesNotConsiderPeople_whenTheyAreInExemptPairingBoards() {
+        project.getPeople().add(p1);
+
+        exemptPairingBoard.getPeople().add(p2);
+
+        project.getPairingBoards().add(exemptPairingBoard);
+        project.getPairingBoards().add(pairingBoard1);
+
+        Project returnedProject = recommendationService.get(project, pairingHistories);
+
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
+
+        PairingBoard exemptBoardExpected = new PairingBoard("Exempt", Arrays.asList(p2));
+        exemptBoardExpected.setId(4L);
+        expectedProject.getPairingBoards().add(exemptBoardExpected);
+
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p1));
+        pairingBoard1Expected.setId(1L);
+        expectedProject.getPairingBoards().add(pairingBoard1Expected);
+
+        assertThat(returnedProject, equalTo(expectedProject));
+    }
+
+    @Test
+    public void get_doesNotUseExemptPairingBoardsToPairFloatingPeople() {
+        project.getPeople().add(p1);
+        project.getPeople().add(p2);
+        project.getPairingBoards().add(exemptPairingBoard);
+
+        Project returnedProject = recommendationService.get(project, pairingHistories);
+
+        Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
+
+        PairingBoard pairingBoardExpectedNew = new PairingBoard("New Pairing Board", Arrays.asList(p1,p2));
+        pairingBoardExpectedNew.setId(0L);
+
+        PairingBoard pairingBoardExpectedExempt = new PairingBoard("Exempt", new ArrayList<>());
+        pairingBoardExpectedExempt.setId(4L);
+
+        expectedProject.getPairingBoards().add(pairingBoardExpectedExempt);
+        expectedProject.getPairingBoards().add(pairingBoardExpectedNew);
 
         assertThat(returnedProject, equalTo(expectedProject));
     }

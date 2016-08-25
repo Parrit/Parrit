@@ -25,7 +25,7 @@ Clone into a new repo, cd into that folder
 
 ```
 $ npm install
-$ ./gradlew
+$ gradle
 ```
 
 **Before running tests make sure that a database called test exists**
@@ -34,14 +34,14 @@ $ ./gradlew
 
 Build the static (JS and CSS) before attempting to run the application
 ```
-./gradlew jsBuild
+gradle jsBuild
 ```
 
 _This assumes that you have a psql database on port 5432 with username pivotal and no password._
 
 If all of the tests pass, run the project as a spring project using your preferred method. To run the spring boot app locally using gradle, enter the following
 ```
-./gradlew bootRun
+gradle bootRun
 ```
 
 # Want to contribute?
@@ -59,6 +59,6 @@ GOOGLE_ANALYTICS_TRACKING_ID=UA-XXXXXXXX-X
 # Deploy to CloudFoundry
 
 ```
-$ ./gradlew deploy
+$ gradlew deploy
 ```
 
