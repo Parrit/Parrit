@@ -25,8 +25,10 @@ Clone into a new repo, cd into that folder
 
 ```
 $ npm install
-$ gradle
+$ ./gradlew
 ```
+
+Note that `./gradlew` is preferred over the `gradle` command. Using `gradle` will fail with errors if the executable on your `$PATH` is newer than `2.13` or so, because of [the removal of StyledTextOutputFactory](https://discuss.gradle.org/t/bug-in-gradle-2-14-rc1-no-service-of-type-styledtextoutputfactory/17638) around version 2.14-rc1.
 
 **Before running tests make sure that a database called test exists**
 
@@ -34,14 +36,14 @@ $ gradle
 
 Build the static (JS and CSS) before attempting to run the application
 ```
-gradle jsBuild
+$ ./gradlew jsBuild
 ```
 
 _This assumes that you have a psql database on port 5432 with username pivotal and no password._
 
 If all of the tests pass, run the project as a spring project using your preferred method. To run the spring boot app locally using gradle, enter the following
 ```
-gradle bootRun
+$ ./gradlew bootRun
 ```
 
 # Want to contribute?
@@ -59,6 +61,6 @@ GOOGLE_ANALYTICS_TRACKING_ID=UA-XXXXXXXX-X
 # Deploy to CloudFoundry
 
 ```
-$ gradlew deploy
+$ ./gradlew deploy
 ```
 
