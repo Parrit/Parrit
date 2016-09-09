@@ -2,26 +2,33 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 
-group "com.example"
-version "0.0.1-SNAPSHOT"
-description "parrit"
+group 'com.example'
+version '0.0.1-SNAPSHOT'
+description 'parrit'
 
 buildscript {
     ext {
-        springBootVersion = "1.3.7.RELEASE"
+        springBootVersion = '1.3.7.RELEASE'
+        gruntPluginVersion = '0.13'
+        nodePluginVersion = '0.13'
     }
 
     repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
         mavenCentral()
     }
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "com.moowork.gradle:gradle-grunt-plugin:${gruntPluginVersion}"
+        classpath "com.moowork.gradle:gradle-node-plugin:${nodePluginVersion}"
     }
 }
 
-apply plugin: "java"
-apply plugin: "spring-boot"
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'com.moowork.node'
+apply plugin: 'com.moowork.grunt'
 
 
 sourceCompatibility = 1.8
@@ -32,47 +39,47 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    compile "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    compile "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
-    compile "org.postgresql:postgresql:9.4.1208.jre7"
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.postgresql:postgresql'
 
-    compile(group: "org.springframework.boot", name: "spring-boot-starter-test", version:springBootVersion) {
+    compile('org.springframework.boot:spring-boot-starter-test') {
         exclude(module: "commons-logging")
     }
 
-    compile "org.apache.commons:commons-lang3:3.4"
-    compile "org.flywaydb:flyway-core:3.2.1"
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.flywaydb:flyway-core'
+}
+
+grunt {
+    colors = true
+    bufferOutput = true
 }
 
 test {
     filter {
-        includeTestsMatching "*Test"
+        includeTestsMatching '*Test'
     }
 }
 
-task jsTest(type: Exec) {
+task jsTest(type: NodeTask) {
     workingDir project.projectDir
-    commandLine "./node_modules/karma/bin/karma", "start", "karma.conf.js"
+    script = file('node_modules/karma/bin/karma')
+    args = ['start', 'karma.conf.js']
 }
 
 test.dependsOn(jsTest)
 
-task gruntBuild(type: Exec) {
-    workingDir project.projectDir
-    commandLine "./node_modules/grunt-cli/bin/grunt", "build"
-}
-
-task jsBuild(type: Copy, dependsOn: gruntBuild) {
+task jsBuild(type: Copy, dependsOn: grunt_build) {
     from "$project.projectDir/src/main/resources/static/built"
     into "$project.projectDir/build/classes/main/static/built"
 }
 
-task jsClean(type:Exec) {
-    workingDir project.projectDir
-    commandLine "rm", "-rf", "src/main/resources/static/built/bundle.js"
-    commandLine "rm", "-rf", "src/main/resources/static/built/bundle.js"
+task jsClean(type: Delete) {
+    delete 'src/main/resources/static/built/bundle.js'
+    delete 'src/main/resources/static/built/bundle.css'
 }
 
 jar.dependsOn(jsBuild)
@@ -87,7 +94,7 @@ task createMigration << {
 
 task deploy(type: Exec, dependsOn: build) {
     workingDir project.projectDir
-    commandLine "cf", "push"
+    commandLine 'cf', 'push'
 }
 
-defaultTasks "clean", "jsClean", "build", "jsBuild"
+defaultTasks 'clean', 'jsClean', 'build', 'jsBuild'
