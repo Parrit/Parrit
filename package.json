@@ -9,7 +9,7 @@
     "url": "https://github.com/Pinwheeler/Parrit"
   },
   "dependencies": {
-    "axios": "0.9.x",
+    "axios": "0.12.x",
     "interact.js": "1.2.x",
     "jquery": "3.1.x",
     "lodash": "4.16.x",
