@@ -8,7 +8,7 @@ description 'parrit'
 
 buildscript {
     ext {
-        springBootVersion = '1.3.7.RELEASE'
+        springBootVersion = '1.4.1.RELEASE'
         gruntPluginVersion = '0.13'
         nodePluginVersion = '0.13'
     }

@@ -28,8 +28,6 @@ $ npm install
 $ ./gradlew
 ```
 
-Note that `./gradlew` is preferred over the `gradle` command. Using `gradle` will fail with errors if the executable on your `$PATH` is newer than `2.13` or so, because of [the removal of StyledTextOutputFactory](https://discuss.gradle.org/t/bug-in-gradle-2-14-rc1-no-service-of-type-styledtextoutputfactory/17638) around version 2.14-rc1.
-
 **Before running tests make sure that a database called test exists**
 
 # Running Locally
