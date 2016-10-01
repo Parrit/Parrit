@@ -16,7 +16,7 @@ public class Person {
     private long id;
 
     @NotNull
-    @Length(min = 1, max = 10)
+    @Length(min = 1, max = 100)
     private String name;
 
     public Person() {
