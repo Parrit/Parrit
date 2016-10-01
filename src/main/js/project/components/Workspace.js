@@ -27,7 +27,7 @@ var Workspace = React.createClass({
             case 0:
                 break;
             case 406:
-                newPersonModalErrorMessage = 'Hey! This name is too long... 10 characters max.';
+                newPersonModalErrorMessage = 'Hey! This name is too long... 100 characters max.';
                 break;
             default:
                 newPersonModalErrorMessage = 'Unknown error.';
