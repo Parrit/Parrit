@@ -109,7 +109,7 @@ describe('Workspace', function() {
         });
 
         it('passes in the correct error message if errorType is set', function() {
-            expect(newPersonForm.props.errorMessage).toBe('Hey! This name is too long... 10 characters max.');
+            expect(newPersonForm.props.errorMessage).toBe('Hey! This name is too long... 100 characters max.');
         });
 
         describe('#openNewPersonModal', function() {
