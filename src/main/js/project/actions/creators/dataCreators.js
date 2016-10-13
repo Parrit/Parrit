@@ -7,6 +7,12 @@ export function movePersonCreator(fromPairingBoardIndex, toPairingBoardIndex, pe
     };
 }
 
+export function resetPairingBoard() {
+    return {
+        type: 'RESET_PAIRING_BOARD'
+    };
+}
+
 export function createPersonCreator(name) {
     return {
         type: 'CREATE_PERSON',

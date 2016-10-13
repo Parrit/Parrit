@@ -7,6 +7,7 @@ var Project = React.createClass({
     propTypes: {
         savePairing: React.PropTypes.func.isRequired,
         getRecommendedPairs: React.PropTypes.func.isRequired,
+        resetPairs: React.PropTypes.func.isRequired,
 
         settings: React.PropTypes.object.isRequired,
         data: React.PropTypes.object.isRequired,
@@ -38,6 +39,7 @@ var Project = React.createClass({
             <div className="sub-header">
                 <h1 className="project-name">{this.props.data.project.name}</h1>
                 <div className="project-actions">
+                    <Button className="button-blue" name="Reset Pairs" shortName="Reset" clickFunction={this.props.resetPairs} />
                     <Button className="button-blue" name="Recommend Pairs" shortName="Recommend" clickFunction={this.props.getRecommendedPairs}/>
                     <Button className="button-green" name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>
                 </div>

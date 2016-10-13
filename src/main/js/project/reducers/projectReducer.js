@@ -21,6 +21,22 @@ var projectReducer = function(state, action) {
             toPairingBoard.people.push(_.pullAt(fromPairingBoard.people, action.personIndex)[0]);
 
             return stateClone;
+        case "RESET_PAIRING_BOARD":
+            var stateClone = _.cloneDeep(state);
+            
+            // forEach pairing board
+                // take people array
+                // set people array to []
+            // take all people and append to "people"
+            stateClone.people = stateClone.people.concat(
+                stateClone.pairingBoards.reduce(function( people, pairingBoard ) {
+                    people = people.concat( pairingBoard.people );
+                    pairingBoard.people = [];
+                    return people;
+                }, [])
+            );
+            
+            return stateClone;
         case "CREATE_PERSON":
             var stateClone = _.cloneDeep(state);
 

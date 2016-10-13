@@ -21,6 +21,10 @@
       .project-actions {
         button {
           padding: 0 20px;
+          margin-right: 15px;
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
     }
@@ -55,8 +59,10 @@
         .project-actions {
           margin-top: 23px;
 
-          button:first-child {
-            margin-right: 10px;
+          button {
+            float: left;
+            clear: left;
+            margin: 5px 10px 0 15px;
           }
         }
       }
@@ -114,10 +120,6 @@
       .project-actions {
         float: right;
         margin-top: 32px;
-
-        button:first-child {
-          margin-right: 15px;
-        }
       }
     }
 

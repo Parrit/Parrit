@@ -177,6 +177,57 @@ describe("projectReducer", function () {
             });
         });
 
+        describe('RESET_PAIRING_BOARD', function() {
+            it('moves all people from pairing boards to floating', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [{name: "Bubba Gump"}],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: [{name:"Charles Shaw"}]
+                        },
+                        {
+                            name: "BOARD2",
+                            people: [
+                                {name: "Hanzle"},
+                                {name: "Gretel"}
+                            ]
+                        }
+                    ]
+                };
+                
+                var action = { type: 'RESET_PAIRING_BOARD' };
+                
+                var stateAfter = {
+                    id: 7,
+                    people: [
+                        {name: "Bubba Gump"},
+                        {name:"Charles Shaw"},
+                        {name: "Hanzle"},
+                        {name: "Gretel"}
+                    ],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: []
+                        },
+                        {
+                            name: "BOARD2",
+                            people: []
+                        }
+                    ]
+                };
+                
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+                
+                expect(
+                    projectReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
         describe('CREATE_PERSON', function () {
             it('adds a person to the project', function () {
                 var stateBefore = {
