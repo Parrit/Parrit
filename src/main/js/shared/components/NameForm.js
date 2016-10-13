@@ -26,6 +26,10 @@ var NameForm = React.createClass({
             </div>
             <div className="error-message">{this.props.errorMessage}</div>
             <input className={inputClasses} ref="input" type="text" placeholder="Name" value={this.state.name} onChange={this.handleChange}/>
+            <div className="buttons">
+                <button type="submit" className="button-blue">OK</button>
+                <button type="button" onClick={this.props.cancelFunction} className="button-red">Cancel</button>
+            </div>
         </form>
     },
 
