@@ -6,11 +6,12 @@ Software development pairing management
 # Core Contributors
 Big shoutout to the following people for helping to guide the direction that Parrit took. Core contributors also please feel free to add others to the core contributor list for those who significantly shape the direction of Parrit.
 
-- [Darcie Fitzpatrick](mailto:darciefitzpatrick@gmail.com)
-- [Joseph Greubel](mailto:jgreubel@pivotal.io)
-- [Cat Zhang](mailto:czhang@pivotal.io)
-- [Sylvia Lai](mailto:slai@pivotal.io)
-- [Michael Oleske](mailto:moleske@pivotal.io)
+- [Anthony Dreessen](mailto:anthonydreessen@gmail.com) Product Owner, Product Management + Full-stack Development
+- [Darcie Fitzpatrick](mailto:darciefitzpatrick@gmail.com) Product Design, Product Management + User Research
+- [Joseph Greubel](mailto:jgreubel@pivotal.io) Front-end Development, Back-end Development
+- [Cat Zhang](mailto:czhang@pivotal.io) Front-end Development, Product Design
+- [Sylvia Lai](mailto:slai@pivotal.io) Product Design, Product Management + User Research
+- [Michael Oleske](mailto:moleske@pivotal.io) Back-end Development
 
 # Tech Stack
 - Gradle
