@@ -46,7 +46,7 @@ $ ./gradlew bootRun
 
 # Want to contribute?
 
-We have a public [tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories. If you want to pick one we can add you to the project just send an email to anthonydreessen@gmail.com or any of the contributors listed above to become a member. If you want need clarification on the story and/or want help pointing it feel free to reach out. 
+We have a public [Tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories. If you want to pick one we can add you to the project, just send an email to anthonydreessen@gmail.com or any of the contributors listed above and we will make you a member. If you need clarification on the stories and/or want help pointing feel free to reach out. 
 
 # Set Environment Variables
 
