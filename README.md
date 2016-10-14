@@ -6,7 +6,7 @@ Software development pairing management
 # Core Contributors
 Big shoutout to the following people for helping to guide the direction that Parrit took. Core contributors also please feel free to add others to the core contributor list for those who significantly shape the direction of Parrit.
 
-- [Darcie Fitzpatrick](mailto:dfitzpatrick@pivotal.io)
+- [Darcie Fitzpatrick](mailto:darciefitzpatrick@gmail.com)
 - [Joseph Greubel](mailto:jgreubel@pivotal.io)
 - [Cat Zhang](mailto:czhang@pivotal.io)
 - [Sylvia Lai](mailto:slai@pivotal.io)
@@ -46,7 +46,7 @@ $ ./gradlew bootRun
 
 # Want to contribute?
 
-We have a [tracker backlog](https://www.pivotaltracker.com/n/projects/1504460), feel free to pick up a story. If you want need clarification on it and/or want help pointing it, shoot me an email anthonydreessen@gmail.com
+We have a public [tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories. If you want to pick one we can add you to the project just send an email to anthonydreessen@gmail.com or any of the contributors listed above to become a member. If you want need clarification on the story and/or want help pointing it feel free to reach out. 
 
 # Set Environment Variables
 
