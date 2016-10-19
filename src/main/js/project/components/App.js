@@ -14,6 +14,7 @@ var App = React.createClass({
 
         savePairing: React.PropTypes.func.isRequired,
         getRecommendedPairs: React.PropTypes.func.isRequired,
+        resetPairs: React.PropTypes.func.isRequired,
         settings: React.PropTypes.object.isRequired,
         data: React.PropTypes.object.isRequired,
         setNewPersonModalOpen: React.PropTypes.func.isRequired,
@@ -104,6 +105,7 @@ var App = React.createClass({
         var projectProps = {
             savePairing: this.props.savePairing,
             getRecommendedPairs: this.props.getRecommendedPairs,
+            resetPairs: this.props.resetPairs,
             settings: this.props.settings,
             data: this.props.data,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,

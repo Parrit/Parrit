@@ -14,6 +14,7 @@ describe('Project', function() {
     var props = {
         getRecommendedPairs: function(){},
         savePairing: function(){},
+        resetPairs: function(){},
 
         settings: {},
         data: {
@@ -52,9 +53,18 @@ describe('Project', function() {
         expect(projectName.innerHTML).toBe('The Best Around');
     });
 
-    it('has a recommend pairs button', function() {
+    it('has a reset pairs button', function() {
         var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
         var recommendPairsButton = allButtons[0];
+
+        expect(recommendPairsButton.props.className).toBe('button-blue');
+        expect(recommendPairsButton.props.name).toBe('Reset Pairs');
+        expect(recommendPairsButton.props.shortName).toBe('Reset');
+        expect(recommendPairsButton.props.clickFunction).toBe(props.resetPairs);
+    });
+    it('has a recommend pairs button', function() {
+        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
+        var recommendPairsButton = allButtons[1];
 
         expect(recommendPairsButton.props.className).toBe('button-blue');
         expect(recommendPairsButton.props.name).toBe('Recommend Pairs');
@@ -64,7 +74,7 @@ describe('Project', function() {
 
     it('has a records pairs button', function() {
         var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
-        var recordPairs = allButtons[1];
+        var recordPairs = allButtons[2];
 
         expect(recordPairs.props.className).toBe('button-green');
         expect(recordPairs.props.name).toBe('Record Pairs');

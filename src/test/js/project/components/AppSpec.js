@@ -18,6 +18,7 @@ describe('App', function() {
     var props = {
         getRecommendedPairs: function(){},
         savePairing: function(){},
+        resetPairs: function(){},
 
         settings: {
             isPairingHistoryPanelOpen: true
