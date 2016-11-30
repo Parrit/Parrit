@@ -218,7 +218,66 @@ describe("projectReducer", function () {
                         }
                     ]
                 };
-                
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    projectReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it('does not move people on exempt pairing boards to floating', function() {
+                var stateBefore = {
+                    id: 7,
+                    people: [{name: "Bubba Gump"}],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: [{name:"Charles Shaw"}]
+                        },
+                        {
+                            name: "BOARD2",
+                            people: [
+                                {name: "Hansel"},
+                                {name: "Gretel"}
+                            ]
+                        },
+                        {
+                          name: "OOO",
+                          exempt: true,
+                          people: [{name: "Rip van Winkle"}]
+                        }
+                    ]
+                };
+
+                var action = { type: 'RESET_PAIRING_BOARD' };
+
+                var stateAfter = {
+                    id: 7,
+                    people: [
+                        {name: "Bubba Gump"},
+                        {name:"Charles Shaw"},
+                        {name: "Hansel"},
+                        {name: "Gretel"}
+                    ],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: []
+                        },
+                        {
+                            name: "BOARD2",
+                            people: []
+                        },
+                        {
+                          name: "OOO",
+                          exempt: true,
+                          people: [{name: "Rip van Winkle"}]
+                        }
+                    ]
+                };
+
                 deepFreeze(stateBefore);
                 deepFreeze(action);
                 
