@@ -1,5 +1,6 @@
 # Parrit
-Software development pairing management
+A historical recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
+Visit the app: http://parrit.cfapps.io/
 
 [![Build Status](https://travis-ci.org/Pinwheeler/Parrit.svg?branch=master)](https://travis-ci.org/Pinwheeler/Parrit)
 
