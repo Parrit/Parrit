@@ -25,30 +25,50 @@ Big shoutout to the following people for helping to guide the direction that Par
 
 Clone into a new repo, cd into that folder
 
+## Create databases
+
+```bash
+psql postgres
+```
+
+```psql
+create user pivotal with password '';
+create database test owner pivotal;
+create database pivotal owner pivotal;
+```
+
+# Install dependencies
 ```
 $ npm install
-$ ./gradlew
 ```
 
-**Before running tests make sure that a database called test exists**
+# Run all the tests
 
-# Running Locally
+```
+$ ./gradlew test
+```
+
+# Running the application locally
 
 Build the static (JS and CSS) before attempting to run the application
 ```
 $ ./gradlew jsBuild
 ```
 
-_This assumes that you have a psql database server on port 5432 with username pivotal and no password and database name pivotal._
-
-If all of the tests pass, run the project as a spring project using your preferred method. To run the spring boot app locally using gradle, enter the following
+If all of the tests pass, run the project as a spring project using your preferred method.
+To run the spring boot app locally using gradle, enter the following
 ```
 $ ./gradlew bootRun
 ```
 
+You should be able to access the application at http://localhost:8080
+
 # Want to contribute?
 
-We have a public [Tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories. If you want to pick one we can add you to the project, just send an email to anthonydreessen@gmail.com or any of the contributors listed above and we will make you a member. If you need clarification on the stories and/or want help pointing feel free to reach out. 
+We have a public [Tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories.
+If you want to pick one we can add you to the project, just send an email to parrit@pivotal.io
+or any of the contributors listed above and we will make you a member.
+If you need clarification on the stories and/or want help pointing feel free to reach out.
 
 # Set Environment Variables
 
