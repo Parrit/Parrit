@@ -92,9 +92,4 @@ task createMigration << {
     "touch $project.projectDir/$path".execute()
 }
 
-task deploy(type: Exec, dependsOn: build) {
-    workingDir project.projectDir
-    commandLine 'cf', 'push'
-}
-
 defaultTasks 'clean', 'jsClean', 'build', 'jsBuild'
