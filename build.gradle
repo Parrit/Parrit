@@ -9,8 +9,7 @@ description 'parrit'
 buildscript {
     ext {
         springBootVersion = '1.5.2.RELEASE'
-        gruntPluginVersion = '0.13'
-        nodePluginVersion = '0.13'
+        nodePluginVersion = '1.1.1'
     }
 
     repositories {
@@ -20,7 +19,6 @@ buildscript {
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "com.moowork.gradle:gradle-grunt-plugin:${gruntPluginVersion}"
         classpath "com.moowork.gradle:gradle-node-plugin:${nodePluginVersion}"
     }
 }
@@ -49,7 +47,7 @@ dependencies {
         exclude(module: "commons-logging")
     }
 
-    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-lang3:3.5'
     compile 'org.flywaydb:flyway-core'
 }
 
