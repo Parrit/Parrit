@@ -10,8 +10,8 @@ Big shoutout to the following people for helping to guide the direction that Par
 - [Anthony Dreessen](mailto:anthonydreessen@gmail.com) - Product Owner, Product Management + Full-stack Development
 - [Darcie Fitzpatrick](mailto:darciefitzpatrick@gmail.com) - Product Design, Product Management + User Research
 - [Sylvia Lai](mailto:slai@pivotal.io) - Product Design, Product Management + User Research
-- [Joseph Greubel](mailto:jgreubel@pivotal.io) - Front-end Development, Back-end Development
 - [Cat Zhang](mailto:czhang@pivotal.io) - Front-end Development, Product Design
+- [Joseph Greubel](mailto:jgreubel@pivotal.io) - Front-end Development, Back-end Development
 - [Michael Oleske](mailto:moleske@pivotal.io) - Back-end Development
 
 # Tech Stack
