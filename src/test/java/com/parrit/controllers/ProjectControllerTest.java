@@ -110,11 +110,13 @@ public class ProjectControllerTest extends ControllerTestBase {
 
     @Test
     public void createProject_throwsAnException_whenThePasswordIsEmpty() throws Exception {
-        thrown.expect(NestedServletException.class);
+
 
         mvc.perform(post("/api/project/new")
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"name\":\"bob\",\"password\":\"\"}"));
+            .content("{\"name\":\"bob\",\"password\":\"\"}"))
+            .andExpect(status().is(400))
+            ;
     }
 
     @Test
@@ -156,5 +158,15 @@ public class ProjectControllerTest extends ControllerTestBase {
 
         verify(mockProjectRepository).findOne(2L);
         verify(mockProjectRepository).save(updatedProject);
+    }
+
+    @Test
+    public void createProject_throwsAnException_whenProjectExists() throws Exception {
+        when(mockProjectRepository.findByName("anyProjectName")).thenReturn(persistedProject);
+          mvc.perform(post("/api/project/new")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"anyProjectName\",\"password\":\"fullstack\"}"))
+.andExpect(status().is(400))
+            ;
     }
 }

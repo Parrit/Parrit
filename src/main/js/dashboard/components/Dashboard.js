@@ -37,6 +37,10 @@ var Dashboard = React.createClass({
         switch(this.props.newProjectErrorType) {
             case 0:
                 break;
+            case 400:
+                newProjectErrorMessage = 'Oh no. Either that project already exists or your password was invalid.';
+                newProjectNameErrorClass = 'error';
+                break;
             case 406:
                 newProjectErrorMessage = 'Uh oh. Your project name is too long, try less than 36 characters.';
                 newProjectNameErrorClass = 'error';

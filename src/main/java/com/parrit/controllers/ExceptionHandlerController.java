@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.util.NestedServletException;
+
 
 import javax.validation.ConstraintViolationException;
 
@@ -24,4 +26,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(ConstraintViolationException.class)
     public void handleConstraintViolation() {}
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NestedServletException.class)
+    public void handleServletException() {}
 }
