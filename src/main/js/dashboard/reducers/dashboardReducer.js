@@ -1,22 +1,23 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var dashboardReducer = function(state, action) {
-    if(typeof state === 'undefined') {
+const dashboardReducer = function (state, action) {
+    if (typeof state === 'undefined') {
         return {
             newProjectErrorType: 0,
             loginErrorType: 0
         };
     }
 
+    let stateClone;
     switch (action.type) {
         case "SET_NEW_PROJECT_ERROR":
-            var stateClone = _.cloneDeep(state);
+            stateClone = _.cloneDeep(state);
 
             stateClone.newProjectErrorType = action.errorStatus;
 
             return stateClone;
         case "SET_LOGIN_ERROR":
-            var stateClone = _.cloneDeep(state);
+            stateClone = _.cloneDeep(state);
 
             stateClone.loginErrorType = action.errorStatus;
 

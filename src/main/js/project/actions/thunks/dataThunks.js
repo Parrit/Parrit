@@ -1,4 +1,4 @@
-var {
+const {
         postProjectAndDo,
         postProjectPairingAndDo,
         getRecommendedPairingAndDo,
@@ -7,8 +7,8 @@ var {
         postLogout
     } = require('shared/helpers/databaseHelpers.js');
 
-var { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } = require('project/actions/creators/dataCreators.js');
-var { setErrorTypeCreator } = require('project/actions/creators/viewCreators.js');
+const { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } = require('project/actions/creators/dataCreators.js');
+const { setErrorTypeCreator } = require('project/actions/creators/viewCreators.js');
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {

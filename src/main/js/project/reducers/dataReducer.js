@@ -1,9 +1,9 @@
-var Redux = require('redux');
+const Redux = require('redux');
 
-var projectReducer = require('project/reducers/projectReducer.js');
-var pairingHistoryReducer = require('project/reducers/pairingHistoryReducer.js');
+const projectReducer = require('project/reducers/projectReducer.js');
+const pairingHistoryReducer = require('project/reducers/pairingHistoryReducer.js');
 
-var dataReducer = Redux.combineReducers({
+const dataReducer = Redux.combineReducers({
     project: projectReducer,
     pairingHistory: pairingHistoryReducer
 });

@@ -1,11 +1,11 @@
-var Redux = require('redux');
+const Redux = require('redux');
 
-var settingsReducer = require('project/reducers/settingsReducer.js');
-var dataReducer = require('project/reducers/dataReducer.js');
+const settingsReducer = require('project/reducers/settingsReducer.js');
+const dataReducer = require('project/reducers/dataReducer.js');
 
-var appReducer = Redux.combineReducers({
-	settings: settingsReducer,
-	data: dataReducer
+const appReducer = Redux.combineReducers({
+    settings: settingsReducer,
+    data: dataReducer
 });
 
 module.exports = appReducer;

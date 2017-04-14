@@ -1,39 +1,21 @@
-var React = require('react');
-var Interact = require('interact.js');
-var _ = require('lodash');
+const React = require('react');
+const PropTypes = require('prop-types');
+const Interact = require('interact.js');
+const _ = require('lodash');
 
-var Header = require('project/components/Header.js');
-var Project = require('project/components/Project.js');
-var Footer = require('shared/components/Footer.js');
-var PairingHistory = require('project/components/PairingHistory.js');
+const Header = require('project/components/Header.js');
+const Project = require('project/components/Project.js');
+const Footer = require('shared/components/Footer.js');
+const PairingHistory = require('project/components/PairingHistory.js');
 
-var App = React.createClass({
-    propTypes: {
-        movePerson: React.PropTypes.func.isRequired,
-        deletePerson: React.PropTypes.func.isRequired,
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.fromPairingBoardIndex = undefined;
+        this.toPairingBoardIndex = undefined;
+    }
 
-        savePairing: React.PropTypes.func.isRequired,
-        getRecommendedPairs: React.PropTypes.func.isRequired,
-        resetPairs: React.PropTypes.func.isRequired,
-        settings: React.PropTypes.object.isRequired,
-        data: React.PropTypes.object.isRequired,
-        setNewPersonModalOpen: React.PropTypes.func.isRequired,
-        setNewPairingBoardModalOpen: React.PropTypes.func.isRequired,
-        setPairingHistoryPanelOpen: React.PropTypes.func.isRequired,
-        setErrorType: React.PropTypes.func.isRequired,
-        createPerson: React.PropTypes.func.isRequired,
-        createPairingBoard: React.PropTypes.func.isRequired,
-        deletePairingBoard: React.PropTypes.func.isRequired,
-        renamePairingBoard: React.PropTypes.func.isRequired,
-        fetchPairingHistory: React.PropTypes.func.isRequired,
-
-        postLogout: React.PropTypes.func.isRequired
-    },
-
-    fromPairingBoardIndex: undefined,
-    toPairingBoardIndex: undefined,
-
-    componentDidMount: function() {
+    componentDidMount() {
         Interact('.draggable').draggable({
             restrict: {
                 restriction: ".project-page-container"
@@ -41,9 +23,9 @@ var App = React.createClass({
             autoScroll: true,
 
             onmove: function dragMoveListener (event) {
-                var target = event.target;
-                var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                const target = event.target;
+                const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
                 target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 
@@ -68,9 +50,9 @@ var App = React.createClass({
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
             },
-            ondragenter: this.dropzoneOnDragEnter,
-            ondragleave: this.dropzoneOnDragLeave,
-            ondrop: this.dropzoneOnDrop
+            ondragenter: this.dropzoneOnDragEnter.bind(this),
+            ondragleave: this.dropzoneOnDragLeave.bind(this),
+            ondrop: this.dropzoneOnDrop.bind(this)
         });
 
         Interact('.delete-parrit').dropzone({
@@ -91,18 +73,18 @@ var App = React.createClass({
                 event.target.classList.remove('drop-target');
                 event.relatedTarget.classList.remove('can-drop');
             },
-            ondrop: this.trashOnDrop
+            ondrop: this.trashOnDrop.bind(this)
         });
-    },
+    }
 
-	render: function() {
-        var headerProps = {
+	render() {
+        const headerProps = {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen,
             postLogout: this.props.postLogout
         };
 
-        var projectProps = {
+        const projectProps = {
             savePairing: this.props.savePairing,
             getRecommendedPairs: this.props.getRecommendedPairs,
             resetPairs: this.props.resetPairs,
@@ -117,7 +99,7 @@ var App = React.createClass({
             renamePairingBoard: this.props.renamePairingBoard
         };
 
-        var pairingHistoryProps = {
+        const pairingHistoryProps = {
             projectId: this.props.data.project.id,
             pairingHistoryList: this.props.data.pairingHistory.pairingHistoryList,
             fetchPairingHistory: this.props.fetchPairingHistory,
@@ -125,36 +107,37 @@ var App = React.createClass({
             isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
         };
 
-        var classes = "project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
+        const classes = "project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
+
 		return <div id="pairing_board_-1" className={classes}>
             <Header {...headerProps}/>
             <Project {...projectProps}/>
             <Footer/>
             <PairingHistory {...pairingHistoryProps}/>
 		</div>
-	},
+	}
 
-    dropzoneOnDragEnter: function (event) {
+    dropzoneOnDragEnter(event) {
         event.target.classList.add('drop-target');
         event.relatedTarget.classList.add('can-drop');
 
         this.toPairingBoardIndex = this.getIndexFromId(event.target.id);
-    },
+    }
 
-    dropzoneOnDragLeave: function (event) {
+    dropzoneOnDragLeave(event) {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
 
         if(this.fromPairingBoardIndex === undefined) {
             this.fromPairingBoardIndex = this.getIndexFromId(event.target.id);
         }
-    },
+    }
 
-    dropzoneOnDrop: function(event) {
+    dropzoneOnDrop(event) {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
 
-        var personIndex = this.getIndexFromId(event.relatedTarget.id);
+        const personIndex = this.getIndexFromId(event.relatedTarget.id);
 
         if(this.fromPairingBoardIndex === undefined) {
             this.fromPairingBoardIndex = this.toPairingBoardIndex;
@@ -164,26 +147,48 @@ var App = React.createClass({
 
         this.fromPairingBoardIndex = undefined;
         this.toPairingBoardIndex = undefined;
-    },
+    }
 
-    trashOnDrop: function(event) {
+    trashOnDrop(event) {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
 
-        var personIndex = this.getIndexFromId(event.relatedTarget.id);
+        const personIndex = this.getIndexFromId(event.relatedTarget.id);
 
         this.props.deletePerson(this.fromPairingBoardIndex, personIndex);
 
         this.fromPairingBoardIndex = undefined;
         this.toPairingBoardIndex = undefined;
-    },
+    }
 
-    getIndexFromId: function(idString) {
+    getIndexFromId(idString) {
         if(idString === undefined) return -1;
 
-        var segments = _.split(idString, '_');
+        const segments = _.split(idString, '_');
         return parseInt(segments[segments.length-1]);
     }
-});
+}
+
+App.propTypes = {
+    movePerson: PropTypes.func.isRequired,
+    deletePerson: PropTypes.func.isRequired,
+
+    savePairing: PropTypes.func.isRequired,
+    getRecommendedPairs: PropTypes.func.isRequired,
+    resetPairs: PropTypes.func.isRequired,
+    settings: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    setNewPersonModalOpen: PropTypes.func.isRequired,
+    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
+    setErrorType: PropTypes.func.isRequired,
+    createPerson: PropTypes.func.isRequired,
+    createPairingBoard: PropTypes.func.isRequired,
+    deletePairingBoard: PropTypes.func.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired,
+    fetchPairingHistory: PropTypes.func.isRequired,
+
+    postLogout: PropTypes.func.isRequired
+};
 
 module.exports = App;

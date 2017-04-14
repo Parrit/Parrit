@@ -13,12 +13,12 @@ buildscript {
     }
 
     repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
         mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
 
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "com.moowork.gradle:gradle-node-plugin:${nodePluginVersion}"
     }
 }
@@ -27,7 +27,6 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'com.moowork.node'
 apply plugin: 'com.moowork.grunt'
-
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -87,7 +86,7 @@ task createMigration << {
     def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
     def path = "src/main/resources/db/migration/V${timestamp}__CHANGEME.sql"
 
-    "touch $project.projectDir/$path".execute()
+    "touch ${project.projectDir}/${path}".execute()
 }
 
 defaultTasks 'clean', 'jsClean', 'build', 'jsBuild'

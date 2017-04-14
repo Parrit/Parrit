@@ -1,14 +1,14 @@
-var settingsReducer = function(state, action) {
-	if (typeof state === 'undefined') {
-		state = {
+const settingsReducer = function (state, action) {
+    if (typeof state === 'undefined') {
+        state = {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
             isPairingHistoryPanelOpen: false,
             errorType: 0
-		};
-	}
+        };
+    }
 
-	switch (action.type) {
+    switch (action.type) {
         case "SET_NEW_PERSON_MODAL_OPEN":
             return Object.assign({}, state, {isNewPersonModalOpen: action.isOpen});
         case "SET_NEW_PAIRING_BOARD_MODAL_OPEN":
@@ -17,9 +17,9 @@ var settingsReducer = function(state, action) {
             return Object.assign({}, state, {isPairingHistoryPanelOpen: action.isOpen});
         case "SET_ERROR_TYPE":
             return Object.assign({}, state, {errorType: action.errorType});
-		default:
-			return state;
-	}
+        default:
+            return state;
+    }
 };
 
 module.exports = settingsReducer;

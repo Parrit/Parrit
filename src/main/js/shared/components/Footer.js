@@ -1,12 +1,12 @@
-var React = require('react');
+const React = require('react');
 
-var Footer = React.createClass({
-    render: function() {
+class Footer extends React.Component {
+    render() {
         return <footer>
             <div className="fake-copyright">&copy; Parrit 2016</div>
-            <div className="github-link"><a target="_blank" href="http://www.github.com/pinwheeler/Parrit">GitHub</a></div>
+            <div className="github-link"><a target="_blank" href="http://www.github.com/Parrit/Parrit">GitHub</a></div>
         </footer>;
     }
-});
+}
 
 module.exports = Footer;

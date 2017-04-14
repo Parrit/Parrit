@@ -1,7 +1,7 @@
-var ReactTestUtils = require('react-addons-test-utils');
+const ReactTestUtils = require('react-dom/test-utils');
 
 function renderComponent(reactComponent, renderJSX) {
-    var document = ReactTestUtils.renderIntoDocument(renderJSX);
+    const document = ReactTestUtils.renderIntoDocument(renderJSX);
     return ReactTestUtils.findRenderedComponentWithType(document, reactComponent);
 }
 

@@ -1,25 +1,29 @@
-var React = require('react');
+const React = require('react');
+const PropTypes = require('prop-types');
 
-var Footer = require('shared/components/Footer.js');
-var Button = require('shared/components/Button.js');
+const Footer = require('shared/components/Footer.js');
+const Button = require('shared/components/Button.js');
 
-var Dashboard = React.createClass({
-    propTypes: {
-        newProjectErrorType: React.PropTypes.number.isRequired,
-        loginErrorType: React.PropTypes.number.isRequired,
-        login: React.PropTypes.func.isRequired,
-        createProject: React.PropTypes.func.isRequired
-    },
+class Dashboard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            newProjectName: '',
+            newProjectPassword: '',
+            loginProjectName: '',
+            loginProjectPassword: ''
+        };
+    }
 
-    render: function() {
-        var newProjectErrorMessage = '';
-        var newProjectNameErrorClass = '';
+    render() {
+        let newProjectErrorMessage = '';
+        let newProjectNameErrorClass = '';
 
-        var loginErrorMessage = '';
-        var loginUsernameErrorClass = '';
-        var loginPasswordErrorClass = '';
+        let loginErrorMessage = '';
+        let loginUsernameErrorClass = '';
+        let loginPasswordErrorClass = '';
 
-        switch(this.props.loginErrorType) {
+        switch (this.props.loginErrorType) {
             case 0:
                 break;
             case 400:
@@ -34,7 +38,7 @@ var Dashboard = React.createClass({
                 loginErrorMessage = 'Unknown error.';
         }
 
-        switch(this.props.newProjectErrorType) {
+        switch (this.props.newProjectErrorType) {
             case 0:
                 break;
             case 406:
@@ -48,23 +52,27 @@ var Dashboard = React.createClass({
         return <div className="dashboard-container">
             <div className="dashboard-content-container">
                 <div className="dashboard-content">
-                    <div className="logo"></div>
+                    <div className="logo"/>
                     <div className="description">
-                        A historical recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
+                        A historical recommendation engine for daily pair rotation management, with an interactive
+                        visual aide of each pairing team.
                     </div>
                     <div className="forms-container">
-                        <form className="form new-form" onSubmit={this.createProjectWithName}>
+                        <form className="form new-form" onSubmit={this.createProjectWithName.bind(this)}>
                             <h2 className="form-label">Create Project</h2>
-                            <input className={newProjectNameErrorClass} type="text" placeholder="Project name" onChange={this.handleNewProjectName}/>
-                            <input type="password" placeholder="Password" onChange={this.handleNewProjectPassword}/>
+                            <input className={newProjectNameErrorClass} type="text" placeholder="Project name"
+                                   onChange={this.handleNewProjectName.bind(this)}/>
+                            <input type="password" placeholder="Password" onChange={this.handleNewProjectPassword.bind(this)}/>
                             <Button className="button-blue" name="Create" type="submit"/>
                             <div className="error-message">{newProjectErrorMessage}</div>
                         </form>
-                        <div className="dotted-line"></div>
-                        <form className="form login-form" onSubmit={this.handleLogin}>
+                        <div className="dotted-line"/>
+                        <form className="form login-form" onSubmit={this.handleLogin.bind(this)}>
                             <h2 className="form-label">Login to Project</h2>
-                            <input className={loginUsernameErrorClass} type="text" placeholder="Project name" onChange={this.handleLoginName}/>
-                            <input className={loginPasswordErrorClass} type="password" placeholder="Password" onChange={this.handleLoginPassword}/>
+                            <input className={loginUsernameErrorClass} type="text" placeholder="Project name"
+                                   onChange={this.handleLoginName.bind(this)}/>
+                            <input className={loginPasswordErrorClass} type="password" placeholder="Password"
+                                   onChange={this.handleLoginPassword.bind(this)}/>
                             <Button className="button-green" name="Login" type="submit"/>
                             <div className="error-message">{loginErrorMessage}</div>
                         </form>
@@ -78,42 +86,40 @@ var Dashboard = React.createClass({
             </div>
             <Footer/>
         </div>
-    },
+    }
 
-    getInitialState: function() {
-        return {
-            newProjectName: '',
-            newProjectPassword: '',
-            loginProjectName: '',
-            loginProjectPassword: ''
-        };
-    },
-
-    handleLoginName: function(event) {
+    handleLoginName(event) {
         this.setState({loginProjectName: event.target.value});
-    },
+    }
 
-    handleLoginPassword: function(event) {
+    handleLoginPassword(event) {
         this.setState({loginProjectPassword: event.target.value});
-    },
+    }
 
-    handleLogin: function(event) {
+    handleLogin(event) {
         event.preventDefault();
         this.props.login(this.state.loginProjectName, this.state.loginProjectPassword)
-    },
+    }
 
-    handleNewProjectName: function(event) {
+    handleNewProjectName(event) {
         this.setState({newProjectName: event.target.value});
-    },
+    }
 
-    handleNewProjectPassword: function(event) {
+    handleNewProjectPassword(event) {
         this.setState({newProjectPassword: event.target.value});
-    },
+    }
 
-    createProjectWithName: function(event) {
+    createProjectWithName(event) {
         event.preventDefault();
         this.props.createProject(this.state.newProjectName, this.state.newProjectPassword)
     }
-});
+}
+
+Dashboard.propTypes = {
+    newProjectErrorType: PropTypes.number.isRequired,
+    loginErrorType: PropTypes.number.isRequired,
+    login: PropTypes.func.isRequired,
+    createProject: PropTypes.func.isRequired
+};
 
 module.exports = Dashboard;

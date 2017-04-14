@@ -1,4 +1,4 @@
-var modalStyle = {
+const modalStyle = {
     overlay : {
         backgroundColor: null
     },

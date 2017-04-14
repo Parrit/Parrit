@@ -1,4 +1,4 @@
-var Axios = require('axios');
+const Axios = require('axios');
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 

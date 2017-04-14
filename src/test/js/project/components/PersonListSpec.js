@@ -1,16 +1,16 @@
-var React = require('react');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var PersonList = require('project/components/PersonList.js');
-var PersonMock = Mocker("Person");
+const PersonList = require('project/components/PersonList.js');
+const PersonMock = Mocker("Person");
 PersonList.__set__('Person', PersonMock);
 
 describe('PersonList', function() {
     it('renders all of the people', function() {
-        var props = {
+        const props = {
             people: [
                 {
                     name: "George"
@@ -22,9 +22,9 @@ describe('PersonList', function() {
             index: 1
         };
 
-        var personList = RenderComponent(PersonList, <PersonList {...props} />);
+        const personList = RenderComponent(PersonList, <PersonList {...props} />);
 
-        var people = ReactTestUtils.scryRenderedComponentsWithType(personList, PersonMock);
+        const people = ReactTestUtils.scryRenderedComponentsWithType(personList, PersonMock);
         expect(people.length).toBe(2, 'Not enough people');
 
         expect(people[0].props.name).toBe("George");
@@ -37,7 +37,7 @@ describe('PersonList', function() {
     });
 
     it('can render two people with the same name', function() {
-        var props = {
+        const props = {
             name: "PairingBoard1",
             people: [
                 {
@@ -50,9 +50,9 @@ describe('PersonList', function() {
             index: 1
         };
 
-        var personList = RenderComponent(PersonList, <PersonList {...props} />);
+        const personList = RenderComponent(PersonList, <PersonList {...props} />);
 
-        var people = ReactTestUtils.scryRenderedComponentsWithType(personList, PersonMock);
+        const people = ReactTestUtils.scryRenderedComponentsWithType(personList, PersonMock);
         expect(people.length).toBe(2, 'Not enough people');
 
         expect(people[0].props.name).toBe("Hank Muchacho");

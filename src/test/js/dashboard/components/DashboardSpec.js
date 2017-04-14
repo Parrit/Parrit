@@ -1,17 +1,17 @@
-var React = require('react');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var Dashboard = require('dashboard/components/Dashboard.js');
-var ButtonMock = Mocker('Button');
+const Dashboard = require('dashboard/components/Dashboard.js');
+const ButtonMock = Mocker('Button');
 Dashboard.__set__('Button', ButtonMock);
 
 describe('Dashboard', function() {
-    var props;
-    var dashboard;
-    var event = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
+    let props;
+    let dashboard;
+    const event = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
     beforeEach(function() {
         props = {
             newProjectErrorType: 0,
@@ -25,8 +25,8 @@ describe('Dashboard', function() {
 
     describe('#newProjectErrorType', function() {
         it('does not display a new project error message when newProjectErrorType is 0', function() {
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var newProjectErrorMessage = errorMessage[0];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const newProjectErrorMessage = errorMessage[0];
             expect(newProjectErrorMessage.innerHTML).toBe('');
         });
 
@@ -35,12 +35,12 @@ describe('Dashboard', function() {
 
             dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var newProjectErrorMessage = errorMessage[0];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const newProjectErrorMessage = errorMessage[0];
             expect(newProjectErrorMessage.innerHTML).toBe('Uh oh. Your project name is too long, try less than 36 characters.');
 
-            var allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
-            var newProjectNameInput = allInputs[0];
+            const allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            const newProjectNameInput = allInputs[0];
             expect(newProjectNameInput.classList).toContain('error');
         });
 
@@ -49,16 +49,16 @@ describe('Dashboard', function() {
 
             dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var newProjectErrorMessage = errorMessage[0];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const newProjectErrorMessage = errorMessage[0];
             expect(newProjectErrorMessage.innerHTML).toBe('Unknown error.');
         });
     });
 
     describe('#loginErrorType', function() {
         it('does not display a login error message when loginErrorType is 0', function() {
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var loginErrorMessage = errorMessage[1];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const loginErrorMessage = errorMessage[1];
             expect(loginErrorMessage.innerHTML).toBe('');
         });
 
@@ -67,12 +67,12 @@ describe('Dashboard', function() {
 
             dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var loginErrorMessage = errorMessage[1];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const loginErrorMessage = errorMessage[1];
             expect(loginErrorMessage.innerHTML).toBe('Keeaa!? That’s not your project name.');
 
-            var allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
-            var loginUsernameInput = allInputs[2];
+            const allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            const loginUsernameInput = allInputs[2];
             expect(loginUsernameInput.classList).toContain('error');
         });
 
@@ -81,12 +81,12 @@ describe('Dashboard', function() {
 
             dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var loginErrorMessage = errorMessage[1];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const loginErrorMessage = errorMessage[1];
             expect(loginErrorMessage.innerHTML).toBe('Polly want a cracker? Try another password.');
 
-            var allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
-            var loginPasswordInput = allInputs[3];
+            const allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            const loginPasswordInput = allInputs[3];
             expect(loginPasswordInput.classList).toContain('error');
         });
 
@@ -95,8 +95,8 @@ describe('Dashboard', function() {
 
             dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
-            var errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
-            var loginErrorMessage = errorMessage[1];
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const loginErrorMessage = errorMessage[1];
             expect(loginErrorMessage.innerHTML).toBe('Unknown error.');
         });
     });

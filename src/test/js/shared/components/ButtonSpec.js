@@ -1,14 +1,14 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Button = require('shared/components/Button.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Button = require('shared/components/Button.js');
 
 describe('Button', function() {
     describe('#createButtonClass', function() {
-        var props;
-        var renderedButton;
+        let props;
+        let renderedButton;
         beforeEach(function() {
             props = {
                 name: 'button',
@@ -45,12 +45,12 @@ describe('Button', function() {
             props.shortName = 'short';
             renderedButton = RenderComponent(Button, <Button {...props} />);
 
-            var shortName = ReactTestUtils.findRenderedDOMComponentWithClass(renderedButton, 'short-name');
+            const shortName = ReactTestUtils.findRenderedDOMComponentWithClass(renderedButton, 'short-name');
             expect(shortName.innerHTML).toBe("short");
         });
 
         it('defaults short name to the name property when no short name is provided', function() {
-            var shortName = ReactTestUtils.findRenderedDOMComponentWithClass(renderedButton, 'short-name');
+            const shortName = ReactTestUtils.findRenderedDOMComponentWithClass(renderedButton, 'short-name');
             expect(shortName.innerHTML).toBe("button");
         });
     });

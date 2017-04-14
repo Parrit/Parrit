@@ -1,20 +1,23 @@
-var React = require('react');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var Project = require('project/components/Project.js');
-var ButtonMock = Mocker('Button');
-var WorkspaceMock = Mocker('Workspace');
+const Project = require('project/components/Project.js');
+const ButtonMock = Mocker('Button');
+const WorkspaceMock = Mocker('Workspace');
 Project.__set__('Button', ButtonMock);
 Project.__set__('Workspace', WorkspaceMock);
 
 describe('Project', function() {
-    var props = {
-        getRecommendedPairs: function(){},
-        savePairing: function(){},
-        resetPairs: function(){},
+    const props = {
+        getRecommendedPairs: function () {
+        },
+        savePairing: function () {
+        },
+        resetPairs: function () {
+        },
 
         settings: {},
         data: {
@@ -34,28 +37,35 @@ describe('Project', function() {
                 ]
             }
         },
-        setNewPersonModalOpen: function(){},
-        setNewPairingBoardModalOpen: function(){},
-        setErrorType: function(){},
-        createPerson: function(){},
-        createPairingBoard: function(){},
-        deletePairingBoard: function(){},
-        renamePairingBoard: function(){}
+        setNewPersonModalOpen: function () {
+        },
+        setNewPairingBoardModalOpen: function () {
+        },
+        setErrorType: function () {
+        },
+        createPerson: function () {
+        },
+        createPairingBoard: function () {
+        },
+        deletePairingBoard: function () {
+        },
+        renamePairingBoard: function () {
+        }
     };
 
-    var project;
+    let project;
     beforeEach(function() {
         project = RenderComponent(Project, <Project {...props} />);
     });
 
     it('displays the project name', function() {
-        var projectName = ReactTestUtils.findRenderedDOMComponentWithClass(project, 'project-name');
+        const projectName = ReactTestUtils.findRenderedDOMComponentWithClass(project, 'project-name');
         expect(projectName.innerHTML).toBe('The Best Around');
     });
 
     it('has a reset pairs button', function() {
-        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
-        var recommendPairsButton = allButtons[0];
+        const allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
+        const recommendPairsButton = allButtons[0];
 
         expect(recommendPairsButton.props.className).toBe('button-blue');
         expect(recommendPairsButton.props.name).toBe('Reset Pairs');
@@ -63,8 +73,8 @@ describe('Project', function() {
         expect(recommendPairsButton.props.clickFunction).toBe(props.resetPairs);
     });
     it('has a recommend pairs button', function() {
-        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
-        var recommendPairsButton = allButtons[1];
+        const allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
+        const recommendPairsButton = allButtons[1];
 
         expect(recommendPairsButton.props.className).toBe('button-blue');
         expect(recommendPairsButton.props.name).toBe('Recommend Pairs');
@@ -73,8 +83,8 @@ describe('Project', function() {
     });
 
     it('has a records pairs button', function() {
-        var allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
-        var recordPairs = allButtons[2];
+        const allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
+        const recordPairs = allButtons[2];
 
         expect(recordPairs.props.className).toBe('button-green');
         expect(recordPairs.props.name).toBe('Record Pairs');
@@ -83,7 +93,7 @@ describe('Project', function() {
     });
 
     it('has a configured Workspace component as a child', function() {
-        var workspaceComponent = ReactTestUtils.findRenderedComponentWithType(project, WorkspaceMock);
+        const workspaceComponent = ReactTestUtils.findRenderedComponentWithType(project, WorkspaceMock);
         expect(workspaceComponent).toBeTruthy('No Menu component found');
 
         expect(workspaceComponent.props.projectId).toBe(props.data.project.id, 'No projectId passed to project');

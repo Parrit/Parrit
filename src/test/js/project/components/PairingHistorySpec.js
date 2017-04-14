@@ -1,19 +1,19 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var PairingHistory = require('project/components/PairingHistory.js');
+const PairingHistory = require('project/components/PairingHistory.js');
 
-var PairingHistoryRecordListMock = Mocker("PairingHistoryRecordList");
+const PairingHistoryRecordListMock = Mocker("PairingHistoryRecordList");
 PairingHistory.__set__('PairingHistoryRecordList', PairingHistoryRecordListMock);
 
 describe('PairingHistory', function() {
-    var props;
-    var pairingHistory;
-    var pairingHistoryElement;
+    let props;
+    let pairingHistory;
+    let pairingHistoryElement;
 
     beforeEach(function() {
         props = {
@@ -38,7 +38,7 @@ describe('PairingHistory', function() {
     
     describe('when the pairingHistoryList has content', function() {
         it('renders the pairing history records', function() {
-            var pairingHistoryRecordList = ReactTestUtils.findRenderedComponentWithType(pairingHistory, PairingHistoryRecordListMock);
+            const pairingHistoryRecordList = ReactTestUtils.findRenderedComponentWithType(pairingHistory, PairingHistoryRecordListMock);
             expect(pairingHistoryRecordList).toBeTruthy();
             
             expect(pairingHistoryRecordList.props.pairingHistoryList).toBe(props.pairingHistoryList);
@@ -52,13 +52,13 @@ describe('PairingHistory', function() {
         });
         
         it('renders the no-history display text', function() {
-            var noHistory = ReactTestUtils.findRenderedDOMComponentWithClass(pairingHistory, 'no-history-content');
+            const noHistory = ReactTestUtils.findRenderedDOMComponentWithClass(pairingHistory, 'no-history-content');
             expect(noHistory.innerHTML).toBe("‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.")
         });
     });
 
     it('displays the pairing history panel when isPairingHistoryPanelOpen is true', function() {
-        var pairingHistoryPanel = ReactTestUtils.findRenderedDOMComponentWithClass(pairingHistory, 'panel-open');
+        const pairingHistoryPanel = ReactTestUtils.findRenderedDOMComponentWithClass(pairingHistory, 'panel-open');
         expect(pairingHistoryPanel).toBeTruthy();
     });
 

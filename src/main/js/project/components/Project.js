@@ -1,27 +1,12 @@
-var React = require('react');
+const React = require('react');
+const PropTypes = require('prop-types');
 
-var Workspace = require('project/components/Workspace.js');
-var Button = require('shared/components/Button.js');
+const Workspace = require('project/components/Workspace.js');
+const Button = require('shared/components/Button.js');
 
-var Project = React.createClass({
-    propTypes: {
-        savePairing: React.PropTypes.func.isRequired,
-        getRecommendedPairs: React.PropTypes.func.isRequired,
-        resetPairs: React.PropTypes.func.isRequired,
-
-        settings: React.PropTypes.object.isRequired,
-        data: React.PropTypes.object.isRequired,
-        setNewPersonModalOpen: React.PropTypes.func.isRequired,
-        setNewPairingBoardModalOpen: React.PropTypes.func.isRequired,
-        setErrorType: React.PropTypes.func.isRequired,
-        createPerson: React.PropTypes.func.isRequired,
-        createPairingBoard: React.PropTypes.func.isRequired,
-        deletePairingBoard: React.PropTypes.func.isRequired,
-        renamePairingBoard: React.PropTypes.func.isRequired
-    },
-
-    render: function() {
-        var workspaceProps = {
+class Project extends React.Component {
+    render() {
+        const workspaceProps = {
             projectId: this.props.data.project.id,
             settings: this.props.settings,
             people: this.props.data.project.people,
@@ -44,10 +29,26 @@ var Project = React.createClass({
                     <Button className="button-green" tooltip="Make note of parings for future recommendations" name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>
                 </div>
             </div>
-            <div className="sub-header-dotted-line"></div>
+            <div className="sub-header-dotted-line"/>
             <Workspace {...workspaceProps}/>
         </div>
     }
-});
+}
+
+Project.propTypes = {
+    savePairing: PropTypes.func.isRequired,
+    getRecommendedPairs: PropTypes.func.isRequired,
+    resetPairs: PropTypes.func.isRequired,
+
+    settings: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    setNewPersonModalOpen: PropTypes.func.isRequired,
+    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    setErrorType: PropTypes.func.isRequired,
+    createPerson: PropTypes.func.isRequired,
+    createPairingBoard: PropTypes.func.isRequired,
+    deletePairingBoard: PropTypes.func.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired
+};
 
 module.exports = Project;

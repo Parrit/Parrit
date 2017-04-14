@@ -1,16 +1,16 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
+const RenderComponent = require('support/RenderComponent.js');
 
-var NameForm = require('shared/components/NameForm.js');
+const NameForm = require('shared/components/NameForm.js');
 
 describe('NameForm', function() {
-    var props;
-    var nameForm;
-    var nameFormElement;
-    var input;
+    let props;
+    let nameForm;
+    let nameFormElement;
+    let input;
     beforeEach(function() {
         props  = {
             formTitle: "Form Title",
@@ -26,12 +26,12 @@ describe('NameForm', function() {
     });
 
     it('displays the form title', function() {
-        var formTitle = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'form-title');
+        const formTitle = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'form-title');
         expect(formTitle.innerHTML).toBe("Form Title");
     });
 
     it('has a cancel button', function() {
-        var cancel = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'form-cancel');
+        const cancel = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'form-cancel');
         expect(cancel).toBeTruthy();
     });
 
@@ -40,12 +40,12 @@ describe('NameForm', function() {
     });
 
     it('displays the error message', function() {
-        var errorMessage = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'error-message');
+        const errorMessage = ReactTestUtils.findRenderedDOMComponentWithClass(nameForm, 'error-message');
         expect(errorMessage.innerHTML).toBe('ERROR');
     });
 
     describe('#submit', function() {
-        var e;
+        let e;
         beforeEach(function() {
             e = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
         });

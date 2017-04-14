@@ -1,20 +1,16 @@
-var React = require('react');
-var Moment = require('moment-timezone');
+const React = require('react');
+const PropTypes = require('prop-types');
+const Moment = require('moment-timezone');
 
-var PairingHistoryRecord = React.createClass({
-    propTypes: {
-        pairingTime: React.PropTypes.string.isRequired,
-        pairingBoardsWithPeople: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
-    },
-
-    render: function() {
-        var currentTimeZone = Moment.tz.guess();
-        var timeZoneAdjustedPairingTime = Moment.tz(this.props.pairingTime, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]", 'UTC')
-                                            .tz(currentTimeZone)
-                                            .format('MMMM D, YYYY h:mm A');
+class PairingHistoryRecord extends React.Component {
+    render() {
+        const currentTimeZone = Moment.tz.guess();
+        const timeZoneAdjustedPairingTime = Moment.tz(this.props.pairingTime, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]", 'UTC')
+            .tz(currentTimeZone)
+            .format('MMMM D, YYYY h:mm A');
 
         return <div className="pairing-history-record">
-            <div className="pairing-history-record-clock"></div>
+            <div className="pairing-history-record-clock"/>
             <h3 className="pairing-time">{timeZoneAdjustedPairingTime}</h3>
             
             <div className="pairing-boards-with-people">
@@ -30,9 +26,14 @@ var PairingHistoryRecord = React.createClass({
                 })}
             </div>
 
-            <div className="dotted-line"></div>
+            <div className="dotted-line"/>
         </div>
     }
-});
+}
+
+PairingHistoryRecord.propTypes = {
+    pairingTime: PropTypes.string.isRequired,
+    pairingBoardsWithPeople: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 module.exports = PairingHistoryRecord;

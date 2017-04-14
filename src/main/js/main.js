@@ -1,7 +1,7 @@
-var runProject = require('project/runProject.js');
-var runDashboard = require('dashboard/runDashboard.js');
-var runProjectLogin = require('project-login/runProjectLogin.js');
-var runError = require('error/runError.js');
+const runProject = require('project/runProject.js');
+const runDashboard = require('dashboard/runDashboard.js');
+const runProjectLogin = require('project-login/runProjectLogin.js');
+const runError = require('error/runError.js');
 
 window.runProject = runProject;
 window.runDashboard = runDashboard;

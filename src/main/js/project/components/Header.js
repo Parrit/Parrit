@@ -1,14 +1,10 @@
-var React = require('react');
+const React = require('react');
+const PropTypes = require('prop-types');
 
-var Header = React.createClass({
-    propTypes: {
-        setPairingHistoryPanelOpen: React.PropTypes.func.isRequired,
-        isPairingHistoryPanelOpen: React.PropTypes.bool.isRequired,
-        postLogout: React.PropTypes.func.isRequired
-    },
+class Header extends React.Component {
+    render() {
+        const classes = 'history' + (this.props.isPairingHistoryPanelOpen ? ' open' : '');
 
-    render: function() {
-        var classes = 'history' + (this.props.isPairingHistoryPanelOpen ? ' open' : '');
         return <header>
             <a href="/" className="header-logo"/>
             <div className="links">
@@ -16,20 +12,26 @@ var Header = React.createClass({
                 <a href="https://docs.google.com/forms/d/1Xg5xKGv0uLcRLA3WR9CiwE3tfz6-5ocGcImq6_MgLB4/viewform" target="_blank">
                     <h3 className="feedback">feedback</h3>
                 </a>
-                <h3 className={classes} onClick={this.props.isPairingHistoryPanelOpen ? this.closePairingHistoryPanel : this.openPairingHistoryPanel}>HISTORY
-                    <div className={this.props.isPairingHistoryPanelOpen ? 'history-caret-right' : 'history-caret-left'}></div>
+                <h3 className={classes} onClick={this.props.isPairingHistoryPanelOpen ? this.closePairingHistoryPanel.bind(this) : this.openPairingHistoryPanel.bind(this)}>HISTORY
+                    <div className={this.props.isPairingHistoryPanelOpen ? 'history-caret-right' : 'history-caret-left'}/>
                 </h3>
             </div>
         </header>
-    },
+    }
 
-    openPairingHistoryPanel: function() {
+    openPairingHistoryPanel() {
         this.props.setPairingHistoryPanelOpen(true);
-    },
+    }
 
-    closePairingHistoryPanel: function() {
+    closePairingHistoryPanel() {
         this.props.setPairingHistoryPanelOpen(false);
     }
-});
+}
+
+Header.propTypes = {
+    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
+    isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
+    postLogout: PropTypes.func.isRequired
+};
 
 module.exports = Header;

@@ -1,17 +1,17 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var PairingBoard = require('project/components/PairingBoard.js');
-var PersonListMock = Mocker("PersonList");
+const PairingBoard = require('project/components/PairingBoard.js');
+const PersonListMock = Mocker("PersonList");
 PairingBoard.__set__('PersonList', PersonListMock);
 
 describe('PairingBoard', function() {
-    var props;
-    var pairingBoard;
+    let props;
+    let pairingBoard;
     beforeEach(function() {
         props  = {
             name: "PairingBoard1",
@@ -33,23 +33,23 @@ describe('PairingBoard', function() {
     });
 
     it('renders the pairingBoard element with an id relative to index', function() {
-        var pairingBoardElement = ReactDOM.findDOMNode(pairingBoard);
+        const pairingBoardElement = ReactDOM.findDOMNode(pairingBoard);
         expect(pairingBoardElement.id).toBe("pairing_board_1", "No correct id");
     });
 
     it('renders the list of people', function() {
-        var people = ReactTestUtils.findRenderedComponentWithType(pairingBoard, PersonListMock);
+        const people = ReactTestUtils.findRenderedComponentWithType(pairingBoard, PersonListMock);
         expect(people.props.people).toBe(props.people);
         expect(people.props.index).toBe(props.index);
     });
 
     it('renders a rename button', function() {
-        var renameButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'rename-pairing-board');
+        const renameButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'rename-pairing-board');
         expect(renameButton).toBeTruthy();
     });
 
     it('renders a delete button', function() {
-        var deleteButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'delete-pairing-board');
+        const deleteButton = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'delete-pairing-board');
         expect(deleteButton).toBeTruthy();
     });
 
@@ -62,7 +62,7 @@ describe('PairingBoard', function() {
 
     describe('#renamePairingBoard', function() {
         it('calls the renamePairingBoard prop function with the index prop and event target value', function() {
-            var event = {target: {value: 'Cheese'}};
+            const event = {target: {value: 'Cheese'}};
             pairingBoard.renamePairingBoard(event);
             expect(props.renamePairingBoard).toHaveBeenCalledWith(1, 'Cheese');
         });
@@ -90,7 +90,7 @@ describe('PairingBoard', function() {
         });
 
         it('renders an exempt header', function() {
-            var exemptHeader = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'pairing-board exempt');
+            const exemptHeader = ReactTestUtils.findRenderedDOMComponentWithClass(pairingBoard, 'pairing-board exempt');
             expect(exemptHeader).toBeTruthy();
         });
 

@@ -1,44 +1,41 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const PropTypes = require('prop-types');
 
-var PersonList = require('project/components/PersonList.js');
+const PersonList = require('project/components/PersonList.js');
 
-var PairingBoard = React.createClass({
-    propTypes: {
-        name: React.PropTypes.string.isRequired,
-        people: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-        index: React.PropTypes.number.isRequired,
-        exempt: React.PropTypes.bool.isRequired,
-        deletePairingBoard: React.PropTypes.func.isRequired,
-        renamePairingBoard: React.PropTypes.func.isRequired
-    },
+class PairingBoard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {editMode: false};
+    }
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
         if(this.state.editMode) {
             setTimeout(function () {
                 ReactDOM.findDOMNode(this.refs.editName).select();
             }.bind(this), 0);
         }
-    },
+    }
 
-    render: function() {
-        var pairingBoardIndex = this.props.index;
+    render() {
+        const pairingBoardIndex = this.props.index;
 
-        var pairingBoardClasses = "pairing-board dropzone";
-        var pairingBoardNameSection;
-        var pairingBoardDeleteSection;
+        let pairingBoardClasses = "pairing-board dropzone";
+        let pairingBoardNameSection;
+        let pairingBoardDeleteSection;
 
         if (this.state.editMode) {
             pairingBoardClasses += " editing";
             pairingBoardNameSection = <div className="pairing-board-name-wrapper">
                 <input ref="editName" className="editing-pairing-board-name" defaultValue={this.props.name}
-                       onBlur={this.renamePairingBoard} onKeyDown={this.onKeyDownHandler}/>
+                       onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
             </div>;
         }
         else {
-            pairingBoardNameSection = <div className="pairing-board-name-wrapper" onClick={this.enableEditMode}>
+            pairingBoardNameSection = <div className="pairing-board-name-wrapper" onClick={this.enableEditMode.bind(this)}>
                 <h3 className="pairing-board-name">{this.props.name}</h3>
-                <div className="rename-pairing-board"></div>
+                <div className="rename-pairing-board"/>
             </div>;
         }
 
@@ -47,7 +44,7 @@ var PairingBoard = React.createClass({
             pairingBoardDeleteSection = null;
         }
         else {
-            pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard}></div>;
+            pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard.bind(this)}/>;
         }
 
         return <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
@@ -57,35 +54,40 @@ var PairingBoard = React.createClass({
             </div>
             <PersonList people={this.props.people} index={pairingBoardIndex} />
 		</div>
-	},
+	}
 
-    getInitialState: function() {
-        return {editMode: false};
-    },
-
-    enableEditMode: function() {
+    enableEditMode() {
         this.setState({editMode: true});
-    },
+    }
 
-    disableEditMode: function() {
+    disableEditMode() {
         this.setState({editMode: false});
-    },
+    }
 
-    onKeyDownHandler: function(event) {
-        var EnterKeyCode = 13;
-        if(event.keyCode == EnterKeyCode) {
+    onKeyDownHandler(event) {
+        const EnterKeyCode = 13;
+        if(event.keyCode === EnterKeyCode) {
             this.renamePairingBoard(event);
         }
-    },
+    }
 
-    deletePairingBoard: function() {
+    deletePairingBoard() {
         this.props.deletePairingBoard(this.props.index);
-    },
+    }
 
-    renamePairingBoard: function(newName) {
+    renamePairingBoard(newName) {
         this.props.renamePairingBoard(this.props.index, newName.target.value);
         this.disableEditMode();
     }
-});
+}
+
+PairingBoard.propTypes = {
+    name: PropTypes.string.isRequired,
+    people: PropTypes.arrayOf(PropTypes.object).isRequired,
+    index: PropTypes.number.isRequired,
+    exempt: PropTypes.bool.isRequired,
+    deletePairingBoard: PropTypes.func.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired
+};
 
 module.exports = PairingBoard;

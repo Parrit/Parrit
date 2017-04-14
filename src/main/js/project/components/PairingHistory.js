@@ -1,38 +1,33 @@
-var React = require('react');
-var $ = require('jquery');
+const React = require('react');
+const PropTypes = require('prop-types');
+const $ = require('jquery');
 require('malihu-custom-scrollbar-plugin')($);
 
-var PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
+const PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
 
-var PairingHistory = React.createClass({
-    propTypes: {
-        pairingHistoryList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-        fetchPairingHistory: React.PropTypes.func.isRequired,
-        setPairingHistoryPanelOpen: React.PropTypes.func.isRequired,
-        isPairingHistoryPanelOpen: React.PropTypes.bool.isRequired
-    },
-    
-    componentDidMount: function() {
+class PairingHistory extends React.Component {
+    componentDidMount() {
         this.props.fetchPairingHistory(this.props.projectId);
         $('.pairing-history-panel').mCustomScrollbar({theme:"minimal-dark"});
-    },
+    }
 
-    render: function() {
-        var pairingHistoryRecordListProps = {
+    render() {
+        const pairingHistoryRecordListProps = {
             pairingHistoryList: this.props.pairingHistoryList
         };
 
-        var classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
+        const classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
+
         return <div className={classes}>
             <div className="header">
                 <h2>Pair Rotation History</h2>
-                <div className="cancel" onClick={this.closePairingHistoryPanel}></div>
+                <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
             </div>
             <div className="body">
                 {(function(pairingHistoryList){
-                    if(pairingHistoryList.length == 0) {
+                    if(pairingHistoryList.length === 0) {
                         return <div className="no-history">
-                            <div className="clock"></div>
+                            <div className="clock"/>
                             <div className="no-history-content">
                                 ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
                             </div>
@@ -44,11 +39,18 @@ var PairingHistory = React.createClass({
                 })(this.props.pairingHistoryList)}
             </div>
         </div>
-    },
+    }
 
-    closePairingHistoryPanel: function() {
+    closePairingHistoryPanel() {
         this.props.setPairingHistoryPanelOpen(false);
     }
-});
+}
+
+PairingHistory.propTypes = {
+    pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fetchPairingHistory: PropTypes.func.isRequired,
+    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
+    isPairingHistoryPanelOpen: PropTypes.bool.isRequired
+};
 
 module.exports = PairingHistory;

@@ -1,7 +1,7 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var pairingHistoryReducer = function(state, action) {
-    if(typeof state === 'undefined') {
+const pairingHistoryReducer = function (state, action) {
+    if (typeof state === 'undefined') {
         return {
             pairingHistoryList: []
         };
@@ -13,7 +13,7 @@ var pairingHistoryReducer = function(state, action) {
                 pairingHistoryList: action.pairingHistoryList
             };
         case "UPDATE_PAIRING_HISTORIES":
-            var stateClone = _.cloneDeep(state);
+            const stateClone = _.cloneDeep(state);
 
             stateClone.pairingHistoryList = action.newPairingHistories.concat(stateClone.pairingHistoryList);
 

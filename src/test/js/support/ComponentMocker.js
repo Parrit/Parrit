@@ -1,12 +1,11 @@
-var React = require('react');
+const React = require('react');
 
-module.exports = function(name) {
-    return React.createClass({
-        render:
-            function(){
-                return <div name={name}>
-                    {this.props.children}
-                    </div>;
-            }
-    });
+module.exports = function (name) {
+    return class extends React.Component {
+        render() {
+            return <div name={name}>
+                {this.props.children}
+            </div>;
+        }
+    };
 };

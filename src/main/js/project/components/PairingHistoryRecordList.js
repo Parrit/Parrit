@@ -1,13 +1,10 @@
-var React = require('react');
+const React = require('react');
+const PropTypes = require('prop-types');
 
-var PairingHistoryRecord = require('project/components/PairingHistoryRecord.js');
+const PairingHistoryRecord = require('project/components/PairingHistoryRecord.js');
 
-var PairingHistoryRecordList = React.createClass({
-    propTypes: {
-        pairingHistoryList: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
-    },
-
-    render: function() {
+class PairingHistoryRecordList extends React.Component {
+    render() {
 
         function createPairingHistoryRecord(pairingTime) {
             return {
@@ -16,9 +13,9 @@ var PairingHistoryRecordList = React.createClass({
             }
         }
 
-        var pairingHistoryRecords = [];
-        var currentPairingTime = this.props.pairingHistoryList[0].pairingTime;
-        var currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime);
+        const pairingHistoryRecords = [];
+        let currentPairingTime = this.props.pairingHistoryList[0].pairingTime;
+        let currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime);
 
         this.props.pairingHistoryList.forEach(function(pairingHistory) {
             if(pairingHistory.pairingTime !== currentPairingTime) {
@@ -39,6 +36,10 @@ var PairingHistoryRecordList = React.createClass({
             })}
         </div>
     }
-});
+}
+
+PairingHistoryRecordList.propTypes = {
+    pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 module.exports = PairingHistoryRecordList;

@@ -1,6 +1,6 @@
-var dataCreators = require('project/actions/creators/dataCreators.js');
-var viewCreators = require('project/actions/creators/viewCreators.js');
-var dataThunks = require('project/actions/thunks/dataThunks.js');
+const dataCreators = require('project/actions/creators/dataCreators.js');
+const viewCreators = require('project/actions/creators/viewCreators.js');
+const dataThunks = require('project/actions/thunks/dataThunks.js');
 
 function movePersonCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.movePersonCreator(...args));

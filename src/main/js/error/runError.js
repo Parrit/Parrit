@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
-var Error = require('error/components/Error.js');
+const Error = require('error/components/Error.js');
 
 function runError() {
     ReactDOM.render(

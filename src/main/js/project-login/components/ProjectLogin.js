@@ -1,25 +1,20 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const PropTypes = require('prop-types');
 
-var Footer = require('shared/components/Footer.js');
+const Footer = require('shared/components/Footer.js');
 
-var ProjectLogin = React.createClass({
-    propTypes: {
-        projectName: React.PropTypes.string.isRequired,
-        csrfParameterName: React.PropTypes.string.isRequired,
-        csrfToken: React.PropTypes.string.isRequired
-    },
-
-    componentDidMount: function() {
+class ProjectLogin extends React.Component {
+    componentDidMount() {
         setTimeout(function() {
             ReactDOM.findDOMNode(this.refs.passwordInput).focus();
         }.bind(this), 0);
-    },
+    }
 
-    render: function() {
+    render() {
         return <div className="project-login-container">
             <div className="project-login">
-                <div className="lock-icon"></div>
+                <div className="lock-icon"/>
                 <h1 className="project-name">{this.props.projectName}</h1>
                 <form action="/login/project" method="POST">
                     <input type="hidden" name="username" value={this.props.projectName}/>
@@ -31,6 +26,12 @@ var ProjectLogin = React.createClass({
             <Footer/>
         </div>
     }
-});
+}
+
+ProjectLogin.propTypes = {
+    projectName: PropTypes.string.isRequired,
+    csrfParameterName: PropTypes.string.isRequired,
+    csrfToken: PropTypes.string.isRequired
+};
 
 module.exports = ProjectLogin;

@@ -1,5 +1,5 @@
-var { setNewProjectErrorCreator, setLoginErrorCreator } = require('dashboard/actions/creators/dashboardCreators.js');
-var { postNewProjectAndDo, postLoginAndRedirect } = require('shared/helpers/databaseHelpers.js');
+const { setNewProjectErrorCreator, setLoginErrorCreator } = require('dashboard/actions/creators/dashboardCreators.js');
+const { postNewProjectAndDo, postLoginAndRedirect } = require('shared/helpers/databaseHelpers.js');
 
 export function createProjectThunk(name, password) {
     return function(dispatch, getState) {

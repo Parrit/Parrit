@@ -1,18 +1,17 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
+const PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
 
-var PairingHistoryRecordMock = Mocker("PairingHistoryRecord");
+const PairingHistoryRecordMock = Mocker("PairingHistoryRecord");
 PairingHistoryRecordList.__set__('PairingHistoryRecord', PairingHistoryRecordMock);
 
 describe('PairingHistoryRecordList', function() {
-    var props;
-    var pairingHistoryRecordList;
+    let props;
+    let pairingHistoryRecordList;
 
     beforeEach(function() {
         props = {
@@ -27,7 +26,7 @@ describe('PairingHistoryRecordList', function() {
     });
     
     it('renders pairing history records grouped by pairing time', function() {
-        var pairingHistoryRecords = ReactTestUtils.scryRenderedComponentsWithType(pairingHistoryRecordList, PairingHistoryRecordMock);
+        const pairingHistoryRecords = ReactTestUtils.scryRenderedComponentsWithType(pairingHistoryRecordList, PairingHistoryRecordMock);
         
         expect(pairingHistoryRecords.length).toBe(2);
         

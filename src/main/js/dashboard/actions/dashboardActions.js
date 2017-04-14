@@ -1,4 +1,4 @@
-var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
+const dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
 
 module.exports = {
     login: dashboardThunks.loginThunk,

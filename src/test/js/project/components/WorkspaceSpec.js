@@ -1,26 +1,27 @@
-var React = require('react');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
-var Mocker = require('support/ComponentMocker.js');
+const RenderComponent = require('support/RenderComponent.js');
+const Mocker = require('support/ComponentMocker.js');
 
-var Workspace = require('project/components/Workspace.js');
-var PairingBoardMock = Mocker("PairingBoard");
-var PersonListMock = Mocker("PersonList");
-var ModalMock = Mocker("Modal");
-var NameFormMock = Mocker("NameForm");
+const Workspace = require('project/components/Workspace.js');
+const PairingBoardMock = Mocker("PairingBoard");
+const PersonListMock = Mocker("PersonList");
+const ModalMock = Mocker("Modal");
+const NameFormMock = Mocker("NameForm");
 Workspace.__set__('PairingBoard', PairingBoardMock);
 Workspace.__set__('PersonList', PersonListMock);
 Workspace.__set__('Modal', ModalMock);
 Workspace.__set__('NameForm', NameFormMock);
 
 describe('Workspace', function() {
-    var props;
-    var workspace;
-    var newPersonModal;
-    var newPersonForm;
-    var newPairingBoardModal;
-    var newPairingBoardForm;
+    let props;
+    let workspace;
+    let newPersonModal;
+    let newPersonForm;
+    let newPairingBoardModal;
+    let newPairingBoardForm;
+
     beforeEach(function() {
         props  = {
             projectId: 77,
@@ -62,9 +63,14 @@ describe('Workspace', function() {
             renamePairingBoard: function(){}
         };
 
+        spyOn(Workspace.prototype, 'closeNewPersonModal').and.callThrough();
+        spyOn(Workspace.prototype, 'createPersonWithName').and.callThrough();
+        spyOn(Workspace.prototype, 'closeNewPairingBoardModal').and.callThrough();
+        spyOn(Workspace.prototype, 'createPairingBoardWithName').and.callThrough();
+
         workspace = RenderComponent(Workspace, <Workspace {...props} />);
 
-        var Modals = ReactTestUtils.scryRenderedComponentsWithType(workspace, ModalMock);
+        const Modals = ReactTestUtils.scryRenderedComponentsWithType(workspace, ModalMock);
         newPersonModal = Modals[0];
         newPairingBoardModal = Modals[1];
 
@@ -73,7 +79,7 @@ describe('Workspace', function() {
     });
 
     it('renders all of the pairingBoards in the project', function() {
-        var pairingBoards = ReactTestUtils.scryRenderedComponentsWithType(workspace, PairingBoardMock);
+        const pairingBoards = ReactTestUtils.scryRenderedComponentsWithType(workspace, PairingBoardMock);
         expect(pairingBoards.length).toBe(2, 'Not enough pairingBoards');
 
         expect(pairingBoards[0].props.name).toBe("PairingBoard1");
@@ -90,7 +96,7 @@ describe('Workspace', function() {
     });
 
     it('renders the list of people in the project', function() {
-        var people = ReactTestUtils.findRenderedComponentWithType(workspace, PersonListMock);
+        const people = ReactTestUtils.findRenderedComponentWithType(workspace, PersonListMock);
         expect(people).toBeDefined('No list of people');
         expect(people.props.people).toBe(props.people);
         expect(people.props.index).toBe(-1);
@@ -99,13 +105,19 @@ describe('Workspace', function() {
     describe('newPersonModal', function() {
         it('has a configured newPersonModal component as a child', function() {
             expect(newPersonModal.props.isOpen).toBe(props.settings.isNewPersonModalOpen);
-            expect(newPersonModal.props.onRequestClose).toBe(workspace.closeNewPersonModal);
+            newPersonModal.props.onRequestClose();
+
+            expect(workspace.closeNewPersonModal).toHaveBeenCalled();
         });
 
         it('has a configured new person form in a modal', function() {
             expect(newPersonForm.props.formTitle).toBe("Add Parrit Teammate");
-            expect(newPersonForm.props.confirmFunction).toBe(workspace.createPersonWithName);
-            expect(newPersonForm.props.cancelFunction).toBe(workspace.closeNewPersonModal);
+
+            newPersonForm.props.confirmFunction();
+            expect(workspace.createPersonWithName).toHaveBeenCalled();
+
+            newPersonForm.props.cancelFunction();
+            expect(workspace.closeNewPersonModal).toHaveBeenCalled();
         });
 
         it('passes in the correct error message if errorType is set', function() {
@@ -129,7 +141,7 @@ describe('Workspace', function() {
             });
 
             it('the passed in callback should close the modal and clear the errorType', function() {
-                var callback = props.createPerson.calls.mostRecent().args[2];
+                const callback = props.createPerson.calls.mostRecent().args[2];
                 callback();
 
                 expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
@@ -141,13 +153,19 @@ describe('Workspace', function() {
     describe('newPairingBoardModal', function() {
         it('has a configured newPairingBoardModal component as a child', function() {
             expect(newPairingBoardModal.props.isOpen).toBe(props.settings.isNewPairingBoardModalOpen);
-            expect(newPairingBoardModal.props.onRequestClose).toBe(workspace.closeNewPairingBoardModal);
+            newPairingBoardModal.props.onRequestClose();
+
+            expect(workspace.closeNewPairingBoardModal).toHaveBeenCalled();
         });
 
         it('has a configured new pairing boards form in a modal', function() {
             expect(newPairingBoardForm.props.formTitle).toBe("Add Pairing Board");
-            expect(newPairingBoardForm.props.confirmFunction).toBe(workspace.createPairingBoardWithName);
-            expect(newPairingBoardForm.props.cancelFunction).toBe(workspace.closeNewPairingBoardModal);
+
+            newPairingBoardForm.props.confirmFunction();
+            expect(workspace.createPairingBoardWithName).toHaveBeenCalled();
+
+            newPairingBoardForm.props.cancelFunction();
+            expect(workspace.closeNewPairingBoardModal).toHaveBeenCalled();
         });
 
         describe('#openNewPairingBoardModal', function() {

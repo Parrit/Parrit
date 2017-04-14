@@ -1,14 +1,14 @@
-var React = require('react');
-var ReactTestUtils = require('react-addons-test-utils');
-var Moment = require('moment-timezone');
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
+const Moment = require('moment-timezone');
 
-var RenderComponent = require('support/RenderComponent.js');
+const RenderComponent = require('support/RenderComponent.js');
 
-var PairingHistoryRecord = require('project/components/PairingHistoryRecord.js');
+const PairingHistoryRecord = require('project/components/PairingHistoryRecord.js');
 
 describe('PairingHistoryRecord', function() {
-    var props;
-    var pairingHistoryRecord;
+    let props;
+    let pairingHistoryRecord;
 
     beforeEach(function() {
         jasmine.clock().install();
@@ -32,16 +32,16 @@ describe('PairingHistoryRecord', function() {
     });
 
     it('displays the pairing time in the local timezone', function() {
-        var pairingTime = ReactTestUtils.findRenderedDOMComponentWithClass(pairingHistoryRecord, 'pairing-time');
+        const pairingTime = ReactTestUtils.findRenderedDOMComponentWithClass(pairingHistoryRecord, 'pairing-time');
         expect(pairingTime.innerHTML).toBe('March 8, 2016 9:30 AM'); //CSS transform to uppercase
     });
 
     it('displays the pairing boards with the people', function() {
-        var pairingBoardNames = ReactTestUtils.scryRenderedDOMComponentsWithClass(pairingHistoryRecord, 'pairing-board-name');
+        const pairingBoardNames = ReactTestUtils.scryRenderedDOMComponentsWithClass(pairingHistoryRecord, 'pairing-board-name');
         expect(pairingBoardNames[0].innerHTML).toContain('board1');
         expect(pairingBoardNames[1].innerHTML).toContain('board2');
 
-        var peopleNames = ReactTestUtils.scryRenderedDOMComponentsWithClass(pairingHistoryRecord, 'person-name');
+        const peopleNames = ReactTestUtils.scryRenderedDOMComponentsWithClass(pairingHistoryRecord, 'person-name');
         expect(peopleNames[0].innerHTML).toContain('Bob');
         expect(peopleNames[1].innerHTML).toContain('Billy');
         expect(peopleNames[2].innerHTML).toContain('Alice');

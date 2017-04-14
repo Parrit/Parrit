@@ -1,9 +1,9 @@
-var React = require('react');
+const React = require('react');
 
-var Footer = require('shared/components/Footer.js');
+const Footer = require('shared/components/Footer.js');
 
-var Error = React.createClass({
-    render: function() {
+class Error extends React.Component {
+    render() {
         return <div className="error-container">
             <div className="error-image-wrapper">
                 <div className="parrit-talk-bubble">
@@ -14,6 +14,6 @@ var Error = React.createClass({
             <Footer/>
         </div>
     }
-});
+}
 
 module.exports = Error;

@@ -1,15 +1,15 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ReactTestUtils = require('react-dom/test-utils');
 
-var RenderComponent = require('support/RenderComponent.js');
+const RenderComponent = require('support/RenderComponent.js');
 
-var Header = require('project/components/Header.js');
+const Header = require('project/components/Header.js');
 
 describe('Header', function() {
-    var props;
-    var header;
-    var headerElement;
+    let props;
+    let header;
+    let headerElement;
 
     beforeEach(function() {
         props = {
@@ -23,7 +23,7 @@ describe('Header', function() {
     });
 
     it('renders a left caret when isPairingHistoryPanelOpen is false', function() {
-        var leftCaret = ReactTestUtils.findRenderedDOMComponentWithClass(header, 'history-caret-left');
+        const leftCaret = ReactTestUtils.findRenderedDOMComponentWithClass(header, 'history-caret-left');
         expect(leftCaret).toBeTruthy();
     });
 
@@ -32,7 +32,7 @@ describe('Header', function() {
         header = RenderComponent(Header, <Header {...props}/>);
         headerElement = ReactDOM.findDOMNode(header);
 
-        var rightCaret = ReactTestUtils.findRenderedDOMComponentWithClass(header, 'history-caret-right');
+        const rightCaret = ReactTestUtils.findRenderedDOMComponentWithClass(header, 'history-caret-right');
         expect(rightCaret).toBeTruthy();
     });
 
