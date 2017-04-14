@@ -57,6 +57,10 @@ public class ProjectController {
         if(usernameAndPasswordDTO.getPassword().isEmpty()) {
             throw new NestedServletException("Project Name and/or Password is empty!");
         }
+        Project existingProject = projectRepository.findByName(usernameAndPasswordDTO.getName());
+        if (existingProject != null) {
+          throw new NestedServletException("Project Name already exists!");
+        }
 
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
         String hashedPassword = encoder.encodePassword(usernameAndPasswordDTO.getPassword(), null);
