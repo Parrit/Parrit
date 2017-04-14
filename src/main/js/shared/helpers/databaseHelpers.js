@@ -4,24 +4,22 @@ Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 function postProjectAndDo(project, successCallback, errorCallback) {
     Axios.post('/api/project', project)
-        .then(
-            function (response) {
-                successCallback(response.data);
-            }, function onError(response) {
-                errorCallback(response.status);
-            }
-        );
+        .then(function (response) {
+            successCallback(response.data);
+        })
+        .catch(function onError(error) {
+            errorCallback(error.response.status);
+        });
 }
 
 function postNewProjectAndDo(name, password, successCallback, errorCallback) {
     Axios.post('/api/project/new', {name, password})
-        .then(
-            function onSuccess(response) {
-                successCallback(response.data);
-            }, function onError(response) {
-                errorCallback(response.status);
-            }
-        );
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        })
+        .catch(function onError(error) {
+            errorCallback(error.response.status);
+        });
 }
 
 function postProjectPairingAndDo(projectId, successCallback) {
@@ -40,25 +38,20 @@ function getRecommendedPairingAndDo(projectId, successCallback) {
 
 function postLoginAndRedirect(name, password, errorCallback) {
     Axios.post('/login', {name: name, password: password})
-        .then(
-            function onSuccess(response) {
-                window.location.href = response.data;
-            },
-            function onError(response) {
-                errorCallback(response.status);
-            }
-        );
+        .then(function onSuccess(response) {
+            window.location.href = response.data;
+        }).catch(function onError(error) {
+            errorCallback(error.response.status);
+        });
 }
 
 function postAddNewPersonAndDo(projectId, name, successCallback, errorCallback) {
     Axios.post('/api/project/' + encodeURIComponent(projectId) + '/addPerson', {name: name})
-        .then(
-            function (response) {
-                successCallback(response.data);
-            }, function onError(response) {
-                errorCallback(response.status);
-            }
-        );
+        .then(function (response) {
+            successCallback(response.data);
+        }).catch(function onError(error) {
+            errorCallback(error.response.status);
+        });
 }
 
 function getPairingHistoryAndDo(projectId, successCallback) {

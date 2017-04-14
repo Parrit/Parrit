@@ -30,14 +30,28 @@ describe('Dashboard', function() {
             expect(newProjectErrorMessage.innerHTML).toBe('');
         });
 
-        it('displays a username error when the newProjectErrorType is 400', function() {
+        it('displays a project name error when the newProjectErrorType is 406', function() {
             props.newProjectErrorType = 406;
 
             dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
 
             const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
             const newProjectErrorMessage = errorMessage[0];
-            expect(newProjectErrorMessage.innerHTML).toBe('Uh oh. Your project name is too long, try less than 36 characters.');
+            expect(newProjectErrorMessage.innerHTML).toBe('Uh oh. Your project name is too long, try less than 100 characters.');
+
+            const allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
+            const newProjectNameInput = allInputs[0];
+            expect(newProjectNameInput.classList).toContain('error');
+        });
+
+        it('displays a project name error when the newProjectErrorType is 409', function() {
+            props.newProjectErrorType = 409;
+
+            dashboard = RenderComponent(Dashboard, <Dashboard {...props} />);
+
+            const errorMessage = ReactTestUtils.scryRenderedDOMComponentsWithClass(dashboard, 'error-message');
+            const newProjectErrorMessage = errorMessage[0];
+            expect(newProjectErrorMessage.innerHTML).toBe('Not again. That name already exists, try a different one.');
 
             const allInputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(dashboard, 'input');
             const newProjectNameInput = allInputs[0];

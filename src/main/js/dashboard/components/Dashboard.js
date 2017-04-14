@@ -42,7 +42,11 @@ class Dashboard extends React.Component {
             case 0:
                 break;
             case 406:
-                newProjectErrorMessage = 'Uh oh. Your project name is too long, try less than 36 characters.';
+                newProjectErrorMessage = 'Uh oh. Your project name is too long, try less than 100 characters.';
+                newProjectNameErrorClass = 'error';
+                break;
+            case 409:
+                newProjectErrorMessage = 'Not again. That name already exists, try a different one.';
                 newProjectNameErrorClass = 'error';
                 break;
             default:
