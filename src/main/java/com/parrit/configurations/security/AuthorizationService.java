@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorizationService {
 
+    private ProjectRepository projectRepository;
+
     @Autowired
-    ProjectRepository projectRepository;
+    public AuthorizationService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 
     public boolean canAccessProject(User user, String projectName) {
         return user != null && user.getUsername().equals(projectName);

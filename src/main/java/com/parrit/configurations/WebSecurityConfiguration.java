@@ -24,7 +24,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
@@ -34,10 +33,7 @@ import java.io.IOException;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    ProjectDetailsService projectDetailsService;
+    private ProjectDetailsService projectDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

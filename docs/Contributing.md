@@ -23,33 +23,32 @@ psql postgres
 ```
 
 ```psql
-create user pivotal with password '';
-create database test owner pivotal;
-create database pivotal owner pivotal;
+create database local_parrit;
+create database local_parrit_test;
 ```
 
 ### Install dependencies
 ```
-$ npm install
+npm install
 ```
 
 ### Run all the tests
 
 ```
-$ ./gradlew test
+./gradlew test
 ```
 
 ### Running the application locally
 
 Build the static (JS and CSS) before attempting to run the application
 ```
-$ ./gradlew jsBuild
+./gradlew jsBuild
 ```
 
 If all of the tests pass, run the project as a spring project using your preferred method.
 To run the spring boot app locally using gradle, enter the following
 ```
-$ ./gradlew bootRun
+./gradlew bootRun
 ```
 
 You should be able to access the application at http://localhost:8080

@@ -13,9 +13,7 @@ public class DefaultConfiguration {
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setDriverClassName("org.postgresql.Driver");
-        driverManagerDataSource.setUrl("jdbc:postgresql://localhost:5432/pivotal");
-        driverManagerDataSource.setUsername("pivotal");
-        driverManagerDataSource.setPassword("");
+        driverManagerDataSource.setUrl("jdbc:postgresql://localhost:5432/local_parrit");
         return driverManagerDataSource;
     }
 
