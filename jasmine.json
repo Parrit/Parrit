@@ -1,6 +1,0 @@
-{
-    "spec_dir": "src/test/js/",
-    "spec_files": [
-		"built/bundledSpec.js"
-    ]
-}
