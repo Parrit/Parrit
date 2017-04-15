@@ -81,12 +81,14 @@ task jsClean(type: Delete) {
 
 jar.dependsOn(jsBuild)
 
-task createMigration << {
-    def utc = ZoneId.of("UTC")
-    def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
-    def path = "src/main/resources/db/migration/V${timestamp}__CHANGEME.sql"
+task createMigration() {
+    doLast {
+        def utc = ZoneId.of("UTC")
+        def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
+        def path = "src/main/resources/db/migration/V${timestamp}__CHANGEME.sql"
 
-    "touch ${project.projectDir}/${path}".execute()
+        "touch ${project.projectDir}/${path}".execute()
+    }
 }
 
 defaultTasks 'clean', 'jsClean', 'build', 'jsBuild'
