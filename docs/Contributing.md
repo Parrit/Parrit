@@ -1,0 +1,55 @@
+# Contributing
+
+Please come talk to us first on our public [Parrit Slack](https://parrit.slack.com) and we would point you in the right 
+direction!
+
+We have a public [Tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories.
+If you want to pick one we can add you to the project, just send an email to parrit@pivotal.io
+or any of the contributors listed above and we will make you a member.
+If you need clarification on the stories and/or want help pointing feel free to reach out.
+
+Please submit a pull request when you are done!
+
+## Installation
+
+Clone the repository: `git clone https://github.com/Parrit/Parrit.git`
+
+Change into the new directory: `cd Parrit`
+
+### Create databases
+
+```bash
+psql postgres
+```
+
+```psql
+create user pivotal with password '';
+create database test owner pivotal;
+create database pivotal owner pivotal;
+```
+
+### Install dependencies
+```
+$ npm install
+```
+
+### Run all the tests
+
+```
+$ ./gradlew test
+```
+
+### Running the application locally
+
+Build the static (JS and CSS) before attempting to run the application
+```
+$ ./gradlew jsBuild
+```
+
+If all of the tests pass, run the project as a spring project using your preferred method.
+To run the spring boot app locally using gradle, enter the following
+```
+$ ./gradlew bootRun
+```
+
+You should be able to access the application at http://localhost:8080
