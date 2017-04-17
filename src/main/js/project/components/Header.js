@@ -9,7 +9,7 @@ class Header extends React.Component {
             <a href="/" className="header-logo"/>
             <div className="links">
                 <h3 className="logout" onClick={this.props.postLogout}>LOGOUT</h3>
-                <a href="https://docs.google.com/forms/d/1Xg5xKGv0uLcRLA3WR9CiwE3tfz6-5ocGcImq6_MgLB4/viewform" target="_blank">
+                <a href="https://goo.gl/forms/ZGqUyZDEDSWqZVBP2" target="_blank">
                     <h3 className="feedback">feedback</h3>
                 </a>
                 <h3 className={classes} onClick={this.props.isPairingHistoryPanelOpen ? this.closePairingHistoryPanel.bind(this) : this.openPairingHistoryPanel.bind(this)}>HISTORY

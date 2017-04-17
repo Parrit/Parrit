@@ -83,7 +83,7 @@ class Dashboard extends React.Component {
                     </div>
                     <div className="feedback-container">
                         <div className="caption">What do you think of Parrit?</div>
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjAC5E0WKPmf29p4248PWiT0djBbICUKes3BkrT2N-ARoLkQ/viewform"
+                        <a href="https://goo.gl/forms/ZGqUyZDEDSWqZVBP2"
                            target="_blank" className="text-link">Send feedback<span className="carrot"/></a>
                     </div>
                 </div>
