@@ -12,11 +12,16 @@ footer {
     float: left;
   }
 
-  .github-link {
+  .footer-links {
     float: right;
 
     a {
       color: $coolGrey;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0px;
+      }
     }
   }
 }
