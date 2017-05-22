@@ -57,7 +57,7 @@ class App extends React.Component {
 
         Interact('.delete-parrit').dropzone({
             accept: '.draggable.person',
-            overlap: 'center',
+            overlap: 0.01,
 
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
