@@ -1,6 +1,6 @@
 # Contributing
 
-Please come talk to us first on our public [Parrit Slack](https://parrit.slack.com) and we will point you in the right 
+Please email us at parrit@pivotal.io so that we can add you to the [Parrit Slack](https://parrit.slack.com) and we will point you in the right
 direction!
 
 We have a public [Tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories.
