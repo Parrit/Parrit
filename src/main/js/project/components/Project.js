@@ -20,7 +20,7 @@ class Project extends React.Component {
             renamePairingBoard: this.props.renamePairingBoard
         };
 
-        return <div className="project">
+        return <main className="project">
             <div className="sub-header">
                 <h1 className="project-name">{this.props.data.project.name}</h1>
                 <div className="project-actions">
@@ -31,7 +31,7 @@ class Project extends React.Component {
             </div>
             <div className="sub-header-dotted-line"/>
             <Workspace {...workspaceProps}/>
-        </div>
+        </main>
     }
 }
 

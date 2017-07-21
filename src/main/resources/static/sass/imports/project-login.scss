@@ -1,12 +1,7 @@
 .project-login-container {
-  min-height: 100%;
-  display: flex;
-  flex-flow: column;
   background-color: $duckEggBlue;
 
   .project-login {
-    flex: 1 0 auto;
-
     display: flex;
     flex-flow: column;
     justify-content: center;

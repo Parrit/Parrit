@@ -1,7 +1,4 @@
 .project-page-container {
-  display: flex;
-  flex-flow: column;
-
   position: relative;
   transition: all 300ms ease;
   right: 0;
@@ -11,7 +8,6 @@
   }
 
   .project {
-    flex: 1 0 auto;
     display: flex;
     flex-flow: column;
 

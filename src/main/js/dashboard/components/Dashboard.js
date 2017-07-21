@@ -53,8 +53,8 @@ class Dashboard extends React.Component {
                 newProjectErrorMessage = 'Unknown error.';
         }
 
-        return <div className="dashboard-container">
-            <div className="dashboard-content-container">
+        return <div className="layout-wrapper dashboard-container">
+            <main className="dashboard-content-container">
                 <div className="dashboard-content">
                     <div className="logo"/>
                     <div className="description">
@@ -87,7 +87,7 @@ class Dashboard extends React.Component {
                            target="_blank" className="text-link">Send feedback<span className="carrot"/></a>
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer/>
         </div>
     }

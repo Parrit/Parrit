@@ -107,7 +107,7 @@ class App extends React.Component {
             isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
         };
 
-        const classes = "project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
+        const classes = "layout-wrapper project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
 
 		return <div id="pairing_board_-1" className={classes}>
             <Header {...headerProps}/>

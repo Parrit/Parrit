@@ -12,8 +12,8 @@ class ProjectLogin extends React.Component {
     }
 
     render() {
-        return <div className="project-login-container">
-            <div className="project-login">
+        return <div className="layout-wrapper project-login-container">
+            <main className="project-login">
                 <div className="lock-icon"/>
                 <h1 className="project-name">{this.props.projectName}</h1>
                 <form action="/login/project" method="POST">
@@ -22,7 +22,7 @@ class ProjectLogin extends React.Component {
                     <input type="hidden" name={this.props.csrfParameterName} value={this.props.csrfToken}/>
                     <input type="submit" value="Login"/>
                 </form>
-            </div>
+            </main>
             <Footer/>
         </div>
     }
