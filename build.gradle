@@ -8,8 +8,8 @@ description 'parrit'
 
 buildscript {
     ext {
-        springBootVersion = '1.5.4.RELEASE'
-        nodePluginVersion = '1.1.1'
+        springBootVersion = '1.5.7.RELEASE'
+        nodePluginVersion = '1.2.0'
     }
 
     repositories {
