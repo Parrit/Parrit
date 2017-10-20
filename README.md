@@ -21,6 +21,8 @@ Big shoutout to the following people for helping to guide the direction that Par
 - [Joseph Greubel](mailto:jgreubel@pivotal.io) - Front-end Development, Back-end Development
 - [Michael Oleske](mailto:moleske@pivotal.io) - Back-end Development
 
+Take a look at the tech talk we presented about the making of Parrit: https://youtu.be/YVMuMK5Ru_A
+
 ## Want to contribute?
 * See [Contributing](./docs/Contributing.md)
 
