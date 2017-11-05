@@ -40,14 +40,11 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.postgresql:postgresql'
-
-    compile('org.springframework.boot:spring-boot-starter-test') {
-        exclude(module: "commons-logging")
-    }
-
     compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'org.postgresql:postgresql'
     compile 'org.flywaydb:flyway-core'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 grunt {

@@ -10,7 +10,7 @@ module.exports = function(grunt) {
                         paths: ['./src/main/js']
                     },
                     transform: [
-                        ['babelify', {presets: ['react', 'es2015']}]
+                        ['babelify', {presets: ['react', 'env']}]
                     ]
                 },
                 files: {
