@@ -2,7 +2,6 @@ var deepFreeze = require('deep-freeze');
 var settingsReducer = require('project/reducers/settingsReducer.js');
 
 describe("settingsReducer", function() {
-
 	it("sets up the default state", function() {
 		var stateBefore = undefined;
 		var stateAfter = {

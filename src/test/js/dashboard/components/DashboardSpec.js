@@ -12,6 +12,7 @@ describe('Dashboard', function() {
     let props;
     let dashboard;
     const event = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
+
     beforeEach(function() {
         props = {
             newProjectErrorType: 0,

@@ -3,7 +3,7 @@ const ReactDOM = require('react-dom');
 
 const ProjectLogin = require('project-login/components/ProjectLogin.js');
 
-function runDashboard(projectName, csrfParameterName, csrfToken) {
+function runProjectLogin(projectName, csrfParameterName, csrfToken) {
     const props = {
         projectName,
         csrfParameterName,
@@ -16,4 +16,4 @@ function runDashboard(projectName, csrfParameterName, csrfToken) {
     );
 }
 
-module.exports = runDashboard;
+module.exports = runProjectLogin;

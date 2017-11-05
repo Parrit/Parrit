@@ -54,6 +54,7 @@ describe('Project', function() {
     };
 
     let project;
+
     beforeEach(function() {
         project = RenderComponent(Project, <Project {...props} />);
     });
@@ -72,6 +73,7 @@ describe('Project', function() {
         expect(recommendPairsButton.props.shortName).toBe('Reset');
         expect(recommendPairsButton.props.clickFunction).toBe(props.resetPairs);
     });
+
     it('has a recommend pairs button', function() {
         const allButtons = ReactTestUtils.scryRenderedComponentsWithType(project, ButtonMock);
         const recommendPairsButton = allButtons[1];

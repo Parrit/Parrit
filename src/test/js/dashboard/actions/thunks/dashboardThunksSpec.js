@@ -8,6 +8,7 @@ describe('dashboardThunks', function () {
     var setLoginErrorCreatorSpy;
     var postNewProjectAndDoSpy;
     var postLoginAndRedirectSpy;
+
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
@@ -32,13 +33,11 @@ describe('dashboardThunks', function () {
         });
 
         describe('when calling the returned function', function() {
-
             beforeEach(function () {
                 setNewProjectErrorCreatorSpy.and.returnValue({type: 'SET_NEW_PROJECT_ERROR'});
 
                 thunk(dispatchSpy, getStateSpy);
             });
-
 
             it('calls postNewProjectAndDo helper with correct arguments', function () {
                 expect(postNewProjectAndDoSpy).toHaveBeenCalledWith("New Project", "S3cr3tP@$$w0rd", jasmine.anything(), jasmine.anything());
@@ -71,7 +70,6 @@ describe('dashboardThunks', function () {
         });
 
         describe('when calling the returned function', function() {
-
             beforeEach(function () {
                 setLoginErrorCreatorSpy.and.returnValue({type: 'SET_LOGIN_ERROR'});
 

@@ -11,6 +11,7 @@ describe('NameForm', function() {
     let nameForm;
     let nameFormElement;
     let input;
+
     beforeEach(function() {
         props  = {
             formTitle: "Form Title",
@@ -46,6 +47,7 @@ describe('NameForm', function() {
 
     describe('#submit', function() {
         let e;
+
         beforeEach(function() {
             e = {preventDefault: jasmine.createSpy('preventDefaultSpy')};
         });

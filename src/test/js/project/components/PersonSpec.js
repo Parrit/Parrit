@@ -9,6 +9,7 @@ describe('Person', function() {
     var props;
     var person;
     var personElement;
+
     beforeEach(function() {
         props = {
             name: "person",

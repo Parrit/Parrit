@@ -12,6 +12,7 @@ PairingBoard.__set__('PersonList', PersonListMock);
 describe('PairingBoard', function() {
     let props;
     let pairingBoard;
+
     beforeEach(function() {
         props  = {
             name: "PairingBoard1",
@@ -71,22 +72,22 @@ describe('PairingBoard', function() {
     describe('Exempt PairingBoard', function() {
         beforeEach(function() {
             props  = {
-                    name: "PairingBoard1",
-                    people: [
-                        {
-                            name: "George"
-                        },
-                        {
-                            name: "Hank Muchacho"
-                        }
-                    ],
-                    index: 1,
-                    exempt: true,
-                    deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
-                    renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
-                };
+                name: "PairingBoard1",
+                people: [
+                    {
+                        name: "George"
+                    },
+                    {
+                        name: "Hank Muchacho"
+                    }
+                ],
+                index: 1,
+                exempt: true,
+                deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
+                renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
+            };
 
-                pairingBoard = RenderComponent(PairingBoard, <PairingBoard {...props} />);
+            pairingBoard = RenderComponent(PairingBoard, <PairingBoard {...props} />);
         });
 
         it('renders an exempt header', function() {

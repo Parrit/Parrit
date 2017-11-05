@@ -5,6 +5,7 @@ describe('dataThunks', function() {
     var dispatchSpy, getStateSpy;
     var postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
     var loadProjectCreatorSpy, loadPairingHistoryCreatorSpy, updatePairingHistoriesCreatorSpy, setErrorTypeCreatorSpy;
+
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
@@ -48,6 +49,7 @@ describe('dataThunks', function() {
             var newProjectData = {data: 'blarg'};
             var newProjectDataAction = {type: 'LOAD_PROJECT', project: newProjectData};
             var errorTypeAction = {type: 'SET_ERROR_TYPE'};
+
             beforeEach(function () {
                 getStateSpy.and.returnValue(stateOfApp);
                 loadProjectCreatorSpy.and.returnValue(newProjectDataAction);
@@ -97,6 +99,7 @@ describe('dataThunks', function() {
             var stateOfApp = { data: { project: project } };
             var newPairingHistories = [{data: 1}, {data: 2}];
             var updatePairingHistoriesAction = {type: 'UPDATE_PAIRING_HISTORIES', pairingHistories: newPairingHistories};
+
             beforeEach(function () {
                 getStateSpy.and.returnValue(stateOfApp);
                 postProjectPairingAndDoSpy.and.returnValue(newPairingHistories);
@@ -138,6 +141,7 @@ describe('dataThunks', function() {
             var stateOfApp = { data: { project: project } };
             var newProjectData = {data: 'blarg'};
             var newProjectDataAction = { type: 'LOAD_PROJECT', project: newProjectData };
+
             beforeEach(function () {
                 getStateSpy.and.returnValue(stateOfApp);
                 loadProjectCreatorSpy.and.returnValue(newProjectDataAction);
@@ -179,6 +183,7 @@ describe('dataThunks', function() {
             var newProjectData = {data: 'blarg'};
             var newProjectDataAction = { type: 'LOAD_PROJECT', project: newProjectData };
             var errorTypeAction = {type: 'SET_ERROR_TYPE'};
+
             beforeEach(function () {
                 loadProjectCreatorSpy.and.returnValue(newProjectDataAction);
                 setErrorTypeCreatorSpy.and.returnValue(errorTypeAction);
@@ -221,6 +226,7 @@ describe('dataThunks', function() {
         describe('when calling the returned function', function() {
             var pairingHistoryData = [{data:'Weeeee'}];
             var pairingHistoryDataAction = { type: 'LOAD_PAIRING_HISTORY', pairingHistoryList: pairingHistoryData };
+
             beforeEach(function () {
                 loadPairingHistoryCreatorSpy.and.returnValue(pairingHistoryDataAction);
 

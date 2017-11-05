@@ -70,6 +70,7 @@ describe('App', function() {
     };
 
     let app;
+
     beforeEach(function() {
         app = RenderComponent(App, <App {...props}/>);
     });
@@ -124,6 +125,7 @@ describe('App', function() {
 
     describe('#dropzoneOnDragEnter', function() {
         let event;
+
         beforeEach(function() {
             event = {
                 target: { id: "albert_5", classList: { add: function(){} } },
@@ -153,6 +155,7 @@ describe('App', function() {
 
     describe('#dropzoneOnDragLeave', function() {
         let event;
+
         beforeEach(function() {
             event = {
                 target: { id: "albert_5", classList: { remove: function(){} } },
@@ -192,6 +195,7 @@ describe('App', function() {
 
     describe('#dropzoneOnDrop', function() {
         let event;
+
         beforeEach(function() {
             event = {
                 target: { id: "albert_5", classList: { remove: function(){} } },
@@ -248,6 +252,7 @@ describe('App', function() {
 
     describe('#trashOnDrop', function() {
         let event;
+
         beforeEach(function() {
             event = {
                 target: { id: "albert_5", classList: { remove: function(){} } },

@@ -93,6 +93,7 @@ describe('databaseHelpers', function () {
 
         describe('when the Ajax call returns with a response', function () {
             var responseText = {iamaproperty: "blahblah"};
+
             beforeEach(function () {
                 stubbedPost.andReturn({responseText: responseText});
             });
@@ -180,6 +181,7 @@ describe('databaseHelpers', function () {
 
         describe('when the Ajax call returns with a response', function () {
             var responseText = {iamaproperty: "blahblah"};
+
             beforeEach(function () {
                 stubbedGet.andReturn({responseText: responseText});
             });
@@ -217,6 +219,7 @@ describe('databaseHelpers', function () {
         //TODO: Figure out how to test window.location.href
         //describe('when the Ajax call returns with a response', function () {
         //    var responseText = "/cow";
+        //
         //    beforeEach(function () {
         //        stubbedPost.andReturn({responseText: responseText});
         //    });
@@ -271,6 +274,7 @@ describe('databaseHelpers', function () {
 
         describe('when the Ajax call returns with a response', function () {
             var responseText = {iamaproperty: "blahblah"};
+
             beforeEach(function () {
                 stubbedPost.andReturn({responseText: responseText});
             });
@@ -321,6 +325,7 @@ describe('databaseHelpers', function () {
 
         describe('when the Ajax call returns with a response', function () {
             var responseText = {iamaproperty: "blahblah"};
+
             beforeEach(function () {
                 stubbedGet.andReturn({responseText: responseText});
             });
