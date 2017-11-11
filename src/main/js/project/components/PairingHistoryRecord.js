@@ -1,8 +1,8 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const Moment = require('moment-timezone');
+import React from 'react';
+import PropTypes from 'prop-types';
+import Moment from 'moment-timezone';
 
-class PairingHistoryRecord extends React.Component {
+export default class PairingHistoryRecord extends React.Component {
     render() {
         const currentTimeZone = Moment.tz.guess();
         const timeZoneAdjustedPairingTime = Moment.tz(this.props.pairingTime, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]", 'UTC')
@@ -35,5 +35,3 @@ PairingHistoryRecord.propTypes = {
     pairingTime: PropTypes.string.isRequired,
     pairingBoardsWithPeople: PropTypes.arrayOf(PropTypes.object).isRequired
 };
-
-module.exports = PairingHistoryRecord;

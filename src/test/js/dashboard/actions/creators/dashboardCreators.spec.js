@@ -1,4 +1,4 @@
-var dashboardCreators = require('dashboard/actions/creators/dashboardCreators.js');
+import * as dashboardCreators from 'dashboard/actions/creators/dashboardCreators.js';
 
 describe('dashboardCreators', function () {
     var result;

@@ -1,8 +1,8 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const PropTypes = require('prop-types');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-class NameForm extends React.Component {
+export default class NameForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {name: ''};
@@ -48,6 +48,3 @@ NameForm.propTypes = {
     cancelFunction: PropTypes.func.isRequired,
     errorMessage: PropTypes.string
 };
-
-module.exports = NameForm;
-

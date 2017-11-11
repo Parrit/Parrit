@@ -1,11 +1,9 @@
-const Redux = require('redux');
+import { combineReducers } from 'redux';
 
-const projectReducer = require('project/reducers/projectReducer.js');
-const pairingHistoryReducer = require('project/reducers/pairingHistoryReducer.js');
+import projectReducer from 'project/reducers/projectReducer.js';
+import pairingHistoryReducer from 'project/reducers/pairingHistoryReducer.js';
 
-const dataReducer = Redux.combineReducers({
+export default combineReducers({
     project: projectReducer,
     pairingHistory: pairingHistoryReducer
 });
-
-module.exports = dataReducer;

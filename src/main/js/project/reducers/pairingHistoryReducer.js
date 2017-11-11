@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import * as _ from 'lodash';
 
-const pairingHistoryReducer = function (state, action) {
+export default function (state, action) {
     if (typeof state === 'undefined') {
         return {
             pairingHistoryList: []
@@ -22,5 +22,3 @@ const pairingHistoryReducer = function (state, action) {
             return state;
     }
 };
-
-module.exports = pairingHistoryReducer;

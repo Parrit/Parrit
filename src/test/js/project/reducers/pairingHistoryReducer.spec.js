@@ -1,5 +1,5 @@
-var deepFreeze = require('deep-freeze');
-var pairingHistoryReducer = require('project/reducers/pairingHistoryReducer.js');
+import deepFreeze from 'deep-freeze';
+import pairingHistoryReducer from 'project/reducers/pairingHistoryReducer.js';
 
 describe("pairingHistoryReducer", function () {
     it("should get the default state", function () {

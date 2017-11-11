@@ -1,5 +1,5 @@
-var deepFreeze = require('deep-freeze');
-var projectReducer = require('project/reducers/projectReducer.js');
+import deepFreeze from 'deep-freeze';
+import projectReducer from 'project/reducers/projectReducer.js';
 
 describe("projectReducer", function () {
     it("should get the default state", function () {
@@ -333,7 +333,8 @@ describe("projectReducer", function () {
                     pairingBoards: [
                         {
                             name: "OUTER",
-                            people: []
+                            people: [],
+                            exempt: true
                         }
                     ]
                 };
@@ -349,11 +350,13 @@ describe("projectReducer", function () {
                     pairingBoards: [
                         {
                             name: "OUTER",
-                            people: []
+                            people: [],
+                            exempt: true
                         },
                         {
                             name: "Alabama",
-                            people: []
+                            people: [],
+                            exempt: false
                         }
                     ]
                 };

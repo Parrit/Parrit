@@ -1,18 +1,21 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const Interact = require('interact.js');
-const _ = require('lodash');
+import React from 'react';
+import PropTypes from 'prop-types';
+import Interact from 'interact.js';
+import * as _ from 'lodash';
 
-const Header = require('project/components/Header.js');
-const Project = require('project/components/Project.js');
-const Footer = require('shared/components/Footer.js');
-const PairingHistory = require('project/components/PairingHistory.js');
+import Header from 'project/components/Header.js';
+import Project from 'project/components/Project.js';
+import Footer from 'shared/components/Footer.js';
+import PairingHistory from 'project/components/PairingHistory.js';
 
-class App extends React.Component {
+export default class App extends React.Component {
     constructor(props) {
         super(props);
-        this.fromPairingBoardIndex = undefined;
-        this.toPairingBoardIndex = undefined;
+
+        this.state = {
+            fromPairingBoardIndex: undefined,
+            toPairingBoardIndex: undefined
+        }
     }
 
     componentDidMount() {
@@ -121,15 +124,15 @@ class App extends React.Component {
         event.target.classList.add('drop-target');
         event.relatedTarget.classList.add('can-drop');
 
-        this.toPairingBoardIndex = this.getIndexFromId(event.target.id);
+        this.setState({toPairingBoardIndex: this.getIndexFromId(event.target.id)});
     }
 
     dropzoneOnDragLeave(event) {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
 
-        if(this.fromPairingBoardIndex === undefined) {
-            this.fromPairingBoardIndex = this.getIndexFromId(event.target.id);
+        if(this.state.fromPairingBoardIndex === undefined) {
+            this.setState({fromPairingBoardIndex: this.getIndexFromId(event.target.id)});
         }
     }
 
@@ -139,14 +142,14 @@ class App extends React.Component {
 
         const personIndex = this.getIndexFromId(event.relatedTarget.id);
 
-        if(this.fromPairingBoardIndex === undefined) {
-            this.fromPairingBoardIndex = this.toPairingBoardIndex;
+        if(this.state.fromPairingBoardIndex === undefined) {
+            this.setState({fromPairingBoardIndex: this.state.toPairingBoardIndex});
         }
 
-        this.props.movePerson(this.fromPairingBoardIndex, this.toPairingBoardIndex, personIndex);
+        this.props.movePerson(this.state.fromPairingBoardIndex, this.state.toPairingBoardIndex, personIndex);
 
-        this.fromPairingBoardIndex = undefined;
-        this.toPairingBoardIndex = undefined;
+        this.setState({fromPairingBoardIndex: undefined});
+        this.setState({toPairingBoardIndex: undefined});
     }
 
     trashOnDrop(event) {
@@ -155,10 +158,10 @@ class App extends React.Component {
 
         const personIndex = this.getIndexFromId(event.relatedTarget.id);
 
-        this.props.deletePerson(this.fromPairingBoardIndex, personIndex);
+        this.props.deletePerson(this.state.fromPairingBoardIndex, personIndex);
 
-        this.fromPairingBoardIndex = undefined;
-        this.toPairingBoardIndex = undefined;
+        this.setState({fromPairingBoardIndex: undefined});
+        this.setState({toPairingBoardIndex: undefined});
     }
 
     getIndexFromId(idString) {
@@ -190,5 +193,3 @@ App.propTypes = {
 
     postLogout: PropTypes.func.isRequired
 };
-
-module.exports = App;

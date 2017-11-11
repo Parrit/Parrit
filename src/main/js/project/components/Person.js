@@ -1,7 +1,7 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class Person extends React.Component {
+export default class Person extends React.Component {
 	render() {
         const id = "pairing_board_" + this.props.pairingBoardIndex + "_person_" + this.props.index;
 		return <div id={id} className="person draggable">{this.props.name}</div>
@@ -13,5 +13,3 @@ Person.propTypes = {
     index: PropTypes.number.isRequired,
     pairingBoardIndex: PropTypes.number.isRequired
 };
-
-module.exports = Person;

@@ -1,11 +1,9 @@
-const ReactRedux = require('react-redux');
-const Dashboard = require('dashboard/components/Dashboard.js');
-const DashboardActions = require('dashboard/actions/dashboardActions.js');
-
-const DashboardContainer = ReactRedux.connect(getState, DashboardActions)(Dashboard);
+import { connect } from 'react-redux';
+import Dashboard from 'dashboard/components/Dashboard.js';
+import DashboardActions from 'dashboard/actions/dashboardActions.js';
 
 function getState(state) {
     return state;
 }
 
-module.exports = DashboardContainer;
+export default connect(getState, DashboardActions)(Dashboard);

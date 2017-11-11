@@ -1,4 +1,4 @@
-var dataReducer = require('project/reducers/dataReducer.js');
+import dataReducer from 'project/reducers/dataReducer.js';
 
 describe("dataReducer", function() {
     it("should get the default state", function() {

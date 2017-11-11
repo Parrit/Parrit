@@ -40,9 +40,9 @@ npm install
 
 ### Running the application locally
 
-Build the static (JS and CSS) before attempting to run the application
+Build the java app and static (JS and CSS) before attempting to run the application
 ```
-./gradlew jsBuild
+./gradlew build
 ```
 
 If all of the tests pass, run the project as a spring project using your preferred method.
@@ -51,4 +51,4 @@ To run the spring boot app locally using gradle, enter the following
 ./gradlew bootRun
 ```
 
-You should be able to access the application at http://localhost:8080
+You should be able to access the application at `http://localhost:8080`

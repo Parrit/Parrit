@@ -1,4 +1,4 @@
-const modalStyle = {
+export default {
     overlay : {
         backgroundColor: null
     },
@@ -14,5 +14,3 @@ const modalStyle = {
         padding: null
     }
 };
-
-module.exports = modalStyle;

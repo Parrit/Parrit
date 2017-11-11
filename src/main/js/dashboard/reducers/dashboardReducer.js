@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import * as _ from 'lodash';
 
-const dashboardReducer = function (state, action) {
+export default function (state, action) {
     if (typeof state === 'undefined') {
         return {
             newProjectErrorType: 0,
@@ -26,5 +26,3 @@ const dashboardReducer = function (state, action) {
             return state;
     }
 };
-
-module.exports = dashboardReducer;

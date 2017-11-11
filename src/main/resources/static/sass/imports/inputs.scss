@@ -26,6 +26,14 @@ button {
       background-color: $yellowyGreen;
     }
   }
+
+  &.button-red {
+    background-color: $salmon;
+
+    &:hover {
+      background-color: $tomato;
+    }
+  }
 }
 
 input {

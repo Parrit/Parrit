@@ -1,9 +1,9 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const PairingHistoryRecord = require('project/components/PairingHistoryRecord.js');
+import PairingHistoryRecord from 'project/components/PairingHistoryRecord.js';
 
-class PairingHistoryRecordList extends React.Component {
+export default class PairingHistoryRecordList extends React.Component {
     render() {
 
         function createPairingHistoryRecord(pairingTime) {
@@ -41,5 +41,3 @@ class PairingHistoryRecordList extends React.Component {
 PairingHistoryRecordList.propTypes = {
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
-
-module.exports = PairingHistoryRecordList;

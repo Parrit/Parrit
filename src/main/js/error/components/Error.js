@@ -1,8 +1,8 @@
-const React = require('react');
+import React from 'react';
 
-const Footer = require('shared/components/Footer.js');
+import Footer from 'shared/components/Footer.js';
 
-class Error extends React.Component {
+export default class Error extends React.Component {
     render() {
         return <div className="layout-wrapper error-container">
             <main className="error-image-wrapper">
@@ -15,5 +15,3 @@ class Error extends React.Component {
         </div>
     }
 }
-
-module.exports = Error;

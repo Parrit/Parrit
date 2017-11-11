@@ -1,14 +1,14 @@
-const {
-        postProjectAndDo,
-        postProjectPairingAndDo,
-        getRecommendedPairingAndDo,
-        postAddNewPersonAndDo,
-        getPairingHistoryAndDo,
-        postLogout
-    } = require('shared/helpers/databaseHelpers.js');
+import {
+    postProjectAndDo,
+    postProjectPairingAndDo,
+    getRecommendedPairingAndDo,
+    postAddNewPersonAndDo,
+    getPairingHistoryAndDo,
+    postLogout
+} from 'shared/helpers/databaseHelpers.js';
 
-const { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } = require('project/actions/creators/dataCreators.js');
-const { setErrorTypeCreator } = require('project/actions/creators/viewCreators.js');
+import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from 'project/actions/creators/dataCreators.js';
+import { setErrorTypeCreator } from 'project/actions/creators/viewCreators.js';
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {

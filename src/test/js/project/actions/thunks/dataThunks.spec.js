@@ -1,4 +1,8 @@
-var dataThunks = require('project/actions/thunks/dataThunks.js');
+import * as dataThunks from 'project/actions/thunks/dataThunks.js';
+
+import * as databaseHelpers from 'shared/helpers/databaseHelpers.js';
+import * as dataCreators from 'project/actions/creators/dataCreators.js';
+import * as viewCreators from 'project/actions/creators/viewCreators.js';
 
 describe('dataThunks', function() {
     var thunk;
@@ -10,26 +14,15 @@ describe('dataThunks', function() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
         
-        postStateAndDoSpy = jasmine.createSpy('postStateAndDoSpy');
-        postProjectPairingAndDoSpy = jasmine.createSpy('postProjectPairingAndDoSpy');
-        getRecommendedPairingAndDoSpy = jasmine.createSpy('getRecommendedPairingAndDoSpy');
-        postAddNewPersonAndDoSpy = jasmine.createSpy('postAddNewPersonAndDoSpy');
-        getPairingHistoryAndDoSpy = jasmine.createSpy('getPairingHistoryAndDoSpy');
-        
-        loadProjectCreatorSpy = jasmine.createSpy('loadProjectCreatorSpy');
-        loadPairingHistoryCreatorSpy = jasmine.createSpy('loadPairingHistoryCreatorSpy');
-        updatePairingHistoriesCreatorSpy = jasmine.createSpy('updatePairingHistoriesCreatorSpy');
-        setErrorTypeCreatorSpy = jasmine.createSpy('setErrorTypeCreatorSpy');
-        
-        dataThunks.__set__('postProjectAndDo', postStateAndDoSpy);
-        dataThunks.__set__('postProjectPairingAndDo', postProjectPairingAndDoSpy);
-        dataThunks.__set__('getRecommendedPairingAndDo', getRecommendedPairingAndDoSpy);
-        dataThunks.__set__('postAddNewPersonAndDo', postAddNewPersonAndDoSpy);
-        dataThunks.__set__('getPairingHistoryAndDo', getPairingHistoryAndDoSpy);
-        dataThunks.__set__('loadProjectCreator', loadProjectCreatorSpy);
-        dataThunks.__set__('loadPairingHistoryCreator', loadPairingHistoryCreatorSpy);
-        dataThunks.__set__('updatePairingHistoriesCreator', updatePairingHistoriesCreatorSpy);
-        dataThunks.__set__('setErrorTypeCreator', setErrorTypeCreatorSpy);
+        postStateAndDoSpy = spyOn(databaseHelpers, 'postProjectAndDo');
+        postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo');
+        getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo');
+        postAddNewPersonAndDoSpy = spyOn(databaseHelpers, 'postAddNewPersonAndDo');
+        getPairingHistoryAndDoSpy = spyOn(databaseHelpers, 'getPairingHistoryAndDo');
+        loadProjectCreatorSpy = spyOn(dataCreators, 'loadProjectCreator');
+        loadPairingHistoryCreatorSpy = spyOn(dataCreators, 'loadPairingHistoryCreator');
+        updatePairingHistoriesCreatorSpy = spyOn(dataCreators, 'updatePairingHistoriesCreator');
+        setErrorTypeCreatorSpy = spyOn(viewCreators, 'setErrorTypeCreator');
     });
 
     describe('#autoSaveThunk', function () {

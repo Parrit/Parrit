@@ -1,6 +1,6 @@
-const dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
+import * as dashboardThunks from 'dashboard/actions/thunks/dashboardThunks.js';
 
-module.exports = {
+export default {
     login: dashboardThunks.loginThunk,
     createProject: dashboardThunks.createProjectThunk
 };

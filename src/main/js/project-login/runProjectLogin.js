@@ -1,9 +1,9 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const ProjectLogin = require('project-login/components/ProjectLogin.js');
+import ProjectLogin from 'project-login/components/ProjectLogin.js';
 
-function runProjectLogin(projectName, csrfParameterName, csrfToken) {
+export default function runProjectLogin(projectName, csrfParameterName, csrfToken) {
     const props = {
         projectName,
         csrfParameterName,
@@ -15,5 +15,3 @@ function runProjectLogin(projectName, csrfParameterName, csrfToken) {
         document.getElementById('reactRoot')
     );
 }
-
-module.exports = runProjectLogin;

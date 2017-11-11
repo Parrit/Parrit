@@ -1,4 +1,4 @@
-var appReducer = require('project/reducers/appReducer.js');
+import appReducer from 'project/reducers/appReducer.js';
 
 describe("appReducer", function() {
 	it("should get the default state", function() {

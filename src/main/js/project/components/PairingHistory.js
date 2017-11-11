@@ -1,11 +1,11 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const $ = require('jquery');
+import React from 'react';
+import PropTypes from 'prop-types';
+import $ from 'jquery';
 require('malihu-custom-scrollbar-plugin')($);
 
-const PairingHistoryRecordList = require('project/components/PairingHistoryRecordList.js');
+import PairingHistoryRecordList from 'project/components/PairingHistoryRecordList.js';
 
-class PairingHistory extends React.Component {
+export default class PairingHistory extends React.Component {
     componentDidMount() {
         this.props.fetchPairingHistory(this.props.projectId);
         $('.pairing-history-panel').mCustomScrollbar({theme:"minimal-dark"});
@@ -24,7 +24,7 @@ class PairingHistory extends React.Component {
                 <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
             </div>
             <div className="body">
-                {(function(pairingHistoryList){
+                {(function(pairingHistoryList) {
                     if(pairingHistoryList.length === 0) {
                         return <div className="no-history">
                             <div className="clock"/>
@@ -52,5 +52,3 @@ PairingHistory.propTypes = {
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired
 };
-
-module.exports = PairingHistory;

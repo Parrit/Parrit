@@ -1,26 +1,23 @@
-var dashboardThunks = require('dashboard/actions/thunks/dashboardThunks.js');
+import * as dashboardThunks from 'dashboard/actions/thunks/dashboardThunks.js';
+
+import * as dashboardCreators from 'dashboard/actions/creators/dashboardCreators.js';
+import * as databaseHelpers from 'shared/helpers/databaseHelpers.js';
 
 describe('dashboardThunks', function () {
-    var thunk;
-    var dispatchSpy;
-    var getStateSpy;
-    var setNewProjectErrorCreatorSpy;
-    var setLoginErrorCreatorSpy;
-    var postNewProjectAndDoSpy;
-    var postLoginAndRedirectSpy;
+    let thunk, dispatchSpy, getStateSpy;
+    let setNewProjectErrorCreatorSpy;
+    let setLoginErrorCreatorSpy;
+    let postNewProjectAndDoSpy;
+    let postLoginAndRedirectSpy;
 
     beforeEach(function setup() {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
-        setNewProjectErrorCreatorSpy = jasmine.createSpy('setNewProjectErrorCreatorSpy');
-        setLoginErrorCreatorSpy = jasmine.createSpy('setLoginErrorCreatorSpy');
-        postNewProjectAndDoSpy = jasmine.createSpy('postNewProjectAndDoSpy');
-        postLoginAndRedirectSpy = jasmine.createSpy('postLoginAndRedirectSpy');
 
-        dashboardThunks.__set__('setNewProjectErrorCreator', setNewProjectErrorCreatorSpy);
-        dashboardThunks.__set__('setLoginErrorCreator', setLoginErrorCreatorSpy);
-        dashboardThunks.__set__('postNewProjectAndDo', postNewProjectAndDoSpy);
-        dashboardThunks.__set__('postLoginAndRedirect', postLoginAndRedirectSpy);
+        setNewProjectErrorCreatorSpy = spyOn(dashboardCreators, 'setNewProjectErrorCreator');
+        setLoginErrorCreatorSpy = spyOn(dashboardCreators, 'setLoginErrorCreator');
+        postNewProjectAndDoSpy = spyOn(databaseHelpers, 'postNewProjectAndDo');
+        postLoginAndRedirectSpy = spyOn(databaseHelpers, 'postLoginAndRedirect');
     });
 
     describe('#createProjectThunk', function () {

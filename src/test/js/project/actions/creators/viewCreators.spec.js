@@ -1,4 +1,4 @@
-var viewCreators = require('project/actions/creators/viewCreators.js');
+import * as viewCreators from 'project/actions/creators/viewCreators.js';
 
 describe('viewCreators', function () {
     describe('#setNewPersonModalOpenCreator', function () {

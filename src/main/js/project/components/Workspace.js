@@ -1,13 +1,13 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const Modal = require('react-modal');
-const ModalStyles = require('shared/misc/OverrideBullshitModalStyles.js');
+import React from 'react';
+import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import ModalStyles from 'shared/misc/OverrideBullshitModalStyles.js';
 
-const PersonList = require('project/components/PersonList.js');
-const PairingBoard = require('project/components/PairingBoard.js');
-const NameForm = require('shared/components/NameForm.js');
+import PersonList from 'project/components/PersonList.js';
+import PairingBoard from 'project/components/PairingBoard.js';
+import NameForm from 'shared/components/NameForm.js';
 
-class Workspace extends React.Component {
+export default class Workspace extends React.Component {
     render() {
         let newPersonModalErrorMessage = '';
         switch(this.props.settings.errorType) {
@@ -106,6 +106,3 @@ Workspace.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
     renamePairingBoard: PropTypes.func.isRequired
 };
-
-
-module.exports = Workspace;

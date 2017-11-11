@@ -1,10 +1,10 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Footer = require('shared/components/Footer.js');
-const Button = require('shared/components/Button.js');
+import Footer from 'shared/components/Footer.js';
+import Button from 'shared/components/Button.js';
 
-class Dashboard extends React.Component {
+export default class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -125,5 +125,3 @@ Dashboard.propTypes = {
     login: PropTypes.func.isRequired,
     createProject: PropTypes.func.isRequired
 };
-
-module.exports = Dashboard;

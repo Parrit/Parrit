@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import * as _ from 'lodash';
 
-const projectReducer = function (state, action) {
+export default function (state, action) {
     if (typeof state === 'undefined') {
         return {
             id: 0,
@@ -50,7 +50,7 @@ const projectReducer = function (state, action) {
         case "CREATE_PAIRING_BOARD":
             stateClone = _.cloneDeep(state);
 
-            stateClone.pairingBoards.push({name: action.name, people: []});
+            stateClone.pairingBoards.push({name: action.name, people: [], exempt: false});
 
             return stateClone;
         case "DELETE_PERSON":
@@ -77,5 +77,3 @@ const projectReducer = function (state, action) {
             return state;
     }
 };
-
-module.exports = projectReducer;

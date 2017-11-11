@@ -1,8 +1,8 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const Person = require('project/components/Person.js');
+import React from 'react';
+import PropTypes from 'prop-types';
+import Person from 'project/components/Person.js';
 
-class PersonList extends React.Component {
+export default class PersonList extends React.Component {
     render() {
         const pairingBoardIndex = this.props.index;
 
@@ -18,5 +18,3 @@ PersonList.propTypes = {
     index: PropTypes.number.isRequired,
     people: PropTypes.arrayOf(PropTypes.object).isRequired
 };
-
-module.exports = PersonList;

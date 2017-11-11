@@ -1,5 +1,5 @@
-var deepFreeze = require('deep-freeze');
-var settingsReducer = require('project/reducers/settingsReducer.js');
+import deepFreeze from 'deep-freeze';
+import settingsReducer from 'project/reducers/settingsReducer.js';
 
 describe("settingsReducer", function() {
 	it("sets up the default state", function() {

@@ -1,6 +1,6 @@
-const React = require('react');
+import React from 'react';
 
-class Footer extends React.Component {
+export default class Footer extends React.Component {
     render() {
         return <footer>
             <div className="fake-copyright">&copy; Parrit 2017</div>
@@ -11,5 +11,3 @@ class Footer extends React.Component {
         </footer>;
     }
 }
-
-module.exports = Footer;

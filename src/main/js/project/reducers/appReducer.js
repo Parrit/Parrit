@@ -1,11 +1,9 @@
-const Redux = require('redux');
+import { combineReducers } from 'redux';
 
-const settingsReducer = require('project/reducers/settingsReducer.js');
-const dataReducer = require('project/reducers/dataReducer.js');
+import settingsReducer from 'project/reducers/settingsReducer.js';
+import dataReducer from 'project/reducers/dataReducer.js';
 
-const appReducer = Redux.combineReducers({
+export default combineReducers({
     settings: settingsReducer,
     data: dataReducer
 });
-
-module.exports = appReducer;

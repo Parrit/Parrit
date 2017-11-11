@@ -1,10 +1,10 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Workspace = require('project/components/Workspace.js');
-const Button = require('shared/components/Button.js');
+import Workspace from 'project/components/Workspace.js';
+import Button from 'shared/components/Button.js';
 
-class Project extends React.Component {
+export default class Project extends React.Component {
     render() {
         const workspaceProps = {
             projectId: this.props.data.project.id,
@@ -50,5 +50,3 @@ Project.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
     renamePairingBoard: PropTypes.func.isRequired
 };
-
-module.exports = Project;

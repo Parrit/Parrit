@@ -1,4 +1,4 @@
-var dataCreators = require('project/actions/creators/dataCreators.js');
+import * as dataCreators from 'project/actions/creators/dataCreators.js';
 
 describe('dataCreators', function () {
     var result;

@@ -2,81 +2,66 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 
-group 'com.example'
-version '0.0.1-SNAPSHOT'
-description 'parrit'
-
-buildscript {
-    ext {
-        springBootVersion = '1.5.7.RELEASE'
-        nodePluginVersion = '1.1.1'
-    }
-
-    repositories {
-        mavenCentral()
-        maven { url 'https://plugins.gradle.org/m2/' }
-    }
-
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "com.moowork.gradle:gradle-node-plugin:${nodePluginVersion}"
-    }
+plugins {
+    id "org.springframework.boot" version "1.5.8.RELEASE"
+    id "com.moowork.node" version "1.2.0"
+    id "com.moowork.grunt" version "1.2.0"
 }
-
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'com.moowork.node'
-apply plugin: 'com.moowork.grunt'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'org.postgresql:postgresql'
-    compile 'org.flywaydb:flyway-core'
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.apache.commons:commons-lang3:3.5"
+    compile "org.postgresql:postgresql"
+    compile "org.flywaydb:flyway-core"
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile "org.springframework.boot:spring-boot-starter-test"
 }
 
-grunt {
-    colors = true
-    bufferOutput = true
-}
+version "0.0.1-SNAPSHOT"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// *** LifeCycle *** //
 
 test {
     filter {
-        includeTestsMatching '*Test'
+        includeTestsMatching "*Test"
     }
 }
 
 task jsTest(type: NodeTask) {
-    workingDir project.projectDir
-    script = file('node_modules/karma/bin/karma')
-    args = ['start', 'karma.conf.js']
+    script = file("node_modules/jest/bin/jest.js")
+    args = ["-c", ".jestrc.json"]
 }
-
 test.dependsOn(jsTest)
 
 task jsBuild(type: Copy, dependsOn: grunt_build) {
     from "$project.projectDir/src/main/resources/static/built"
     into "$project.projectDir/build/classes/main/static/built"
 }
+processResources.dependsOn(jsBuild)
 
 task jsClean(type: Delete) {
-    delete 'src/main/resources/static/built/bundle.js'
-    delete 'src/main/resources/static/built/bundle.css'
+    delete "src/main/resources/static/built/bundle.js"
+    delete "src/main/resources/static/built/bundle.css"
 }
+clean.dependsOn(jsClean)
 
-jar.dependsOn(jsBuild)
+defaultTasks "clean", "build"
+
+// *** Other *** //
+
+grunt {
+    colors = true
+    bufferOutput = true
+}
 
 task createMigration() {
     doLast {
@@ -87,5 +72,3 @@ task createMigration() {
         "touch ${project.projectDir}/${path}".execute()
     }
 }
-
-defaultTasks 'clean', 'jsClean', 'build', 'jsBuild'

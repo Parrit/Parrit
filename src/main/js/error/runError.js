@@ -1,13 +1,11 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const Error = require('error/components/Error.js');
+import Error from 'error/components/Error.js';
 
-function runError() {
+export default function runError() {
     ReactDOM.render(
         <Error/>,
         document.getElementById('reactRoot')
     );
 }
-
-module.exports = runError;

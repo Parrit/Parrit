@@ -1,7 +1,9 @@
-const runProject = require('project/runProject.js');
-const runDashboard = require('dashboard/runDashboard.js');
-const runProjectLogin = require('project-login/runProjectLogin.js');
-const runError = require('error/runError.js');
+import './polyfills.js'
+
+import runProject from 'project/runProject.js';
+import runDashboard from 'dashboard/runDashboard.js';
+import runProjectLogin from 'project-login/runProjectLogin.js';
+import runError from 'error/runError.js';
 
 window.runProject = runProject;
 window.runDashboard = runDashboard;

@@ -1,4 +1,4 @@
-const settingsReducer = function (state, action) {
+export default function (state, action) {
     if (typeof state === 'undefined') {
         state = {
             isNewPersonModalOpen: false,
@@ -21,5 +21,3 @@ const settingsReducer = function (state, action) {
             return state;
     }
 };
-
-module.exports = settingsReducer;

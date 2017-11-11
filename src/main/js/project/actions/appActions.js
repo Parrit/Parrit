@@ -1,6 +1,6 @@
-const dataCreators = require('project/actions/creators/dataCreators.js');
-const viewCreators = require('project/actions/creators/viewCreators.js');
-const dataThunks = require('project/actions/thunks/dataThunks.js');
+import * as dataCreators from 'project/actions/creators/dataCreators.js';
+import * as viewCreators from 'project/actions/creators/viewCreators.js';
+import * as dataThunks from 'project/actions/thunks/dataThunks.js';
 
 function movePersonCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.movePersonCreator(...args));
@@ -26,7 +26,7 @@ function renamePairingBoardCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.renamePairingBoardCreator(...args));
 }
 
-module.exports = {
+export default {
     movePerson: movePersonCombo,
     resetPairs: resetPairingBoard,
     createPerson: dataThunks.addNewPersonThunk,

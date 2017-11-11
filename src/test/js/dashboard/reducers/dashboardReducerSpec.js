@@ -1,5 +1,5 @@
-var deepFreeze = require('deep-freeze');
-var dashboardReducer = require('dashboard/reducers/dashboardReducer.js');
+import deepFreeze from 'deep-freeze';
+import dashboardReducer from 'dashboard/reducers/dashboardReducer.js';
 
 describe('dashboardReducer', function () {
     it('should get the default state', function () {

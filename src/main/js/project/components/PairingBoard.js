@@ -1,10 +1,10 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const PropTypes = require('prop-types');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-const PersonList = require('project/components/PersonList.js');
+import PersonList from 'project/components/PersonList.js';
 
-class PairingBoard extends React.Component {
+export default class PairingBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editMode: false};
@@ -89,5 +89,3 @@ PairingBoard.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
     renamePairingBoard: PropTypes.func.isRequired
 };
-
-module.exports = PairingBoard;

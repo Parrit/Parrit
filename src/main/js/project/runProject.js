@@ -1,22 +1,15 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const ReactRedux = require('react-redux');
-const Redux = require('redux');
-const Thunk = require('redux-thunk').default;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import Thunk from 'redux-thunk';
 
-const Provider = ReactRedux.Provider;
+import AppContainer from 'project/containers/AppContainer.js';
+import appReducer from 'project/reducers/appReducer.js';
 
-const AppContainer = require('project/containers/AppContainer.js');
-const appReducer = require('project/reducers/appReducer.js');
-
-function createStore(initialState) {
-    const createStoreMW = Redux.applyMiddleware(Thunk)(Redux.createStore);
-    return createStoreMW(appReducer, initialState);
-}
-
-function runProject(projectJSON) {
+export default function runProject(projectJSON) {
     //TODO: Remove this when the first thing that page does (componentDidMount on App) is to fetch the project data
-    let initialState = {
+    const initialState = {
         settings: {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
@@ -28,7 +21,7 @@ function runProject(projectJSON) {
         }
     };
 
-    let store = createStore(initialState);
+    let store = createStore(appReducer, initialState, applyMiddleware(Thunk));
 
     ReactDOM.render(
         <Provider store={store}>
@@ -37,5 +30,3 @@ function runProject(projectJSON) {
         document.getElementById('reactRoot')
     );
 }
-
-module.exports = runProject;

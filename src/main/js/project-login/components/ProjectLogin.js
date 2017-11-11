@@ -1,10 +1,10 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const PropTypes = require('prop-types');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-const Footer = require('shared/components/Footer.js');
+import Footer from 'shared/components/Footer.js';
 
-class ProjectLogin extends React.Component {
+export default class ProjectLogin extends React.Component {
     componentDidMount() {
         setTimeout(function() {
             ReactDOM.findDOMNode(this.refs.passwordInput).focus();
@@ -33,5 +33,3 @@ ProjectLogin.propTypes = {
     csrfParameterName: PropTypes.string.isRequired,
     csrfToken: PropTypes.string.isRequired
 };
-
-module.exports = ProjectLogin;

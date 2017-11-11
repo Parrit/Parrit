@@ -1,7 +1,7 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class Header extends React.Component {
+export default class Header extends React.Component {
     render() {
         const classes = 'history' + (this.props.isPairingHistoryPanelOpen ? ' open' : '');
 
@@ -33,5 +33,3 @@ Header.propTypes = {
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
     postLogout: PropTypes.func.isRequired
 };
-
-module.exports = Header;

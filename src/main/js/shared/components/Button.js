@@ -1,7 +1,7 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class Button extends React.Component {
+export default class Button extends React.Component {
     render() {
         const type = this.props.type || 'button';
 
@@ -20,6 +20,3 @@ Button.propTypes = {
     type: PropTypes.string,
     tooltip: PropTypes.string
 };
-
-module.exports = Button;
-
