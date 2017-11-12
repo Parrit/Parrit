@@ -27,27 +27,33 @@ create database local_parrit;
 create database local_parrit_test;
 ```
 
-### Install dependencies
-```
+### Build the app
+
+Download dependencies for the static resources (JS and CSS)
+
+```bash
+cd frontend
 npm install
+```
+
+Build the java app
+
+```bash
+./gradlew assemble
 ```
 
 ### Run all the tests
 
-```
+```bash
 ./gradlew test
 ```
 
-### Running the application locally
-
-Build the java app and static (JS and CSS) before attempting to run the application
-```
-./gradlew build
-```
+### Starting the application locally
 
 If all of the tests pass, run the project as a spring project using your preferred method.
-To run the spring boot app locally using gradle, enter the following
-```
+To run the spring boot app locally using gradle, execute the following
+
+```bash
 ./gradlew bootRun
 ```
 

@@ -4,8 +4,6 @@ import java.time.ZoneOffset
 
 plugins {
     id "org.springframework.boot" version "1.5.8.RELEASE"
-    id "com.moowork.node" version "1.2.0"
-    id "com.moowork.grunt" version "1.2.0"
 }
 
 repositories {
@@ -36,13 +34,20 @@ test {
     }
 }
 
-task jsTest(type: NodeTask) {
-    script = file("node_modules/jest/bin/jest.js")
+task jsTest(type: Exec) {
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "./node_modules/jest/bin/jest.js"
     args = ["-c", ".jestrc.json"]
 }
 test.dependsOn(jsTest)
 
-task jsBuild(type: Copy, dependsOn: grunt_build) {
+task gruntBuild(type: Exec) {
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "./node_modules/grunt-cli/bin/grunt"
+    args = ["build"]
+}
+
+task jsBuild(type: Copy, dependsOn: gruntBuild) {
     from "$project.projectDir/src/main/resources/static/built"
     into "$project.projectDir/build/classes/main/static/built"
 }
@@ -56,12 +61,7 @@ clean.dependsOn(jsClean)
 
 defaultTasks "clean", "build"
 
-// *** Other *** //
-
-grunt {
-    colors = true
-    bufferOutput = true
-}
+// *** Helper Tasks *** //
 
 task createMigration() {
     doLast {

@@ -12,7 +12,7 @@ services:
 install: /bin/true
 
 before_script:
-  - npm install
+  - ( cd frontend; npm install )
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - psql -c 'CREATE DATABASE local_parrit_test;' -U postgres

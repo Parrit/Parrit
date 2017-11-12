@@ -1,8 +1,7 @@
 .idea/
 build/
-node_modules/
+frontend/node_modules/
 src/main/resources/static/built/
-src/test/js/built/
 
 .DS_Store
 *.iml

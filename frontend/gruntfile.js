@@ -7,14 +7,14 @@ module.exports = function(grunt) {
             appJs: {
                 options: {
                     browserifyOptions: {
-                        paths: ['./src/main/js']
+                        paths: ['./src']
                     },
                     transform: [
                         ['babelify', {presets: ['react', 'env']}]
                     ]
                 },
                 files: {
-                    'src/main/resources/static/built/bundle.js': 'src/main/js/main.js'
+                    '../src/main/resources/static/built/bundle.js': 'src/main.js'
                 }
             }
         },
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
                     noCache: true
                 },
                 files: {
-                    'src/main/resources/static/built/bundle.css': 'src/main/resources/static/sass/styles.scss'
+                    '../src/main/resources/static/built/bundle.css': '../src/main/resources/static/sass/styles.scss'
                 }
             }
         }
