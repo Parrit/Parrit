@@ -4,14 +4,12 @@ import Moment from 'moment-timezone';
 
 export default class PairingHistoryRecord extends React.Component {
     render() {
-        const currentTimeZone = Moment.tz.guess();
-        const timeZoneAdjustedPairingTime = Moment.tz(this.props.pairingTime, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]", 'UTC')
-            .tz(currentTimeZone)
-            .format('MMMM D, YYYY h:mm A');
+        const localPairingTime = Moment.tz(this.props.pairingTime, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]", 'UTC')
+            .local().format('MMMM D, YYYY h:mm A');
 
         return <div className="pairing-history-record">
             <div className="pairing-history-record-clock"/>
-            <h3 className="pairing-time">{timeZoneAdjustedPairingTime}</h3>
+            <h3 className="pairing-time">{localPairingTime}</h3>
             
             <div className="pairing-boards-with-people">
                 {this.props.pairingBoardsWithPeople.map(function(pairingBoardWithPeople, idx) {

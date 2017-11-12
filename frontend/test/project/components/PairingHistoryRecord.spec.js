@@ -28,7 +28,7 @@ describe('<PairingHistoryRecord/>', () => {
     });
 
     it('displays the pairing time in the local timezone', () => {
-        expect(wrapper.find('.pairing-time').text()).toBe('March 8, 2016 5:30 PM');
+        expect(wrapper.find('.pairing-time').text()).toBe('March 8, 2016 9:30 AM');
     });
 
     it('displays the pairing boards with the people', () => {
