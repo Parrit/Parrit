@@ -1,7 +1,7 @@
 {
   "private": true,
   "dependencies": {
-    "axios": "0.16.0",
+    "axios": "0.17.1",
     "core-js": "2.5.1",
     "es6-promise": "4.1.1",
     "interact.js": "1.2.8",
@@ -11,9 +11,9 @@
     "moment-timezone": "0.5.14",
     "prop-types": "15.6.0",
     "raf": "3.4.0",
-    "react": "16.0.0",
-    "react-dom": "16.0.0",
-    "react-modal": "3.1.0",
+    "react": "16.1.0",
+    "react-dom": "16.1.0",
+    "react-modal": "3.1.2",
     "react-redux": "5.0.6",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0"
