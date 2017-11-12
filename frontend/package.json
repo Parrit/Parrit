@@ -34,7 +34,7 @@
     "grunt-sass": "2.0.0",
     "jest": "21.2.1",
     "react-test-renderer": "16.1.0",
-    "timezone-mock": "0.0.6",
+    "timezone-mock": "0.0.7",
     "watchify": "3.9.0"
   }
 }
