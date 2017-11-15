@@ -17,16 +17,16 @@ import java.util.List;
 @Service
 public class PairingService {
 
-    PairingHistoryRepository pairingHistoryRepository;
-    ProjectRepository projectRepository;
-    RecommendationService recommendationService;
-    CurrentTimeProvider currentTimeProvider;
+    private PairingHistoryRepository pairingHistoryRepository;
+    private ProjectRepository projectRepository;
+    private RecommendationService recommendationService;
+    private CurrentTimeProvider currentTimeProvider;
 
     @Autowired
-    public PairingService(PairingHistoryRepository pairingHistoryRepository,
-                          ProjectRepository projectRepository,
-                          RecommendationService recommendationService,
-                          CurrentTimeProvider currentTimeProvider) {
+    PairingService(PairingHistoryRepository pairingHistoryRepository,
+                   ProjectRepository projectRepository,
+                   RecommendationService recommendationService,
+                   CurrentTimeProvider currentTimeProvider) {
         this.pairingHistoryRepository = pairingHistoryRepository;
         this.projectRepository = projectRepository;
         this.recommendationService = recommendationService;

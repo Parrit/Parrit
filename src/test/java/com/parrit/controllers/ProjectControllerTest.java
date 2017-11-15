@@ -5,16 +5,18 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
-import com.parrit.support.ControllerTestBase;
 import com.parrit.transformers.ProjectTransformer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.util.NestedServletException;
 
@@ -28,20 +30,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class ProjectControllerTest extends ControllerTestBase {
-
-    @Mock
-    ProjectRepository mockProjectRepository;
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = ProjectController.class, secure = false)
+public class ProjectControllerTest {
 
     @Autowired
-    @InjectMocks
-    ProjectController projectController;
+    private MockMvc mockMvc;
 
-    Project persistedProject;
-    Project updatedProject;
-    ProjectDTO updatedProjectDTO;
-    String persistedProjectString;
-    String updatedProjectDTOString;
+    @MockBean
+    private ProjectRepository mockProjectRepository;
+
+    private Project persistedProject;
+    private Project updatedProject;
+    private ProjectDTO updatedProjectDTO;
+    private String updatedProjectDTOString;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -50,7 +52,6 @@ public class ProjectControllerTest extends ControllerTestBase {
     public void setUp() {
         persistedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
         persistedProject.setId(1L);
-        persistedProjectString = "{\"id\":1,\"name\":\"Henry\",\"password\":\"henrypass\",\"pairingBoards\":[],\"people\":[]}";
 
         updatedProjectDTO = ProjectTransformer.transform(persistedProject);
         updatedProjectDTOString = "{\"id\":1,\"name\":\"Bob\",\"pairingBoards\":[],\"people\":[]}";
@@ -65,7 +66,7 @@ public class ProjectControllerTest extends ControllerTestBase {
 
     @Test
     public void getDashboard_returnsDashboardView() throws Exception {
-        mvc.perform(get("/"))
+        mockMvc.perform(get("/"))
             .andExpect(status().isOk())
             .andExpect(view().name("dashboard"));
     }
@@ -74,7 +75,7 @@ public class ProjectControllerTest extends ControllerTestBase {
     public void getProject_returnsResultFromRepository() throws Exception {
         when(mockProjectRepository.findByName("anyProjectName")).thenReturn(persistedProject);
 
-        mvc.perform(get("/anyProjectName"))
+        mockMvc.perform(get("/anyProjectName"))
             .andExpect(status().isOk())
             .andExpect(view().name("project"))
             .andExpect(model().attribute("project", updatedProjectDTO));
@@ -91,7 +92,7 @@ public class ProjectControllerTest extends ControllerTestBase {
     public void createProject_savesTheNewProject() throws Exception {
         when(mockProjectRepository.save(any(Project.class))).thenReturn(persistedProject);
 
-        mvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project/new")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"bob\",\"password\":\"bobpass\"}"))
             .andExpect(status().isOk());
@@ -112,7 +113,7 @@ public class ProjectControllerTest extends ControllerTestBase {
     public void createProject_throwsAnException_whenThePasswordIsEmpty() throws Exception {
         thrown.expect(NestedServletException.class);
 
-        mvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project/new")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"bob\",\"password\":\"\"}"));
     }
@@ -124,7 +125,7 @@ public class ProjectControllerTest extends ControllerTestBase {
         when(mockProjectRepository.findOne(anyLong())).thenReturn(persistedProject);
         when(mockProjectRepository.save(any(Project.class))).thenReturn(updatedProject);
 
-        MvcResult mvcResult = mvc.perform(post("/api/project")
+        MvcResult mvcResult = mockMvc.perform(post("/api/project")
             .contentType(MediaType.APPLICATION_JSON)
             .content(updatedProjectDTOString))
             .andExpect(status().isOk())
@@ -145,7 +146,7 @@ public class ProjectControllerTest extends ControllerTestBase {
         when(mockProjectRepository.findOne(anyLong())).thenReturn(persistedProject);
         when(mockProjectRepository.save(any(Project.class))).thenReturn(updatedProject);
 
-        MvcResult mvcResult = mvc.perform(post("/api/project/2/addPerson")
+        MvcResult mvcResult = mockMvc.perform(post("/api/project/2/addPerson")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"Steve\"}"))
             .andExpect(status().isOk())

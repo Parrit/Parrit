@@ -16,7 +16,7 @@ Clone the repository: `git clone https://github.com/Parrit/Parrit.git`
 
 Change into the new directory: `cd Parrit`
 
-### Create databases
+### Create database
 
 ```bash
 psql postgres
@@ -24,7 +24,6 @@ psql postgres
 
 ```psql
 create database local_parrit;
-create database local_parrit_test;
 ```
 
 ### Build the app

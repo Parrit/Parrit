@@ -6,11 +6,12 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.PairingHistoryRepository;
 import com.parrit.repositories.ProjectRepository;
-import com.parrit.support.MockitoTestBase;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,23 +24,24 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
-public class PairingServiceTest extends MockitoTestBase {
+@RunWith(MockitoJUnitRunner.class)
+public class PairingServiceTest {
+
+    private PairingService pairingService;
 
     @Mock
-    PairingHistoryRepository mockPairingHistoryRepository;
+    private PairingHistoryRepository mockPairingHistoryRepository;
 
     @Mock
-    ProjectRepository mockProjectRepository;
+    private ProjectRepository mockProjectRepository;
 
     @Mock
-    RecommendationService mockRecommendationService;
+    private RecommendationService mockRecommendationService;
 
     @Mock
-    CurrentTimeProvider mockCurrentTimeProvider;
+    private CurrentTimeProvider mockCurrentTimeProvider;
 
-    PairingService pairingService;
-
-    Timestamp currentTime = new Timestamp(1456364985548L);
+    private Timestamp currentTime = new Timestamp(1456364985548L);
 
     @Before
     public void setup() {

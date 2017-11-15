@@ -4,11 +4,12 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
-import com.parrit.support.MockitoTestBase;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -20,27 +21,28 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
-public class RecommendationServiceTest extends MockitoTestBase {
+@RunWith(MockitoJUnitRunner.class)
+public class RecommendationServiceTest {
+
+    private RecommendationService recommendationService;
 
     @Mock
-    CurrentTimeProvider currentTimeProvider;
+    private CurrentTimeProvider currentTimeProvider;
 
-    RecommendationService recommendationService;
+    private Project project;
+    private PairingBoard pairingBoard1;
+    private PairingBoard pairingBoard2;
+    private PairingBoard pairingBoard3;
+    private PairingBoard exemptPairingBoard;
+    private Person p1;
+    private Person p2;
+    private Person p3;
+    private Person p4;
+    private Person p5;
+    private Person p6;
+    private List<PairingHistory> pairingHistories;
 
-    Project project;
-    PairingBoard pairingBoard1;
-    PairingBoard pairingBoard2;
-    PairingBoard pairingBoard3;
-    PairingBoard exemptPairingBoard;
-    Person p1;
-    Person p2;
-    Person p3;
-    Person p4;
-    Person p5;
-    Person p6;
-    List<PairingHistory> pairingHistories;
-
-    int today = 100;
+    private int today = 100;
     private Timestamp daysAgo(int days) {
         assert days <= today;
         return new Timestamp(today - days);

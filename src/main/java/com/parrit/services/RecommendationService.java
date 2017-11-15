@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class RecommendationService {
 
-    CurrentTimeProvider currentTimeProvider;
+    private CurrentTimeProvider currentTimeProvider;
 
     @Autowired
     public RecommendationService(CurrentTimeProvider currentTimeProvider) {

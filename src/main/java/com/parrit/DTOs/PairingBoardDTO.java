@@ -3,6 +3,7 @@ package com.parrit.DTOs;
 import java.util.List;
 
 public class PairingBoardDTO {
+
     private long id;
     private List<PersonDTO> people;
     private Boolean isExempt;

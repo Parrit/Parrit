@@ -11,11 +11,16 @@ repositories {
 }
 
 dependencies {
+    ext.springCloudConnectorVersion = "2.0.1.RELEASE"
+    ext.commonsLang3Version = "3.7"
+
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.apache.commons:commons-lang3:3.5"
+    compile "org.springframework.cloud:spring-cloud-spring-service-connector:$springCloudConnectorVersion"
+    compile "org.springframework.cloud:spring-cloud-cloudfoundry-connector:$springCloudConnectorVersion"
+    compile "org.apache.commons:commons-lang3:$commonsLang3Version"
     compile "org.postgresql:postgresql"
     compile "org.flywaydb:flyway-core"
 
@@ -26,49 +31,40 @@ version "0.0.1-SNAPSHOT"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-// *** LifeCycle *** //
-
-test {
-    filter {
-        includeTestsMatching "*Test"
-    }
-}
+// *** LifeCycle Tasks *** //
 
 task jsTest(type: Exec) {
+    group = "Parrit"
+    description = "Runs the frontend javascript tests"
+
     workingDir = "$project.projectDir/frontend"
     commandLine = "./node_modules/jest/bin/jest.js"
     args = ["-c", ".jestrc.json"]
 }
 test.dependsOn(jsTest)
 
-task gruntBuild(type: Exec) {
+task jsBuild(type: Exec) {
+    group = "Parrit"
+    description = "Bundles the frontend javascript code"
+
     workingDir = "$project.projectDir/frontend"
     commandLine = "./node_modules/grunt-cli/bin/grunt"
     args = ["build"]
 }
-
-task jsBuild(type: Copy, dependsOn: gruntBuild) {
-    from "$project.projectDir/src/main/resources/static/built"
-    into "$project.projectDir/build/classes/main/static/built"
-}
-processResources.dependsOn(jsBuild)
-
-task jsClean(type: Delete) {
-    delete "src/main/resources/static/built/bundle.js"
-    delete "src/main/resources/static/built/bundle.css"
-}
-clean.dependsOn(jsClean)
+jsBuild.dependsOn(jsBuild)
 
 defaultTasks "clean", "build"
 
 // *** Helper Tasks *** //
 
-task createMigration() {
-    doLast {
-        def utc = ZoneId.of("UTC")
-        def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
-        def path = "src/main/resources/db/migration/V${timestamp}__CHANGEME.sql"
+task createMigration(type: Exec) {
+    group = "Parrit"
+    description = "Creates an empty migration file with a valid version number"
 
-        "touch ${project.projectDir}/${path}".execute()
-    }
+    def utc = ZoneId.of("UTC")
+    def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
+
+    workingDir = "$project.projectDir/src/main/resources/db/migration"
+    commandLine = "touch"
+    args = ["V${timestamp}__CHANGEME.sql"]
 }

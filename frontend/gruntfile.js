@@ -14,7 +14,7 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: {
-                    '../src/main/resources/static/built/bundle.js': 'src/main.js'
+                    '../build/resources/main/static/built/bundle.js': 'src/main.js'
                 }
             }
         },
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
                     noCache: true
                 },
                 files: {
-                    '../src/main/resources/static/built/bundle.css': '../src/main/resources/static/sass/styles.scss'
+                    '../build/resources/main/static/built/bundle.css': '../src/main/resources/static/sass/styles.scss'
                 }
             }
         }

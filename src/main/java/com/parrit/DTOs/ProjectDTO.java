@@ -3,6 +3,7 @@ package com.parrit.DTOs;
 import java.util.List;
 
 public class ProjectDTO {
+
     private long id;
     private String name;
     private List<PairingBoardDTO> pairingBoards;

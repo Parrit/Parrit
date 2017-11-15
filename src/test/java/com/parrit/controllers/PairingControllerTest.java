@@ -4,13 +4,15 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Project;
 import com.parrit.services.PairingService;
-import com.parrit.support.ControllerTestBase;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Timestamp;
@@ -25,17 +27,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class PairingControllerTest extends ControllerTestBase {
-
-    @Mock
-    PairingService mockPairingService;
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = PairingController.class, secure = false)
+public class PairingControllerTest {
 
     @Autowired
-    @InjectMocks
-    PairingController pairingController;
+    private MockMvc mockMvc;
 
-    Project exampleProject;
-    String exampleProjectString;
+    @MockBean
+    private PairingService mockPairingService;
+
+    private Project exampleProject;
+    private String exampleProjectString;
 
     @Before
     public void setUp() {
@@ -61,7 +64,7 @@ public class PairingControllerTest extends ControllerTestBase {
 
         when(mockPairingService.savePairing(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 
-        MvcResult mvcResult = mvc.perform(post("/api/project/42/pairing")
+        MvcResult mvcResult = mockMvc.perform(post("/api/project/42/pairing")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -82,7 +85,7 @@ public class PairingControllerTest extends ControllerTestBase {
     public void getRecommendation_passesTheProjectToThePairingService_andReturnsAModifiedProject() throws Exception {
         when(mockPairingService.getRecommendation(anyLong())).thenReturn(exampleProject);
 
-        MvcResult mvcResult = mvc.perform(get("/api/project/42/pairing/recommend")
+        MvcResult mvcResult = mockMvc.perform(get("/api/project/42/pairing/recommend")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -101,7 +104,7 @@ public class PairingControllerTest extends ControllerTestBase {
 
         when(mockPairingService.getSortedPairingHistory(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 
-        MvcResult mvcResult = mvc.perform(get("/api/project/42/pairing/history")
+        MvcResult mvcResult = mockMvc.perform(get("/api/project/42/pairing/history")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andReturn();

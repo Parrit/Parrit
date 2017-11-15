@@ -1,9 +1,7 @@
 package com.parrit.configurations;
 
-import com.parrit.configurations.security.ProjectDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,7 +27,6 @@ import java.io.IOException;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Profile("!test")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired

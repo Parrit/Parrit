@@ -1,4 +1,4 @@
-package com.parrit.configurations.security;
+package com.parrit.configurations;
 
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.Project;

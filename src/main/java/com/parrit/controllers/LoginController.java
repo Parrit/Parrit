@@ -25,8 +25,12 @@ import java.util.Collections;
 @Controller
 public class LoginController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    public LoginController(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     //*********************//
     //******  Views  ******//
