@@ -51,7 +51,7 @@ task jsBuild(type: Exec) {
     commandLine = "./node_modules/grunt-cli/bin/grunt"
     args = ["build"]
 }
-jsBuild.dependsOn(jsBuild)
+processResources.dependsOn(jsBuild)
 
 defaultTasks "clean", "build"
 
