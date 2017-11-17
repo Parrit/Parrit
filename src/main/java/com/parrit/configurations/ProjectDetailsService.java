@@ -25,8 +25,9 @@ public class ProjectDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         Project project = projectRepository.findByName(name);
 
-        if(project == null)
+        if(project == null) {
             throw new UsernameNotFoundException("Username <" + name + "> was not found");
+        }
 
         return new User(project.getName(), project.getPassword(), Collections.emptyList());
     }
