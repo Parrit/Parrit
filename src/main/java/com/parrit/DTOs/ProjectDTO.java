@@ -52,6 +52,6 @@ public class ProjectDTO {
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
         if (getPairingBoards() != null ? !getPairingBoards().equals(that.getPairingBoards()) : that.getPairingBoards() != null) return false;
         return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null;
-
     }
+
 }

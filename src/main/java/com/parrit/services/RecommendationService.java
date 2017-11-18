@@ -99,14 +99,14 @@ public class RecommendationService {
         return project.getPairingBoards()
                 .stream()
                 .filter(pairingBoard -> pairingBoard.getPeople().isEmpty())
-                .filter(pairingBoard -> !pairingBoard.getExempt())
+                .filter(pairingBoard -> !pairingBoard.isExempt())
                 .collect(Collectors.toList());
     }
 
     private PairingBoard popNextEmptyPairingBoard(Project project, List<PairingBoard> emptyPairingBoards) {
         PairingBoard pairingBoard;
         if(emptyPairingBoards.isEmpty()) {
-            pairingBoard = new PairingBoard("New Pairing Board", new ArrayList<>());
+            pairingBoard = new PairingBoard("New Pairing Board", false, new ArrayList<>());
             project.getPairingBoards().add(pairingBoard);
         }
         else {
@@ -157,7 +157,7 @@ public class RecommendationService {
         private List<Person> getUnpairedStickingPeople(Project project) {
             return project.getPairingBoards()
                     .stream()
-                    .filter(pairingBoard -> !pairingBoard.getPeople().isEmpty() && !pairingBoard.getExempt() && pairingBoard.getPeople().size() < FULL_PAIRING_BOARD_SIZE)
+                    .filter(pairingBoard -> !pairingBoard.getPeople().isEmpty() && !pairingBoard.isExempt() && pairingBoard.getPeople().size() < FULL_PAIRING_BOARD_SIZE)
                     .map(pairingBoard -> pairingBoard.getPeople().get(0))
                     .collect(Collectors.toList());
         }

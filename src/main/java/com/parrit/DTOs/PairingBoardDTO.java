@@ -6,7 +6,7 @@ public class PairingBoardDTO {
 
     private long id;
     private List<PersonDTO> people;
-    private Boolean isExempt;
+    private boolean exempt;
     private String name;
 
     public long getId() {
@@ -25,9 +25,13 @@ public class PairingBoardDTO {
         this.people = people;
     }
 
-    public Boolean getExempt() { return isExempt;}
+    public boolean isExempt() {
+        return exempt;
+    }
 
-    public void setExempt(Boolean exempt) { isExempt = exempt; }
+    public void setExempt(boolean exempt) {
+        this.exempt = exempt;
+    }
 
     public String getName() {
         return name;
@@ -36,4 +40,18 @@ public class PairingBoardDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PairingBoardDTO)) return false;
+
+        PairingBoardDTO that = (PairingBoardDTO) o;
+
+        if (getId() != that.getId()) return false;
+        if (isExempt() != that.isExempt()) return false;
+        if (getPeople() != null ? !getPeople().equals(that.getPeople()) : that.getPeople() != null) return false;
+        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
+    }
+
 }

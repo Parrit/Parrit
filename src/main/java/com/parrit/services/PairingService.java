@@ -43,7 +43,8 @@ public class PairingService {
             List<Person> pairingBoardPeople = pairingBoard.getPeople();
 
             if(!pairingBoardPeople.isEmpty()) {
-                PairingHistory savedPairingHistory = pairingHistoryRepository.save(new PairingHistory(project, new ArrayList<>(pairingBoardPeople), currentTime, pairingBoard.getName()));
+                PairingHistory pairingHistory = new PairingHistory(project, pairingBoard.getName(), new ArrayList<>(pairingBoardPeople), currentTime);
+                PairingHistory savedPairingHistory = pairingHistoryRepository.save(pairingHistory);
                 pairingHistories.add(savedPairingHistory);
             }
         }

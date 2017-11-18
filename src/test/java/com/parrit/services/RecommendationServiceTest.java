@@ -48,15 +48,14 @@ public class RecommendationServiceTest {
 
         project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        pairingBoard1 = new PairingBoard("One", new ArrayList<>());
+        pairingBoard1 = new PairingBoard("One", false, new ArrayList<>());
         pairingBoard1.setId(1L);
-        pairingBoard2 = new PairingBoard("Two", new ArrayList<>());
+        pairingBoard2 = new PairingBoard("Two", false, new ArrayList<>());
         pairingBoard2.setId(2L);
-        pairingBoard3 = new PairingBoard("Three", new ArrayList<>());
+        pairingBoard3 = new PairingBoard("Three", false, new ArrayList<>());
         pairingBoard3.setId(3L);
-        exemptPairingBoard = new PairingBoard("Exempt", new ArrayList<>());
+        exemptPairingBoard = new PairingBoard("Exempt", true, new ArrayList<>());
         exemptPairingBoard.setId(4L);
-        exemptPairingBoard.setExempt(true);
 
         p1 = new Person("Alpha");
         p1.setId(1L);
@@ -88,7 +87,7 @@ public class RecommendationServiceTest {
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
 
-        PairingBoard expectedPairingBoard = new PairingBoard("One", Collections.singletonList(p1));
+        PairingBoard expectedPairingBoard = new PairingBoard("One", false, Collections.singletonList(p1));
         expectedPairingBoard.setId(1L);
 
         Project expectedProject = new Project("One", "onepass", Collections.singletonList(expectedPairingBoard), new ArrayList<>());
@@ -115,15 +114,15 @@ public class RecommendationServiceTest {
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p2, p3));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p2, p3));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p4, p5, p6));
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", false, Arrays.asList(p4, p5, p6));
         pairingBoard2Expected.setId(2L);
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        PairingBoard pairingBoard3Expected = new PairingBoard("Three", Collections.singletonList(p1));
+        PairingBoard pairingBoard3Expected = new PairingBoard("Three", false, Collections.singletonList(p1));
         pairingBoard3Expected.setId(3L);
         expectedProject.getPairingBoards().add(pairingBoard3Expected);
 
@@ -140,21 +139,21 @@ public class RecommendationServiceTest {
         pairingBoard2.getPeople().add(p3);
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p2 = new PairingHistory(project, Arrays.asList(p1, p2), daysAgo(1), "The Pairing Board");
+        PairingHistory p1p2 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), daysAgo(1));
         pairingHistories.add(p1p2);
 
-        PairingHistory p3p1 = new PairingHistory(project, Arrays.asList(p3, p1), daysAgo(2), "The Second Pairing Board");
+        PairingHistory p3p1 = new PairingHistory(project, "The Second Pairing Board", Arrays.asList(p3, p1), daysAgo(2));
         pairingHistories.add(p3p1);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Collections.singletonList(p2));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Collections.singletonList(p2));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p3, p1));
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", false, Arrays.asList(p3, p1));
         pairingBoard2Expected.setId(2L);
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
@@ -172,26 +171,26 @@ public class RecommendationServiceTest {
         pairingBoard2.getPeople().add(p4);
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p3 = new PairingHistory(project, Arrays.asList(p1, p3), daysAgo(1), "The Pairing Board");
+        PairingHistory p1p3 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p3), daysAgo(1));
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(project, Arrays.asList(p4, p1), daysAgo(3), "The Second Pairing Board");
+        PairingHistory p4p1 = new PairingHistory(project, "The Second Pairing Board", Arrays.asList(p4, p1), daysAgo(3));
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(project, Arrays.asList(p2, p3), daysAgo(2), "The Third Pairing Board");
+        PairingHistory p2p3 = new PairingHistory(project, "The Third Pairing Board", Arrays.asList(p2, p3), daysAgo(2));
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(project, Arrays.asList(p2, p4), daysAgo(3), "The Fourth Pairing Board");
+        PairingHistory p2p4 = new PairingHistory(project, "The Fourth Pairing Board", Arrays.asList(p2, p4), daysAgo(3));
         pairingHistories.add(p2p4);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p3, p2));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p3, p2));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p4, p1));
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", false, Arrays.asList(p4, p1));
         pairingBoard2Expected.setId(2L);
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
@@ -209,26 +208,26 @@ public class RecommendationServiceTest {
         pairingBoard2.getPeople().add(p4);
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p3 = new PairingHistory(project, Arrays.asList(p1, p3), daysAgo(25), "The Pairing Board");
+        PairingHistory p1p3 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p3), daysAgo(25));
         pairingHistories.add(p1p3);
 
-        PairingHistory p4p1 = new PairingHistory(project, Arrays.asList(p4, p1), daysAgo(30), "The Second Pairing Board");
+        PairingHistory p4p1 = new PairingHistory(project, "The Second Pairing Board", Arrays.asList(p4, p1), daysAgo(30));
         pairingHistories.add(p4p1);
 
-        PairingHistory p2p3 = new PairingHistory(project, Arrays.asList(p2, p3), daysAgo(20), "The Third Pairing Board");
+        PairingHistory p2p3 = new PairingHistory(project, "The Third Pairing Board", Arrays.asList(p2, p3), daysAgo(20));
         pairingHistories.add(p2p3);
 
-        PairingHistory p2p4 = new PairingHistory(project, Arrays.asList(p2, p4), daysAgo(35), "The Fourth Pairing Board");
+        PairingHistory p2p4 = new PairingHistory(project, "The Fourth Pairing Board", Arrays.asList(p2, p4), daysAgo(35));
         pairingHistories.add(p2p4);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p3, p1));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p3, p1));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p4, p2));
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", false, Arrays.asList(p4, p2));
         pairingBoard2Expected.setId(2L);
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
@@ -245,21 +244,21 @@ public class RecommendationServiceTest {
 
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p1p2 = new PairingHistory(project, Arrays.asList(p1, p2), daysAgo(15), "The Pairing Board");
+        PairingHistory p1p2 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), daysAgo(15));
         pairingHistories.add(p1p2);
 
-        PairingHistory p1p3 = new PairingHistory(project, Arrays.asList(p1, p3), daysAgo(25), "The Pairing Board");
+        PairingHistory p1p3 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p3), daysAgo(25));
         pairingHistories.add(p1p3);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p3, p2));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p3, p2));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Collections.singletonList(p1));
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", false, Collections.singletonList(p1));
         pairingBoard2Expected.setId(2L);
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
@@ -277,24 +276,24 @@ public class RecommendationServiceTest {
 
         project.getPairingBoards().add(pairingBoard2);
 
-        PairingHistory p4p1 = new PairingHistory(project, Arrays.asList(p4, p1), daysAgo(30), "The Pairing Board");
+        PairingHistory p4p1 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p4, p1), daysAgo(30));
         pairingHistories.add(p4p1);
 
-        PairingHistory p4p2 = new PairingHistory(project, Arrays.asList(p4, p2), daysAgo(20), "The Pairing Board");
+        PairingHistory p4p2 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p4, p2), daysAgo(20));
         pairingHistories.add(p4p2);
 
-        PairingHistory p1p2 = new PairingHistory(project, Arrays.asList(p1, p2), daysAgo(10), "The Pairing Board");
+        PairingHistory p1p2 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), daysAgo(10));
         pairingHistories.add(p1p2);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p4, p1));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p4, p1));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("Two", Arrays.asList(p2, p3));
+        PairingBoard pairingBoard2Expected = new PairingBoard("Two", false, Arrays.asList(p2, p3));
         pairingBoard2Expected.setId(2L);
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
@@ -315,14 +314,14 @@ public class RecommendationServiceTest {
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p1, p5));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p1, p5));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", Arrays.asList(p2, p4)); //Null Id
+        PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", false, Arrays.asList(p2, p4)); //Null Id
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
-        PairingBoard pairingBoard3Expected = new PairingBoard("New Pairing Board", Collections.singletonList(p3)); //Null Id
+        PairingBoard pairingBoard3Expected = new PairingBoard("New Pairing Board", false, Collections.singletonList(p3)); //Null Id
         expectedProject.getPairingBoards().add(pairingBoard3Expected);
 
         assertThat(returnedProject, equalTo(expectedProject));
@@ -337,21 +336,21 @@ public class RecommendationServiceTest {
         pairingBoard1.getPeople().add(p4);
         project.getPairingBoards().add(pairingBoard1);
 
-        PairingHistory p1p2p3 = new PairingHistory(project, Arrays.asList(p1, p2, p3), daysAgo(2), "The Pairing Board");
+        PairingHistory p1p2p3 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2, p3), daysAgo(2));
         pairingHistories.add(p1p2p3);
 
-        PairingHistory p4solo = new PairingHistory(project, Collections.singletonList(p4), daysAgo(2), "The Pairing Board");
+        PairingHistory p4solo = new PairingHistory(project, "The Pairing Board", Collections.singletonList(p4), daysAgo(2));
         pairingHistories.add(p4solo);
 
         Project returnedProject = recommendationService.get(project, pairingHistories);
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p4, p1));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p4, p1));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
-        PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", Arrays.asList(p2, p3)); //Null Id
+        PairingBoard pairingBoard2Expected = new PairingBoard("New Pairing Board", false, Arrays.asList(p2, p3)); //Null Id
         expectedProject.getPairingBoards().add(pairingBoard2Expected);
 
         assertThat(returnedProject, equalTo(expectedProject));
@@ -370,11 +369,11 @@ public class RecommendationServiceTest {
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard exemptBoardExpected = new PairingBoard("Exempt", Arrays.asList(p2));
+        PairingBoard exemptBoardExpected = new PairingBoard("Exempt", true, Arrays.asList(p2));
         exemptBoardExpected.setId(4L);
         expectedProject.getPairingBoards().add(exemptBoardExpected);
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", Arrays.asList(p1));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p1));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 
@@ -391,10 +390,10 @@ public class RecommendationServiceTest {
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoardExpectedNew = new PairingBoard("New Pairing Board", Arrays.asList(p1, p2));
+        PairingBoard pairingBoardExpectedNew = new PairingBoard("New Pairing Board", false, Arrays.asList(p1, p2));
         pairingBoardExpectedNew.setId(0L);
 
-        PairingBoard pairingBoardExpectedExempt = new PairingBoard("Exempt", new ArrayList<>());
+        PairingBoard pairingBoardExpectedExempt = new PairingBoard("Exempt", true, new ArrayList<>());
         pairingBoardExpectedExempt.setId(4L);
 
         expectedProject.getPairingBoards().add(pairingBoardExpectedExempt);

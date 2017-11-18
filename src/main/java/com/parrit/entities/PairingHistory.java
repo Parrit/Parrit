@@ -1,6 +1,9 @@
 package com.parrit.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -11,26 +14,29 @@ public class PairingHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @ManyToMany(targetEntity = Person.class, fetch = FetchType.LAZY)
+    @NotNull
+    @Length(min = 1, max = 100)
+    private String pairingBoardName;
+
+    @ManyToMany
     @JoinTable(inverseJoinColumns = @JoinColumn(name = "person_id"))
     private List<Person> people;
 
+    @NotNull
     private Timestamp timestamp;
-
-    private String pairingBoardName;
 
     public PairingHistory() {
     }
 
-    public PairingHistory(Project project, List<Person> people, Timestamp timestamp, String pairingBoardName) {
+    public PairingHistory(Project project, String pairingBoardName, List<Person> people, Timestamp timestamp) {
         this.project = project;
+        this.pairingBoardName = pairingBoardName;
         this.people = people;
         this.timestamp = timestamp;
-        this.pairingBoardName = pairingBoardName;
     }
 
     public long getId() {
@@ -49,6 +55,14 @@ public class PairingHistory {
         this.project = project;
     }
 
+    public String getPairingBoardName() {
+        return pairingBoardName;
+    }
+
+    public void setPairingBoardName(String pairingBoardName) {
+        this.pairingBoardName = pairingBoardName;
+    }
+
     public List<Person> getPeople() {
         return people;
     }
@@ -65,14 +79,6 @@ public class PairingHistory {
         this.timestamp = timestamp;
     }
 
-    public String getPairingBoardName() {
-        return pairingBoardName;
-    }
-
-    public void setPairingBoardName(String pairingBoardName) {
-        this.pairingBoardName = pairingBoardName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,31 +88,30 @@ public class PairingHistory {
 
         if (getId() != that.getId()) return false;
         if (getProject() != null ? !getProject().equals(that.getProject()) : that.getProject() != null) return false;
+        if (getPairingBoardName() != null ? !getPairingBoardName().equals(that.getPairingBoardName()) : that.getPairingBoardName() != null) return false;
         if (getPeople() != null ? !getPeople().equals(that.getPeople()) : that.getPeople() != null) return false;
-        if (getTimestamp() != null ? !getTimestamp().equals(that.getTimestamp()) : that.getTimestamp() != null)
-            return false;
-        return getPairingBoardName() != null ? getPairingBoardName().equals(that.getPairingBoardName()) : that.getPairingBoardName() == null;
-
+        return getTimestamp() != null ? getTimestamp().equals(that.getTimestamp()) : that.getTimestamp() == null;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (getProject() != null ? getProject().hashCode() : 0);
+        result = 31 * result + (getPairingBoardName() != null ? getPairingBoardName().hashCode() : 0);
         result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
         result = 31 * result + (getTimestamp() != null ? getTimestamp().hashCode() : 0);
-        result = 31 * result + (getPairingBoardName() != null ? getPairingBoardName().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "PairingHistory{" +
-            "id=" + id +
-            ", project=" + project +
-            ", people=" + people +
-            ", timestamp=" + timestamp +
-            ", pairingBoardName='" + pairingBoardName + '\'' +
-            '}';
+                "id=" + id +
+                ", project=" + project +
+                ", pairingBoardName='" + pairingBoardName + '\'' +
+                ", people=" + people +
+                ", timestamp=" + timestamp +
+                '}';
     }
+
 }

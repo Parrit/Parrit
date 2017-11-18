@@ -21,11 +21,11 @@ public class Project {
     @NotNull
     private String password;
 
-    @OneToMany(targetEntity = PairingBoard.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="project_id")
     private List<PairingBoard> pairingBoards;
 
-    @OneToMany(targetEntity = Person.class, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="project_id")
     private List<Person> people;
 
@@ -91,7 +91,6 @@ public class Project {
         if (getPassword() != null ? !getPassword().equals(project.getPassword()) : project.getPassword() != null) return false;
         if (getPairingBoards() != null ? !getPairingBoards().equals(project.getPairingBoards()) : project.getPairingBoards() != null) return false;
         return getPeople() != null ? getPeople().equals(project.getPeople()) : project.getPeople() == null;
-
     }
 
     @Override
@@ -106,12 +105,13 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Workspace{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", password='" + password + '\'' +
-            ", pairingBoards=" + pairingBoards +
-            ", people=" + people +
-            '}';
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", pairingBoards=" + pairingBoards +
+                ", people=" + people +
+                '}';
     }
+
 }

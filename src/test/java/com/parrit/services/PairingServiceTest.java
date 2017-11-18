@@ -58,13 +58,13 @@ public class PairingServiceTest {
         Person p2 = new Person("Mary");
         p2.setId(2L);
 
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Arrays.asList(p1, p2));
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2));
         pairingBoard.setId(1L);
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        PairingHistory expectedPairingHistory = new PairingHistory(project, Arrays.asList(p1, p2), currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), currentTime);
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
         when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
@@ -89,17 +89,17 @@ public class PairingServiceTest {
         Person p4 = new Person("Tammy");
         p4.setId(4L);
 
-        PairingBoard pairingBoard1 = new PairingBoard("The Pairing Board", Arrays.asList(p1, p2));
+        PairingBoard pairingBoard1 = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2));
         pairingBoard1.setId(1L);
-        PairingBoard pairingBoard2 = new PairingBoard("The Second Pairing Board", Arrays.asList(p3, p4));
+        PairingBoard pairingBoard2 = new PairingBoard("The Second Pairing Board", false, Arrays.asList(p3, p4));
         pairingBoard2.setId(2L);
 
         List<PairingBoard> pairingBoards = Arrays.asList(pairingBoard1, pairingBoard2);
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        PairingHistory expectedPairingHistory1 = new PairingHistory(project, Arrays.asList(p1, p2), currentTime, "The Pairing Board");
-        PairingHistory expectedPairingHistory2 = new PairingHistory(project, Arrays.asList(p3, p4), currentTime, "The Second Pairing Board");
+        PairingHistory expectedPairingHistory1 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), currentTime);
+        PairingHistory expectedPairingHistory2 = new PairingHistory(project, "The Second Pairing Board", Arrays.asList(p3, p4), currentTime);
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
         when(mockPairingHistoryRepository.save(expectedPairingHistory1)).thenReturn(expectedPairingHistory1);
@@ -124,14 +124,14 @@ public class PairingServiceTest {
         Person p3 = new Person("Steve");
         p3.setId(3L);
 
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Arrays.asList(p1, p2, p3));
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2, p3));
         pairingBoard.setId(1L);
 
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        PairingHistory expectedPairingHistory = new PairingHistory(project, Arrays.asList(p1, p2, p3), currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2, p3), currentTime);
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
         when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
@@ -150,14 +150,14 @@ public class PairingServiceTest {
         Person p1 = new Person("John");
         p1.setId(1L);
 
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Collections.singletonList(p1));
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Collections.singletonList(p1));
         pairingBoard.setId(1L);
 
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        PairingHistory expectedPairingHistory = new PairingHistory(project, Collections.singletonList(p1), currentTime, "The Pairing Board");
+        PairingHistory expectedPairingHistory = new PairingHistory(project,  "The Pairing Board", Collections.singletonList(p1), currentTime);
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(project);
         when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
@@ -173,7 +173,7 @@ public class PairingServiceTest {
 
     @Test
     public void savePairing_doesNotCreateAPairingHistory_whenThereIsNoOneInAPairingBoard() {
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", Collections.emptyList());
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Collections.emptyList());
         pairingBoard.setId(1L);
 
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
@@ -230,8 +230,8 @@ public class PairingServiceTest {
         Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
         List<PairingHistory> pairingHistories = Arrays.asList(
-            new PairingHistory(project, new ArrayList<>(), new Timestamp(10), "Pairing Board"),
-            new PairingHistory(project, new ArrayList<>(), new Timestamp(50), "Pairing Board 2")
+            new PairingHistory(project, "Pairing Board", new ArrayList<>(), new Timestamp(10)),
+            new PairingHistory(project, "Pairing Board 2", new ArrayList<>(), new Timestamp(50))
         );
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(project);

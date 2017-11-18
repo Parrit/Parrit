@@ -1,6 +1,9 @@
 package com.parrit.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,20 +13,24 @@ public class PairingBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @Length(min = 1, max = 100)
     private String name;
 
-    private Boolean isExempt; // Set to true if floating people should NOT be moved into this space
+    @NotNull
+    private boolean exempt;
 
-    @OneToMany(targetEntity = Person.class)
+    @OneToMany
     @JoinColumn(name="pairing_board_id")
     private List<Person> people;
 
-    public PairingBoard() {}
+    public PairingBoard() {
+    }
 
-    public PairingBoard(String name, List<Person> people) {
+    public PairingBoard(String name, boolean exempt, List<Person> people) {
         this.name = name;
+        this.exempt = exempt;
         this.people = people;
-        this.isExempt = false;
     }
 
     public long getId() {
@@ -42,14 +49,13 @@ public class PairingBoard {
         this.name = name;
     }
 
-    public Boolean getExempt() {
-        if (isExempt == null) {
-            isExempt = false;
-        }
-        return isExempt;
+    public boolean isExempt() {
+        return exempt;
     }
 
-    public void setExempt(Boolean exempt) { isExempt = exempt; }
+    public void setExempt(boolean exempt) {
+        this.exempt = exempt;
+    }
 
     public List<Person> getPeople() {
         return people;
@@ -64,18 +70,19 @@ public class PairingBoard {
         if (this == o) return true;
         if (!(o instanceof PairingBoard)) return false;
 
-        PairingBoard pairingBoard = (PairingBoard) o;
+        PairingBoard that = (PairingBoard) o;
 
-        if (getId() != pairingBoard.getId()) return false;
-        if (getName() != null ? !getName().equals(pairingBoard.getName()) : pairingBoard.getName() != null) return false;
-        return getPeople() != null ? getPeople().equals(pairingBoard.getPeople()) : pairingBoard.getPeople() == null;
-
+        if (getId() != that.getId()) return false;
+        if (isExempt() != that.isExempt()) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (isExempt() ? 1 : 0);
         result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
         return result;
     }
@@ -83,9 +90,11 @@ public class PairingBoard {
     @Override
     public String toString() {
         return "PairingBoard{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", people=" + people +
-            '}';
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", exempt=" + exempt +
+                ", people=" + people +
+                '}';
     }
+
 }

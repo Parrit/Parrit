@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.NestedServletException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProjectController {
@@ -61,18 +62,16 @@ public class ProjectController {
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
         String hashedPassword = encoder.encodePassword(usernameAndPasswordDTO.getPassword(), null);
 
-        Project project = new Project(usernameAndPasswordDTO.getName(), hashedPassword, new ArrayList<>(), new ArrayList<>());
+        List<PairingBoard> defaultPairingBoards = new ArrayList<>();
 
-        project.getPairingBoards().add(new PairingBoard("COCKATOO", new ArrayList<>()));
-        project.getPairingBoards().add(new PairingBoard("MACAW", new ArrayList<>()));
-        project.getPairingBoards().add(new PairingBoard("LOVEBIRD", new ArrayList<>()));
-        project.getPairingBoards().add(new PairingBoard("PARAKEET", new ArrayList<>()));
-        project.getPairingBoards().add(new PairingBoard("DESIGN", new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("MACAW", false, new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("LOVEBIRD", false, new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("PARAKEET", false, new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>()));
 
-        PairingBoard exemptBoard = new PairingBoard("OUT OF OFFICE", new ArrayList<>());
-        exemptBoard.setExempt(true);
-        project.getPairingBoards().add(exemptBoard);
-
+        Project project = new Project(usernameAndPasswordDTO.getName(), hashedPassword, defaultPairingBoards, new ArrayList<>());
         projectRepository.save(project);
     }
 
@@ -93,9 +92,7 @@ public class ProjectController {
     public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody PersonDTO personDTO) {
         Project savedProject = projectRepository.findOne(projectId);
 
-        Person newPerson = new Person();
-        newPerson.setName(personDTO.getName());
-        savedProject.getPeople().add(newPerson);
+        savedProject.getPeople().add(new Person(personDTO.getName()));
 
         Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);

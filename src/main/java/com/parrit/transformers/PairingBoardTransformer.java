@@ -12,8 +12,8 @@ public class PairingBoardTransformer {
     public static PairingBoardDTO transform(PairingBoard pairingBoard) {
         PairingBoardDTO pairingBoardDTO = new PairingBoardDTO();
         pairingBoardDTO.setId(pairingBoard.getId());
-        pairingBoardDTO.setExempt(pairingBoard.getExempt());
         pairingBoardDTO.setName(pairingBoard.getName());
+        pairingBoardDTO.setExempt(pairingBoard.isExempt());
         pairingBoardDTO.setPeople(PersonTransformer.transform(pairingBoard.getPeople()));
         return pairingBoardDTO;
     }
@@ -29,7 +29,7 @@ public class PairingBoardTransformer {
         PairingBoard pairingBoard = new PairingBoard();
         pairingBoard.setId(pairingBoardDTO.getId());
         pairingBoard.setName(pairingBoardDTO.getName());
-        pairingBoard.setExempt(pairingBoardDTO.getExempt());
+        pairingBoard.setExempt(pairingBoardDTO.isExempt());
         pairingBoard.setPeople(PersonTransformer.reverse(pairingBoardDTO.getPeople()));
         return pairingBoard;
     }

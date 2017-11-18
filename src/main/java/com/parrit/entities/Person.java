@@ -51,7 +51,6 @@ public class Person {
 
         if (getId() != person.getId()) return false;
         return getName() != null ? getName().equals(person.getName()) : person.getName() == null;
-
     }
 
     @Override
@@ -68,4 +67,5 @@ public class Person {
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }

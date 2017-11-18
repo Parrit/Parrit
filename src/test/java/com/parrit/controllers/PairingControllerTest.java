@@ -42,13 +42,13 @@ public class PairingControllerTest {
 
     @Before
     public void setUp() {
-        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", new ArrayList<>());
+        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", false, new ArrayList<>());
         pairingBoard.setId(1L);
 
         exampleProject = new Project("Nancy", "nancypass", Collections.singletonList(pairingBoard), new ArrayList<>());
         exampleProject.setId(2L);
 
-        String pairingBoardString = "{\"id\":1,\"people\":[],\"name\":\"Super Pairing Board\",\"exempt\":false}";
+        String pairingBoardString = "{\"id\":1,\"people\":[],\"exempt\":false,\"name\":\"Super Pairing Board\"}";
         exampleProjectString = "{\"id\":2,\"name\":\"Nancy\",\"pairingBoards\":[" + pairingBoardString + "],\"people\":[]}";
     }
 
@@ -58,9 +58,9 @@ public class PairingControllerTest {
 
     @Test
     public void savePairing_passesTheProjectToThePairingHistoryService_andReturnsTheResultingPairingHistories() throws Exception {
-        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(120000), "Pairing Board 1");
-        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(60000), "Pairing Board 2");
-        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(60000), "Pairing Board 3");
+        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, "Pairing Board 1", new ArrayList<>(), new Timestamp(120000));
+        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new ArrayList<>(), new Timestamp(60000));
+        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new ArrayList<>(), new Timestamp(60000));
 
         when(mockPairingService.savePairing(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 
@@ -98,9 +98,9 @@ public class PairingControllerTest {
 
     @Test
     public void getPairingHistory_callsPairingHistoryService_andReturnsAMapOfTimestampsToListsOfPairHistories() throws Exception {
-        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(120000), "Pairing Board 1");
-        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(60000), "Pairing Board 2");
-        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, new ArrayList<>(), new Timestamp(60000), "Pairing Board 3");
+        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, "Pairing Board 1", new ArrayList<>(), new Timestamp(120000));
+        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new ArrayList<>(), new Timestamp(60000));
+        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new ArrayList<>(), new Timestamp(60000));
 
         when(mockPairingService.getSortedPairingHistory(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 

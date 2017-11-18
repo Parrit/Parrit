@@ -18,8 +18,8 @@ public class PairingHistoryTransformer {
     public static PairingHistoryDTO transform(PairingHistory pairingHistory) {
         PairingHistoryDTO pairingHistoryDTO = new PairingHistoryDTO();
         pairingHistoryDTO.setPairingTime(simpleDateFormat.format(pairingHistory.getTimestamp()));
-        pairingHistoryDTO.setPeople(PersonTransformer.transform(pairingHistory.getPeople()));
         pairingHistoryDTO.setPairingBoardName(pairingHistory.getPairingBoardName());
+        pairingHistoryDTO.setPeople(PersonTransformer.transform(pairingHistory.getPeople()));
         return pairingHistoryDTO;
     }
 

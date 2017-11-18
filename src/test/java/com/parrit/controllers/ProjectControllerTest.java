@@ -99,12 +99,12 @@ public class ProjectControllerTest {
 
         Project newProject = new Project("bob", "da7655b5bf67039c3e76a99d8e6fb6969370bbc0fa440cae699cf1a3e2f1e0a1", new ArrayList<>(), new ArrayList<>());
 
-        newProject.getPairingBoards().add(new PairingBoard("COCKATOO", new ArrayList<>()));
-        newProject.getPairingBoards().add(new PairingBoard("MACAW", new ArrayList<>()));
-        newProject.getPairingBoards().add(new PairingBoard("LOVEBIRD", new ArrayList<>()));
-        newProject.getPairingBoards().add(new PairingBoard("PARAKEET", new ArrayList<>()));
-        newProject.getPairingBoards().add(new PairingBoard("DESIGN", new ArrayList<>()));
-        newProject.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", new ArrayList<>()));
+        newProject.getPairingBoards().add(new PairingBoard("COCKATOO", false, new ArrayList<>()));
+        newProject.getPairingBoards().add(new PairingBoard("MACAW", false, new ArrayList<>()));
+        newProject.getPairingBoards().add(new PairingBoard("LOVEBIRD", false, new ArrayList<>()));
+        newProject.getPairingBoards().add(new PairingBoard("PARAKEET", false, new ArrayList<>()));
+        newProject.getPairingBoards().add(new PairingBoard("DESIGN", false, new ArrayList<>()));
+        newProject.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>()));
 
         verify(mockProjectRepository).save(eq(newProject));
     }
