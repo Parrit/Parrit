@@ -83,8 +83,8 @@ export default class Dashboard extends React.Component {
                     </div>
                     <div className="feedback-container">
                         <div className="caption">What do you think of Parrit?</div>
-                        <a href="https://goo.gl/forms/ZGqUyZDEDSWqZVBP2"
-                           target="_blank" className="text-link">Send feedback<span className="carrot"/></a>
+                        <a className="text-link" href="https://goo.gl/forms/ZGqUyZDEDSWqZVBP2"
+                           target="_blank" rel="noopener">Send feedback<span className="carrot"/></a>
                     </div>
                 </div>
             </main>

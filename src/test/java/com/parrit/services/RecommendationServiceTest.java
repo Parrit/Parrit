@@ -4,11 +4,9 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
-import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Timestamp;
@@ -19,15 +17,11 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RecommendationServiceTest {
 
     private RecommendationService recommendationService;
-
-    @Mock
-    private CurrentTimeProvider currentTimeProvider;
 
     private Project project;
     private PairingBoard pairingBoard1;
@@ -42,7 +36,7 @@ public class RecommendationServiceTest {
     private Person p6;
     private List<PairingHistory> pairingHistories;
 
-    private int today = 100;
+    private static final int today = 100;
     private Timestamp daysAgo(int days) {
         assert days <= today;
         return new Timestamp(today - days);
@@ -50,7 +44,7 @@ public class RecommendationServiceTest {
 
     @Before
     public void setup() {
-        recommendationService = new RecommendationService(currentTimeProvider);
+        recommendationService = new RecommendationService();
 
         project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
@@ -78,8 +72,6 @@ public class RecommendationServiceTest {
         p6.setId(6L);
 
         pairingHistories = new ArrayList<>();
-
-        when(currentTimeProvider.getCurrentTime()).thenReturn(new Timestamp(today));
     }
 
     @Test
@@ -399,7 +391,7 @@ public class RecommendationServiceTest {
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard pairingBoardExpectedNew = new PairingBoard("New Pairing Board", Arrays.asList(p1,p2));
+        PairingBoard pairingBoardExpectedNew = new PairingBoard("New Pairing Board", Arrays.asList(p1, p2));
         pairingBoardExpectedNew.setId(0L);
 
         PairingBoard pairingBoardExpectedExempt = new PairingBoard("Exempt", new ArrayList<>());

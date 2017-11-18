@@ -4,10 +4,8 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
-import com.parrit.utilities.CurrentTimeProvider;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -16,13 +14,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class RecommendationService {
-
-    private CurrentTimeProvider currentTimeProvider;
-
-    @Autowired
-    public RecommendationService(CurrentTimeProvider currentTimeProvider) {
-        this.currentTimeProvider = currentTimeProvider;
-    }
 
     public Project get(Project project, List<PairingHistory> projectPairingHistories) {
         PairRecommendationHelper recHelper = new PairRecommendationHelper(project, projectPairingHistories);
