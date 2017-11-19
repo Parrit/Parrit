@@ -1,32 +1,40 @@
 package com.parrit.entities;
 
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "project",
+        indexes = {
+                @Index(name = "project_pkey", unique = true, columnList = "id")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(name = "project_name_uk", columnNames = "name")
+        }
+)
 public class Project {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    @ColumnDefault("nextval('project_id_seq')")
+    @SequenceGenerator(name = "project_id_gen", sequenceName = "project_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "project_id_gen", strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @NotNull
-    @Length(min = 1, max = 36)
-    @Column(unique = true)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @NotNull
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="project_id")
+    @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "project_id_fk"))
     private List<PairingBoard> pairingBoards;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="project_id")
+    @JoinColumn(name = "project_id", nullable = true, foreignKey = @ForeignKey(name = "project_id_fk"))
     private List<Person> people;
 
     public Project() {

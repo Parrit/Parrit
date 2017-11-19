@@ -1,27 +1,33 @@
 package com.parrit.entities;
 
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "pairing_board",
+        indexes = {
+                @Index(name = "pairing_board_pkey", unique = true, columnList = "id")
+        }
+)
 public class PairingBoard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    @ColumnDefault("nextval('pairing_board_id_seq')")
+    @SequenceGenerator(name = "pairing_board_id_gen", sequenceName = "pairing_board_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "pairing_board_id_gen", strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @NotNull
-    @Length(min = 1, max = 100)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @NotNull
+    @Column(name = "exempt", nullable = false)
     private boolean exempt;
 
     @OneToMany
-    @JoinColumn(name="pairing_board_id")
+    @JoinColumn(name = "pairing_board_id", nullable = true, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
     private List<Person> people;
 
     public PairingBoard() {

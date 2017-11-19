@@ -1,7 +1,3 @@
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-
 plugins {
     id "org.springframework.boot" version "1.5.8.RELEASE"
 }
@@ -33,6 +29,8 @@ targetCompatibility = 1.8
 
 // *** LifeCycle Tasks *** //
 
+defaultTasks "clean", "build"
+
 task jsTest(type: Exec) {
     group = "Parrit"
     description = "Runs the frontend javascript tests"
@@ -52,19 +50,3 @@ task jsBuild(type: Exec) {
     args = ["build"]
 }
 processResources.dependsOn(jsBuild)
-
-defaultTasks "clean", "build"
-
-// *** Helper Tasks *** //
-
-task createMigration(type: Exec) {
-    group = "Parrit"
-    description = "Creates an empty migration file with a valid version number"
-
-    def utc = ZoneId.of("UTC")
-    def timestamp = LocalDateTime.now(utc).toEpochSecond(ZoneOffset.UTC)
-
-    workingDir = "$project.projectDir/src/main/resources/db/migration"
-    commandLine = "touch"
-    args = ["V${timestamp}__CHANGEME.sql"]
-}

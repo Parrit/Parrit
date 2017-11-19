@@ -1,1 +1,0 @@
-ALTER TABLE pairing_board ADD is_exempt BOOLEAN;
