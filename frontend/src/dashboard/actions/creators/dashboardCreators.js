@@ -1,13 +1,13 @@
-export function setNewProjectErrorCreator(errorStatus) {
+export function setNewProjectErrorCreator(errorResponse) {
     return {
         type: 'SET_NEW_PROJECT_ERROR',
-        errorStatus: errorStatus
+        errorResponse: errorResponse
     }
 }
 
-export function setLoginErrorCreator(errorStatus) {
+export function setLoginErrorCreator(errorResponse) {
     return {
         type: 'SET_LOGIN_ERROR',
-        errorStatus: errorStatus
+        errorResponse: errorResponse
     };
 }

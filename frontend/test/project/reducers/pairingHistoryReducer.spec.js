@@ -1,11 +1,11 @@
 import deepFreeze from 'deep-freeze';
 import pairingHistoryReducer from 'project/reducers/pairingHistoryReducer.js';
 
-describe("pairingHistoryReducer", function () {
-    it("should get the default state", function () {
-        var stateBefore = undefined;
-        var action = {};
-        var stateAfter = {
+describe("pairingHistoryReducer", () => {
+    it("should get the default state", () => {
+        const stateBefore = undefined;
+        const action = {};
+        const stateAfter = {
             pairingHistoryList: []
         };
 
@@ -14,19 +14,19 @@ describe("pairingHistoryReducer", function () {
         ).toEqual(stateAfter);
     });
 
-    describe("actions", function () {
-        describe("LOAD_PAIRING_HISTORY", function () {
-            it("should set the pairingHistoryList to the passed in pairingHistoryList", function () {
-                var stateBefore = {
+    describe("actions", () => {
+        describe("LOAD_PAIRING_HISTORY", () => {
+            it("should set the pairingHistoryList to the passed in pairingHistoryList", () => {
+                const stateBefore = {
                     pairingHistoryList: []
                 };
 
-                var action = {
+                const action = {
                     type: "LOAD_PAIRING_HISTORY",
                     pairingHistoryList: [{shoobadooba: "doobadoowa"}]
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     pairingHistoryList: [{shoobadooba: "doobadoowa"}]
                 };
 
@@ -39,18 +39,18 @@ describe("pairingHistoryReducer", function () {
             });
         });
 
-        describe("UPDATE_PAIRING_HISTORIES", function () {
-            it("should add the new pairing histories to front of the pairingHistoryList", function () {
-                var stateBefore = {
+        describe("UPDATE_PAIRING_HISTORIES", () => {
+            it("should add the new pairing histories to front of the pairingHistoryList", () => {
+                const stateBefore = {
                     pairingHistoryList: [{shoobadooba: "doobadoowa"}]
                 };
 
-                var action = {
+                const action = {
                     type: "UPDATE_PAIRING_HISTORIES",
                     newPairingHistories: [{newbadooba: "babadooba"}, {baduuuuba: "beboopa"}]
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     pairingHistoryList: [{newbadooba: "babadooba"}, {baduuuuba: "beboopa"}, {shoobadooba: "doobadoowa"}]
                 };
 

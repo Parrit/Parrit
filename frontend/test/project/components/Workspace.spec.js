@@ -14,11 +14,11 @@ describe('<Workspace/>', () => {
             settings: {
                 isNewPersonModalOpen: false,
                 isNewPairingBoardModalOpen: true,
-                errorType: 406
+                newPersonModalErrorMessage: "some error message"
             },
             people: [
-                {name:"Mike Wazowski"},
-                {name:"Sully"}
+                { name: "Mike Wazowski" },
+                { name: "Sully" }
             ],
             pairingBoards: [
                 {
@@ -45,7 +45,6 @@ describe('<Workspace/>', () => {
             createPairingBoard: jasmine.createSpy('createPairingBoardSpy'),
             setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
             setNewPairingBoardModalOpen: jasmine.createSpy('setNewPairingBoardModalOpenSpy'),
-            setErrorType: jasmine.createSpy('setErrorTypeSpy'),
 
             deletePairingBoard: () => {},
             renamePairingBoard: () => {}
@@ -94,8 +93,8 @@ describe('<Workspace/>', () => {
             expect(newPersonForm.prop('formTitle')).toBe("Add Parrit Teammate");
         });
 
-        it('passes in the correct error message if errorType is set', () => {
-            expect(newPersonForm.prop('errorMessage')).toBe('Hey! This name is too long... 100 characters max.');
+        it('passes in the error message', () => {
+            expect(newPersonForm.prop('errorMessage')).toBe("some error message");
         });
 
         describe('#openNewPersonModal', () => {
@@ -114,12 +113,11 @@ describe('<Workspace/>', () => {
                 expect(props.createPerson).toHaveBeenCalledWith(77, 'Luke Skywalker', jasmine.anything());
             });
 
-            it('the passed in callback should close the modal and clear the errorType', () => {
+            it('the passed in callback should close the modal', () => {
                 const callback = props.createPerson.calls.mostRecent().args[2];
                 callback();
 
                 expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
-                expect(props.setErrorType).toHaveBeenCalledWith(0);
             });
         });
     });

@@ -1,11 +1,12 @@
 package com.parrit.controllers;
 
+import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.PersonDTO;
 import com.parrit.DTOs.ProjectDTO;
-import com.parrit.DTOs.UsernameAndPasswordDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
+import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.NestedServletException;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,10 @@ public class ProjectController {
 
     private ProjectRepository projectRepository;
 
-	@Autowired
-	public ProjectController(ProjectRepository projectRepository) {
-		this.projectRepository = projectRepository;
-	}
+    @Autowired
+    public ProjectController(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 
     //*********************//
     //******  Views  ******//
@@ -54,16 +56,17 @@ public class ProjectController {
 
     @RequestMapping(path = "/api/project/new", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public void createProject(@RequestBody UsernameAndPasswordDTO usernameAndPasswordDTO) throws NestedServletException {
-        if(usernameAndPasswordDTO.getPassword().isEmpty()) {
-            throw new NestedServletException("Project Name and/or Password is empty!");
+    public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) throws NestedServletException {
+        String projectName = newProjectDTO.getName();
+
+        if (projectRepository.findByName(projectName) != null) {
+            throw new ProjectNameAlreadyExistsException(projectName, "Not again. That name already exists, try a different one.");
         }
 
         ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        String hashedPassword = encoder.encodePassword(usernameAndPasswordDTO.getPassword(), null);
+        String hashedPassword = encoder.encodePassword(newProjectDTO.getPassword(), null);
 
         List<PairingBoard> defaultPairingBoards = new ArrayList<>();
-
         defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("MACAW", false, new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("LOVEBIRD", false, new ArrayList<>()));
@@ -71,25 +74,25 @@ public class ProjectController {
         defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>()));
 
-        Project project = new Project(usernameAndPasswordDTO.getName(), hashedPassword, defaultPairingBoards, new ArrayList<>());
+        Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new ArrayList<>());
         projectRepository.save(project);
     }
 
-    //TODO: This authorization will not work if the project name is being changed.....
+    //TODO: This authorization will not work if the project name is being changed... Pass projectId as path param
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectDTO)")
     @RequestMapping(path = "/api/project", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<ProjectDTO> saveProject(@RequestBody ProjectDTO projectDTO) {
-        Project savedProject = projectRepository.findOne(projectDTO.getId());
-        Project updatedProject = ProjectTransformer.merge(savedProject, projectDTO);
+    public ResponseEntity<ProjectDTO> saveProject(@RequestBody @Valid ProjectDTO projectDTO) {
+        Project existingProject = projectRepository.findOne(projectDTO.getId());
+        Project updatedProject = ProjectTransformer.merge(existingProject, projectDTO);
         updatedProject = projectRepository.save(updatedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path="api/project/{projectId}/addPerson", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project/{projectId}/addPerson", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody PersonDTO personDTO) {
+    public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
         Project savedProject = projectRepository.findOne(projectId);
 
         savedProject.getPeople().add(new Person(personDTO.getName()));

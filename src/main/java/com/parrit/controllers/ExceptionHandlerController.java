@@ -1,31 +1,71 @@
 package com.parrit.controllers;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import com.parrit.DTOs.ErrorDTO;
+import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionHandlerController {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public void handleUsernameNotFound() {}
+    public ResponseEntity<ErrorDTO> handleUsernameNotFound(UsernameNotFoundException exception) {
+        Map<String, String> fieldErrorMessages = new HashMap<>();
+        fieldErrorMessages.put("name", exception.getMessage());
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setFieldErrors(fieldErrorMessages);
+        return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
-    public void handleBadCredentials() {}
+    public ResponseEntity<ErrorDTO> handleBadCredentials(BadCredentialsException exception) {
+        Map<String, String> fieldErrorMessages = new HashMap<>();
+        fieldErrorMessages.put("password", "Polly want a cracker? Try another password.");
 
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    @ExceptionHandler(ConstraintViolationException.class)
-    public void handleConstraintViolation() {}
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setFieldErrors(fieldErrorMessages);
+        return new ResponseEntity<>(errorDTO, HttpStatus.UNAUTHORIZED);
+    }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public void handleDataIntegrityViolation() {}
+    @ExceptionHandler(ProjectNameAlreadyExistsException.class)
+    public ResponseEntity<ErrorDTO> handleProjectNameAlreadyExists(ProjectNameAlreadyExistsException exception) {
+        Map<String, String> fieldErrorMessages = new HashMap<>();
+        fieldErrorMessages.put("name", exception.getMessage());
+
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setFieldErrors(fieldErrorMessages);
+        return new ResponseEntity<>(errorDTO, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDTO> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
+        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+
+        Map<String, String> fieldErrorMessages = fieldErrors.stream()
+                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setFieldErrors(fieldErrorMessages);
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDTO> handleException(Exception exception) {
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setMessage("Unknown Error.");
+        return new ResponseEntity<>(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

@@ -1,10 +1,10 @@
 import dataReducer from 'project/reducers/dataReducer.js';
 
-describe("dataReducer", function() {
-    it("should get the default state", function() {
-        var stateBefore = undefined;
-        var action = {};
-        var stateAfter = {
+describe("dataReducer", () => {
+    it("should get the default state", () => {
+        const stateBefore = undefined;
+        const action = {};
+        const stateAfter = {
             project: {
                 id: 0,
                 people: [],

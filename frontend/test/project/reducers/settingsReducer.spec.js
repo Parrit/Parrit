@@ -1,14 +1,14 @@
 import deepFreeze from 'deep-freeze';
 import settingsReducer from 'project/reducers/settingsReducer.js';
 
-describe("settingsReducer", function() {
-	it("sets up the default state", function() {
-		var stateBefore = undefined;
-		var stateAfter = {
+describe("settingsReducer", () => {
+	it("sets up the default state", () => {
+		const stateBefore = undefined;
+		const stateAfter = {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
             isPairingHistoryPanelOpen: false,
-            errorType: 0
+            newPersonModalErrorMessage: undefined
 		};
 
 		expect(
@@ -16,20 +16,44 @@ describe("settingsReducer", function() {
 		).toEqual(stateAfter);
 	});
 
-	describe("actions", function() {
-        describe("SET_NEW_PERSON_MODAL_OPEN", function() {
-            it("should set isNewPersonModalOpen to the passed in value", function() {
-                var stateBefore = {
+	describe("actions", () => {
+        describe("SET_NEW_PERSON_MODAL_OPEN", () => {
+            it("sets isNewPersonModalOpen to the passed in value", () => {
+                const stateBefore = {
                     isNewPersonModalOpen: false
                 };
 
-                var action = {
+                const action = {
                     type: "SET_NEW_PERSON_MODAL_OPEN",
                     isOpen: true
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     isNewPersonModalOpen: true
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it("clears the newPersonModalErrorMessage", () => {
+                const stateBefore = {
+                    isNewPersonModalOpen: true,
+                    newPersonModalErrorMessage: "some error message"
+                };
+
+                const action = {
+                    type: "SET_NEW_PERSON_MODAL_OPEN",
+                    isOpen: false
+                };
+
+                const stateAfter = {
+                    isNewPersonModalOpen: false,
+                    newPersonModalErrorMessage: undefined
                 };
 
                 deepFreeze(stateBefore);
@@ -41,18 +65,18 @@ describe("settingsReducer", function() {
             });
         });
 
-        describe("SET_NEW_PAIRING_BOARD_MODAL_OPEN", function() {
-            it("should set isNewPairingBoardModalOpen to the passed in value", function() {
-                var stateBefore = {
+        describe("SET_NEW_PAIRING_BOARD_MODAL_OPEN", () => {
+            it("sets isNewPairingBoardModalOpen to the passed in value", () => {
+                const stateBefore = {
                     isNewPairingBoardModalOpen: false
                 };
 
-                var action = {
+                const action = {
                     type: "SET_NEW_PAIRING_BOARD_MODAL_OPEN",
                     isOpen: true
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     isNewPairingBoardModalOpen: true
                 };
 
@@ -65,18 +89,18 @@ describe("settingsReducer", function() {
             });
         });
 
-        describe("SET_PAIRING_HISTORY_PANEL_OPEN", function() {
-            it("should set isPairingHistoryPanelOpen to the passed in value", function() {
-                var stateBefore = {
+        describe("SET_PAIRING_HISTORY_PANEL_OPEN", () => {
+            it("sets isPairingHistoryPanelOpen to the passed in value", () => {
+                const stateBefore = {
                     isPairingHistoryPanelOpen: false
                 };
 
-                var action = {
+                const action = {
                     type: "SET_PAIRING_HISTORY_PANEL_OPEN",
                     isOpen: true
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     isPairingHistoryPanelOpen: true
                 };
 
@@ -89,19 +113,47 @@ describe("settingsReducer", function() {
             });
         });
 
-        describe("SET_ERROR_TYPE", function() {
-            it("should set errorType to the passed in value", function() {
-                var stateBefore = {
-                    errorType: 0
+        describe("SET_NEW_PERSON_MODAL_ERROR_MESSAGE", () => {
+            it("sets newPersonModalErrorMessage to the name field error", () => {
+                const stateBefore = {
+                    newPersonModalErrorMessage: undefined
                 };
 
-                var action = {
-                    type: "SET_ERROR_TYPE",
-                    errorType: 401
+                const action = {
+                    type: "SET_NEW_PERSON_MODAL_ERROR_MESSAGE",
+                    errorResponse: {
+                        message: 'some message',
+                        fieldErrors: { name: 'some name message' }
+                    }
                 };
 
-                var stateAfter = {
-                    errorType: 401
+                const stateAfter = {
+                    newPersonModalErrorMessage: 'some name message'
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it("sets newPersonModalErrorMessage to the message when there are no field errors", () => {
+                const stateBefore = {
+                    newPersonModalErrorMessage: undefined
+                };
+
+                const action = {
+                    type: "SET_NEW_PERSON_MODAL_ERROR_MESSAGE",
+                    errorResponse: {
+                        message: 'some message',
+                        fieldErrors: null
+                    }
+                };
+
+                const stateAfter = {
+                    newPersonModalErrorMessage: 'some message'
                 };
 
                 deepFreeze(stateBefore);

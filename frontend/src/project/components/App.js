@@ -95,7 +95,6 @@ export default class App extends React.Component {
             data: this.props.data,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
-            setErrorType: this.props.setErrorType,
             createPerson: this.props.createPerson,
             createPairingBoard: this.props.createPairingBoard,
             deletePairingBoard: this.props.deletePairingBoard,
@@ -112,12 +111,14 @@ export default class App extends React.Component {
 
         const classes = "layout-wrapper project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
 
-		return <div id="pairing_board_-1" className={classes}>
-            <Header {...headerProps}/>
-            <Project {...projectProps}/>
-            <Footer/>
-            <PairingHistory {...pairingHistoryProps}/>
-		</div>
+		return (
+            <div id="pairing_board_-1" className={classes}>
+                <Header {...headerProps}/>
+                <Project {...projectProps}/>
+                <Footer/>
+                <PairingHistory {...pairingHistoryProps}/>
+            </div>
+		)
 	}
 
     dropzoneOnDragEnter(event) {
@@ -184,7 +185,6 @@ App.propTypes = {
     setNewPersonModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired,
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
-    setErrorType: PropTypes.func.isRequired,
     createPerson: PropTypes.func.isRequired,
     createPairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,

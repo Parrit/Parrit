@@ -1,12 +1,12 @@
 import * as dataCreators from 'project/actions/creators/dataCreators.js';
-import * as viewCreators from 'project/actions/creators/viewCreators.js';
+import * as settingsCreators from 'project/actions/creators/settingsCreators.js';
 import * as dataThunks from 'project/actions/thunks/dataThunks.js';
 
 function movePersonCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.movePersonCreator(...args));
 }
 
-function resetPairingBoard() {
+function resetPairingBoardCombo() {
     return dataThunks.autoSaveThunk(dataCreators.resetPairingBoard());
 }
 
@@ -28,7 +28,7 @@ function renamePairingBoardCombo(...args) {
 
 export default {
     movePerson: movePersonCombo,
-    resetPairs: resetPairingBoard,
+    resetPairs: resetPairingBoardCombo,
     createPerson: dataThunks.addNewPersonThunk,
     createPairingBoard: createPairingBoardCombo,
     deletePerson: deletePersonCombo,
@@ -38,9 +38,8 @@ export default {
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     fetchPairingHistory: dataThunks.getPairingHistoryThunk,
     postLogout: dataThunks.postLogoutThunk,
-    setNewPersonModalOpen: viewCreators.setNewPersonModalOpenCreator,
-    setNewPairingBoardModalOpen: viewCreators.setNewPairingBoardModalOpenCreator,
-    setPairingHistoryPanelOpen: viewCreators.setPairingHistoryPanelOpenCreator,
-    setErrorType: viewCreators.setErrorTypeCreator
+    setNewPersonModalOpen: settingsCreators.setNewPersonModalOpenCreator,
+    setNewPairingBoardModalOpen: settingsCreators.setNewPairingBoardModalOpenCreator,
+    setPairingHistoryPanelOpen: settingsCreators.setPairingHistoryPanelOpenCreator,
 };
 

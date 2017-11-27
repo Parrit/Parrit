@@ -1,11 +1,11 @@
 import deepFreeze from 'deep-freeze';
 import projectReducer from 'project/reducers/projectReducer.js';
 
-describe("projectReducer", function () {
-    it("should get the default state", function () {
-        var stateBefore = undefined;
-        var action = {};
-        var stateAfter = {
+describe("projectReducer", () => {
+    it("should get the default state", () => {
+        const stateBefore = undefined;
+        const action = {};
+        const stateAfter = {
             id: 0,
             people: [],
             pairingBoards: []
@@ -16,21 +16,21 @@ describe("projectReducer", function () {
         ).toEqual(stateAfter);
     });
 
-    describe("actions", function () {
-        describe("LOAD_PROJECT", function () {
-            it("should set the project to the passed in project object", function () {
-                var stateBefore = {
+    describe("actions", () => {
+        describe("LOAD_PROJECT", () => {
+            it("should set the project to the passed in project object", () => {
+                const stateBefore = {
                     pairingBoards: []
                 };
 
-                var action = {
+                const action = {
                     type: "LOAD_PROJECT",
                     project: {
                         shoobadooba: "doobadoowa"
                     }
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     shoobadooba: "doobadoowa"
                 };
 
@@ -43,9 +43,9 @@ describe("projectReducer", function () {
             });
         });
 
-        describe("MOVE_PERSON", function () {
-            it('should move a person between pairingBoards', function () {
-                var stateBefore = {
+        describe("MOVE_PERSON", () => {
+            it('should move a person between pairingBoards', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -59,14 +59,14 @@ describe("projectReducer", function () {
                         }]
                 };
 
-                var action = {
+                const action = {
                     type: "MOVE_PERSON",
                     toPairingBoardIndex: 1,
                     fromPairingBoardIndex: 0,
                     personIndex: 0
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -88,8 +88,8 @@ describe("projectReducer", function () {
                 ).toEqual(stateAfter);
             });
 
-            it('should move a person from the project to a pairing board', function () {
-                var stateBefore = {
+            it('should move a person from the project to a pairing board', () => {
+                const stateBefore = {
                     id: 7,
                     people: [{name: "Captain Kirk"}],
                     pairingBoards: [
@@ -103,14 +103,14 @@ describe("projectReducer", function () {
                         }]
                 };
 
-                var action = {
+                const action = {
                     type: "MOVE_PERSON",
                     toPairingBoardIndex: 1,
                     fromPairingBoardIndex: -1,
                     personIndex: 0
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -132,8 +132,8 @@ describe("projectReducer", function () {
                 ).toEqual(stateAfter);
             });
 
-            it('should move a person from pairing board to the project', function () {
-                var stateBefore = {
+            it('should move a person from pairing board to the project', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -147,14 +147,14 @@ describe("projectReducer", function () {
                         }]
                 };
 
-                var action = {
+                const action = {
                     type: "MOVE_PERSON",
                     toPairingBoardIndex: -1,
                     fromPairingBoardIndex: 1,
                     personIndex: 0
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [{name: "Captain Kirk"}],
                     pairingBoards: [
@@ -179,7 +179,7 @@ describe("projectReducer", function () {
 
         describe('RESET_PAIRING_BOARD', function() {
             it('moves all people from pairing boards to floating', function() {
-                var stateBefore = {
+                const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
                     pairingBoards: [
@@ -197,9 +197,9 @@ describe("projectReducer", function () {
                     ]
                 };
                 
-                var action = { type: 'RESET_PAIRING_BOARD' };
+                const action = { type: 'RESET_PAIRING_BOARD' };
                 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [
                         {name: "Bubba Gump"},
@@ -228,7 +228,7 @@ describe("projectReducer", function () {
             });
 
             it('does not move people on exempt pairing boards to floating', function() {
-                var stateBefore = {
+                const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
                     pairingBoards: [
@@ -251,9 +251,9 @@ describe("projectReducer", function () {
                     ]
                 };
 
-                var action = { type: 'RESET_PAIRING_BOARD' };
+                const action = { type: 'RESET_PAIRING_BOARD' };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [
                         {name: "Bubba Gump"},
@@ -287,9 +287,9 @@ describe("projectReducer", function () {
             });
         });
 
-        describe('CREATE_PERSON', function () {
-            it('adds a person to the project', function () {
-                var stateBefore = {
+        describe('CREATE_PERSON', () => {
+            it('adds a person to the project', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -300,12 +300,12 @@ describe("projectReducer", function () {
                     ]
                 };
 
-                var action = {
+                const action = {
                     type: "CREATE_PERSON",
                     name: "Bubba Gump"
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
                     pairingBoards: [
@@ -325,9 +325,9 @@ describe("projectReducer", function () {
             });
         });
 
-        describe('CREATE_PAIRING_BOARD', function () {
-            it('adds a pairing board to the project', function () {
-                var stateBefore = {
+        describe('CREATE_PAIRING_BOARD', () => {
+            it('adds a pairing board to the project', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -339,12 +339,12 @@ describe("projectReducer", function () {
                     ]
                 };
 
-                var action = {
+                const action = {
                     type: "CREATE_PAIRING_BOARD",
                     name: "Alabama"
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -370,9 +370,9 @@ describe("projectReducer", function () {
             });
         });
 
-        describe("DELETE_PERSON", function () {
-            it('should delete a person from a pairing board', function () {
-                var stateBefore = {
+        describe("DELETE_PERSON", () => {
+            it('should delete a person from a pairing board', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -389,13 +389,13 @@ describe("projectReducer", function () {
                         }]
                 };
 
-                var action = {
+                const action = {
                     type: "DELETE_PERSON",
                     pairingBoardIndex: 0,
                     personIndex: 1
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -418,8 +418,8 @@ describe("projectReducer", function () {
                 ).toEqual(stateAfter);
             });
 
-            it('should delete a person from the project', function () {
-                var stateBefore = {
+            it('should delete a person from the project', () => {
+                const stateBefore = {
                     id: 7,
                     people: [{name: 'Albert Einstein'}],
                     pairingBoards: [
@@ -436,13 +436,13 @@ describe("projectReducer", function () {
                         }]
                 };
 
-                var action = {
+                const action = {
                     type: "DELETE_PERSON",
                     pairingBoardIndex: -1,
                     personIndex: 0
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -468,9 +468,9 @@ describe("projectReducer", function () {
             });
         });
 
-        describe("DELETE_PAIRING_BOARD", function () {
-            it('should delete a pairing board', function () {
-                var stateBefore = {
+        describe("DELETE_PAIRING_BOARD", () => {
+            it('should delete a pairing board', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -488,12 +488,12 @@ describe("projectReducer", function () {
                     ]
                 };
 
-                var action = {
+                const action = {
                     type: "DELETE_PAIRING_BOARD",
                     pairingBoardIndex: 1
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -515,8 +515,8 @@ describe("projectReducer", function () {
                 ).toEqual(stateAfter);
             });
 
-            it('should move all of the people from the pairing board to the project', function () {
-                var stateBefore = {
+            it('should move all of the people from the pairing board to the project', () => {
+                const stateBefore = {
                     id: 7,
                     people: [{name: 'Albert Einstein'}],
                     pairingBoards: [
@@ -534,12 +534,12 @@ describe("projectReducer", function () {
                     ]
                 };
 
-                var action = {
+                const action = {
                     type: "DELETE_PAIRING_BOARD",
                     pairingBoardIndex: 0
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [
                         {name: 'Albert Einstein'},
@@ -563,9 +563,9 @@ describe("projectReducer", function () {
             });
         });
 
-        describe("RENAME_PAIRING_BOARD", function () {
-            it('should rename a pairing board', function () {
-                var stateBefore = {
+        describe("RENAME_PAIRING_BOARD", () => {
+            it('should rename a pairing board', () => {
+                const stateBefore = {
                     id: 7,
                     people: [],
                     pairingBoards: [
@@ -583,13 +583,13 @@ describe("projectReducer", function () {
                     ]
                 };
 
-                var action = {
+                const action = {
                     type: "RENAME_PAIRING_BOARD",
                     pairingBoardIndex: 1,
                     name: "Awesome Pairing Board"
                 };
 
-                var stateAfter = {
+                const stateAfter = {
                     id: 7,
                     people: [],
                     pairingBoards: [

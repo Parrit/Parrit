@@ -14,7 +14,7 @@ export default function runProject(projectJSON) {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
             isPairingHistoryPanelOpen: false,
-            errorType: 0
+            newPersonModalErrorMessage: undefined
         },
         data: {
             project: projectJSON

@@ -369,11 +369,11 @@ public class RecommendationServiceTest {
 
         Project expectedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        PairingBoard exemptBoardExpected = new PairingBoard("Exempt", true, Arrays.asList(p2));
+        PairingBoard exemptBoardExpected = new PairingBoard("Exempt", true, Collections.singletonList(p2));
         exemptBoardExpected.setId(4L);
         expectedProject.getPairingBoards().add(exemptBoardExpected);
 
-        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Arrays.asList(p1));
+        PairingBoard pairingBoard1Expected = new PairingBoard("One", false, Collections.singletonList(p1));
         pairingBoard1Expected.setId(1L);
         expectedProject.getPairingBoards().add(pairingBoard1Expected);
 

@@ -29,12 +29,14 @@ export default class PairingHistoryRecordList extends React.Component {
         });
         pairingHistoryRecords.push(currentPairingHistoryRecord);
 
-        return <div className="pairing-history-record-list">
-            {pairingHistoryRecords.map(function(pairingHistoryRecord, idx) {
-                return <PairingHistoryRecord key={idx} pairingTime={pairingHistoryRecord.pairingTime}
-                                             pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople} />;
-            })}
-        </div>
+        return (
+            <div className="pairing-history-record-list">
+                {pairingHistoryRecords.map(function(pairingHistoryRecord, idx) {
+                    return <PairingHistoryRecord key={idx} pairingTime={pairingHistoryRecord.pairingTime}
+                        pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople} />;
+                })}
+            </div>
+        )
     }
 }
 

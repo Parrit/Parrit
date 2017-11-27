@@ -19,7 +19,7 @@ public class Person {
     @GeneratedValue(generator = "person_id_gen", strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
     public Person() {

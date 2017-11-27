@@ -19,9 +19,9 @@ export function setPairingHistoryPanelOpenCreator(isOpen) {
     }
 }
 
-export function setErrorTypeCreator(errorStatus) {
+export function setNewPersonModalErrorMessageCreator(errorResponse) {
     return {
-        type: 'SET_ERROR_TYPE',
-        errorType: errorStatus
+        type: 'SET_NEW_PERSON_MODAL_ERROR_MESSAGE',
+        errorResponse: errorResponse
     }
 }

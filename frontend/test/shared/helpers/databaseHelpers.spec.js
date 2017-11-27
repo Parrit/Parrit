@@ -21,7 +21,9 @@ describe('databaseHelpers', () => {
 
     describe('#postProjectAndDo', () => {
         let successCallbackSpy, errorCallbackSpy;
-        let projectToSave = {MISSISSIPPI: "Anthony is more fun than that"};
+
+        const projectToSave = {MISSISSIPPI: "Anthony is more fun than that"};
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy');
@@ -36,8 +38,6 @@ describe('databaseHelpers', () => {
         });
 
         describe('when the Ajax call returns with a response', () => {
-            const data = {iamaproperty: "blahblah"};
-
             beforeEach(() => {
                 axiosPostPromise.resolve({data: data});
             });
@@ -49,11 +49,11 @@ describe('databaseHelpers', () => {
 
         describe('when the Ajax call returns with an error', () => {
             beforeEach(() => {
-                axiosPostPromise.reject({response: {status: 403}});
+                axiosPostPromise.reject({response: {data: data}});
             });
 
-            it('calls the error callback with the status', () => {
-                expect(errorCallbackSpy).toHaveBeenCalledWith(403);
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
             });
         });
     });
@@ -63,6 +63,7 @@ describe('databaseHelpers', () => {
 
         const projectName = 'Meeple';
         const projectPassword = 'SuperSecretPassword';
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy');
@@ -80,8 +81,6 @@ describe('databaseHelpers', () => {
         });
 
         describe('when the Ajax call returns with a response', () => {
-            const data = {iamaproperty: "blahblah"};
-
             beforeEach(() => {
                 axiosPostPromise.resolve({data: data});
             });
@@ -93,11 +92,11 @@ describe('databaseHelpers', () => {
 
         describe('when the Ajax call returns with an error', () => {
             beforeEach(() => {
-                axiosPostPromise.reject({response: {status: 403}});
+                axiosPostPromise.reject({response: {data: data}});
             });
 
-            it('calls the error callback with the status', () => {
-                expect(errorCallbackSpy).toHaveBeenCalledWith(403);
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
             });
         });
     });
@@ -106,6 +105,7 @@ describe('databaseHelpers', () => {
         let callbackSpy;
 
         const projectId = 42;
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             callbackSpy = jasmine.createSpy('callbackSpy');
@@ -119,8 +119,6 @@ describe('databaseHelpers', () => {
         });
 
         describe('when the Ajax call returns with a response', () => {
-            const data = {iamaproperty: "blahblah"};
-
             beforeEach(() => {
                 axiosPostPromise.resolve({data: data});
             });
@@ -135,6 +133,7 @@ describe('databaseHelpers', () => {
         let callbackSpy;
 
         const projectId = 42;
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             callbackSpy = jasmine.createSpy('callbackSpy');
@@ -148,8 +147,6 @@ describe('databaseHelpers', () => {
         });
 
         describe('when the Ajax call returns with a response', () => {
-            const data = {iamaproperty: "blahblah"};
-
             beforeEach(() => {
                 axiosGetPromise.resolve({data: data});
             });
@@ -162,6 +159,8 @@ describe('databaseHelpers', () => {
 
     describe('#postLoginAndRedirect', () => {
         let errorCallbackSpy;
+
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
@@ -193,11 +192,11 @@ describe('databaseHelpers', () => {
 
         describe('when the Ajax call returns with a reject', () => {
             beforeEach(() => {
-                axiosPostPromise.reject({response: {status: 400}});
+                axiosPostPromise.reject({response: {data: data}});
             });
 
-            it('calls the errorCallback with the response status', () => {
-                expect(errorCallbackSpy).toHaveBeenCalledWith(400);
+            it('calls the errorCallback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
             })
         });
     });
@@ -207,6 +206,7 @@ describe('databaseHelpers', () => {
 
         const projectId = 87;
         const newPersonName = 'John';
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy');
@@ -221,8 +221,6 @@ describe('databaseHelpers', () => {
         });
 
         describe('when the Ajax call returns with a response', () => {
-            const data = {iamaproperty: "blahblah"};
-
             beforeEach(() => {
                 axiosPostPromise.resolve({data: data});
             });
@@ -234,11 +232,11 @@ describe('databaseHelpers', () => {
 
         describe('when the Ajax call returns with an error', () => {
             beforeEach(() => {
-                axiosPostPromise.reject({response: {status: 403}});
+                axiosPostPromise.reject({response: {data: data}});
             });
 
-            it('calls the error callback with the status', () => {
-                expect(errorCallbackSpy).toHaveBeenCalledWith(403);
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
             });
         });
     });
@@ -247,6 +245,7 @@ describe('databaseHelpers', () => {
         let callbackSpy;
 
         const projectId = 42;
+        const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             callbackSpy = jasmine.createSpy('callbackSpy');
@@ -260,8 +259,6 @@ describe('databaseHelpers', () => {
         });
 
         describe('when the Ajax call returns with a response', () => {
-            const data = {iamaproperty: "blahblah"};
-
             beforeEach(() => {
                 axiosGetPromise.resolve({data: data});
             });

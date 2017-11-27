@@ -7,7 +7,7 @@ export function postProjectAndDo(project, successCallback, errorCallback) {
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {
-            errorCallback(error.response.status);
+            errorCallback(error.response.data);
         });
 }
 
@@ -16,7 +16,7 @@ export function postNewProjectAndDo(name, password, successCallback, errorCallba
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {
-            errorCallback(error.response.status);
+            errorCallback(error.response.data);
         });
 }
 
@@ -35,20 +35,20 @@ export function getRecommendedPairingAndDo(projectId, successCallback) {
 }
 
 export function postLoginAndRedirect(name, password, errorCallback) {
-    Axios.post('/login', {name: name, password: password})
+    Axios.post('/login', {name, password})
         .then(function onSuccess(response) {
             window.location.href = response.data;
         }, function onError(error) {
-            errorCallback(error.response.status);
+            errorCallback(error.response.data);
         });
 }
 
 export function postAddNewPersonAndDo(projectId, name, successCallback, errorCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/addPerson', {name: name})
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/addPerson', {name})
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {
-            errorCallback(error.response.status);
+            errorCallback(error.response.data);
         });
 }
 

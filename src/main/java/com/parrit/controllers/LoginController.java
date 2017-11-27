@@ -1,6 +1,6 @@
 package com.parrit.controllers;
 
-import com.parrit.DTOs.UsernameAndPasswordDTO;
+import com.parrit.DTOs.LoginDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Collections;
 
 @Controller
@@ -71,19 +72,19 @@ public class LoginController {
      *  @returns: href string for the project that was logged into
      *  @throws: InternalAuthenticationServiceException if somehow the user does not get authenticated and nothing else throws an exception
      */
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<String> login(@RequestBody UsernameAndPasswordDTO loginDetails) throws InternalAuthenticationServiceException {
-        String username = loginDetails.getName();
-        String password = loginDetails.getPassword();
+    public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO) throws InternalAuthenticationServiceException {
+        String name = loginDTO.getName();
+        String password = loginDTO.getPassword();
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, password, Collections.emptyList()));
 
         if (authentication.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return new ResponseEntity<>("/" + authentication.getName(), HttpStatus.OK);
         }
 
-        throw new InternalAuthenticationServiceException("Unknown authentication problem.");
+        throw new InternalAuthenticationServiceException("Unknown authentication failure.");
     }
 }

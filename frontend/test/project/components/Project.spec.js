@@ -31,7 +31,6 @@ describe('<Project/>', () => {
         },
         setNewPersonModalOpen: () => {},
         setNewPairingBoardModalOpen: () => {},
-        setErrorType: () => {},
         createPerson: () => {},
         createPairingBoard: () => {},
         deletePairingBoard: () => {},
@@ -87,7 +86,6 @@ describe('<Project/>', () => {
 
         expect(workspaceComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen, 'No setNewPersonModalOpen passed to project');
         expect(workspaceComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen, 'No setNewPairingBoardModalOpen passed to project');
-        expect(workspaceComponent.prop('setErrorType')).toBe(props.setErrorType, 'No setErrorType passed to project');
         expect(workspaceComponent.prop('createPerson')).toBe(props.createPerson, 'No createPerson passed to project');
         expect(workspaceComponent.prop('createPairingBoard')).toBe(props.createPairingBoard, 'No createPairingBoard passed to project');
 

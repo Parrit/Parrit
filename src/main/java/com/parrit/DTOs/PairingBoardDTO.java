@@ -1,13 +1,20 @@
 package com.parrit.DTOs;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class PairingBoardDTO {
 
     private long id;
-    private List<PersonDTO> people;
-    private boolean exempt;
+
+    @NotNull
+    @Size(max = 32)
     private String name;
+
+    private boolean exempt;
+
+    private List<PersonDTO> people;
 
     public long getId() {
         return id;
@@ -17,12 +24,12 @@ public class PairingBoardDTO {
         this.id = id;
     }
 
-    public List<PersonDTO> getPeople() {
-        return people;
+    public String getName() {
+        return name;
     }
 
-    public void setPeople(List<PersonDTO> people) {
-        this.people = people;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isExempt() {
@@ -33,12 +40,12 @@ public class PairingBoardDTO {
         this.exempt = exempt;
     }
 
-    public String getName() {
-        return name;
+    public List<PersonDTO> getPeople() {
+        return people;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPeople(List<PersonDTO> people) {
+        this.people = people;
     }
 
     @Override
@@ -50,8 +57,8 @@ public class PairingBoardDTO {
 
         if (getId() != that.getId()) return false;
         if (isExempt() != that.isExempt()) return false;
-        if (getPeople() != null ? !getPeople().equals(that.getPeople()) : that.getPeople() != null) return false;
-        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null;
     }
 
 }

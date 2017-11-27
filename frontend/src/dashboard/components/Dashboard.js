@@ -7,6 +7,7 @@ import Button from 'shared/components/Button.js';
 export default class Dashboard extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             newProjectName: '',
             newProjectPassword: '',
@@ -16,80 +17,55 @@ export default class Dashboard extends React.Component {
     }
 
     render() {
-        let newProjectErrorMessage = '';
-        let newProjectNameErrorClass = '';
+        return (
+            <div className="layout-wrapper dashboard-container">
+                <main className="dashboard-content-container">
+                    <div className="dashboard-content">
 
-        let loginErrorMessage = '';
-        let loginUsernameErrorClass = '';
-        let loginPasswordErrorClass = '';
+                        <div className="logo"/>
+                        <div className="description">
+                            A historical recommendation engine for daily pair rotation management, with an interactive
+                            visual aide of each pairing team.
+                        </div>
 
-        switch (this.props.loginErrorType) {
-            case 0:
-                break;
-            case 400:
-                loginErrorMessage = 'Keeaa!? That’s not your project name.';
-                loginUsernameErrorClass = 'error';
-                break;
-            case 401:
-                loginErrorMessage = 'Polly want a cracker? Try another password.';
-                loginPasswordErrorClass = 'error';
-                break;
-            default:
-                loginErrorMessage = 'Unknown error.';
-        }
+                        <div className="forms-container">
 
-        switch (this.props.newProjectErrorType) {
-            case 0:
-                break;
-            case 406:
-                newProjectErrorMessage = 'Uh oh. Your project name is too long, try less than 100 characters.';
-                newProjectNameErrorClass = 'error';
-                break;
-            case 409:
-                newProjectErrorMessage = 'Not again. That name already exists, try a different one.';
-                newProjectNameErrorClass = 'error';
-                break;
-            default:
-                newProjectErrorMessage = 'Unknown error.';
-        }
+                            <form className="form new-form" onSubmit={this.createProjectWithName.bind(this)}>
+                                <h2 className="form-label">Create Project</h2>
+                                <input className={this.props.newProjectErrorName ? 'error' : ''} type="text"
+                                    placeholder="Project name" onChange={this.handleNewProjectName.bind(this)}/>
+                                <input className={this.props.newProjectErrorPassword ? 'error' : ''} type="password"
+                                    placeholder="Password" onChange={this.handleNewProjectPassword.bind(this)}/>
+                                <Button className="button-blue" name="Create" type="submit"/>
+                                <div className="error-message">{this.props.newProjectErrorMessage}</div>
+                            </form>
 
-        return <div className="layout-wrapper dashboard-container">
-            <main className="dashboard-content-container">
-                <div className="dashboard-content">
-                    <div className="logo"/>
-                    <div className="description">
-                        A historical recommendation engine for daily pair rotation management, with an interactive
-                        visual aide of each pairing team.
+                            <div className="dotted-line"/>
+
+                            <form className="form login-form" onSubmit={this.handleLogin.bind(this)}>
+                                <h2 className="form-label">Login to Project</h2>
+                                <input className={this.props.loginErrorName ? 'error' : ''} type="text"
+                                    placeholder="Project name" onChange={this.handleLoginName.bind(this)}/>
+                                <input className={this.props.loginErrorPassword ? 'error' : ''} type="password"
+                                    placeholder="Password" onChange={this.handleLoginPassword.bind(this)}/>
+                                <Button className="button-green" name="Login" type="submit"/>
+                                <div className="error-message">{this.props.loginErrorMessage}</div>
+                            </form>
+
+                        </div>
+
+                        <div className="feedback-container">
+                            <div className="caption">What do you think of Parrit?</div>
+                            <a className="text-link" href="https://goo.gl/forms/ZGqUyZDEDSWqZVBP2"
+                                target="_blank" rel="noopener">Send feedback<span className="carrot"/></a>
+                        </div>
+
                     </div>
-                    <div className="forms-container">
-                        <form className="form new-form" onSubmit={this.createProjectWithName.bind(this)}>
-                            <h2 className="form-label">Create Project</h2>
-                            <input className={newProjectNameErrorClass} type="text" placeholder="Project name"
-                                   onChange={this.handleNewProjectName.bind(this)}/>
-                            <input type="password" placeholder="Password" onChange={this.handleNewProjectPassword.bind(this)}/>
-                            <Button className="button-blue" name="Create" type="submit"/>
-                            <div className="error-message">{newProjectErrorMessage}</div>
-                        </form>
-                        <div className="dotted-line"/>
-                        <form className="form login-form" onSubmit={this.handleLogin.bind(this)}>
-                            <h2 className="form-label">Login to Project</h2>
-                            <input className={loginUsernameErrorClass} type="text" placeholder="Project name"
-                                   onChange={this.handleLoginName.bind(this)}/>
-                            <input className={loginPasswordErrorClass} type="password" placeholder="Password"
-                                   onChange={this.handleLoginPassword.bind(this)}/>
-                            <Button className="button-green" name="Login" type="submit"/>
-                            <div className="error-message">{loginErrorMessage}</div>
-                        </form>
-                    </div>
-                    <div className="feedback-container">
-                        <div className="caption">What do you think of Parrit?</div>
-                        <a className="text-link" href="https://goo.gl/forms/ZGqUyZDEDSWqZVBP2"
-                           target="_blank" rel="noopener">Send feedback<span className="carrot"/></a>
-                    </div>
-                </div>
-            </main>
-            <Footer/>
-        </div>
+                </main>
+
+                <Footer/>
+            </div>
+        )
     }
 
     handleLoginName(event) {
@@ -120,8 +96,12 @@ export default class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-    newProjectErrorType: PropTypes.number.isRequired,
-    loginErrorType: PropTypes.number.isRequired,
+    newProjectErrorMessage: PropTypes.string,
+    newProjectErrorName: PropTypes.bool.isRequired,
+    newProjectErrorPassword: PropTypes.bool.isRequired,
+    loginErrorMessage: PropTypes.string,
+    loginErrorName: PropTypes.bool.isRequired,
+    loginErrorPassword: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     createProject: PropTypes.func.isRequired
 };

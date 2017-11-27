@@ -47,13 +47,15 @@ export default class PairingBoard extends React.Component {
             pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard.bind(this)}/>;
         }
 
-        return <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
-            <div className="pairing-board-header">
-                {pairingBoardNameSection}
-                {pairingBoardDeleteSection}
+        return (
+            <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
+                <div className="pairing-board-header">
+                    {pairingBoardNameSection}
+                    {pairingBoardDeleteSection}
+                </div>
+                <PersonList people={this.props.people} index={pairingBoardIndex} />
             </div>
-            <PersonList people={this.props.people} index={pairingBoardIndex} />
-		</div>
+		)
 	}
 
     enableEditMode() {

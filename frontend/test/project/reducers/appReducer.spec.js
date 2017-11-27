@@ -1,15 +1,15 @@
 import appReducer from 'project/reducers/appReducer.js';
 
-describe("appReducer", function() {
-	it("should get the default state", function() {
-		var stateBefore = undefined;
-		var action = {};
-		var stateAfter = {
+describe("appReducer", () => {
+	it("should get the default state", () => {
+		const stateBefore = undefined;
+		const action = {};
+		const stateAfter = {
             settings: {
                 isNewPersonModalOpen: false,
                 isNewPairingBoardModalOpen: false,
                 isPairingHistoryPanelOpen: false,
-                errorType: 0
+                newPersonModalErrorMessage: undefined
 			},
             data: {
                 project: {

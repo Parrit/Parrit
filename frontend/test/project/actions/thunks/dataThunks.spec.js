@@ -2,15 +2,14 @@ import * as dataThunks from 'project/actions/thunks/dataThunks.js';
 
 import * as databaseHelpers from 'shared/helpers/databaseHelpers.js';
 import * as dataCreators from 'project/actions/creators/dataCreators.js';
-import * as viewCreators from 'project/actions/creators/viewCreators.js';
+import * as settingsCreators from 'project/actions/creators/settingsCreators.js';
 
-describe('dataThunks', function() {
-    var thunk;
-    var dispatchSpy, getStateSpy;
-    var postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
-    var loadProjectCreatorSpy, loadPairingHistoryCreatorSpy, updatePairingHistoriesCreatorSpy, setErrorTypeCreatorSpy;
+describe('dataThunks', () => {
+    let thunk;
+    let dispatchSpy, getStateSpy;
+    let postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
 
-    beforeEach(function setup() {
+    beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
         
@@ -19,223 +18,190 @@ describe('dataThunks', function() {
         getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo');
         postAddNewPersonAndDoSpy = spyOn(databaseHelpers, 'postAddNewPersonAndDo');
         getPairingHistoryAndDoSpy = spyOn(databaseHelpers, 'getPairingHistoryAndDo');
-        loadProjectCreatorSpy = spyOn(dataCreators, 'loadProjectCreator');
-        loadPairingHistoryCreatorSpy = spyOn(dataCreators, 'loadPairingHistoryCreator');
-        updatePairingHistoriesCreatorSpy = spyOn(dataCreators, 'updatePairingHistoriesCreator');
-        setErrorTypeCreatorSpy = spyOn(viewCreators, 'setErrorTypeCreator');
     });
 
-    describe('#autoSaveThunk', function () {
-        var action = { type: 'DELETE_INTERNET' };
+    describe('#autoSaveThunk', () => {
+        const action = { type: 'DELETE_INTERNET' };
 
-        beforeEach(function() {
+        beforeEach(() => {
             thunk = dataThunks.autoSaveThunk(action);
         });
 
-        it('returns a function', function() {
+        it('returns a function', () => {
             expect(typeof thunk).toBe('function');
         });
 
-        describe('when calling the returned function', function() {
-            var projectToSave = {world: 'doomed'};
-            var stateOfApp = {data: { project: projectToSave }};
-            var newProjectData = {data: 'blarg'};
-            var newProjectDataAction = {type: 'LOAD_PROJECT', project: newProjectData};
-            var errorTypeAction = {type: 'SET_ERROR_TYPE'};
+        describe('when calling the returned function', () => {
+            const projectToSave = { world: 'doomed' };
+            const stateOfApp = { data: { project: projectToSave } };
+            const newProjectData = { data: 'blarg' };
 
-            beforeEach(function () {
+            beforeEach(() => {
                 getStateSpy.and.returnValue(stateOfApp);
-                loadProjectCreatorSpy.and.returnValue(newProjectDataAction);
-                setErrorTypeCreatorSpy.and.returnValue(errorTypeAction);
 
                 thunk(dispatchSpy, getStateSpy);
             });
 
-            it('calls the dispatch function with the passed in action', function() {
+            it('calls the dispatch function with the passed in action', () => {
                 expect(dispatchSpy).toHaveBeenCalledWith(action);
             });
 
-            it('calls postStateAndDo helper with correct arguments', function() {
+            it('calls postStateAndDo helper with correct arguments', () => {
                 expect(getStateSpy).toHaveBeenCalled();
                 expect(postStateAndDoSpy).toHaveBeenCalledWith(projectToSave, jasmine.anything(), jasmine.anything());
             });
 
-            it('passes in a success callback that will dispatch a loadProject action', function() {
-                var successCallback = postStateAndDoSpy.calls.mostRecent().args[1];
+            it('dispatches a loadProject action when posting the project is successful', () => {
+                const successCallback = postStateAndDoSpy.calls.mostRecent().args[1];
                 successCallback(newProjectData);
 
-                expect(loadProjectCreatorSpy).toHaveBeenCalledWith(newProjectData);
-                expect(dispatchSpy).toHaveBeenCalledWith(newProjectDataAction);
-            });
-
-            it('passes in an error callback that will dispatch a setErrorType action', function() {
-                var errorCallback = postStateAndDoSpy.calls.mostRecent().args[2];
-                errorCallback(401);
-
-                expect(setErrorTypeCreatorSpy).toHaveBeenCalledWith(401);
-                expect(dispatchSpy).toHaveBeenCalledWith(errorTypeAction);
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
             });
         });
     });
 
-    describe('#savePairingThunk', function () {
-        beforeEach(function() {
+    describe('#savePairingThunk', () => {
+        beforeEach(() => {
             thunk = dataThunks.savePairingThunk();
         });
 
-        it('returns a function', function() {
+        it('returns a function', () => {
             expect(typeof thunk).toBe('function');
         });
 
-        describe('when calling the returned function', function() {
-            var project = { id: 7, data: "le stuff" };
-            var stateOfApp = { data: { project: project } };
-            var newPairingHistories = [{data: 1}, {data: 2}];
-            var updatePairingHistoriesAction = {type: 'UPDATE_PAIRING_HISTORIES', pairingHistories: newPairingHistories};
+        describe('when calling the returned function', () => {
+            const project = { id: 7, data: 'le stuff' };
+            const stateOfApp = { data: { project: project } };
+            const newPairingHistories = [ { data: 1 }, { data: 2 } ];
 
-            beforeEach(function () {
+            beforeEach(() => {
                 getStateSpy.and.returnValue(stateOfApp);
-                postProjectPairingAndDoSpy.and.returnValue(newPairingHistories);
-                updatePairingHistoriesCreatorSpy.and.returnValue(updatePairingHistoriesAction);
 
                 thunk(dispatchSpy, getStateSpy);
             });
 
-            it('does not call the dispatch function', function() {
+            it('does not call the dispatch function', () => {
                 expect(dispatchSpy).not.toHaveBeenCalled();
             });
 
-            it('calls postProjectPairingAndDo helper with correct arguments', function() {
+            it('calls postProjectPairingAndDo helper with correct arguments', () => {
                 expect(getStateSpy).toHaveBeenCalled();
                 expect(postProjectPairingAndDoSpy).toHaveBeenCalledWith(7, jasmine.anything());
             });
 
-            it('passes in a success callback that will dispatch a updatePairingHistory action', function() {
-                var successCallback = postProjectPairingAndDoSpy.calls.mostRecent().args[1];
+            it('dispatches an updatePairingHistory action when saving the pairing is successful', () => {
+                const successCallback = postProjectPairingAndDoSpy.calls.mostRecent().args[1];
                 successCallback(newPairingHistories);
 
-                expect(updatePairingHistoriesCreatorSpy).toHaveBeenCalledWith(newPairingHistories);
-                expect(dispatchSpy).toHaveBeenCalledWith(updatePairingHistoriesAction)
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.updatePairingHistoriesCreator(newPairingHistories))
             });
         });
     });
 
-    describe('#getRecommendedPairsThunk', function () {
-        beforeEach(function() {
+    describe('#getRecommendedPairsThunk', () => {
+        beforeEach(() => {
             thunk = dataThunks.getRecommendedPairsThunk();
         });
 
-        it('returns a function', function() {
+        it('returns a function', () => {
             expect(typeof thunk).toBe('function');
         });
 
-        describe('when calling the returned function', function() {
-            var project = { id: 88, stuff: "things" };
-            var stateOfApp = { data: { project: project } };
-            var newProjectData = {data: 'blarg'};
-            var newProjectDataAction = { type: 'LOAD_PROJECT', project: newProjectData };
+        describe('when calling the returned function', () => {
+            const project = { id: 88, stuff: "things" };
+            const stateOfApp = { data: { project: project } };
+            const newProjectData = { data: 'blarg' };
 
-            beforeEach(function () {
+            beforeEach(() => {
                 getStateSpy.and.returnValue(stateOfApp);
-                loadProjectCreatorSpy.and.returnValue(newProjectDataAction);
 
                 thunk(dispatchSpy, getStateSpy);
             });
 
-            it('does not call the dispatch function', function() {
+            it('does not call the dispatch function', () => {
                 expect(dispatchSpy).not.toHaveBeenCalled();
             });
 
-            it('calls postProjectPairingAndDo helper with correct arguments', function() {
+            it('calls postProjectPairingAndDo helper with correct arguments', () => {
                 expect(getStateSpy).toHaveBeenCalled();
                 expect(getRecommendedPairingAndDoSpy).toHaveBeenCalledWith(88, jasmine.anything());
             });
 
-            it('passes in a success callback that will alert to the browser', function() {
-                var successCallback = getRecommendedPairingAndDoSpy.calls.mostRecent().args[1];
+            it('dispatches a loadProject action when getting the recommended pairing is successful', () => {
+                const successCallback = getRecommendedPairingAndDoSpy.calls.mostRecent().args[1];
                 successCallback(newProjectData);
 
-                expect(loadProjectCreatorSpy).toHaveBeenCalledWith(newProjectData);
-                expect(dispatchSpy).toHaveBeenCalledWith(newProjectDataAction);
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
             });
         });
     });
     
-    describe('#addNewPersonThunk', function() {
-        var callbackSpy = jasmine.createSpy('callbackSpy');
+    describe('#addNewPersonThunk', () => {
+        const callbackSpy = jasmine.createSpy('callbackSpy');
 
-        beforeEach(function() {
+        beforeEach(() => {
             thunk = dataThunks.addNewPersonThunk(1, "Name", callbackSpy);
         });
 
-        it('returns a function', function() {
+        it('returns a function', () => {
             expect(typeof thunk).toBe('function');
         });
 
-        describe('when calling the returned function', function() {
-            var newProjectData = {data: 'blarg'};
-            var newProjectDataAction = { type: 'LOAD_PROJECT', project: newProjectData };
-            var errorTypeAction = {type: 'SET_ERROR_TYPE'};
+        describe('when calling the returned function', () => {
+            const newProjectData = { data: 'blarg' };
 
-            beforeEach(function () {
-                loadProjectCreatorSpy.and.returnValue(newProjectDataAction);
-                setErrorTypeCreatorSpy.and.returnValue(errorTypeAction);
-
+            beforeEach(() => {
                 thunk(dispatchSpy, getStateSpy);
             });
 
-            it('calls postAddNewPersonAndDo helper with correct arguments', function() {
+            it('calls postAddNewPersonAndDo helper with correct arguments', () => {
                 expect(postAddNewPersonAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
             });
 
-            it('passes in a success callback that will dispatch a loadProject action and calls the passed in callback', function() {
-                var successCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[2];
+            it('calls the custom callback and dispatches a loadProject action when adding a person is successful', () => {
+                const successCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[2];
                 successCallback(newProjectData);
 
-                expect(loadProjectCreatorSpy).toHaveBeenCalledWith(newProjectData);
-                expect(dispatchSpy).toHaveBeenCalledWith(newProjectDataAction);
                 expect(callbackSpy).toHaveBeenCalled();
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
             });
 
-            it('passes in an error callback that will dispatch a setErrorType action', function() {
-                var errorCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[3];
-                errorCallback(401);
+            it('dispatches a setNewPersonModalErrorMessage action when adding a person fails', () => {
+                const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
 
-                expect(setErrorTypeCreatorSpy).toHaveBeenCalledWith(401);
-                expect(dispatchSpy).toHaveBeenCalledWith(errorTypeAction);
+                const errorCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[3];
+                errorCallback(errorResponse);
+
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPersonModalErrorMessageCreator(errorResponse));
             });
         });
     })
 
-    describe('#getPairingHistoryThunk', function () {
-        beforeEach(function() {
+    describe('#getPairingHistoryThunk', () => {
+        beforeEach(() => {
             thunk = dataThunks.getPairingHistoryThunk(77);
         });
 
-        it('returns a function', function() {
+        it('returns a function', () => {
             expect(typeof thunk).toBe('function');
         });
 
-        describe('when calling the returned function', function() {
-            var pairingHistoryData = [{data:'Weeeee'}];
-            var pairingHistoryDataAction = { type: 'LOAD_PAIRING_HISTORY', pairingHistoryList: pairingHistoryData };
+        describe('when calling the returned function', () => {
+            const pairingHistoryData = [ { data:'Weeeee' } ];
 
-            beforeEach(function () {
-                loadPairingHistoryCreatorSpy.and.returnValue(pairingHistoryDataAction);
-
+            beforeEach(() => {
                 thunk(dispatchSpy, getStateSpy);
             });
 
-            it('calls getPairingHistoryAndDo helper with correct arguments', function() {
+            it('calls getPairingHistoryAndDo helper with correct arguments', () => {
                 expect(getPairingHistoryAndDoSpy).toHaveBeenCalledWith(77, jasmine.anything());
             });
 
-            it('passes in a success callback that will dispatch a loadPairingHistory action', function() {
-                var successCallback = getPairingHistoryAndDoSpy.calls.mostRecent().args[1];
+            it('dispatches a loadPairingHistory action when getting the pairing history is successful', () => {
+                const successCallback = getPairingHistoryAndDoSpy.calls.mostRecent().args[1];
                 successCallback(pairingHistoryData);
 
-                expect(loadPairingHistoryCreatorSpy).toHaveBeenCalledWith(pairingHistoryData);
-                expect(dispatchSpy).toHaveBeenCalledWith(pairingHistoryDataAction);
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadPairingHistoryCreator(pairingHistoryData));
             });
         });
     });

@@ -1,0 +1,1 @@
+ALTER TABLE person ALTER COLUMN name TYPE varchar(255);

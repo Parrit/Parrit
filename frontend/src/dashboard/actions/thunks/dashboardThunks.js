@@ -7,8 +7,8 @@ export function createProjectThunk(name, password) {
             function successCallback() {
                 postLoginAndRedirect(name, password);
             },
-            function errorCallback(errorStatus) {
-                dispatch(setNewProjectErrorCreator(errorStatus));
+            function errorCallback(errorResponse) {
+                dispatch(setNewProjectErrorCreator(errorResponse));
             }
         );
     }
@@ -17,8 +17,8 @@ export function createProjectThunk(name, password) {
 export function loginThunk(name, password) {
     return function(dispatch, getState) {
         postLoginAndRedirect(name, password,
-            function errorCallback(errorStatus) {
-                dispatch(setLoginErrorCreator(errorStatus));
+            function errorCallback(errorResponse) {
+                dispatch(setLoginErrorCreator(errorResponse));
             }
         );
     }

@@ -18,27 +18,29 @@ export default class PairingHistory extends React.Component {
 
         const classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
 
-        return <div className={classes}>
-            <div className="header">
-                <h2>Pair Rotation History</h2>
-                <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
-            </div>
-            <div className="body">
-                {(function(pairingHistoryList) {
-                    if(pairingHistoryList.length === 0) {
-                        return <div className="no-history">
-                            <div className="clock"/>
-                            <div className="no-history-content">
-                                ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
+        return (
+            <div className={classes}>
+                <div className="header">
+                    <h2>Pair Rotation History</h2>
+                    <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
+                </div>
+                <div className="body">
+                    {(function(pairingHistoryList) {
+                        if(pairingHistoryList.length === 0) {
+                            return <div className="no-history">
+                                <div className="clock"/>
+                                <div className="no-history-content">
+                                    ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
+                                </div>
                             </div>
-                        </div>
-                    }
-                    else {
-                        return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
-                    }
-                })(this.props.pairingHistoryList)}
+                        }
+                        else {
+                            return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
+                        }
+                    })(this.props.pairingHistoryList)}
+                </div>
             </div>
-        </div>
+        )
     }
 
     closePairingHistoryPanel() {

@@ -36,7 +36,6 @@ describe('<App/>', () => {
         setNewPersonModalOpen: () => {},
         setNewPairingBoardModalOpen: () => {},
         setPairingHistoryPanelOpen: () => {},
-        setErrorType: () => {},
         createPerson: () => {},
         createPairingBoard: () => {},
         movePerson: jasmine.createSpy("movePersonSpy"),
@@ -75,7 +74,6 @@ describe('<App/>', () => {
 
         expect(projectComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen, 'No setNewPersonModalOpen passed to project');
         expect(projectComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen, 'No setNewPairingBoardModalOpen passed to project');
-        expect(projectComponent.prop('setErrorType')).toBe(props.setErrorType, 'No setErrorType passed to project');
         expect(projectComponent.prop('createPerson')).toBe(props.createPerson, 'No createPerson passed to project');
         expect(projectComponent.prop('createPairingBoard')).toBe(props.createPairingBoard, 'No createPairingBoard passed to project');
         expect(projectComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard, 'No deletePairingBoard passed to project');

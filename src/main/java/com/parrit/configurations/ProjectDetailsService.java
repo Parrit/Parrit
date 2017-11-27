@@ -26,7 +26,7 @@ public class ProjectDetailsService implements UserDetailsService {
         Project project = projectRepository.findByName(name);
 
         if(project == null) {
-            throw new UsernameNotFoundException("Username <" + name + "> was not found");
+            throw new UsernameNotFoundException("Keeaa!? That’s not your project name.");
         }
 
         return new User(project.getName(), project.getPassword(), Collections.emptyList());

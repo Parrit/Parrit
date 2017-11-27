@@ -48,7 +48,7 @@ public class PairingControllerTest {
         exampleProject = new Project("Nancy", "nancypass", Collections.singletonList(pairingBoard), new ArrayList<>());
         exampleProject.setId(2L);
 
-        String pairingBoardString = "{\"id\":1,\"people\":[],\"exempt\":false,\"name\":\"Super Pairing Board\"}";
+        String pairingBoardString = "{\"id\":1,\"name\":\"Super Pairing Board\",\"exempt\":false,\"people\":[]}";
         exampleProjectString = "{\"id\":2,\"name\":\"Nancy\",\"pairingBoards\":[" + pairingBoardString + "],\"people\":[]}";
     }
 
@@ -70,9 +70,9 @@ public class PairingControllerTest {
                 .andReturn();
 
         String expectedResult = "[" +
-                "{\"pairingTime\":\"1970-01-01T00:02:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 1\"}," +
-                "{\"pairingTime\":\"1970-01-01T00:01:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 2\"}," +
-                "{\"pairingTime\":\"1970-01-01T00:01:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 3\"}" +
+                "{\"pairingBoardName\":\"Pairing Board 1\",\"people\":[],\"pairingTime\":\"1970-01-01T00:02:00.000+0000\"}," +
+                "{\"pairingBoardName\":\"Pairing Board 2\",\"people\":[],\"pairingTime\":\"1970-01-01T00:01:00.000+0000\"}," +
+                "{\"pairingBoardName\":\"Pairing Board 3\",\"people\":[],\"pairingTime\":\"1970-01-01T00:01:00.000+0000\"}" +
             "]";
 
         String returnedProject = mvcResult.getResponse().getContentAsString();
@@ -110,9 +110,9 @@ public class PairingControllerTest {
             .andReturn();
 
         String expectedResult = "[" +
-                "{\"pairingTime\":\"1970-01-01T00:02:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 1\"}," +
-                "{\"pairingTime\":\"1970-01-01T00:01:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 2\"}," +
-                "{\"pairingTime\":\"1970-01-01T00:01:00.000+0000\",\"people\":[],\"pairingBoardName\":\"Pairing Board 3\"}" +
+                "{\"pairingBoardName\":\"Pairing Board 1\",\"people\":[],\"pairingTime\":\"1970-01-01T00:02:00.000+0000\"}," +
+                "{\"pairingBoardName\":\"Pairing Board 2\",\"people\":[],\"pairingTime\":\"1970-01-01T00:01:00.000+0000\"}," +
+                "{\"pairingBoardName\":\"Pairing Board 3\",\"people\":[],\"pairingTime\":\"1970-01-01T00:01:00.000+0000\"}" +
             "]";
 
         String returnedProject = mvcResult.getResponse().getContentAsString();
