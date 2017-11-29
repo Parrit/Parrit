@@ -7,16 +7,18 @@ import * as settingsCreators from 'project/actions/creators/settingsCreators.js'
 describe('dataThunks', () => {
     let thunk;
     let dispatchSpy, getStateSpy;
-    let postStateAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy, getPairingHistoryAndDoSpy;
+    let putProjectAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy,
+        postAddNewPairingBoardAndDoSpy, getPairingHistoryAndDoSpy;
 
     beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
         
-        postStateAndDoSpy = spyOn(databaseHelpers, 'postProjectAndDo');
+        putProjectAndDoSpy = spyOn(databaseHelpers, 'putProjectAndDo');
         postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo');
         getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo');
         postAddNewPersonAndDoSpy = spyOn(databaseHelpers, 'postAddNewPersonAndDo');
+        postAddNewPairingBoardAndDoSpy = spyOn(databaseHelpers, 'postAddNewPairingBoardAndDo');
         getPairingHistoryAndDoSpy = spyOn(databaseHelpers, 'getPairingHistoryAndDo');
     });
 
@@ -48,11 +50,11 @@ describe('dataThunks', () => {
 
             it('calls postStateAndDo helper with correct arguments', () => {
                 expect(getStateSpy).toHaveBeenCalled();
-                expect(postStateAndDoSpy).toHaveBeenCalledWith(projectToSave, jasmine.anything(), jasmine.anything());
+                expect(putProjectAndDoSpy).toHaveBeenCalledWith(projectToSave, jasmine.anything(), jasmine.anything());
             });
 
             it('dispatches a loadProject action when posting the project is successful', () => {
-                const successCallback = postStateAndDoSpy.calls.mostRecent().args[1];
+                const successCallback = putProjectAndDoSpy.calls.mostRecent().args[1];
                 successCallback(newProjectData);
 
                 expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
@@ -176,6 +178,47 @@ describe('dataThunks', () => {
             });
         });
     })
+
+    describe('#addNewPairingBoardThunk', () => {
+            const callbackSpy = jasmine.createSpy('callbackSpy');
+
+            beforeEach(() => {
+                thunk = dataThunks.addNewPairingBoardThunk(1, "Name", callbackSpy);
+            });
+
+            it('returns a function', () => {
+                expect(typeof thunk).toBe('function');
+            });
+
+            describe('when calling the returned function', () => {
+                const newProjectData = { data: 'blarg' };
+
+                beforeEach(() => {
+                    thunk(dispatchSpy, getStateSpy);
+                });
+
+                it('calls postAddNewPairingBoardAndDo helper with correct arguments', () => {
+                    expect(postAddNewPairingBoardAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
+                });
+
+                it('calls the custom callback and dispatches a loadProject action when adding a pairing board is successful', () => {
+                    const successCallback = postAddNewPairingBoardAndDoSpy.calls.mostRecent().args[2];
+                    successCallback(newProjectData);
+
+                    expect(callbackSpy).toHaveBeenCalled();
+                    expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
+                });
+
+                it('dispatches a setNewPairingBoardModalErrorMessage action when adding a pairing board fails', () => {
+                    const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
+
+                    const errorCallback = postAddNewPairingBoardAndDoSpy.calls.mostRecent().args[3];
+                    errorCallback(errorResponse);
+
+                    expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPairingBoardModalErrorMessageCreator(errorResponse));
+                });
+            });
+        })
 
     describe('#getPairingHistoryThunk', () => {
         beforeEach(() => {

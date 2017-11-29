@@ -2,8 +2,8 @@ import Axios from 'axios';
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-export function postProjectAndDo(project, successCallback, errorCallback) {
-    Axios.post('/api/project', project)
+export function putProjectAndDo(project, successCallback, errorCallback) {
+    Axios.put('/api/project/' + encodeURIComponent(project.id), project)
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {
@@ -12,7 +12,7 @@ export function postProjectAndDo(project, successCallback, errorCallback) {
 }
 
 export function postNewProjectAndDo(name, password, successCallback, errorCallback) {
-    Axios.post('/api/project/new', {name, password})
+    Axios.post('/api/project', {name, password})
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {
@@ -44,7 +44,16 @@ export function postLoginAndRedirect(name, password, errorCallback) {
 }
 
 export function postAddNewPersonAndDo(projectId, name, successCallback, errorCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/addPerson', {name})
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/person', {name})
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        }, function onError(error) {
+            errorCallback(error.response.data);
+        });
+}
+
+export function postAddNewPairingBoardAndDo(projectId, name, successCallback, errorCallback) {
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard', {name})
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {

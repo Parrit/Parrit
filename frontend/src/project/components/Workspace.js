@@ -47,7 +47,7 @@ export default class Workspace extends React.Component {
                 </Modal>
                 <Modal contentLabel="New Pairing Board Modal" isOpen={this.props.settings.isNewPairingBoardModalOpen} onRequestClose={this.closeNewPairingBoardModal.bind(this)} style={ModalStyles}>
                     <NameForm formTitle="Add Pairing Board" confirmFunction={this.createPairingBoardWithName.bind(this)}
-                        cancelFunction={this.closeNewPairingBoardModal.bind(this)}/>
+                        cancelFunction={this.closeNewPairingBoardModal.bind(this)} errorMessage={this.props.settings.newPairingBoardModalErrorMessage}/>
                 </Modal>
 
             </div>
@@ -67,8 +67,7 @@ export default class Workspace extends React.Component {
     }
 
     createPairingBoardWithName(name) {
-        this.props.createPairingBoard(name);
-        this.closeNewPairingBoardModal();
+        this.props.createPairingBoard(this.props.projectId, name, this.closeNewPairingBoardModal.bind(this));
     }
 
     openNewPairingBoardModal () {

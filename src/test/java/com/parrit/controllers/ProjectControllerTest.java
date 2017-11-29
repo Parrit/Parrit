@@ -2,12 +2,14 @@ package com.parrit.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parrit.DTOs.NewProjectDTO;
+import com.parrit.DTOs.PairingBoardDTO;
 import com.parrit.DTOs.PersonDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
+import com.parrit.transformers.PairingBoardTransformer;
 import com.parrit.transformers.PersonTransformer;
 import com.parrit.transformers.ProjectTransformer;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -85,7 +88,7 @@ public class ProjectControllerTest {
 
         when(mockProjectRepository.save(any(Project.class))).thenReturn(persistedProject);
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isOk());
@@ -108,7 +111,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("");
         newProjectDTO.setPassword("somePassword");
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isBadRequest())
@@ -122,7 +125,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName(null);
         newProjectDTO.setPassword("somePassword");
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isBadRequest())
@@ -136,7 +139,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("ThisProjectNameIsGreaterThanThirtyTwoCharactersLong");
         newProjectDTO.setPassword("somePassword");
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isBadRequest())
@@ -150,7 +153,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("someName");
         newProjectDTO.setPassword("");
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isBadRequest())
@@ -164,7 +167,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("someName");
         newProjectDTO.setPassword(null);
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isBadRequest())
@@ -178,7 +181,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("");
         newProjectDTO.setPassword("");
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isBadRequest())
@@ -195,7 +198,7 @@ public class ProjectControllerTest {
 
         when(mockProjectRepository.findByName("someName")).thenReturn(new Project());
 
-        mockMvc.perform(post("/api/project/new")
+        mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isConflict())
@@ -214,7 +217,7 @@ public class ProjectControllerTest {
         when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        mockMvc.perform(post("/api/project")
+        mockMvc.perform(put("/api/project/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedProjectDTO)))
                 .andExpect(status().isOk())
@@ -244,7 +247,7 @@ public class ProjectControllerTest {
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedUpdatedProject);
 
-        mockMvc.perform(post("/api/project/1/addPerson")
+        mockMvc.perform(post("/api/project/1/person")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(personDTO)))
                 .andExpect(status().isOk())
@@ -259,7 +262,7 @@ public class ProjectControllerTest {
         PersonDTO personDTO = new PersonDTO();
         personDTO.setName("");
 
-        mockMvc.perform(post("/api/project/1/addPerson")
+        mockMvc.perform(post("/api/project/1/person")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(personDTO)))
                 .andExpect(status().isBadRequest())
@@ -272,7 +275,7 @@ public class ProjectControllerTest {
         PersonDTO personDTO = new PersonDTO();
         personDTO.setName(null);
 
-        mockMvc.perform(post("/api/project/1/addPerson")
+        mockMvc.perform(post("/api/project/1/person")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(personDTO)))
                 .andExpect(status().isBadRequest())
@@ -285,9 +288,62 @@ public class ProjectControllerTest {
         PersonDTO personDTO = new PersonDTO();
         personDTO.setName("someNameThatIsGreaterThan32Characters");
 
-        mockMvc.perform(post("/api/project/1/addPerson")
+        mockMvc.perform(post("/api/project/1/person")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(personDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", equalTo(null)))
+                .andExpect(jsonPath("$.fieldErrors.name", equalTo("Hey! This name needs to be between 1 and 32 characters.")));
+    }
+
+    @Test
+    public void addPairingBoard_createsAPairingBoardWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        existingProject.setId(1L);
+
+        PairingBoard newPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>());
+
+        PairingBoardDTO pairingBoardDTO = PairingBoardTransformer.transform(newPairingBoard);
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        Project expectedUpdatedProject = new Project("Henry", "henrypass", Collections.singletonList(newPairingBoard), new ArrayList<>());
+        expectedUpdatedProject.setId(1L);
+
+        ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedUpdatedProject);
+
+        mockMvc.perform(post("/api/project/1/pairingBoard")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(pairingBoardDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
+
+        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).save(expectedUpdatedProject);
+    }
+
+    @Test
+    public void addPairingBoard_whenNameIsEmpty_returnsError() throws Exception {
+        PairingBoardDTO pairingBoardDTO = new PairingBoardDTO();
+        pairingBoardDTO.setName("");
+
+        mockMvc.perform(post("/api/project/1/person")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(pairingBoardDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", equalTo(null)))
+                .andExpect(jsonPath("$.fieldErrors.name", equalTo("Hey! This name needs to be between 1 and 32 characters.")));
+    }
+
+    @Test
+    public void addPairingBoard_whenNameIsNull_returnsError() throws Exception {
+        PairingBoardDTO pairingBoardDTO = new PairingBoardDTO();
+        pairingBoardDTO.setName(null);
+
+        mockMvc.perform(post("/api/project/1/person")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(pairingBoardDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.name", equalTo("Hey! This name needs to be between 1 and 32 characters.")));

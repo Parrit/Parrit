@@ -64,8 +64,7 @@ public class PairingControllerTest {
 
         when(mockPairingService.savePairing(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 
-        MvcResult mvcResult = mockMvc.perform(post("/api/project/42/pairing")
-                .contentType(MediaType.APPLICATION_JSON))
+        MvcResult mvcResult = mockMvc.perform(post("/api/project/42/pairing"))
                 .andExpect(status().isOk())
                 .andReturn();
 

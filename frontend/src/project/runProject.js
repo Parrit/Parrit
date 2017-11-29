@@ -10,12 +10,6 @@ import appReducer from 'project/reducers/appReducer.js';
 export default function runProject(projectJSON) {
     //TODO: Remove this when the first thing that page does (componentDidMount on App) is to fetch the project data
     const initialState = {
-        settings: {
-            isNewPersonModalOpen: false,
-            isNewPairingBoardModalOpen: false,
-            isPairingHistoryPanelOpen: false,
-            newPersonModalErrorMessage: undefined
-        },
         data: {
             project: projectJSON
         }

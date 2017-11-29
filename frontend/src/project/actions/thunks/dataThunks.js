@@ -1,11 +1,11 @@
-import { postProjectAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, postAddNewPersonAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/databaseHelpers.js';
+import { putProjectAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/databaseHelpers.js';
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from 'project/actions/creators/dataCreators.js';
-import { setNewPersonModalErrorMessageCreator } from 'project/actions/creators/settingsCreators.js';
+import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator } from 'project/actions/creators/settingsCreators.js';
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {
         dispatch(action);
-        postProjectAndDo(getState().data.project,
+        putProjectAndDo(getState().data.project,
             function successCallback(project) {
                 dispatch(loadProjectCreator(project));
             },
@@ -43,6 +43,20 @@ export function addNewPersonThunk(projectId, name, callback) {
             },
             function errorCallback(errorResponse) {
                 dispatch(setNewPersonModalErrorMessageCreator(errorResponse))
+            }
+        )
+    }
+}
+
+export function addNewPairingBoardThunk(projectId, name, callback) {
+    return function(dispatch, getState) {
+        postAddNewPairingBoardAndDo(projectId, name,
+            function successCallback(project) {
+                callback();
+                dispatch(loadProjectCreator(project));
+            },
+            function errorCallback(errorResponse) {
+                dispatch(setNewPairingBoardModalErrorMessageCreator(errorResponse))
             }
         )
     }

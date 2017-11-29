@@ -87,6 +87,30 @@ describe("settingsReducer", () => {
                     settingsReducer(stateBefore, action)
                 ).toEqual(stateAfter);
             });
+
+            it("clears the newPersonModalErrorMessage", () => {
+                const stateBefore = {
+                    isNewPairingBoardModalOpen: true,
+                    newPairingBoardModalErrorMessage: "some error message"
+                };
+
+                const action = {
+                    type: "SET_NEW_PAIRING_BOARD_MODAL_OPEN",
+                    isOpen: false
+                };
+
+                const stateAfter = {
+                    isNewPairingBoardModalOpen: false,
+                    newPairingBoardModalErrorMessage: undefined
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
         });
 
         describe("SET_PAIRING_HISTORY_PANEL_OPEN", () => {
@@ -154,6 +178,58 @@ describe("settingsReducer", () => {
 
                 const stateAfter = {
                     newPersonModalErrorMessage: 'some message'
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
+        describe("SET_NEW_PERSON_MODAL_ERROR_MESSAGE", () => {
+            it("sets newPairingBoardModalErrorMessage to the name field error", () => {
+                const stateBefore = {
+                    newPairingBoardModalErrorMessage: undefined
+                };
+
+                const action = {
+                    type: "SET_NEW_PAIRING_BOARD_MODAL_ERROR_MESSAGE",
+                    errorResponse: {
+                        message: 'some message',
+                        fieldErrors: { name: 'some name message' }
+                    }
+                };
+
+                const stateAfter = {
+                    newPairingBoardModalErrorMessage: 'some name message'
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    settingsReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it("sets newPairingBoardModalErrorMessage to the message when there are no field errors", () => {
+                const stateBefore = {
+                    newPairingBoardModalErrorMessage: undefined
+                };
+
+                const action = {
+                    type: "SET_NEW_PAIRING_BOARD_MODAL_ERROR_MESSAGE",
+                    errorResponse: {
+                        message: 'some message',
+                        fieldErrors: null
+                    }
+                };
+
+                const stateAfter = {
+                    newPairingBoardModalErrorMessage: 'some message'
                 };
 
                 deepFreeze(stateBefore);

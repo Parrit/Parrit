@@ -1,6 +1,7 @@
 package com.parrit.controllers;
 
 import com.parrit.DTOs.NewProjectDTO;
+import com.parrit.DTOs.PairingBoardDTO;
 import com.parrit.DTOs.PersonDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
@@ -54,7 +55,7 @@ public class ProjectController {
     //******  APIs  ******//
     //********************//
 
-    @RequestMapping(path = "/api/project/new", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) throws NestedServletException {
         String projectName = newProjectDTO.getName();
@@ -78,24 +79,37 @@ public class ProjectController {
         projectRepository.save(project);
     }
 
-    //TODO: This authorization will not work if the project name is being changed... Pass projectId as path param
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectDTO)")
-    @RequestMapping(path = "/api/project", method = RequestMethod.POST, consumes = {"application/json"})
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}", method = RequestMethod.PUT, consumes = {"application/json"})
     @ResponseBody
-    public ResponseEntity<ProjectDTO> saveProject(@RequestBody @Valid ProjectDTO projectDTO) {
-        Project existingProject = projectRepository.findOne(projectDTO.getId());
+    public ResponseEntity<ProjectDTO> saveProject(@PathVariable long projectId, @RequestBody @Valid ProjectDTO projectDTO) {
+        Project existingProject = projectRepository.findOne(projectId);
+
         Project updatedProject = ProjectTransformer.merge(existingProject, projectDTO);
+
         updatedProject = projectRepository.save(updatedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/addPerson", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
         Project savedProject = projectRepository.findOne(projectId);
 
         savedProject.getPeople().add(new Person(personDTO.getName()));
+
+        Project updatedProject = projectRepository.save(savedProject);
+        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST, consumes = {"application/json"})
+    @ResponseBody
+    public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
+        Project savedProject = projectRepository.findOne(projectId);
+
+        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>()));
 
         Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);

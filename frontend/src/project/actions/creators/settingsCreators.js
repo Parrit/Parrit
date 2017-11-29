@@ -25,3 +25,10 @@ export function setNewPersonModalErrorMessageCreator(errorResponse) {
         errorResponse: errorResponse
     }
 }
+
+export function setNewPairingBoardModalErrorMessageCreator(errorResponse) {
+    return {
+        type: 'SET_NEW_PAIRING_BOARD_MODAL_ERROR_MESSAGE',
+        errorResponse: errorResponse
+    }
+}

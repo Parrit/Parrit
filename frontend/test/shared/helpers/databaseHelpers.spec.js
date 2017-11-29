@@ -4,7 +4,7 @@ import Axios from 'axios'
 
 describe('databaseHelpers', () => {
 
-    let axiosGetPromise, axiosPostPromise;
+    let axiosGetPromise, axiosPostPromise, axiosPutPromise;
 
     beforeEach(() => {
         const axiosGetPromiseLocal = new Promise((resolve, reject) => {
@@ -15,31 +15,36 @@ describe('databaseHelpers', () => {
             axiosPostPromise = {resolve, reject};
         });
 
+        const axiosPutPromiseLocal = new Promise((resolve, reject) => {
+            axiosPutPromise = {resolve, reject};
+        });
+
         spyOn(Axios, 'get').and.returnValue(axiosGetPromiseLocal);
         spyOn(Axios, 'post').and.returnValue(axiosPostPromiseLocal);
+        spyOn(Axios, 'put').and.returnValue(axiosPutPromiseLocal);
     })
 
-    describe('#postProjectAndDo', () => {
+    describe('#putProjectAndDo', () => {
         let successCallbackSpy, errorCallbackSpy;
 
-        const projectToSave = {MISSISSIPPI: "Anthony is more fun than that"};
+        const projectToSave = {id: 77, MISSISSIPPI: "Anthony is more fun than that"};
         const data = {iamaproperty: "blahblah"};
 
         beforeEach(() => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy');
             errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
 
-            databaseHelpers.postProjectAndDo(projectToSave, successCallbackSpy, errorCallbackSpy);
+            databaseHelpers.putProjectAndDo(projectToSave, successCallbackSpy, errorCallbackSpy);
         });
 
-        it('makes an Ajax call to post the project', () => {
-            expect(Axios.post.calls.count()).toBe(1);
-            expect(Axios.post).toHaveBeenCalledWith('/api/project', projectToSave);
+        it('makes an Ajax call to put the project', () => {
+            expect(Axios.put.calls.count()).toBe(1);
+            expect(Axios.put).toHaveBeenCalledWith('/api/project/77', projectToSave);
         });
 
         describe('when the Ajax call returns with a response', () => {
             beforeEach(() => {
-                axiosPostPromise.resolve({data: data});
+                axiosPutPromise.resolve({data: data});
             });
 
             it('calls the callback with the response', () => {
@@ -49,7 +54,7 @@ describe('databaseHelpers', () => {
 
         describe('when the Ajax call returns with an error', () => {
             beforeEach(() => {
-                axiosPostPromise.reject({response: {data: data}});
+                axiosPutPromise.reject({response: {data: data}});
             });
 
             it('calls the error callback with the response in the error', () => {
@@ -74,7 +79,7 @@ describe('databaseHelpers', () => {
 
         it('makes an Ajax call to post the new project name', () => {
             expect(Axios.post.calls.count()).toBe(1);
-            expect(Axios.post).toHaveBeenCalledWith('/api/project/new', {
+            expect(Axios.post).toHaveBeenCalledWith('/api/project', {
                 name: projectName,
                 password: projectPassword
             });
@@ -217,7 +222,7 @@ describe('databaseHelpers', () => {
 
         it('makes an Ajax call to post the new person', () => {
             expect(Axios.post.calls.count()).toBe(1);
-            expect(Axios.post).toHaveBeenCalledWith('/api/project/87/addPerson', {name: newPersonName});
+            expect(Axios.post).toHaveBeenCalledWith('/api/project/87/person', {name: newPersonName});
         });
 
         describe('when the Ajax call returns with a response', () => {
@@ -240,6 +245,46 @@ describe('databaseHelpers', () => {
             });
         });
     });
+
+    describe('#postAddNewPairingAndDo', () => {
+            let successCallbackSpy, errorCallbackSpy;
+
+            const projectId = 87;
+            const newPairingBoardName = 'Cool Kids';
+            const data = {iamaproperty: "blahblah"};
+
+            beforeEach(() => {
+                successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+                errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
+
+                databaseHelpers.postAddNewPairingBoardAndDo(projectId, newPairingBoardName, successCallbackSpy, errorCallbackSpy);
+            });
+
+            it('makes an Ajax call to post the new pairing board', () => {
+                expect(Axios.post.calls.count()).toBe(1);
+                expect(Axios.post).toHaveBeenCalledWith('/api/project/87/pairingBoard', {name: newPairingBoardName});
+            });
+
+            describe('when the Ajax call returns with a response', () => {
+                beforeEach(() => {
+                    axiosPostPromise.resolve({data: data});
+                });
+
+                it('calls the callback with the response', () => {
+                    expect(successCallbackSpy).toHaveBeenCalledWith(data);
+                });
+            });
+
+            describe('when the Ajax call returns with an error', () => {
+                beforeEach(() => {
+                    axiosPostPromise.reject({response: {data: data}});
+                });
+
+                it('calls the error callback with the response in the error', () => {
+                    expect(errorCallbackSpy).toHaveBeenCalledWith(data);
+                });
+            });
+        });
 
     describe('#getPairingHistoryAndDo', () => {
         let callbackSpy;

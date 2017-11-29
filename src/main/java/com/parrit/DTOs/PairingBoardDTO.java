@@ -1,5 +1,6 @@
 package com.parrit.DTOs;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -8,12 +9,13 @@ public class PairingBoardDTO {
 
     private long id;
 
-    @NotNull
-    @Size(max = 32)
+    @NotNull(message = "Hey! This name needs to be between 1 and 32 characters.")
+    @Size(max = 32, message = "Hey! This name needs to be between 1 and 32 characters.")
     private String name;
 
     private boolean exempt;
 
+    @Valid
     private List<PersonDTO> people;
 
     public long getId() {

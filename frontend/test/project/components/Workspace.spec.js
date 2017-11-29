@@ -14,7 +14,8 @@ describe('<Workspace/>', () => {
             settings: {
                 isNewPersonModalOpen: false,
                 isNewPairingBoardModalOpen: true,
-                newPersonModalErrorMessage: "some error message"
+                newPersonModalErrorMessage: "some error message",
+                newPairingBoardModalErrorMessage: "some error message"
             },
             people: [
                 { name: "Mike Wazowski" },
@@ -131,6 +132,10 @@ describe('<Workspace/>', () => {
             expect(newPairingBoardForm.prop('formTitle')).toBe("Add Pairing Board");
         });
 
+        it('passes in the error message', () => {
+            expect(newPairingBoardForm.prop('errorMessage')).toBe("some error message");
+        });
+
         describe('#openNewPairingBoardModal', () => {
             it('shows the modal', () => {
                 wrapper.find('.add-board-button').simulate('click');
@@ -144,10 +149,13 @@ describe('<Workspace/>', () => {
             });
 
             it('should call the createPairingBoard action with the passed in name', () => {
-                expect(props.createPairingBoard).toHaveBeenCalledWith('Luke Skywalker');
+                expect(props.createPairingBoard).toHaveBeenCalledWith(77, 'Luke Skywalker', jasmine.anything());
             });
 
-            it('should close the modal', () => {
+            it('the passed in callback should close the modal', () => {
+                const callback = props.createPairingBoard.calls.mostRecent().args[2];
+                callback();
+
                 expect(props.setNewPairingBoardModalOpen).toHaveBeenCalledWith(false);
             });
         });

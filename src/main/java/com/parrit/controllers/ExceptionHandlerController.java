@@ -2,6 +2,8 @@ package com.parrit.controllers;
 
 import com.parrit.DTOs.ErrorDTO;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
+
+    private static final Logger log = LoggerFactory.getLogger(ExceptionHandlerController.class);
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleUsernameNotFound(UsernameNotFoundException exception) {
@@ -63,6 +67,8 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleException(Exception exception) {
+        log.error("Uncaught exception...", exception);
+
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setMessage("Unknown Error.");
         return new ResponseEntity<>(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);

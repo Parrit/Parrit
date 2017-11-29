@@ -1,11 +1,12 @@
 package com.parrit.configurations;
 
-import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AuthorizationService {
@@ -18,18 +19,11 @@ public class AuthorizationService {
     }
 
     public boolean canAccessProject(User user, String projectName) {
-        return user != null && user.getUsername().equals(projectName);
-    }
-
-    public boolean canAccessProject(User user, Project project) {
-        return canAccessProject(user, project.getName());
+        return user != null && Objects.equals(user.getUsername(), projectName);
     }
 
     public boolean canAccessProject(User user, long projectId) {
-        return canAccessProject(user, projectRepository.findOne(projectId));
-    }
-
-    public boolean canAccessProject(User user, ProjectDTO projectDTO) {
-        return canAccessProject(user, projectDTO.getName());
+        Project project = projectRepository.findOne(projectId);
+        return project != null && canAccessProject(user, project.getName());
     }
 }

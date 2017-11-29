@@ -1,5 +1,6 @@
 package com.parrit.DTOs;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -12,8 +13,10 @@ public class ProjectDTO {
     @Size(min = 1, max = 32)
     private String name;
 
+    @Valid
     private List<PairingBoardDTO> pairingBoards;
 
+    @Valid
     private List<PersonDTO> people;
 
     public long getId() {
