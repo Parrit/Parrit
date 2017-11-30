@@ -13,4 +13,5 @@ public interface PairingHistoryRepository extends CrudRepository<PairingHistory,
     List<PairingHistory> findByProject(Project project);
 
     List<PairingHistory> findByProjectOrderByTimestampDesc(Project project);
+
 }

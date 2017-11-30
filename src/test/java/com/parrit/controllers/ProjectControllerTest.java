@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -44,6 +45,9 @@ public class ProjectControllerTest {
 
     @MockBean
     private ProjectRepository mockProjectRepository;
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     //*********************//
     //******  Views  ******//
@@ -87,13 +91,14 @@ public class ProjectControllerTest {
         newProjectDTO.setPassword("bobpass");
 
         when(mockProjectRepository.save(any(Project.class))).thenReturn(persistedProject);
+        when(passwordEncoder.encodePassword("bobpass", null)).thenReturn("encodedBobpass");
 
         mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isOk());
 
-        Project expectedNewProject = new Project("bob", "da7655b5bf67039c3e76a99d8e6fb6969370bbc0fa440cae699cf1a3e2f1e0a1", new ArrayList<>(), new ArrayList<>());
+        Project expectedNewProject = new Project("bob", "encodedBobpass", new ArrayList<>(), new ArrayList<>());
 
         expectedNewProject.getPairingBoards().add(new PairingBoard("COCKATOO", false, new ArrayList<>()));
         expectedNewProject.getPairingBoards().add(new PairingBoard("MACAW", false, new ArrayList<>()));

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +28,12 @@ import java.util.List;
 public class ProjectController {
 
     private ProjectRepository projectRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ProjectController(ProjectRepository projectRepository) {
+    public ProjectController(ProjectRepository projectRepository, PasswordEncoder passwordEncoder) {
         this.projectRepository = projectRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //*********************//
@@ -55,7 +57,7 @@ public class ProjectController {
     //******  APIs  ******//
     //********************//
 
-    @RequestMapping(path = "/api/project", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project", method = RequestMethod.POST)
     @ResponseBody
     public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) throws NestedServletException {
         String projectName = newProjectDTO.getName();
@@ -64,8 +66,7 @@ public class ProjectController {
             throw new ProjectNameAlreadyExistsException(projectName, "Not again. That name already exists, try a different one.");
         }
 
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        String hashedPassword = encoder.encodePassword(newProjectDTO.getPassword(), null);
+        String hashedPassword = passwordEncoder.encodePassword(newProjectDTO.getPassword(), null);
 
         List<PairingBoard> defaultPairingBoards = new ArrayList<>();
         defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>()));
@@ -80,7 +81,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}", method = RequestMethod.PUT, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project/{projectId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> saveProject(@PathVariable long projectId, @RequestBody @Valid ProjectDTO projectDTO) {
         Project existingProject = projectRepository.findOne(projectId);
@@ -92,7 +93,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
         Project savedProject = projectRepository.findOne(projectId);
@@ -104,7 +105,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
         Project savedProject = projectRepository.findOne(projectId);

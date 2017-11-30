@@ -1,15 +1,18 @@
 package com.parrit.configurations;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -30,9 +33,6 @@ import java.io.IOException;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private ProjectDetailsService projectDetailsService;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -46,10 +46,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .and()
             .authorizeRequests()
-                .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/built/**").permitAll()
-                .antMatchers("/svg/**").permitAll()
-                .antMatchers("/img/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/project").permitAll()
@@ -61,14 +57,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        DaoAuthenticationProvider customAuthenticationProvider = new DaoAuthenticationProvider();
-        customAuthenticationProvider.setUserDetailsService(projectDetailsService);
-        customAuthenticationProvider.setPasswordEncoder(new ShaPasswordEncoder(256));
-        customAuthenticationProvider.setHideUserNotFoundExceptions(false);
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().mvcMatchers("/favicon.ico", "/built/**", "/sass/**", "/svg/**", "/vendor/**");
+    }
 
-        auth.authenticationProvider(customAuthenticationProvider);
+    @Bean
+    public AuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new ShaPasswordEncoder(256);
     }
 
     private Filter csrfHeaderFilter() {
