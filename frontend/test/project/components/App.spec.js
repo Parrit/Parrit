@@ -10,6 +10,7 @@ describe('<App/>', () => {
         getRecommendedPairs: () => {},
         savePairing: () => {},
         resetPairs: () => {},
+        smartReset: () => {},
 
         settings: {
             isPairingHistoryPanelOpen: true

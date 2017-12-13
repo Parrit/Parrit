@@ -25,6 +25,7 @@ export default class Project extends React.Component {
                     <h1 className="project-name">{this.props.data.project.name}</h1>
                     <div className="project-actions">
                         <Button className="button-blue" tooltip="Move All Pairs to Floating" name="Reset Pairs" shortName="Reset" clickFunction={this.props.resetPairs} />
+                        <Button className="button-blue" tooltip="Leave one person per pair to keep context" name="Smart Reset" shortName="Smart" clickFunction={this.props.smartReset} />
                         <Button className="button-blue" tooltip="Automatically suggest pairings based on last paired date" name="Recommend Pairs" shortName="Recommend" clickFunction={this.props.getRecommendedPairs}/>
                         <Button className="button-green" tooltip="Make note of parings for future recommendations" name="Record Pairs" shortName="Record" clickFunction={this.props.savePairing}/>
                     </div>
@@ -40,6 +41,7 @@ Project.propTypes = {
     savePairing: PropTypes.func.isRequired,
     getRecommendedPairs: PropTypes.func.isRequired,
     resetPairs: PropTypes.func.isRequired,
+    smartReset: PropTypes.func.isRequired,
 
     settings: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,

@@ -10,6 +10,10 @@ function resetPairingBoardCombo() {
     return dataThunks.autoSaveThunk(dataCreators.resetPairingBoard());
 }
 
+function smartResetBoardCombo() {
+    return dataThunks.autoSaveThunk(dataCreators.smartResetBoard());
+}
+
 function deletePersonCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.deletePersonCreator(...args));
 }
@@ -25,6 +29,7 @@ function renamePairingBoardCombo(...args) {
 export default {
     movePerson: movePersonCombo,
     resetPairs: resetPairingBoardCombo,
+    smartReset: smartResetBoardCombo,
     createPerson: dataThunks.addNewPersonThunk,
     createPairingBoard: dataThunks.addNewPairingBoardThunk,
     deletePerson: deletePersonCombo,
