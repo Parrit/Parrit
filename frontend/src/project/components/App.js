@@ -91,6 +91,7 @@ export default class App extends React.Component {
             savePairing: this.props.savePairing,
             getRecommendedPairs: this.props.getRecommendedPairs,
             resetPairs: this.props.resetPairs,
+            smartReset: this.props.smartReset,
             settings: this.props.settings,
             data: this.props.data,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,

@@ -41,6 +41,28 @@ export default function (state, action) {
             );
 
             return stateClone;
+        case "SMART_RESET_BOARD":
+            stateClone = _.cloneDeep(state);
+
+            // forEach pairing board
+            // take people array
+            // set people array to [<last-person>]
+            // take all remaining people and append to "people"
+            // unless the board is an exempt board
+            stateClone.people = stateClone.people.concat(
+                stateClone.pairingBoards.reduce(function (people, pairingBoard) {
+                    if (pairingBoard.exempt) return people;
+
+                    var stayingPerson = pairingBoard.people.pop()
+                    people = people.concat(pairingBoard.people);
+                    if (stayingPerson) {
+                        pairingBoard.people = [stayingPerson];
+                    }
+                    return people;
+                }, [])
+            );
+
+            return stateClone;
         case "CREATE_PERSON":
             stateClone = _.cloneDeep(state);
 

@@ -287,6 +287,134 @@ describe("projectReducer", () => {
             });
         });
 
+        describe('SMART_RESET_BOARD', function() {
+            it('leaves a person per pair while moving th excess to floating', function() {
+                const stateBefore = {
+                    id: 7,
+                    people: [{name: "Bubba Gump"}],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: [{name:"Charles Shaw"}]
+                        },
+                        {
+                            name: "BOARD2",
+                            people: [
+                                {name: "Hanzle"},
+                                {name: "Gretel"}
+                            ]
+                        },
+                        {
+                            name: "BOARD3",
+                            people: [
+                                {name: "Bob"},
+                                {name: "Jim"},
+                                {name: "Alice"}
+                            ]
+                        },
+                        {
+                            name: "BOARD4",
+                            people: []
+                        }
+                    ]
+                };
+
+                const action = { type: 'SMART_RESET_BOARD' };
+
+                const stateAfter = {
+                    id: 7,
+                    people: [
+                        {name: "Bubba Gump"},
+                        {name: "Hanzle"},
+                        {name: "Bob"},
+                        {name: "Jim"}
+                    ],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: [
+                                {name:"Charles Shaw"}
+                            ]
+                        },
+                        {
+                            name: "BOARD2",
+                            people: [
+                                {name: "Gretel"}
+                            ]
+                        },
+                        {
+                            name: "BOARD3",
+                            people: [
+                                {name: "Alice"}
+                            ]
+                        },
+                        {
+                            name: "BOARD4",
+                            people: []
+                        }
+                    ]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    projectReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+
+            it('does not move people on exempt pairing boards to floating', function() {
+                const stateBefore = {
+                    id: 7,
+                    people: [{name: "Bubba Gump"}],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: [{name:"Charles Shaw"}]
+                        },
+                        {
+                            name: "BOARD2",
+                            people: [{name: "Hansel"}]
+                        },
+                        {
+                          name: "OOO",
+                          exempt: true,
+                          people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
+                        }
+                    ]
+                };
+
+                const action = { type: 'SMART_RESET_BOARD' };
+
+                const stateAfter = {
+                    id: 7,
+                    people: [{name: "Bubba Gump"}],
+                    pairingBoards: [
+                        {
+                            name: "BOARD1",
+                            people: [{name:"Charles Shaw"}]
+                        },
+                        {
+                            name: "BOARD2",
+                            people: [{name: "Hansel"}]
+                        },
+                        {
+                          name: "OOO",
+                          exempt: true,
+                          people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
+                        }
+                    ]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(
+                    projectReducer(stateBefore, action)
+                ).toEqual(stateAfter);
+            });
+        });
+
         describe('CREATE_PERSON', () => {
             it('adds a person to the project', () => {
                 const stateBefore = {

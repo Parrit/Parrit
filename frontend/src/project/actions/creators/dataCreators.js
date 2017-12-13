@@ -13,6 +13,12 @@ export function resetPairingBoard() {
     };
 }
 
+export function smartResetBoard() {
+    return {
+        type: 'SMART_RESET_BOARD'
+    };
+}
+
 export function createPersonCreator(name) {
     return {
         type: 'CREATE_PERSON',
