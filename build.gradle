@@ -35,7 +35,7 @@ task jsTest(type: Exec) {
     description = "Runs the frontend javascript tests"
 
     workingDir = "$project.projectDir/frontend"
-    commandLine = "./node_modules/jest/bin/jest.js"
+    commandLine = "./node_modules/.bin/jest"
     args = ["-c", ".jestrc.json"]
 }
 test.dependsOn(jsTest)
@@ -45,7 +45,7 @@ task jsBuild(type: Exec) {
     description = "Bundles the frontend javascript code"
 
     workingDir = "$project.projectDir/frontend"
-    commandLine = "./node_modules/grunt-cli/bin/grunt"
+    commandLine = "./node_modules/.bin/grunt"
     args = ["build"]
 }
 processResources.dependsOn(jsBuild)
