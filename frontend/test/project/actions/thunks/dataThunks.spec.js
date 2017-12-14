@@ -7,18 +7,19 @@ import * as settingsCreators from 'project/actions/creators/settingsCreators.js'
 describe('dataThunks', () => {
     let thunk;
     let dispatchSpy, getStateSpy;
-    let putProjectAndDoSpy, postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, postAddNewPersonAndDoSpy,
-        postAddNewPairingBoardAndDoSpy, getPairingHistoryAndDoSpy;
+    let putProjectAndDoSpy, postAddNewPersonAndDoSpy, postAddNewPairingBoardAndDoSpy, putPairingBoardAndDoSpy,
+        postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, getPairingHistoryAndDoSpy;
 
     beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
         
         putProjectAndDoSpy = spyOn(databaseHelpers, 'putProjectAndDo');
-        postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo');
-        getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo');
         postAddNewPersonAndDoSpy = spyOn(databaseHelpers, 'postAddNewPersonAndDo');
         postAddNewPairingBoardAndDoSpy = spyOn(databaseHelpers, 'postAddNewPairingBoardAndDo');
+        putPairingBoardAndDoSpy = spyOn(databaseHelpers, 'putPairingBoardAndDo');
+        postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo');
+        getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo');
         getPairingHistoryAndDoSpy = spyOn(databaseHelpers, 'getPairingHistoryAndDo');
     });
 
@@ -61,6 +62,133 @@ describe('dataThunks', () => {
             });
         });
     });
+
+    describe('#addNewPersonThunk', () => {
+        const callbackSpy = jasmine.createSpy('callbackSpy');
+
+        beforeEach(() => {
+            thunk = dataThunks.addNewPersonThunk(1, "Name", callbackSpy);
+        });
+
+        it('returns a function', () => {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', () => {
+            const newProjectData = { data: 'blarg' };
+
+            beforeEach(() => {
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('calls postAddNewPersonAndDo helper with correct arguments', () => {
+                expect(postAddNewPersonAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
+            });
+
+            it('calls the custom callback and dispatches a loadProject action when adding a person is successful', () => {
+                const successCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[2];
+                successCallback(newProjectData);
+
+                expect(callbackSpy).toHaveBeenCalled();
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
+            });
+
+            it('dispatches a setNewPersonModalErrorMessage action when adding a person fails', () => {
+                const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
+
+                const errorCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[3];
+                errorCallback(errorResponse);
+
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPersonModalErrorMessageCreator(errorResponse));
+            });
+        });
+    })
+
+    describe('#addNewPairingBoardThunk', () => {
+        const callbackSpy = jasmine.createSpy('callbackSpy');
+
+        beforeEach(() => {
+            thunk = dataThunks.addNewPairingBoardThunk(1, "Name", callbackSpy);
+        });
+
+        it('returns a function', () => {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', () => {
+            const newProjectData = { data: 'blarg' };
+
+            beforeEach(() => {
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('calls postAddNewPairingBoardAndDo helper with correct arguments', () => {
+                expect(postAddNewPairingBoardAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
+            });
+
+            it('calls the custom callback and dispatches a loadProject action when adding a pairing board is successful', () => {
+                const successCallback = postAddNewPairingBoardAndDoSpy.calls.mostRecent().args[2];
+                successCallback(newProjectData);
+
+                expect(callbackSpy).toHaveBeenCalled();
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
+            });
+
+            it('dispatches a setNewPairingBoardModalErrorMessage action when adding a pairing board fails', () => {
+                const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
+
+                const errorCallback = postAddNewPairingBoardAndDoSpy.calls.mostRecent().args[3];
+                errorCallback(errorResponse);
+
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPairingBoardModalErrorMessageCreator(errorResponse));
+            });
+        });
+    })
+
+    describe('#renamePairingBoardThunk', () => {
+        const callbackSpy = jasmine.createSpy('callbackSpy');
+
+        beforeEach(() => {
+            thunk = dataThunks.renamePairingBoardThunk(2, "Name", callbackSpy);
+        });
+
+        it('returns a function', () => {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', () => {
+            const newProjectData = { data: 'blarg' };
+            const project = { id: 7, data: 'le stuff' };
+            const stateOfApp = { data: { project: project } };
+
+            beforeEach(() => {
+                getStateSpy.and.returnValue(stateOfApp);
+
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('calls putPairingBoardAndDo helper with correct arguments', () => {
+                expect(putPairingBoardAndDoSpy).toHaveBeenCalledWith(7, 2, "Name", jasmine.anything(), jasmine.anything());
+            });
+
+            it('calls the custom callback and dispatches a loadProject action when renaming the pairing board is successful', () => {
+                const successCallback = putPairingBoardAndDoSpy.calls.mostRecent().args[3];
+                successCallback(newProjectData);
+
+                expect(callbackSpy).toHaveBeenCalled();
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
+            });
+
+            it('dispatches a ??? action when renaming the pairing board fails', () => {
+            //    const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
+            //
+            //    const errorCallback = putPairingBoardAndDoSpy.calls.mostRecent().args[4];
+            //    errorCallback(errorResponse);
+            //
+            //    expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPairingBoardModalErrorMessageCreator(errorResponse));
+            });
+        });
+    })
 
     describe('#savePairingThunk', () => {
         beforeEach(() => {
@@ -137,88 +265,6 @@ describe('dataThunks', () => {
             });
         });
     });
-    
-    describe('#addNewPersonThunk', () => {
-        const callbackSpy = jasmine.createSpy('callbackSpy');
-
-        beforeEach(() => {
-            thunk = dataThunks.addNewPersonThunk(1, "Name", callbackSpy);
-        });
-
-        it('returns a function', () => {
-            expect(typeof thunk).toBe('function');
-        });
-
-        describe('when calling the returned function', () => {
-            const newProjectData = { data: 'blarg' };
-
-            beforeEach(() => {
-                thunk(dispatchSpy, getStateSpy);
-            });
-
-            it('calls postAddNewPersonAndDo helper with correct arguments', () => {
-                expect(postAddNewPersonAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
-            });
-
-            it('calls the custom callback and dispatches a loadProject action when adding a person is successful', () => {
-                const successCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[2];
-                successCallback(newProjectData);
-
-                expect(callbackSpy).toHaveBeenCalled();
-                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
-            });
-
-            it('dispatches a setNewPersonModalErrorMessage action when adding a person fails', () => {
-                const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
-
-                const errorCallback = postAddNewPersonAndDoSpy.calls.mostRecent().args[3];
-                errorCallback(errorResponse);
-
-                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPersonModalErrorMessageCreator(errorResponse));
-            });
-        });
-    })
-
-    describe('#addNewPairingBoardThunk', () => {
-            const callbackSpy = jasmine.createSpy('callbackSpy');
-
-            beforeEach(() => {
-                thunk = dataThunks.addNewPairingBoardThunk(1, "Name", callbackSpy);
-            });
-
-            it('returns a function', () => {
-                expect(typeof thunk).toBe('function');
-            });
-
-            describe('when calling the returned function', () => {
-                const newProjectData = { data: 'blarg' };
-
-                beforeEach(() => {
-                    thunk(dispatchSpy, getStateSpy);
-                });
-
-                it('calls postAddNewPairingBoardAndDo helper with correct arguments', () => {
-                    expect(postAddNewPairingBoardAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
-                });
-
-                it('calls the custom callback and dispatches a loadProject action when adding a pairing board is successful', () => {
-                    const successCallback = postAddNewPairingBoardAndDoSpy.calls.mostRecent().args[2];
-                    successCallback(newProjectData);
-
-                    expect(callbackSpy).toHaveBeenCalled();
-                    expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
-                });
-
-                it('dispatches a setNewPairingBoardModalErrorMessage action when adding a pairing board fails', () => {
-                    const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
-
-                    const errorCallback = postAddNewPairingBoardAndDoSpy.calls.mostRecent().args[3];
-                    errorCallback(errorResponse);
-
-                    expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPairingBoardModalErrorMessageCreator(errorResponse));
-                });
-            });
-        })
 
     describe('#getPairingHistoryThunk', () => {
         beforeEach(() => {

@@ -1,4 +1,4 @@
-import { putProjectAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/databaseHelpers.js';
+import { putProjectAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/databaseHelpers.js';
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from 'project/actions/creators/dataCreators.js';
 import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator } from 'project/actions/creators/settingsCreators.js';
 
@@ -13,24 +13,6 @@ export function autoSaveThunk(action) {
                 //TODO: Reverse action? Display error message?
             }
         );
-    }
-}
-
-export function savePairingThunk() {
-    return function (dispatch, getState) {
-        postProjectPairingAndDo(getState().data.project.id,
-            function successCallback(newPairingHistories) {
-                dispatch(updatePairingHistoriesCreator(newPairingHistories));
-            });
-    }
-}
-
-export function getRecommendedPairsThunk() {
-    return function(dispatch, getState) {
-        getRecommendedPairingAndDo(getState().data.project.id,
-            function successCallback(project) {
-                dispatch(loadProjectCreator(project));
-            })
     }
 }
 
@@ -59,6 +41,38 @@ export function addNewPairingBoardThunk(projectId, name, callback) {
                 dispatch(setNewPairingBoardModalErrorMessageCreator(errorResponse))
             }
         )
+    }
+}
+
+export function renamePairingBoardThunk(pairingBoardId, name, callback) {
+    return function(dispatch, getState) {
+        putPairingBoardAndDo(getState().data.project.id, pairingBoardId, name,
+            function successCallback(project) {
+                callback();
+                dispatch(loadProjectCreator(project));
+            },
+            function errorCallback(errorResponse) {
+                //TODO: ???
+            }
+        )
+    }
+}
+
+export function savePairingThunk() {
+    return function (dispatch, getState) {
+        postProjectPairingAndDo(getState().data.project.id,
+            function successCallback(newPairingHistories) {
+                dispatch(updatePairingHistoriesCreator(newPairingHistories));
+            });
+    }
+}
+
+export function getRecommendedPairsThunk() {
+    return function(dispatch, getState) {
+        getRecommendedPairingAndDo(getState().data.project.id,
+            function successCallback(project) {
+                dispatch(loadProjectCreator(project));
+            })
     }
 }
 

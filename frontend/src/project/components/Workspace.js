@@ -29,10 +29,8 @@ export default class Workspace extends React.Component {
                         {this.props.pairingBoards.map((pairingBoard, idx) => {
                             return <PairingBoard
                                         key={idx}
-                                        name={pairingBoard.name}
-                                        people={pairingBoard.people}
                                         index={idx}
-                                        exempt={pairingBoard.exempt}
+                                        pairingBoard={pairingBoard}
                                         deletePairingBoard={this.props.deletePairingBoard}
                                         renamePairingBoard={this.props.renamePairingBoard}
                                     />

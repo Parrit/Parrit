@@ -7,7 +7,7 @@ function movePersonCombo(...args) {
 }
 
 function resetPairingBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoard());
+    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoardCreator());
 }
 
 function smartResetBoardCombo() {
@@ -22,10 +22,6 @@ function deletePairingBoardCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.deletePairingBoardCreator(...args));
 }
 
-function renamePairingBoardCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.renamePairingBoardCreator(...args));
-}
-
 export default {
     movePerson: movePersonCombo,
     resetPairs: resetPairingBoardCombo,
@@ -34,7 +30,7 @@ export default {
     createPairingBoard: dataThunks.addNewPairingBoardThunk,
     deletePerson: deletePersonCombo,
     deletePairingBoard: deletePairingBoardCombo,
-    renamePairingBoard: renamePairingBoardCombo,
+    renamePairingBoard: dataThunks.renamePairingBoardThunk,
     savePairing: dataThunks.savePairingThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     fetchPairingHistory: dataThunks.getPairingHistoryThunk,

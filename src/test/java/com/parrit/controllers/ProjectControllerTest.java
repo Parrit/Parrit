@@ -212,7 +212,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void saveProject_persistsTheProjectWithChanges_andReturnsTheResult() throws Exception {
+    public void updateProject_persistsTheProjectWithChanges_andReturnsTheResult() throws Exception {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
         existingProject.setId(1L);
 
@@ -342,15 +342,82 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void addPairingBoard_whenNameIsNull_returnsError() throws Exception {
-        PairingBoardDTO pairingBoardDTO = new PairingBoardDTO();
-        pairingBoardDTO.setName(null);
+    public void updatePairingBoard_updatesMatchingPairingBoardById_andReturnsTheUpdatedProject() throws Exception {
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>());
+        existingPairingBoard.setId(2L);
 
-        mockMvc.perform(post("/api/project/1/person")
+        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        existingProject.setId(1L);
+
+        PairingBoard updatedPairingBoard = new PairingBoard("Lame Kids", false, new ArrayList<>());
+        updatedPairingBoard.setId(2L);
+
+        PairingBoardDTO updatedPairingBoardDTO = PairingBoardTransformer.transform(updatedPairingBoard);
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        Project expectedUpdatedProject = new Project("Henry", "henrypass", Collections.singletonList(updatedPairingBoard), new ArrayList<>());
+        expectedUpdatedProject.setId(1L);
+
+        ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedUpdatedProject);
+
+        mockMvc.perform(put("/api/project/1/pairingBoard/2")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(pairingBoardDTO)))
+                .content(objectMapper.writeValueAsString(updatedPairingBoardDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
+
+        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).save(expectedUpdatedProject);
+    }
+
+    @Test
+    public void updatePairingBoard_whenNameIsNull_returnsError() throws Exception {
+        PairingBoardDTO updatedPairingBoardDTO = new PairingBoardDTO();
+        updatedPairingBoardDTO.setName(null);
+
+        mockMvc.perform(put("/api/project/1/pairingBoard/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedPairingBoardDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.name", equalTo("Hey! This name needs to be between 1 and 32 characters.")));
+    }
+
+    @Test
+    public void updatePairingBoard_whenNameIsGreaterThan32Characters_returnsError() throws Exception {
+        PairingBoardDTO updatedPairingBoardDTO = new PairingBoardDTO();
+        updatedPairingBoardDTO.setName("someNameThatIsGreaterThan32Characters");
+
+        mockMvc.perform(put("/api/project/1/pairingBoard/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedPairingBoardDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", equalTo(null)))
+                .andExpect(jsonPath("$.fieldErrors.name", equalTo("Hey! This name needs to be between 1 and 32 characters.")));
+    }
+
+    @Test
+    public void updatePairingBoard_whenNameNoPairingBoardMatchesGivenId_returnsError() throws Exception {
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>());
+        existingPairingBoard.setId(99L);
+
+        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        existingProject.setId(1L);
+
+        PairingBoardDTO updatedPairingBoardDTO = new PairingBoardDTO();
+        updatedPairingBoardDTO.setName("someName");
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+
+        mockMvc.perform(put("/api/project/1/pairingBoard/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedPairingBoardDTO)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", equalTo(null)))
+                .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
+
+        verify(mockProjectRepository).findOne(1L);
     }
 }

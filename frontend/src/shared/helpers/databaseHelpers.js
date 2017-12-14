@@ -2,12 +2,19 @@ import Axios from 'axios';
 
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-export function putProjectAndDo(project, successCallback, errorCallback) {
-    Axios.put('/api/project/' + encodeURIComponent(project.id), project)
+export function postLoginAndRedirect(name, password, errorCallback) {
+    Axios.post('/login', {name, password})
         .then(function onSuccess(response) {
-            successCallback(response.data);
+            window.location.href = response.data;
         }, function onError(error) {
             errorCallback(error.response.data);
+        });
+}
+
+export function postLogout() {
+    Axios.post('/logout/project')
+        .then(function onSuccess() {
+            window.location.href = "/";
         });
 }
 
@@ -20,24 +27,10 @@ export function postNewProjectAndDo(name, password, successCallback, errorCallba
         });
 }
 
-export function postProjectPairingAndDo(projectId, successCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairing')
+export function putProjectAndDo(project, successCallback, errorCallback) {
+    Axios.put('/api/project/' + encodeURIComponent(project.id), project)
         .then(function onSuccess(response) {
             successCallback(response.data);
-        })
-}
-
-export function getRecommendedPairingAndDo(projectId, successCallback) {
-    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/recommend')
-        .then(function onSuccess(response) {
-            successCallback(response.data);
-        });
-}
-
-export function postLoginAndRedirect(name, password, errorCallback) {
-    Axios.post('/login', {name, password})
-        .then(function onSuccess(response) {
-            window.location.href = response.data;
         }, function onError(error) {
             errorCallback(error.response.data);
         });
@@ -61,16 +54,32 @@ export function postAddNewPairingBoardAndDo(projectId, name, successCallback, er
         });
 }
 
-export function getPairingHistoryAndDo(projectId, successCallback) {
-    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/history')
+export function putPairingBoardAndDo(projectId, pairingBoardId, name, successCallback, errorCallback) {
+    Axios.put('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId), {name})
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        }, function onError(error) {
+            errorCallback(error.response.data);
+        });
+}
+
+export function postProjectPairingAndDo(projectId, successCallback) {
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairing')
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        })
+}
+
+export function getRecommendedPairingAndDo(projectId, successCallback) {
+    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/recommend')
         .then(function onSuccess(response) {
             successCallback(response.data);
         });
 }
 
-export function postLogout() {
-    Axios.post('/logout/project')
-        .then(function onSuccess() {
-            window.location.href = "/";
+export function getPairingHistoryAndDo(projectId, successCallback) {
+    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/history')
+        .then(function onSuccess(response) {
+            successCallback(response.data);
         });
 }

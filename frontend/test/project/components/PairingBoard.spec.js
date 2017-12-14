@@ -8,17 +8,20 @@ describe('<PairingBoard/>', () => {
 
     beforeEach(() => {
         props  = {
-            name: "PairingBoard1",
-            people: [
-                {
-                    name: "George"
-                },
-                {
-                    name: "Hank Muchacho"
-                }
-            ],
             index: 1,
-            exempt: false,
+            pairingBoard: {
+                id: 77,
+                name: "PairingBoard1",
+                people: [
+                    {
+                        name: "George"
+                    },
+                    {
+                        name: "Hank Muchacho"
+                    }
+                ],
+                exempt: false,
+            },
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
         };
@@ -32,8 +35,8 @@ describe('<PairingBoard/>', () => {
 
     it('renders the list of people', () => {
         const people = wrapper.find('PersonList');
-        expect(people.prop('people')).toBe(props.people);
         expect(people.prop('index')).toBe(props.index);
+        expect(people.prop('people')).toBe(props.pairingBoard.people);
     });
 
     it('renders a rename button', () => {
@@ -52,32 +55,29 @@ describe('<PairingBoard/>', () => {
     });
 
     describe('#renamePairingBoard', () => {
-        it('calls the renamePairingBoard prop function with the index prop and event target value', () => {
+        it('calls the renamePairingBoard prop function with the pairingBoard id and event target value', () => {
             const event = {target: {value: 'Cheese'}};
             wrapper.setState({editMode: true})
             wrapper.find('.editing-pairing-board-name').simulate('blur', event);
-            expect(props.renamePairingBoard).toHaveBeenCalledWith(1, 'Cheese');
+
+            expect(props.renamePairingBoard).toHaveBeenCalledWith(77, 'Cheese', jasmine.anything());
         });
+
+        it('disable edit mode if renaming the pairing board succeeds', () => {
+            const event = {target: {value: 'Cheese'}};
+            wrapper.setState({editMode: true})
+            wrapper.find('.editing-pairing-board-name').simulate('blur', event);
+
+            const successCallback = props.renamePairingBoard.calls.mostRecent().args[2];
+            successCallback();
+
+            expect(wrapper.state('editMode')).toBe(false)
+        })
     });
 
-    describe('Exempt PairingBoard', () => {
+    describe('#exempt', () => {
         beforeEach(() => {
-            props  = {
-                name: "PairingBoard1",
-                people: [
-                    {
-                        name: "George"
-                    },
-                    {
-                        name: "Hank Muchacho"
-                    }
-                ],
-                index: 1,
-                exempt: true,
-                deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
-                renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
-            };
-
+            props.pairingBoard.exempt = true;
             wrapper = shallow(<PairingBoard {...props} />);
         });
 

@@ -65,15 +65,13 @@ describe('<Workspace/>', () => {
         const pairingBoards = wrapper.find('PairingBoard');
         expect(pairingBoards.length).toBe(2, 'Not enough pairingBoards');
 
-        expect(pairingBoards.at(0).prop('name')).toBe("PairingBoard1");
-        expect(pairingBoards.at(0).prop('people')).toEqual([{name:"George"}]);
         expect(pairingBoards.at(0).prop('index')).toBe(0);
+        expect(pairingBoards.at(0).prop('pairingBoard')).toBe(props.pairingBoards[0]);
         expect(pairingBoards.at(0).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(pairingBoards.at(0).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
 
-        expect(pairingBoards.at(1).prop('name')).toBe("Ghost");
-        expect(pairingBoards.at(1).prop('people')).toEqual([{name:"Coast2Coast"}]);
         expect(pairingBoards.at(1).prop('index')).toBe(1);
+        expect(pairingBoards.at(1).prop('pairingBoard')).toBe(props.pairingBoards[1]);
         expect(pairingBoards.at(1).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(pairingBoards.at(1).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
     });

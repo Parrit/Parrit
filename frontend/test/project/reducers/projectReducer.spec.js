@@ -177,8 +177,8 @@ describe("projectReducer", () => {
             });
         });
 
-        describe('RESET_PAIRING_BOARD', function() {
-            it('moves all people from pairing boards to floating', function() {
+        describe('RESET_PAIRING_BOARD', () => {
+            it('moves all people from pairing boards to floating', () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
@@ -227,7 +227,7 @@ describe("projectReducer", () => {
                 ).toEqual(stateAfter);
             });
 
-            it('does not move people on exempt pairing boards to floating', function() {
+            it('does not move people on exempt pairing boards to floating', () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
@@ -280,7 +280,7 @@ describe("projectReducer", () => {
 
                 deepFreeze(stateBefore);
                 deepFreeze(action);
-                
+
                 expect(
                     projectReducer(stateBefore, action)
                 ).toEqual(stateAfter);
@@ -402,89 +402,6 @@ describe("projectReducer", () => {
                           name: "OOO",
                           exempt: true,
                           people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
-                        }
-                    ]
-                };
-
-                deepFreeze(stateBefore);
-                deepFreeze(action);
-
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
-            });
-        });
-
-        describe('CREATE_PERSON', () => {
-            it('adds a person to the project', () => {
-                const stateBefore = {
-                    id: 7,
-                    people: [],
-                    pairingBoards: [
-                        {
-                            name: "OUTER",
-                            people: []
-                        }
-                    ]
-                };
-
-                const action = {
-                    type: "CREATE_PERSON",
-                    name: "Bubba Gump"
-                };
-
-                const stateAfter = {
-                    id: 7,
-                    people: [{name: "Bubba Gump"}],
-                    pairingBoards: [
-                        {
-                            name: "OUTER",
-                            people: []
-                        }
-                    ]
-                };
-
-                deepFreeze(stateBefore);
-                deepFreeze(action);
-
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
-            });
-        });
-
-        describe('CREATE_PAIRING_BOARD', () => {
-            it('adds a pairing board to the project', () => {
-                const stateBefore = {
-                    id: 7,
-                    people: [],
-                    pairingBoards: [
-                        {
-                            name: "OUTER",
-                            people: [],
-                            exempt: true
-                        }
-                    ]
-                };
-
-                const action = {
-                    type: "CREATE_PAIRING_BOARD",
-                    name: "Alabama"
-                };
-
-                const stateAfter = {
-                    id: 7,
-                    people: [],
-                    pairingBoards: [
-                        {
-                            name: "OUTER",
-                            people: [],
-                            exempt: true
-                        },
-                        {
-                            name: "Alabama",
-                            people: [],
-                            exempt: false
                         }
                     ]
                 };
@@ -677,59 +594,6 @@ describe("projectReducer", () => {
                     pairingBoards: [
                         {
                             name: "Klingon Warbird",
-                            people: []
-                        }
-                    ]
-                };
-
-                deepFreeze(stateBefore);
-                deepFreeze(action);
-
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
-            });
-        });
-
-        describe("RENAME_PAIRING_BOARD", () => {
-            it('should rename a pairing board', () => {
-                const stateBefore = {
-                    id: 7,
-                    people: [],
-                    pairingBoards: [
-                        {
-                            name: "USS Enterprise",
-                            people: [
-                                {name: "Captain Kirk"},
-                                {name: "Spock"}
-                            ]
-                        },
-                        {
-                            name: "Klingon Warbird",
-                            people: []
-                        }
-                    ]
-                };
-
-                const action = {
-                    type: "RENAME_PAIRING_BOARD",
-                    pairingBoardIndex: 1,
-                    name: "Awesome Pairing Board"
-                };
-
-                const stateAfter = {
-                    id: 7,
-                    people: [],
-                    pairingBoards: [
-                        {
-                            name: "USS Enterprise",
-                            people: [
-                                {name: "Captain Kirk"},
-                                {name: "Spock"}
-                            ]
-                        },
-                        {
-                            name: "Awesome Pairing Board",
                             people: []
                         }
                     ]

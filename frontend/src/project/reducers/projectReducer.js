@@ -63,18 +63,6 @@ export default function (state, action) {
             );
 
             return stateClone;
-        case "CREATE_PERSON":
-            stateClone = _.cloneDeep(state);
-
-            stateClone.people.push({name: action.name});
-
-            return stateClone;
-        case "CREATE_PAIRING_BOARD":
-            stateClone = _.cloneDeep(state);
-
-            stateClone.pairingBoards.push({name: action.name, people: [], exempt: false});
-
-            return stateClone;
         case "DELETE_PERSON":
             stateClone = _.cloneDeep(state);
 
@@ -87,12 +75,6 @@ export default function (state, action) {
 
             stateClone.people = stateClone.people.concat(stateClone.pairingBoards[action.pairingBoardIndex].people);
             _.pullAt(stateClone.pairingBoards, action.pairingBoardIndex);
-
-            return stateClone;
-        case "RENAME_PAIRING_BOARD":
-            stateClone = _.cloneDeep(state);
-
-            stateClone.pairingBoards[action.pairingBoardIndex].name = action.name;
 
             return stateClone;
         default:

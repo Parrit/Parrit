@@ -7,6 +7,7 @@ import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
+import com.parrit.exceptions.PairingBoardNotFoundException;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
@@ -18,7 +19,6 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.NestedServletException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -59,11 +59,11 @@ public class ProjectController {
 
     @RequestMapping(path = "/api/project", method = RequestMethod.POST)
     @ResponseBody
-    public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) throws NestedServletException {
+    public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) {
         String projectName = newProjectDTO.getName();
 
         if (projectRepository.findByName(projectName) != null) {
-            throw new ProjectNameAlreadyExistsException(projectName, "Not again. That name already exists, try a different one.");
+            throw new ProjectNameAlreadyExistsException("Not again. That name already exists, try a different one.");
         }
 
         String hashedPassword = passwordEncoder.encodePassword(newProjectDTO.getPassword(), null);
@@ -83,7 +83,7 @@ public class ProjectController {
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
     @RequestMapping(path = "/api/project/{projectId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<ProjectDTO> saveProject(@PathVariable long projectId, @RequestBody @Valid ProjectDTO projectDTO) {
+    public ResponseEntity<ProjectDTO> updateProject(@PathVariable long projectId, @RequestBody @Valid ProjectDTO projectDTO) {
         Project existingProject = projectRepository.findOne(projectId);
 
         Project updatedProject = ProjectTransformer.merge(existingProject, projectDTO);
@@ -111,6 +111,23 @@ public class ProjectController {
         Project savedProject = projectRepository.findOne(projectId);
 
         savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>()));
+
+        Project updatedProject = projectRepository.save(savedProject);
+        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<ProjectDTO> updatePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
+        Project savedProject = projectRepository.findOne(projectId);
+
+        PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
+                .filter(pb -> pb.getId() == pairingBoardId)
+                .findFirst()
+                .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
+
+        matchingPairingBoard.setName(pairingBoardDTO.getName());
 
         Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);

@@ -12,7 +12,7 @@ export default class PairingBoard extends React.Component {
 
     componentDidUpdate() {
         if(this.state.editMode) {
-            setTimeout(function () {
+            setTimeout(function() {
                 ReactDOM.findDOMNode(this.refs.editName).select();
             }.bind(this), 0);
         }
@@ -20,6 +20,7 @@ export default class PairingBoard extends React.Component {
 
     render() {
         const pairingBoardIndex = this.props.index;
+        const {name, exempt, people} = this.props.pairingBoard;
 
         let pairingBoardClasses = "pairing-board dropzone";
         let pairingBoardNameSection;
@@ -28,18 +29,18 @@ export default class PairingBoard extends React.Component {
         if (this.state.editMode) {
             pairingBoardClasses += " editing";
             pairingBoardNameSection = <div className="pairing-board-name-wrapper">
-                <input ref="editName" className="editing-pairing-board-name" defaultValue={this.props.name}
+                <input ref="editName" className="editing-pairing-board-name" defaultValue={name}
                        onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
             </div>;
         }
         else {
             pairingBoardNameSection = <div className="pairing-board-name-wrapper" onClick={this.enableEditMode.bind(this)}>
-                <h3 className="pairing-board-name">{this.props.name}</h3>
+                <h3 className="pairing-board-name">{name}</h3>
                 <div className="rename-pairing-board"/>
             </div>;
         }
 
-        if (this.props.exempt) {
+        if (exempt) {
             pairingBoardClasses += " exempt";
             pairingBoardDeleteSection = null;
         }
@@ -53,7 +54,7 @@ export default class PairingBoard extends React.Component {
                     {pairingBoardNameSection}
                     {pairingBoardDeleteSection}
                 </div>
-                <PersonList people={this.props.people} index={pairingBoardIndex} />
+                <PersonList people={people} index={pairingBoardIndex} />
             </div>
 		)
 	}
@@ -77,17 +78,14 @@ export default class PairingBoard extends React.Component {
         this.props.deletePairingBoard(this.props.index);
     }
 
-    renamePairingBoard(newName) {
-        this.props.renamePairingBoard(this.props.index, newName.target.value);
-        this.disableEditMode();
+    renamePairingBoard(event) {
+        this.props.renamePairingBoard(this.props.pairingBoard.id, event.target.value, this.disableEditMode.bind(this));
     }
 }
 
 PairingBoard.propTypes = {
-    name: PropTypes.string.isRequired,
-    people: PropTypes.arrayOf(PropTypes.object).isRequired,
     index: PropTypes.number.isRequired,
-    exempt: PropTypes.bool.isRequired,
+    pairingBoard: PropTypes.object.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
     renamePairingBoard: PropTypes.func.isRequired
 };
