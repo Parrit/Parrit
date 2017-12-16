@@ -15,6 +15,12 @@ $ cf push parrit-test
 $ cf push parrit
 ```
 
+4. Make a release in github!
+
+  1. Go to `https://github.com/Parrit/Parrit/releases`
+  2. Make a new release with the changes since the last release
+  3. Increment the tag version logically and make sure to select the specific commit
+
 ## Restoring a prod backup to a test site
 
 1. Log into ElephantSQL and download backup for the prod site
