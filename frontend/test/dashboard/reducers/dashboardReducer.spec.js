@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import dashboardReducer from 'dashboard/reducers/dashboardReducer.js';
+import dashboardReducer from 'dashboard/reducers/DashboardReducer.js';
 
-describe('dashboardReducer', () => {
+describe('DashboardReducer', () => {
     it('should get the default state', () => {
         const stateBefore = undefined;
         const action = {};

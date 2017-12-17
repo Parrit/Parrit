@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import settingsReducer from 'project/reducers/settingsReducer.js';
+import settingsReducer from 'project/reducers/SettingsReducer.js';
 
-describe("settingsReducer", () => {
+describe("SettingsReducer", () => {
 	it("sets up the default state", () => {
 		const stateBefore = undefined;
 		const action = {};

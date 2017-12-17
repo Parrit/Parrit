@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import pairingHistoryReducer from 'project/reducers/pairingHistoryReducer.js';
+import pairingHistoryReducer from 'project/reducers/PairingHistoryReducer.js';
 
-describe("pairingHistoryReducer", () => {
+describe("PairingHistoryReducer", () => {
     it("should get the default state", () => {
         const stateBefore = undefined;
         const action = {};

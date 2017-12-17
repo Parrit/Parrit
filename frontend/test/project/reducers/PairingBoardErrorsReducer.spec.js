@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import pairingBoardErrorsReducer from 'project/reducers/pairingBoardErrorsReducer.js';
+import pairingBoardErrorsReducer from 'project/reducers/PairingBoardErrorsReducer.js';
 
-describe("pairingBoardErrorsReducer", () => {
+describe("PairingBoardErrorsReducer", () => {
 	it("begins with no error messages", () => {
 		const stateBefore = undefined;
 		const action = {};

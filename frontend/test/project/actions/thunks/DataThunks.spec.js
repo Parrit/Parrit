@@ -1,10 +1,10 @@
-import * as dataThunks from 'project/actions/thunks/dataThunks.js';
+import * as dataThunks from 'project/actions/thunks/DataThunks.js';
 
-import * as databaseHelpers from 'shared/helpers/databaseHelpers.js';
-import * as dataCreators from 'project/actions/creators/dataCreators.js';
-import * as settingsCreators from 'project/actions/creators/settingsCreators.js';
+import * as databaseHelpers from 'shared/helpers/DatabaseHelpers.js';
+import * as dataCreators from 'project/actions/creators/DataCreators.js';
+import * as settingsCreators from 'project/actions/creators/SettingsCreators.js';
 
-describe('dataThunks', () => {
+describe('DataThunks', () => {
     let thunk;
     let dispatchSpy, getStateSpy;
     let putProjectAndDoSpy, postAddNewPersonAndDoSpy, postAddNewPairingBoardAndDoSpy, putPairingBoardAndDoSpy,

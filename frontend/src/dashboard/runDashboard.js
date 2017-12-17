@@ -5,7 +5,7 @@ import { applyMiddleware, createStore } from 'redux';
 import Thunk from 'redux-thunk';
 
 import DashboardContainer from 'dashboard/containers/DashboardContainer.js';
-import dashboardReducer from 'dashboard/reducers/dashboardReducer.js';
+import dashboardReducer from 'dashboard/reducers/DashboardReducer.js';
 
 export default function runDashboard() {
     const store = createStore(dashboardReducer, applyMiddleware(Thunk));

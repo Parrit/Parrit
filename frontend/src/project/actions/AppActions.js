@@ -1,6 +1,6 @@
-import * as dataCreators from 'project/actions/creators/dataCreators.js';
-import * as settingsCreators from 'project/actions/creators/settingsCreators.js';
-import * as dataThunks from 'project/actions/thunks/dataThunks.js';
+import * as dataCreators from 'project/actions/creators/DataCreators.js';
+import * as settingsCreators from 'project/actions/creators/SettingsCreators.js';
+import * as dataThunks from 'project/actions/thunks/DataThunks.js';
 
 function movePersonCombo(...args) {
     return dataThunks.autoSaveThunk(dataCreators.movePersonCreator(...args));

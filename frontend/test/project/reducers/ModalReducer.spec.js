@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import modalReducer from 'project/reducers/modalReducer.js';
+import modalReducer from 'project/reducers/ModalReducer.js';
 
-describe("modalReducer", () => {
+describe("ModalReducer", () => {
 	it("sets up the default state", () => {
 		const stateBefore = undefined;
 		const stateAfter = {

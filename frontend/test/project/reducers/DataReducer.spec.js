@@ -1,6 +1,6 @@
-import dataReducer from 'project/reducers/dataReducer.js';
+import dataReducer from 'project/reducers/DataReducer.js';
 
-describe("dataReducer", () => {
+describe("DataReducer", () => {
     it("should get the default state", () => {
         const stateBefore = undefined;
         const action = {};

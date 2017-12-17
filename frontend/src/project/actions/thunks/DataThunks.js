@@ -1,6 +1,6 @@
-import { putProjectAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/databaseHelpers.js';
-import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from 'project/actions/creators/dataCreators.js';
-import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setEditPairingBoardErrorMessageCreator, clearEditPairingBoardErrorMessageCreator } from 'project/actions/creators/settingsCreators.js';
+import { putProjectAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/DatabaseHelpers.js';
+import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from 'project/actions/creators/DataCreators.js';
+import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setEditPairingBoardErrorMessageCreator, clearEditPairingBoardErrorMessageCreator } from 'project/actions/creators/SettingsCreators.js';
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {

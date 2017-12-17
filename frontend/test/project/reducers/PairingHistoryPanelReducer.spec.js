@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import pairingHistoryPanelReducer from 'project/reducers/pairingHistoryPanelReducer.js';
+import pairingHistoryPanelReducer from 'project/reducers/PairingHistoryPanelReducer.js';
 
-describe("pairingHistoryPanelReducer", () => {
+describe("PairingHistoryPanelReducer", () => {
 	it("sets up the default state", () => {
 		const stateBefore = undefined;
 		const stateAfter = {

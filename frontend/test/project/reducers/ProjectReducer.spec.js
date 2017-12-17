@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
-import projectReducer from 'project/reducers/projectReducer.js';
+import projectReducer from 'project/reducers/ProjectReducer.js';
 
-describe("projectReducer", () => {
+describe("ProjectReducer", () => {
     it("should get the default state", () => {
         const stateBefore = undefined;
         const action = {};

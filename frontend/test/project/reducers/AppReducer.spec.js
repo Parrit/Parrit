@@ -1,6 +1,6 @@
-import appReducer from 'project/reducers/appReducer.js';
+import appReducer from 'project/reducers/AppReducer.js';
 
-describe("appReducer", () => {
+describe("AppReducer", () => {
 	it("should get the default state", () => {
 		const stateBefore = undefined;
 		const action = {};

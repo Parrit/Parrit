@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Person from 'project/components/Person.js';
 
 export default class PersonList extends React.Component {

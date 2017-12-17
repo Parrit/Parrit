@@ -1,8 +1,8 @@
-import * as databaseHelpers from 'shared/helpers/databaseHelpers.js';
+import * as databaseHelpers from 'shared/helpers/DatabaseHelpers.js';
 
 import Axios from 'axios'
 
-describe('databaseHelpers', () => {
+describe('DatabaseHelpers', () => {
 
     let axiosGetPromise, axiosPostPromise, axiosPutPromise;
 

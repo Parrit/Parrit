@@ -1,9 +1,9 @@
-import * as dashboardThunks from 'dashboard/actions/thunks/dashboardThunks.js';
+import * as dashboardThunks from 'dashboard/actions/thunks/DashboardThunks.js';
 
-import * as dashboardCreators from 'dashboard/actions/creators/dashboardCreators.js';
-import * as databaseHelpers from 'shared/helpers/databaseHelpers.js';
+import * as dashboardCreators from 'dashboard/actions/creators/DashboardCreators.js';
+import * as databaseHelpers from 'shared/helpers/DatabaseHelpers.js';
 
-describe('dashboardThunks', () => {
+describe('DashboardThunks', () => {
     let thunk, dispatchSpy, getStateSpy;
     let postNewProjectAndDoSpy;
     let postLoginAndRedirectSpy;
