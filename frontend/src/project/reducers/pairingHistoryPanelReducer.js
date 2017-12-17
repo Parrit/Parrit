@@ -1,10 +1,8 @@
-export default function (state, action) {
-    if (typeof state === 'undefined') {
-        state = {
-            isOpen: false,
-        };
-    }
+const initialState = {
+    isOpen: false
+};
 
+export default function (state = initialState, action) {
     switch (action.type) {
         case "SET_PAIRING_HISTORY_PANEL_OPEN":
             return {isOpen: action.isOpen};

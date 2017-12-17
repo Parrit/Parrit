@@ -1,23 +1,14 @@
-import * as _ from 'lodash';
+const initialState = {
+    pairingHistoryList: []
+};
 
-export default function (state, action) {
-    if (typeof state === 'undefined') {
-        return {
-            pairingHistoryList: []
-        };
-    }
-
+export default function (state = initialState, action) {
     switch (action.type) {
         case "LOAD_PAIRING_HISTORY":
-            return {
-                pairingHistoryList: action.pairingHistoryList
-            };
+            return { pairingHistoryList: action.pairingHistoryList };
         case "UPDATE_PAIRING_HISTORIES":
-            const stateClone = _.cloneDeep(state);
-
-            stateClone.pairingHistoryList = action.newPairingHistories.concat(stateClone.pairingHistoryList);
-
-            return stateClone;
+            const newPairingHistoryList = action.newPairingHistories.concat(state.pairingHistoryList)
+            return { pairingHistoryList: newPairingHistoryList };
         default:
             return state;
     }

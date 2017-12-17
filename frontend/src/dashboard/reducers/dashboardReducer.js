@@ -1,17 +1,15 @@
 import * as _ from 'lodash';
 
-export default function (state, action) {
-    if (typeof state === 'undefined') {
-        return {
-            newProjectErrorMessage: undefined,
-            newProjectErrorName: false,
-            newProjectErrorPassword: false,
-            loginErrorMessage: undefined,
-            loginErrorName: false,
-            loginErrorPassword: false
-        };
-    }
+const initialState = {
+    newProjectErrorMessage: undefined,
+    newProjectErrorName: false,
+    newProjectErrorPassword: false,
+    loginErrorMessage: undefined,
+    loginErrorName: false,
+    loginErrorPassword: false
+}
 
+export default function (state = initialState, action) {
     switch (action.type) {
         case "SET_NEW_PROJECT_ERROR": {
             if(action.errorResponse.fieldErrors) {

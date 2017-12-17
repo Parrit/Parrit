@@ -1,14 +1,12 @@
 import * as _ from 'lodash';
 
-export default function (state, action) {
-    if (typeof state === 'undefined') {
-        return {
-            id: 0,
-            people: [],
-            pairingBoards: []
-        };
-    }
+const initialState = {
+    id: 0,
+    people: [],
+    pairingBoards: []
+};
 
+export default function (state = initialState, action) {
     let stateClone;
     switch (action.type) {
         case "LOAD_PROJECT":

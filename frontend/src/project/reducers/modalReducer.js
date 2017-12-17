@@ -1,13 +1,11 @@
-export default function (state, action) {
-    if (typeof state === 'undefined') {
-        state = {
-            isNewPersonModalOpen: false,
-            isNewPairingBoardModalOpen: false,
-            newPersonModalErrorMessage: undefined,
-            newPairingBoardModalErrorMessage: undefined
-        };
-    }
+const initialState = {
+    isNewPersonModalOpen: false,
+    isNewPairingBoardModalOpen: false,
+    newPersonModalErrorMessage: undefined,
+    newPairingBoardModalErrorMessage: undefined
+};
 
+export default function (state = initialState, action) {
     switch (action.type) {
         case "SET_NEW_PERSON_MODAL_OPEN":
             return Object.assign({}, state, {isNewPersonModalOpen: action.isOpen, newPersonModalErrorMessage: undefined});

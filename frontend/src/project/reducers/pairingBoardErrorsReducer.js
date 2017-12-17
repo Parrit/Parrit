@@ -1,8 +1,6 @@
-export default function (state, action) {
-    if (typeof state === 'undefined') {
-        return {};
-    }
+const initialState = {};
 
+export default function (state = initialState, action) {
     switch (action.type) {
         case 'SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE':
             const errorMessage = action.errorResponse.fieldErrors ? action.errorResponse.fieldErrors.name : action.errorResponse.message;
