@@ -32,3 +32,18 @@ export function setNewPairingBoardModalErrorMessageCreator(errorResponse) {
         errorResponse: errorResponse
     }
 }
+
+export function setEditPairingBoardErrorMessageCreator(pairingBoardId, errorResponse) {
+    return {
+        type: 'SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE',
+        pairingBoardId: pairingBoardId,
+        errorResponse: errorResponse
+    }
+}
+
+export function clearEditPairingBoardErrorMessageCreator(pairingBoardId) {
+    return {
+        type: 'CLEAR_EDIT_PAIRING_BOARD_ERROR_MESSAGE',
+        pairingBoardId: pairingBoardId
+    }
+}

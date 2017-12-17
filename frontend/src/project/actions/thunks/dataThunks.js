@@ -1,6 +1,6 @@
 import { putProjectAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from 'shared/helpers/databaseHelpers.js';
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from 'project/actions/creators/dataCreators.js';
-import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator } from 'project/actions/creators/settingsCreators.js';
+import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setEditPairingBoardErrorMessageCreator, clearEditPairingBoardErrorMessageCreator } from 'project/actions/creators/settingsCreators.js';
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {
@@ -46,13 +46,14 @@ export function addNewPairingBoardThunk(projectId, name, callback) {
 
 export function renamePairingBoardThunk(pairingBoardId, name, callback) {
     return function(dispatch, getState) {
+        dispatch(clearEditPairingBoardErrorMessageCreator(pairingBoardId));
         putPairingBoardAndDo(getState().data.project.id, pairingBoardId, name,
             function successCallback(project) {
                 callback();
                 dispatch(loadProjectCreator(project));
             },
             function errorCallback(errorResponse) {
-                //TODO: ???
+                dispatch(setEditPairingBoardErrorMessageCreator(pairingBoardId, errorResponse))
             }
         )
     }

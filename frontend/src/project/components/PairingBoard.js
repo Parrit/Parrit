@@ -13,7 +13,7 @@ export default class PairingBoard extends React.Component {
     componentDidUpdate() {
         if(this.state.editMode) {
             setTimeout(function() {
-                ReactDOM.findDOMNode(this.refs.editName).select();
+                ReactDOM.findDOMNode(this.refs.editName).focus();
             }.bind(this), 0);
         }
     }
@@ -28,9 +28,11 @@ export default class PairingBoard extends React.Component {
 
         if (this.state.editMode) {
             pairingBoardClasses += " editing";
+            const pairingBoardNameInputClasses = "editing-pairing-board-name" + (this.props.editErrorMessage ? " error" : "");
             pairingBoardNameSection = <div className="pairing-board-name-wrapper">
-                <input ref="editName" className="editing-pairing-board-name" defaultValue={name}
-                       onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
+                <input ref="editName" className={pairingBoardNameInputClasses} defaultValue={name}
+                    onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
+                <div className="error-message">{this.props.editErrorMessage}</div>
             </div>;
         }
         else {
@@ -86,6 +88,7 @@ export default class PairingBoard extends React.Component {
 PairingBoard.propTypes = {
     index: PropTypes.number.isRequired,
     pairingBoard: PropTypes.object.isRequired,
+    editErrorMessage: PropTypes.string,
     deletePairingBoard: PropTypes.func.isRequired,
     renamePairingBoard: PropTypes.func.isRequired
 };

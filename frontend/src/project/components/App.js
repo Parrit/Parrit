@@ -83,7 +83,7 @@ export default class App extends React.Component {
 	render() {
         const headerProps = {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
-            isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen,
+            isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen,
             postLogout: this.props.postLogout
         };
 
@@ -107,10 +107,10 @@ export default class App extends React.Component {
             pairingHistoryList: this.props.data.pairingHistory.pairingHistoryList,
             fetchPairingHistory: this.props.fetchPairingHistory,
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
-            isPairingHistoryPanelOpen: this.props.settings.isPairingHistoryPanelOpen
+            isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen
         };
 
-        const classes = "layout-wrapper project-page-container dropzone" + (this.props.settings.isPairingHistoryPanelOpen ? ' shift-left' : '');
+        const classes = "layout-wrapper project-page-container dropzone" + (this.props.settings.pairingHistoryPanel.isOpen ? ' shift-left' : '');
 
 		return (
             <div id="pairing_board_-1" className={classes}>

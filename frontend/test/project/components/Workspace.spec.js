@@ -12,10 +12,15 @@ describe('<Workspace/>', () => {
         props  = {
             projectId: 77,
             settings: {
-                isNewPersonModalOpen: false,
-                isNewPairingBoardModalOpen: true,
-                newPersonModalErrorMessage: "some error message",
-                newPairingBoardModalErrorMessage: "some error message"
+                modal: {
+                    isNewPersonModalOpen: false,
+                    isNewPairingBoardModalOpen: true,
+                    newPersonModalErrorMessage: "some error message",
+                    newPairingBoardModalErrorMessage: "some error message"
+                },
+                pairingBoardErrors: {
+                    89: 'some edit error message'
+                }
             },
             people: [
                 { name: "Mike Wazowski" },
@@ -23,20 +28,18 @@ describe('<Workspace/>', () => {
             ],
             pairingBoards: [
                 {
+                    id: 56,
                     name: "PairingBoard1",
                     people: [
-                        {
-                            name: "George"
-                        }
+                        { name: "George" }
                     ],
                     exempt: true
                 },
                 {
+                    id: 89,
                     name: "Ghost",
                     people: [
-                        {
-                            name: "Coast2Coast"
-                        }
+                        { name: "Coast2Coast" }
                     ],
                     exempt: false
                 }
@@ -67,11 +70,13 @@ describe('<Workspace/>', () => {
 
         expect(pairingBoards.at(0).prop('index')).toBe(0);
         expect(pairingBoards.at(0).prop('pairingBoard')).toBe(props.pairingBoards[0]);
+        expect(pairingBoards.at(0).prop('editErrorMessage')).toBe(props.settings.pairingBoardErrors[56]);
         expect(pairingBoards.at(0).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(pairingBoards.at(0).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
 
         expect(pairingBoards.at(1).prop('index')).toBe(1);
         expect(pairingBoards.at(1).prop('pairingBoard')).toBe(props.pairingBoards[1]);
+        expect(pairingBoards.at(1).prop('editErrorMessage')).toBe(props.settings.pairingBoardErrors[89]);
         expect(pairingBoards.at(1).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(pairingBoards.at(1).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
     });
@@ -85,7 +90,7 @@ describe('<Workspace/>', () => {
 
     describe('newPersonModal', () => {
         it('has a configured newPersonModal component as a child', () => {
-            expect(newPersonModal.prop('isOpen')).toBe(props.settings.isNewPersonModalOpen);
+            expect(newPersonModal.prop('isOpen')).toBe(props.settings.modal.isNewPersonModalOpen);
         });
 
         it('has a configured new person form in a modal', () => {
@@ -123,7 +128,7 @@ describe('<Workspace/>', () => {
 
     describe('newPairingBoardModal', () => {
         it('has a configured newPairingBoardModal component as a child', () => {
-            expect(newPairingBoardModal.prop('isOpen')).toBe(props.settings.isNewPairingBoardModalOpen);
+            expect(newPairingBoardModal.prop('isOpen')).toBe(props.settings.modal.isNewPairingBoardModalOpen);
         });
 
         it('has a configured new pairing boards form in a modal', () => {

@@ -167,6 +167,10 @@ describe('dataThunks', () => {
                 thunk(dispatchSpy, getStateSpy);
             });
 
+            it('dispatches a clearEditPairingBoardErrorMessage action for the pairing board', () => {
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.clearEditPairingBoardErrorMessageCreator(2));
+            })
+
             it('calls putPairingBoardAndDo helper with correct arguments', () => {
                 expect(putPairingBoardAndDoSpy).toHaveBeenCalledWith(7, 2, "Name", jasmine.anything(), jasmine.anything());
             });
@@ -179,13 +183,13 @@ describe('dataThunks', () => {
                 expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
             });
 
-            it('dispatches a ??? action when renaming the pairing board fails', () => {
-            //    const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
-            //
-            //    const errorCallback = putPairingBoardAndDoSpy.calls.mostRecent().args[4];
-            //    errorCallback(errorResponse);
-            //
-            //    expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPairingBoardModalErrorMessageCreator(errorResponse));
+            it('dispatches a setEditPairingBoardErrorMessage action when renaming the pairing board fails', () => {
+                const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
+
+                const errorCallback = putPairingBoardAndDoSpy.calls.mostRecent().args[4];
+                errorCallback(errorResponse);
+
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setEditPairingBoardErrorMessageCreator(2, errorResponse));
             });
         });
     })

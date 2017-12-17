@@ -6,10 +6,16 @@ describe("appReducer", () => {
 		const action = {};
 		const stateAfter = {
             settings: {
-                isNewPersonModalOpen: false,
-                isNewPairingBoardModalOpen: false,
-                isPairingHistoryPanelOpen: false,
-                newPersonModalErrorMessage: undefined
+                modal: {
+                    isNewPersonModalOpen: false,
+                    isNewPairingBoardModalOpen: false,
+                    newPersonModalErrorMessage: undefined,
+                    newPairingBoardModalErrorMessage: undefined
+                },
+                pairingBoardErrors: {},
+                pairingHistoryPanel: {
+                    isOpen: false
+                }
 			},
             data: {
                 project: {

@@ -13,7 +13,9 @@ describe('<App/>', () => {
         smartReset: () => {},
 
         settings: {
-            isPairingHistoryPanelOpen: true
+            pairingHistoryPanel: {
+                isOpen: true
+            }
         },
         data: {
             project: {
@@ -60,7 +62,7 @@ describe('<App/>', () => {
         expect(headerComponent.exists()).toBeTruthy();
 
         expect(headerComponent.prop('setPairingHistoryPanelOpen')).toBe(props.setPairingHistoryPanelOpen, 'No setPairingHistoryPanelOpen passed to header');
-        expect(headerComponent.prop('isPairingHistoryPanelOpen')).toBe(props.settings.isPairingHistoryPanelOpen, 'No isPairingHistoryPanelOpen passed to header');
+        expect(headerComponent.prop('isPairingHistoryPanelOpen')).toBe(props.settings.pairingHistoryPanel.isOpen, 'No isPairingHistoryPanelOpen passed to header');
     });
 
     it('has a Project component', () => {
@@ -93,7 +95,7 @@ describe('<App/>', () => {
         expect(pairingHistoryComponent.prop('pairingHistoryList')).toBe(props.data.pairingHistory.pairingHistoryList, 'No pairingHistoryList passed to pairingHistory');
         expect(pairingHistoryComponent.prop('fetchPairingHistory')).toBe(props.fetchPairingHistory, 'No fetchPairingHistory passed to pairingHistory');
         expect(pairingHistoryComponent.prop('setPairingHistoryPanelOpen')).toBe(props.setPairingHistoryPanelOpen, 'No setPairingHistoryPanelOpen passed to pairingHistory');
-        expect(pairingHistoryComponent.prop('isPairingHistoryPanelOpen')).toBe(props.settings.isPairingHistoryPanelOpen, 'No isPairingHistoryPanelOpen passed to pairingHistory');
+        expect(pairingHistoryComponent.prop('isPairingHistoryPanelOpen')).toBe(props.settings.pairingHistoryPanel.isOpen, 'No isPairingHistoryPanelOpen passed to pairingHistory');
     });
 
     describe('#dropzoneOnDragEnter', () => {

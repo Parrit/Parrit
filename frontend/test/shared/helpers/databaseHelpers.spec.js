@@ -40,7 +40,7 @@ describe('databaseHelpers', () => {
             expect(Axios.post).toHaveBeenCalledWith('/login', {name: "Username", password: "Password"});
         });
 
-        // TODO: Figure out how to test window.location.href
+        //TODO: Figure out how to test window.location.href
         // describe('when the Ajax call returns with a response', () => {
         //     let windowLocationHrefSpy;
         //

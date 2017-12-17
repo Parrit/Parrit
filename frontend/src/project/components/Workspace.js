@@ -31,6 +31,7 @@ export default class Workspace extends React.Component {
                                         key={idx}
                                         index={idx}
                                         pairingBoard={pairingBoard}
+                                        editErrorMessage={this.props.settings.pairingBoardErrors[pairingBoard.id]}
                                         deletePairingBoard={this.props.deletePairingBoard}
                                         renamePairingBoard={this.props.renamePairingBoard}
                                     />
@@ -39,13 +40,13 @@ export default class Workspace extends React.Component {
                     <div className="add-board-button" onClick={this.openNewPairingBoardModal.bind(this)}/>
                 </div>
 
-                <Modal contentLabel="New Person Modal" isOpen={this.props.settings.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal.bind(this)} style={ModalStyles}>
+                <Modal contentLabel="New Person Modal" isOpen={this.props.settings.modal.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal.bind(this)} style={ModalStyles}>
                     <NameForm formTitle="Add Parrit Teammate" confirmFunction={this.createPersonWithName.bind(this)}
-                        cancelFunction={this.closeNewPersonModal.bind(this)} errorMessage={this.props.settings.newPersonModalErrorMessage}/>
+                        cancelFunction={this.closeNewPersonModal.bind(this)} errorMessage={this.props.settings.modal.newPersonModalErrorMessage}/>
                 </Modal>
-                <Modal contentLabel="New Pairing Board Modal" isOpen={this.props.settings.isNewPairingBoardModalOpen} onRequestClose={this.closeNewPairingBoardModal.bind(this)} style={ModalStyles}>
+                <Modal contentLabel="New Pairing Board Modal" isOpen={this.props.settings.modal.isNewPairingBoardModalOpen} onRequestClose={this.closeNewPairingBoardModal.bind(this)} style={ModalStyles}>
                     <NameForm formTitle="Add Pairing Board" confirmFunction={this.createPairingBoardWithName.bind(this)}
-                        cancelFunction={this.closeNewPairingBoardModal.bind(this)} errorMessage={this.props.settings.newPairingBoardModalErrorMessage}/>
+                        cancelFunction={this.closeNewPairingBoardModal.bind(this)} errorMessage={this.props.settings.modal.newPairingBoardModalErrorMessage}/>
                 </Modal>
 
             </div>

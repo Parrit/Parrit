@@ -13,15 +13,12 @@ describe('<PairingBoard/>', () => {
                 id: 77,
                 name: "PairingBoard1",
                 people: [
-                    {
-                        name: "George"
-                    },
-                    {
-                        name: "Hank Muchacho"
-                    }
+                    { name: "George" },
+                    { name: "Hank Muchacho" }
                 ],
                 exempt: false,
             },
+            editErrorMessage: 'some error message',
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
         };
@@ -45,6 +42,30 @@ describe('<PairingBoard/>', () => {
 
     it('renders a delete button', () => {
         expect(wrapper.find('.delete-pairing-board').exists()).toBeTruthy();
+    });
+
+    describe('#exempt', () => {
+        beforeEach(() => {
+            props.pairingBoard.exempt = true;
+            wrapper = shallow(<PairingBoard {...props} />);
+        });
+
+        it('renders an exempt header', () => {
+            const exemptHeader = wrapper.find('.pairing-board exempt');
+            expect(exemptHeader).toBeTruthy();
+        });
+
+        it('does not render a delete button', () => {
+            expect(wrapper.find('.delete-pairing-board').length).toEqual(0);
+        });
+    });
+
+    describe('#editErrorMessage', () => {
+        it('displays the error message when there is an error message and in edit mode', () => {
+            wrapper.setState({editMode: true})
+            expect(wrapper.find('.error-message').text()).toEqual('some error message');
+            expect(wrapper.find('.editing-pairing-board-name').prop('className')).toContain('error');
+        });
     });
 
     describe('#deletePairingBoard', () => {
@@ -73,21 +94,5 @@ describe('<PairingBoard/>', () => {
 
             expect(wrapper.state('editMode')).toBe(false)
         })
-    });
-
-    describe('#exempt', () => {
-        beforeEach(() => {
-            props.pairingBoard.exempt = true;
-            wrapper = shallow(<PairingBoard {...props} />);
-        });
-
-        it('renders an exempt header', () => {
-            const exemptHeader = wrapper.find('.pairing-board exempt');
-            expect(exemptHeader).toBeTruthy();
-        });
-
-        it('does not render a delete button', () => {
-            expect(wrapper.find('.delete-pairing-board').length).toEqual(0);
-        });
     });
 });
