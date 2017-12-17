@@ -14,9 +14,7 @@ describe('DashboardReducer', () => {
             loginErrorPassword: false
         };
 
-        expect(
-            dashboardReducer(stateBefore, action)
-        ).toEqual(stateAfter);
+        expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
     });
 
     describe('actions', () => {
@@ -48,9 +46,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('sets the project error message and password flag when the password field error is present', () => {
@@ -80,9 +76,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('sets the project error message and both flags when the both field errors are present', () => {
@@ -112,9 +106,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('only sets the project error message when the message is present and there are no field errors', () => {
@@ -141,9 +133,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -175,9 +165,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('sets the login error message and password flag when the password field error is present', () => {
@@ -207,9 +195,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('sets the login error message and both flags when the both field errors are present', () => {
@@ -239,9 +225,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('only sets the login error message when the message is present and there are no field errors', () => {
@@ -268,9 +252,7 @@ describe('DashboardReducer', () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    dashboardReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(dashboardReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
     });

@@ -15,9 +15,7 @@ describe("DataReducer", () => {
             }
         };
 
-        expect(
-            dataReducer(stateBefore, action)
-        ).toEqual(stateAfter);
+        expect(dataReducer(stateBefore, action)).toEqual(stateAfter);
     });
 });
 

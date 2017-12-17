@@ -11,9 +11,7 @@ describe("ProjectReducer", () => {
             pairingBoards: []
         };
 
-        expect(
-            projectReducer(stateBefore, action)
-        ).toEqual(stateAfter);
+        expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
     });
 
     describe("actions", () => {
@@ -37,9 +35,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -83,9 +79,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('should move a person from the project to a pairing board', () => {
@@ -127,9 +121,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('should move a person from pairing board to the project', () => {
@@ -171,9 +163,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -222,9 +212,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('does not move people on exempt pairing boards to floating', () => {
@@ -281,9 +269,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -358,9 +344,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('does not move people on exempt pairing boards to floating', function() {
@@ -409,9 +393,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -458,9 +440,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('should delete a person from the project', () => {
@@ -507,9 +487,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -555,9 +533,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it('should move all of the people from the pairing board to the project', () => {
@@ -602,9 +578,7 @@ describe("ProjectReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    projectReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
     });

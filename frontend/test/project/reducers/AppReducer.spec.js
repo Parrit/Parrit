@@ -29,9 +29,7 @@ describe("AppReducer", () => {
             }
 		};
 
-		expect(
-			appReducer(stateBefore, action)
-		).toEqual(stateAfter);
+		expect(appReducer(stateBefore, action)).toEqual(stateAfter);
 	});
 });
 

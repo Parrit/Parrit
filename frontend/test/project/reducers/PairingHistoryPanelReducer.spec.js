@@ -4,13 +4,12 @@ import pairingHistoryPanelReducer from 'project/reducers/PairingHistoryPanelRedu
 describe("PairingHistoryPanelReducer", () => {
 	it("sets up the default state", () => {
 		const stateBefore = undefined;
+		const action = {};
 		const stateAfter = {
             isOpen: false
 		};
 
-		expect(
-			pairingHistoryPanelReducer(stateBefore, {})
-		).toEqual(stateAfter);
+		expect(pairingHistoryPanelReducer(stateBefore, action)).toEqual(stateAfter);
 	});
 
 	describe("actions", () => {
@@ -32,9 +31,7 @@ describe("PairingHistoryPanelReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    pairingHistoryPanelReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(pairingHistoryPanelReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 	});

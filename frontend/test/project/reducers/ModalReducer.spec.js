@@ -4,6 +4,7 @@ import modalReducer from 'project/reducers/ModalReducer.js';
 describe("ModalReducer", () => {
 	it("sets up the default state", () => {
 		const stateBefore = undefined;
+		const action = {};
 		const stateAfter = {
             isNewPersonModalOpen: false,
             isNewPairingBoardModalOpen: false,
@@ -11,9 +12,7 @@ describe("ModalReducer", () => {
             newPairingBoardModalErrorMessage: undefined
 		};
 
-		expect(
-			modalReducer(stateBefore, {})
-		).toEqual(stateAfter);
+		expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
 	});
 
 	describe("actions", () => {
@@ -35,9 +34,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it("clears the newPersonModalErrorMessage", () => {
@@ -59,9 +56,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -83,9 +78,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it("clears the newPersonModalErrorMessage", () => {
@@ -107,9 +100,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -134,9 +125,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it("sets newPersonModalErrorMessage to the message when there are no field errors", () => {
@@ -159,9 +148,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -186,9 +173,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
 
             it("sets newPairingBoardModalErrorMessage to the message when there are no field errors", () => {
@@ -211,9 +196,7 @@ describe("ModalReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    modalReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(modalReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 	});

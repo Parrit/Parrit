@@ -7,9 +7,7 @@ describe("PairingBoardErrorsReducer", () => {
 		const action = {};
 		const stateAfter = {};
 
-		expect(
-			pairingBoardErrorsReducer(stateBefore, action)
-		).toEqual(stateAfter);
+		expect(pairingBoardErrorsReducer(stateBefore, action)).toEqual(stateAfter);
 	});
 
 	describe('SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE', () => {
@@ -32,9 +30,7 @@ describe("PairingBoardErrorsReducer", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
 
-            expect(
-                pairingBoardErrorsReducer(stateBefore, action)
-            ).toEqual(stateAfter);
+            expect(pairingBoardErrorsReducer(stateBefore, action)).toEqual(stateAfter);
 	    })
 
 	    it('sets the error message using the message when there are no field errors', () => {
@@ -56,9 +52,7 @@ describe("PairingBoardErrorsReducer", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
 
-            expect(
-                pairingBoardErrorsReducer(stateBefore, action)
-            ).toEqual(stateAfter);
+            expect(pairingBoardErrorsReducer(stateBefore, action)).toEqual(stateAfter);
         })
 
 	    it('updates the error message if the pairing board already has a error message', () => {
@@ -84,9 +78,7 @@ describe("PairingBoardErrorsReducer", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
 
-            expect(
-                pairingBoardErrorsReducer(stateBefore, action)
-            ).toEqual(stateAfter);
+            expect(pairingBoardErrorsReducer(stateBefore, action)).toEqual(stateAfter);
 	    })
 	})
 
@@ -109,9 +101,7 @@ describe("PairingBoardErrorsReducer", () => {
             deepFreeze(stateBefore);
             deepFreeze(action);
 
-            expect(
-                pairingBoardErrorsReducer(stateBefore, action)
-            ).toEqual(stateAfter);
+            expect(pairingBoardErrorsReducer(stateBefore, action)).toEqual(stateAfter);
 	    })
 	})
 });

@@ -18,8 +18,6 @@ describe("SettingsReducer", () => {
 		    }
 		};
 
-		expect(
-			settingsReducer(stateBefore, action)
-		).toEqual(stateAfter);
+		expect(settingsReducer(stateBefore, action)).toEqual(stateAfter);
 	});
 });

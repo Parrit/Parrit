@@ -9,9 +9,7 @@ describe("PairingHistoryReducer", () => {
             pairingHistoryList: []
         };
 
-        expect(
-            pairingHistoryReducer(stateBefore, action)
-        ).toEqual(stateAfter);
+        expect(pairingHistoryReducer(stateBefore, action)).toEqual(stateAfter);
     });
 
     describe("actions", () => {
@@ -33,9 +31,7 @@ describe("PairingHistoryReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    pairingHistoryReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(pairingHistoryReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
 
@@ -57,9 +53,7 @@ describe("PairingHistoryReducer", () => {
                 deepFreeze(stateBefore);
                 deepFreeze(action);
 
-                expect(
-                    pairingHistoryReducer(stateBefore, action)
-                ).toEqual(stateAfter);
+                expect(pairingHistoryReducer(stateBefore, action)).toEqual(stateAfter);
             });
         });
     });
