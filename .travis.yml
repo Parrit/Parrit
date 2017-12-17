@@ -8,10 +8,6 @@ jdk:
 
 addons:
   firefox: "43.0"
-  postgresql: "9.4"
-
-services:
-  - postgresql
 
 install: /bin/true
 
@@ -19,7 +15,6 @@ before_script:
   - ( cd frontend; npm install )
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - psql -c 'CREATE DATABASE local_parrit_test;' -U postgres
 
 script:
   - ./gradlew
