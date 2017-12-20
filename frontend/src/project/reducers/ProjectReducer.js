@@ -51,11 +51,10 @@ export default function (state = initialState, action) {
                 stateClone.pairingBoards.reduce(function (people, pairingBoard) {
                     if (pairingBoard.exempt) return people;
 
-                    var stayingPerson = pairingBoard.people.pop()
-                    people = people.concat(pairingBoard.people);
-                    if (stayingPerson) {
-                        pairingBoard.people = [stayingPerson];
+                    while(pairingBoard.people.length > 1) {
+                        people.push(pairingBoard.people.pop())
                     }
+
                     return people;
                 }, [])
             );
