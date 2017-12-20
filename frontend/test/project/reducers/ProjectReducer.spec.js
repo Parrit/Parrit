@@ -311,8 +311,8 @@ describe("ProjectReducer", () => {
                     id: 7,
                     people: [
                         {name: "Bubba Gump"},
-                        {name: "Hanzle"},
-                        {name: "Bob"},
+                        {name: "Gretel"},
+                        {name: "Alice"},
                         {name: "Jim"}
                     ],
                     pairingBoards: [
@@ -325,13 +325,13 @@ describe("ProjectReducer", () => {
                         {
                             name: "BOARD2",
                             people: [
-                                {name: "Gretel"}
+                                {name: "Hanzle"}
                             ]
                         },
                         {
                             name: "BOARD3",
                             people: [
-                                {name: "Alice"}
+                                {name: "Bob"}
                             ]
                         },
                         {
