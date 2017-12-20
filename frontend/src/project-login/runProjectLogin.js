@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 import ProjectLogin from 'project-login/components/ProjectLogin.js';
 
@@ -14,4 +15,6 @@ export default function runProjectLogin(projectName, csrfParameterName, csrfToke
         <ProjectLogin {...props}/>,
         document.getElementById('reactRoot')
     );
+
+    Modal.setAppElement('#reactRoot');
 }

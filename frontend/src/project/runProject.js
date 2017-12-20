@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import Thunk from 'redux-thunk';
+import Modal from 'react-modal';
 
 import AppContainer from 'project/containers/AppContainer.js';
 import appReducer from 'project/reducers/AppReducer.js';
@@ -23,4 +24,6 @@ export default function runProject(projectJSON) {
         </Provider>,
         document.getElementById('reactRoot')
     );
+
+    Modal.setAppElement('#reactRoot');
 }

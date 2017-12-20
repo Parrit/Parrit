@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 import Error from 'error/components/Error.js';
 
@@ -8,4 +9,6 @@ export default function runError() {
         <Error/>,
         document.getElementById('reactRoot')
     );
+
+    Modal.setAppElement('#reactRoot');
 }
