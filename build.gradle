@@ -45,7 +45,7 @@ task jsBuild(type: Exec) {
     description = "Bundles the frontend javascript code"
 
     workingDir = "$project.projectDir/frontend"
-    commandLine = "./node_modules/.bin/grunt"
-    args = ["build"]
+    commandLine = "./node_modules/.bin/webpack"
+    args = ["--config", "webpack.config.js"]
 }
 processResources.dependsOn(jsBuild)

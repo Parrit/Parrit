@@ -58,7 +58,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("/favicon.ico", "/built/**", "/sass/**", "/svg/**", "/vendor/**");
+        web.ignoring().mvcMatchers("/favicon.ico", "/built/**", "/img/**");
     }
 
     @Bean

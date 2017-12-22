@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 
-import ProjectLogin from 'project-login/components/ProjectLogin.js';
+import ProjectLogin from './components/ProjectLogin.js';
 
 export default function runProjectLogin(projectName, csrfParameterName, csrfToken) {
     const props = {

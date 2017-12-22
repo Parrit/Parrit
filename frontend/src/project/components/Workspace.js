@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
-import ModalStyles from 'shared/misc/OverrideBullshitModalStyles.js';
 
-import PersonList from 'project/components/PersonList.js';
-import PairingBoard from 'project/components/PairingBoard.js';
-import NameForm from 'shared/components/NameForm.js';
+import PersonList from './PersonList.js';
+import PairingBoard from './PairingBoard.js';
+import NameForm from '../../shared/components/NameForm.js';
+import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
 
 export default class Workspace extends React.Component {
     render() {

@@ -1,0 +1,62 @@
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.ReactModal__Content {
+  position: absolute;
+  top: 0;
+  bottom: 40%;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  width: 326px;
+  height: 181px;
+
+  padding: 32px;
+  border-radius: 3px;
+  background-color: $duckEggBlue;
+  z-index: 2;
+
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.3);
+
+  form {
+    .form-header {
+      .form-title {
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+
+      .form-cancel {
+        float: right;
+        display: inline-block;
+        cursor: pointer;
+        width: 13px;
+        height: 13px;
+        background-image: url("./images/close-modal-dark.svg");
+
+        &:hover {
+          background-image: url("./images/close-modal-bright.svg");
+        }
+      }
+    }
+
+    .error-message {
+      height: 16px;
+
+      font: $Raleway-SemiBold;
+      font-size: 12px;
+      color: $salmon;
+      margin-bottom: 4px;
+    }
+
+    .buttons {
+       margin-top: 10px;
+       button {
+         margin-right: 5px;
+         min-width: 4em;
+       }
+    }
+  }
+}

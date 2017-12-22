@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 
-import Error from 'error/components/Error.js';
+import Error from './components/Error.js';
 
 export default function runError() {
     ReactDOM.render(

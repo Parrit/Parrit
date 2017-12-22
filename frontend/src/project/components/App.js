@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Interact from 'interact.js';
 import * as _ from 'lodash';
 
-import Header from 'project/components/Header.js';
-import Project from 'project/components/Project.js';
-import Footer from 'shared/components/Footer.js';
-import PairingHistory from 'project/components/PairingHistory.js';
+import Header from './Header.js';
+import Project from './Project.js';
+import PairingHistory from './PairingHistory.js';
+import Footer from '../../shared/components/Footer.js';
 
 export default class App extends React.Component {
     constructor(props) {

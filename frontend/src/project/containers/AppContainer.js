@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import App from 'project/components/App.js';
-import AppActions from 'project/actions/AppActions.js';
+import App from '../components/App.js';
+import AppActions from '../actions/AppActions.js';
 
 function getState(state) {
     return state;

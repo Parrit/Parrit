@@ -1,0 +1,205 @@
+.project-page-container {
+  position: relative;
+  transition: all 300ms ease;
+  right: 0;
+
+  &.shift-left {
+    right: 330px;
+  }
+
+  .project {
+    display: flex;
+    flex-flow: column;
+
+    .sub-header {
+      flex-shrink: 0;
+      .project-actions {
+        button {
+          padding: 0 20px;
+          margin-right: 15px;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+
+    .workspace {
+      flex: 1 0 auto;
+      .floating-parrit-title {
+        margin-bottom: 36px;
+      }
+
+      .pairing-boards-title {
+        margin-bottom: 36px;
+      }
+    }
+  }
+}
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  .project-page-container {
+    margin: 0 auto;
+
+    .project {
+      margin: 0 6.667% 25px;
+
+      .sub-header {
+        padding: 60px 0;
+        text-align: center;
+
+        .project-actions {
+          margin-top: 23px;
+
+          button {
+            float: left;
+            clear: left;
+            margin: 5px 10px 0 15px;
+          }
+        }
+      }
+
+      .sub-header-dotted-line {
+        height: 5px;
+        margin-bottom: 26px;
+        background-image: url("./images/dot-light.svg");
+      }
+
+      .workspace {
+        .floating-parrits {
+          margin: 0 auto;
+
+          .person-list {
+            margin-bottom: 32px;
+          }
+
+          .floating-parrit-actions {
+            display: none;
+          }
+        }
+
+        .dotted-line {
+          height: 5px;
+          margin: 0 auto 26px;
+          background-image: url("./images/dot-light.svg");
+        }
+
+        .pairing-boards-container {
+          .add-board-button {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  .project {
+    margin: 0 50px 25px;
+
+    .sub-header {
+      height: 135px;
+
+      .project-name {
+        float: left;
+        margin-top: 36px;
+      }
+
+      .project-actions {
+        float: right;
+        margin-top: 32px;
+      }
+    }
+
+    .sub-header-dotted-line {
+      display: none;
+    }
+
+    .workspace {
+      display: flex;
+      justify-content: space-between;
+
+      .floating-parrits {
+        position: relative;
+        width: 250px;
+
+        .person-list {
+          margin-bottom: 100px;
+        }
+
+        .floating-parrit-actions {
+          position: absolute;
+          bottom: 0;
+
+          .add-parrit-button {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background-image: url("./images/add-parrit.svg");
+
+            cursor: pointer;
+            opacity: .60;
+            margin-right: 26px;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+
+          .delete-parrit {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background-image: url("./images/delete-parrit.svg");
+
+            opacity: .60;
+
+            &.drop-target {
+              opacity: 1;
+            }
+          }
+
+        }
+      }
+
+      .dotted-line {
+        width: 5px;
+        margin: 0 50px 0 45px;
+        background-image: url("./images/dot-light.svg");
+      }
+
+      .pairing-boards-container {
+        position: relative;
+        flex-grow: 1;
+        width: 78%;
+
+        .pairing-boards-title {
+          width: 100%;
+        }
+
+        .add-board-button {
+          position: absolute;
+          bottom: 4px;
+          right: 0;
+          cursor: pointer;
+
+          width: 80px;
+          height: 80px;
+          background-image: url("./images/add-board.svg");
+          opacity: .60;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

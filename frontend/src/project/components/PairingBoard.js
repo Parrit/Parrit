@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import PersonList from 'project/components/PersonList.js';
+import PersonList from './PersonList.js';
 
 export default class PairingBoard extends React.Component {
     constructor(props) {

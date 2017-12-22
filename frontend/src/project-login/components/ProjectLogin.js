@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import Footer from 'shared/components/Footer.js';
+import Footer from '../../shared/components/Footer.js';
 
 export default class ProjectLogin extends React.Component {
     componentDidMount() {

@@ -1,0 +1,27 @@
+.text-link {
+  position: relative;
+  font: $Raleway-ExtraBold;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  color: $salmon;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  .carrot {
+    width: 9px;
+    height: 12.8px;
+    line-height: 16px;
+    display: inline-block;
+    margin-left: 5px;
+    background-image: url("./images/error-page-carrot.svg");
+  }
+
+  &:hover {
+    color: $tomato;
+
+    .carrot {
+      background-image: url("./images/error-page-carrot-bright.svg");
+    }
+  }
+}

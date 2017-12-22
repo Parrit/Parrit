@@ -1,5 +1,5 @@
-import { setNewProjectErrorCreator, setLoginErrorCreator } from 'dashboard/actions/creators/DashboardCreators.js';
-import { postNewProjectAndDo, postLoginAndRedirect } from 'shared/helpers/DatabaseHelpers.js';
+import { setNewProjectErrorCreator, setLoginErrorCreator } from '../creators/DashboardCreators.js';
+import { postNewProjectAndDo, postLoginAndRedirect } from '../../../shared/helpers/DatabaseHelpers.js';
 
 export function createProjectThunk(name, password) {
     return function(dispatch, getState) {

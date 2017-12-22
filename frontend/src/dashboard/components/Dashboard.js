@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Footer from 'shared/components/Footer.js';
-import Button from 'shared/components/Button.js';
+import Footer from '../../shared/components/Footer.js';
+import Button from '../../shared/components/Button.js';
 
 export default class Dashboard extends React.Component {
     constructor(props) {

@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
-require('malihu-custom-scrollbar-plugin')($);
+import { Scrollbars } from 'react-custom-scrollbars';
 
-import PairingHistoryRecordList from 'project/components/PairingHistoryRecordList.js';
+import PairingHistoryRecordList from './PairingHistoryRecordList.js';
 
 export default class PairingHistory extends React.Component {
     componentDidMount() {
         this.props.fetchPairingHistory(this.props.projectId);
-        $('.pairing-history-panel').mCustomScrollbar({theme:"minimal-dark"});
     }
 
     render() {
@@ -20,25 +18,29 @@ export default class PairingHistory extends React.Component {
 
         return (
             <div className={classes}>
-                <div className="header">
-                    <h2>Pair Rotation History</h2>
-                    <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
-                </div>
-                <div className="body">
-                    {(function(pairingHistoryList) {
-                        if(pairingHistoryList.length === 0) {
-                            return <div className="no-history">
-                                <div className="clock"/>
-                                <div className="no-history-content">
-                                    ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
-                                </div>
-                            </div>
-                        }
-                        else {
-                            return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
-                        }
-                    })(this.props.pairingHistoryList)}
-                </div>
+                <Scrollbars>
+                    <div className="inner-pairing-history-wrapper">
+                        <div className="header">
+                            <h2>Pair Rotation History</h2>
+                            <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
+                        </div>
+                        <div className="body">
+                            {(function(pairingHistoryList) {
+                                if(pairingHistoryList.length === 0) {
+                                    return <div className="no-history">
+                                        <div className="clock"/>
+                                        <div className="no-history-content">
+                                            ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
+                                        </div>
+                                    </div>
+                                }
+                                else {
+                                    return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
+                                }
+                            })(this.props.pairingHistoryList)}
+                        </div>
+                    </div>
+                </Scrollbars>
             </div>
         )
     }

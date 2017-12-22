@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Workspace from 'project/components/Workspace.js';
-import Button from 'shared/components/Button.js';
+import Workspace from './Workspace.js';
+import Button from '../../shared/components/Button.js';
 
 export default class Project extends React.Component {
     render() {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Dashboard from 'dashboard/components/Dashboard.js';
-import DashboardActions from 'dashboard/actions/DashboardActions.js';
+import Dashboard from '../components/Dashboard.js';
+import DashboardActions from '../actions/DashboardActions.js';
 
 function getState(state) {
     return state;

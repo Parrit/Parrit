@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PairingHistoryRecord from 'project/components/PairingHistoryRecord.js';
+import PairingHistoryRecord from './PairingHistoryRecord.js';
 
 export default class PairingHistoryRecordList extends React.Component {
     render() {

@@ -1,5 +1,4 @@
 {
-    "testMatch": ["<rootDir>/test/**/*.spec.js"],
-    "moduleDirectories": ["node_modules", "src/", "test/"],
-    "setupFiles": ["<rootDir>/src/polyfills.js", "<rootDir>/test/TestSetup.js"]
+    "testMatch": ["<rootDir>/src/**/*.spec.js"],
+    "setupFiles": ["<rootDir>/src/polyfills.js", "<rootDir>/src/shared/misc/TestSetup.js"]
 }

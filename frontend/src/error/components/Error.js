@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Footer from 'shared/components/Footer.js';
+import Footer from '../../shared/components/Footer.js';
 
 export default class Error extends React.Component {
     render() {

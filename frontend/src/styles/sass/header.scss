@@ -1,0 +1,120 @@
+header {
+   height: 80px;
+   background-color: $duckEggBlue;
+
+   .header-logo {
+     width: 185px;
+     height: 47px;
+
+     float: left;
+     background-image: url("./images/parrit-logo.svg");
+     margin-top: 16px;
+   }
+
+   .links {
+     float: right;
+     display: flex;
+     justify-content: center;
+     height: 100%;
+
+     a {
+       color: inherit;
+       text-decoration: none;
+     }
+
+     h3 {
+       margin-bottom: 0;
+     }
+
+     > * {
+       align-self: center;
+       cursor: pointer;
+     }
+   }
+ }
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  header {
+    padding: 0 20px;
+
+    .links {
+      h3 {
+        width: 22px;
+        height: 22px;
+        color: transparent;
+        font-size: 0;
+      }
+
+      > * {
+        margin-right: 20px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .logout {
+        background: url("./images/logout-icon.svg") no-repeat;
+      }
+
+      .feedback {
+        background: url("./images/feedback-icon.svg") no-repeat;
+      }
+
+      .history {
+        background: url("./images/history-icon.svg") no-repeat;
+      }
+    }
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  header {
+    padding: 0 50px;
+
+    .links {
+      > * {
+        margin-left: 20px;
+
+        &:hover {
+          color: $slateGrey;
+        }
+      }
+
+      .history {
+        .history-caret-left {
+          display: inline-block;
+          width: 9.1px;
+          height: 13px;
+          margin-left: 5px;
+          margin-bottom: -1px;
+          background-image: url("./images/history-caret-left-bright.svg");
+        }
+
+        .history-caret-right {
+          display: inline-block;
+          width: 9.1px;
+          height: 13px;
+          margin-left: 5px;
+          margin-bottom: -1px;
+          background-image: url("./images/history-caret-right-dark.svg");
+        }
+
+        &:hover,
+        &.open {
+          color: $slateGrey;
+
+          .history-caret-left {
+            background-image: url("./images/history-caret-left-dark.svg");
+          }
+        }
+      }
+    }
+  }
+}
+
