@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 import PersonList from './PersonList.js';
+import RoleList from './RoleList.js';
 import PairingBoard from './PairingBoard.js';
 import NameForm from '../../shared/components/NameForm.js';
 import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
@@ -11,7 +12,6 @@ export default class Workspace extends React.Component {
     render() {
         return (
             <div className="workspace">
-
                 <div className="floating-parrits">
                     <h2 className="floating-parrit-title">Floating Parrits</h2>
                     <PersonList people={this.props.people} index={-1} />
@@ -34,6 +34,7 @@ export default class Workspace extends React.Component {
                                         editErrorMessage={this.props.settings.pairingBoardErrors[pairingBoard.id]}
                                         deletePairingBoard={this.props.deletePairingBoard}
                                         renamePairingBoard={this.props.renamePairingBoard}
+                                        setNewRoleModalOpen={this.props.setNewRoleModalOpen}
                                     />
                         })}
                     </div>
@@ -43,6 +44,10 @@ export default class Workspace extends React.Component {
                 <Modal contentLabel="New Person Modal" isOpen={this.props.settings.modal.isNewPersonModalOpen} onRequestClose={this.closeNewPersonModal.bind(this)} style={ModalStyles}>
                     <NameForm formTitle="Add Parrit Teammate" confirmFunction={this.createPersonWithName.bind(this)}
                         cancelFunction={this.closeNewPersonModal.bind(this)} errorMessage={this.props.settings.modal.newPersonModalErrorMessage}/>
+                </Modal>
+                <Modal contentLabel="New Role Modal" isOpen={this.props.settings.modal.isNewRoleModalOpen} onRequestClose={this.closeNewRoleModal.bind(this)} style={ModalStyles}>
+                    <NameForm formTitle="Add Parrit Role" confirmFunction={this.createRoleWithName.bind(this)}
+                        cancelFunction={this.closeNewRoleModal.bind(this)} errorMessage={this.props.settings.modal.newRoleModalErrorMessage}/>
                 </Modal>
                 <Modal contentLabel="New Pairing Board Modal" isOpen={this.props.settings.modal.isNewPairingBoardModalOpen} onRequestClose={this.closeNewPairingBoardModal.bind(this)} style={ModalStyles}>
                     <NameForm formTitle="Add Pairing Board" confirmFunction={this.createPairingBoardWithName.bind(this)}
@@ -76,6 +81,14 @@ export default class Workspace extends React.Component {
     closeNewPairingBoardModal () {
         this.props.setNewPairingBoardModalOpen(false);
     }
+
+    closeNewRoleModal () {
+        this.props.setNewRoleModalOpen(false);
+    }
+
+    createRoleWithName(name) {
+        this.props.createRole(this.props.projectId, name, this.props.settings.modal.newRoleModalPairingBoardId, this.closeNewRoleModal.bind(this));
+    }
 }
 
 Workspace.propTypes = {
@@ -84,8 +97,10 @@ Workspace.propTypes = {
     people: PropTypes.arrayOf(PropTypes.object).isRequired,
     pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
+    setNewRoleModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired,
     createPerson: PropTypes.func.isRequired,
+    createRole: PropTypes.func.isRequired,
     createPairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
     renamePairingBoard: PropTypes.func.isRequired

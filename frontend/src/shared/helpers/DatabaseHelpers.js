@@ -45,6 +45,15 @@ export function postAddNewPersonAndDo(projectId, name, successCallback, errorCal
         });
 }
 
+export function postAddNewRoleAndDo(projectId, name, pairingBoardId, successCallback, errorCallback) {
+    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId) + '/role', {name})
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        }, function onError(error) {
+            errorCallback(error.response.data);
+        });
+}
+
 export function postAddNewPairingBoardAndDo(projectId, name, successCallback, errorCallback) {
     Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard', {name})
         .then(function onSuccess(response) {

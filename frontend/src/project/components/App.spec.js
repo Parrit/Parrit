@@ -21,6 +21,7 @@ describe('<App/>', () => {
             project: {
                 name: 'The Best Around',
                 people: [],
+                roles: [],
                 pairingBoards: [
                     {
                         name: 'PairingBoard1',
@@ -37,12 +38,14 @@ describe('<App/>', () => {
             }
         },
         setNewPersonModalOpen: () => {},
+        setNewRoleModalOpen: () => {},
         setNewPairingBoardModalOpen: () => {},
         setPairingHistoryPanelOpen: () => {},
         createPerson: () => {},
+        createRole: () => {},
         createPairingBoard: () => {},
-        movePerson: jasmine.createSpy("movePersonSpy"),
-        deletePerson: jasmine.createSpy("deletePersonSpy"),
+        moveAssignment: jasmine.createSpy("moveAssignmentSpy"),
+        deleteAssignment: jasmine.createSpy("deleteAssignmentSpy"),
         deletePairingBoard: () => {},
         renamePairingBoard: () => {},
         fetchPairingHistory: () => {},
@@ -76,8 +79,10 @@ describe('<App/>', () => {
         expect(projectComponent.prop('data')).toBe(props.data, 'No data passed to project');
 
         expect(projectComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen, 'No setNewPersonModalOpen passed to project');
+        expect(projectComponent.prop('setNewRoleModalOpen')).toBe(props.setNewRoleModalOpen, 'No setNewRoleModalOpen passed to project');
         expect(projectComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen, 'No setNewPairingBoardModalOpen passed to project');
         expect(projectComponent.prop('createPerson')).toBe(props.createPerson, 'No createPerson passed to project');
+        expect(projectComponent.prop('createRole')).toBe(props.createRole, 'No createRole passed to project');
         expect(projectComponent.prop('createPairingBoard')).toBe(props.createPairingBoard, 'No createPairingBoard passed to project');
         expect(projectComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard, 'No deletePairingBoard passed to project');
         expect(projectComponent.prop('renamePairingBoard')).toBe(props.renamePairingBoard, 'No renamePairingBoard passed to project');
@@ -174,7 +179,7 @@ describe('<App/>', () => {
         beforeEach(() => {
             event = {
                 target: { id: "albert_5", classList: { remove: () => {} } },
-                relatedTarget: { id: "steve_8", classList: { remove: () => {} } }
+                relatedTarget: { id: "steve_8", classList: { remove: () => {}, contains: () => { return true } } }
             };
         });
 
@@ -188,7 +193,7 @@ describe('<App/>', () => {
             expect(event.relatedTarget.classList.remove).toHaveBeenCalledWith('can-drop');
         });
 
-        it('calls movePerson with app variables and the result of the getIndexFromId', () => {
+        it('calls moveAssignment with app variables and the result of the getIndexFromId', () => {
             spyOn(wrapper.instance(), 'getIndexFromId').and.returnValue(4);
 
             wrapper.setState({fromPairingBoardIndex: 3});
@@ -197,7 +202,7 @@ describe('<App/>', () => {
             wrapper.instance().dropzoneOnDrop(event);
 
             expect(wrapper.instance().getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(props.movePerson).toHaveBeenCalledWith(3, 9, 4);
+            expect(props.moveAssignment).toHaveBeenCalledWith(3, 9, 4, 'PERSON');
         });
 
         it('set fromPairingBoardIndex to toPairingBoardIndex if the fromPairingBoardIndex is UNDEFINED', () => {
@@ -209,7 +214,7 @@ describe('<App/>', () => {
             wrapper.instance().dropzoneOnDrop(event);
 
             expect(wrapper.instance().getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(props.movePerson).toHaveBeenCalledWith(9, 9, 4);
+            expect(props.moveAssignment).toHaveBeenCalledWith(9, 9, 4, 'PERSON');
         });
 
         it('sets the app variables to undefined', () => {
@@ -223,6 +228,27 @@ describe('<App/>', () => {
             expect(wrapper.state('fromPairingBoardIndex')).toBeUndefined();
             expect(wrapper.state('toPairingBoardIndex')).toBeUndefined();
         });
+
+        describe('when moving a role', () => {
+            beforeEach(() => {
+                event = {
+                    target: { id: "albert_5", classList: { remove: () => {} } },
+                    relatedTarget: { id: "steve_8", classList: { remove: () => {}, contains: () => { return false } } }
+                };
+            });
+
+            it('calls moveAssignment with app variables and the result of the getIndexFromId', () => {
+                spyOn(wrapper.instance(), 'getIndexFromId').and.returnValue(4);
+
+                wrapper.setState({fromPairingBoardIndex: 3});
+                wrapper.setState({toPairingBoardIndex: 9});
+
+                wrapper.instance().dropzoneOnDrop(event);
+
+                expect(wrapper.instance().getIndexFromId).toHaveBeenCalledWith('steve_8');
+                expect(props.moveAssignment).toHaveBeenCalledWith(3, 9, 4, 'ROLE');
+            });
+        });
     });
 
     describe('#trashOnDrop', () => {
@@ -231,7 +257,7 @@ describe('<App/>', () => {
         beforeEach(() => {
             event = {
                 target: { id: "albert_5", classList: { remove: () => {} } },
-                relatedTarget: { id: "steve_8", classList: { remove: () => {} } }
+                relatedTarget: { id: "steve_8", classList: { remove: () => {}, contains: () => { return true } } }
             };
         });
 
@@ -245,7 +271,7 @@ describe('<App/>', () => {
             expect(event.relatedTarget.classList.remove).toHaveBeenCalledWith('can-drop');
         });
 
-        it('calls deletePerson with fromPairingBoardIndex and the result of the getIndexFromId', () => {
+        it('calls deleteAssignment with fromPairingBoardIndex and the result of the getIndexFromId', () => {
             spyOn(wrapper.instance(), 'getIndexFromId').and.returnValue(4);
 
             wrapper.setState({fromPairingBoardIndex: 3});
@@ -254,7 +280,7 @@ describe('<App/>', () => {
             wrapper.instance().trashOnDrop(event);
 
             expect(wrapper.instance().getIndexFromId).toHaveBeenCalledWith('steve_8');
-            expect(props.deletePerson).toHaveBeenCalledWith(3, 4);
+            expect(props.deleteAssignment).toHaveBeenCalledWith(3, 4, "PERSON");
         });
 
         it('sets the app variables to undefined', () => {
@@ -268,6 +294,27 @@ describe('<App/>', () => {
             expect(wrapper.state('fromPairingBoardIndex')).toBeUndefined();
             expect(wrapper.state('toPairingBoardIndex')).toBeUndefined();
         });
+
+        describe('when removing a role', () => {
+            beforeEach(() => {
+                event = {
+                    target: { id: "albert_5", classList: { remove: () => {} } },
+                    relatedTarget: { id: "steve_8", classList: { remove: () => {}, contains: () => { return false } } }
+                };
+            });
+
+            it('calls deleteAssignment with fromPairingBoardIndex and the result of the getIndexFromId', () => {
+                spyOn(wrapper.instance(), 'getIndexFromId').and.returnValue(4);
+
+                wrapper.setState({fromPairingBoardIndex: 3});
+                wrapper.setState({toPairingBoardIndex: 9});
+
+                wrapper.instance().trashOnDrop(event);
+
+                expect(wrapper.instance().getIndexFromId).toHaveBeenCalledWith('steve_8');
+                expect(props.deleteAssignment).toHaveBeenCalledWith(3, 4, "ROLE");
+            });
+        })
     });
 
     describe('#getIndexFromId', () => {

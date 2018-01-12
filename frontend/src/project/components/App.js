@@ -44,7 +44,7 @@ export default class App extends React.Component {
         });
 
         Interact('.dropzone').dropzone({
-            accept: '.draggable.person',
+            accept: '.draggable.person, .draggable.role',
             overlap: 'center',
 
             ondropactivate: function (event) {
@@ -59,7 +59,7 @@ export default class App extends React.Component {
         });
 
         Interact('.delete-parrit').dropzone({
-            accept: '.draggable.person',
+            accept: '.draggable.person, .draggable.role',
             overlap: 0.01,
 
             ondropactivate: function (event) {
@@ -80,7 +80,7 @@ export default class App extends React.Component {
         });
     }
 
-	render() {
+    render() {
         const headerProps = {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen,
@@ -99,7 +99,9 @@ export default class App extends React.Component {
             createPerson: this.props.createPerson,
             createPairingBoard: this.props.createPairingBoard,
             deletePairingBoard: this.props.deletePairingBoard,
-            renamePairingBoard: this.props.renamePairingBoard
+            renamePairingBoard: this.props.renamePairingBoard,
+            setNewRoleModalOpen: this.props.setNewRoleModalOpen,
+            createRole: this.props.createRole
         };
 
         const pairingHistoryProps = {
@@ -112,15 +114,15 @@ export default class App extends React.Component {
 
         const classes = "layout-wrapper project-page-container dropzone" + (this.props.settings.pairingHistoryPanel.isOpen ? ' shift-left' : '');
 
-		return (
+        return (
             <div id="pairing_board_-1" className={classes}>
                 <Header {...headerProps}/>
                 <Project {...projectProps}/>
                 <Footer/>
                 <PairingHistory {...pairingHistoryProps}/>
             </div>
-		)
-	}
+        )
+    }
 
     dropzoneOnDragEnter(event) {
         event.target.classList.add('drop-target');
@@ -142,13 +144,19 @@ export default class App extends React.Component {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
 
-        const personIndex = this.getIndexFromId(event.relatedTarget.id);
+        const assignmentIndex = this.getIndexFromId(event.relatedTarget.id);
+        var assignmentType = 'ROLE'
+        if (event.relatedTarget.classList.contains('person')) {
+            assignmentType = 'PERSON';
+        }
 
         if(this.state.fromPairingBoardIndex === undefined) {
             this.setState({fromPairingBoardIndex: this.state.toPairingBoardIndex});
         }
 
-        this.props.movePerson(this.state.fromPairingBoardIndex, this.state.toPairingBoardIndex, personIndex);
+        if (assignmentType === 'PERSON' || this.state.toPairingBoardIndex >= 0) {
+            this.props.moveAssignment(this.state.fromPairingBoardIndex, this.state.toPairingBoardIndex, assignmentIndex, assignmentType);
+        }
 
         this.setState({fromPairingBoardIndex: undefined});
         this.setState({toPairingBoardIndex: undefined});
@@ -158,9 +166,13 @@ export default class App extends React.Component {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
 
-        const personIndex = this.getIndexFromId(event.relatedTarget.id);
+        const assignmentIndex = this.getIndexFromId(event.relatedTarget.id);
+        var assignmentType = 'ROLE'
+        if (event.relatedTarget.classList.contains('person')) {
+            assignmentType = 'PERSON';
+        }
 
-        this.props.deletePerson(this.state.fromPairingBoardIndex, personIndex);
+        this.props.deleteAssignment(this.state.fromPairingBoardIndex, assignmentIndex, assignmentType);
 
         this.setState({fromPairingBoardIndex: undefined});
         this.setState({toPairingBoardIndex: undefined});
@@ -175,8 +187,8 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-    movePerson: PropTypes.func.isRequired,
-    deletePerson: PropTypes.func.isRequired,
+    moveAssignment: PropTypes.func.isRequired,
+    deleteAssignment: PropTypes.func.isRequired,
 
     savePairing: PropTypes.func.isRequired,
     getRecommendedPairs: PropTypes.func.isRequired,

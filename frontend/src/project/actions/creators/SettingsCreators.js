@@ -5,6 +5,14 @@ export function setNewPersonModalOpenCreator(isOpen) {
     }
 }
 
+export function setNewRoleModalOpenCreator(isOpen, pairingBoardId) {
+    return {
+        type: 'SET_NEW_ROLE_MODAL_OPEN',
+        isOpen: isOpen,
+        pairingBoardId: pairingBoardId
+    }
+}
+
 export function setNewPairingBoardModalOpenCreator(isOpen) {
     return {
         type: 'SET_NEW_PAIRING_BOARD_MODAL_OPEN',
@@ -22,6 +30,13 @@ export function setPairingHistoryPanelOpenCreator(isOpen) {
 export function setNewPersonModalErrorMessageCreator(errorResponse) {
     return {
         type: 'SET_NEW_PERSON_MODAL_ERROR_MESSAGE',
+        errorResponse: errorResponse
+    }
+}
+
+export function setNewRoleModalErrorMessageCreator(errorResponse) {
+    return {
+        type: 'SET_NEW_ROLE_MODAL_ERROR_MESSAGE',
         errorResponse: errorResponse
     }
 }

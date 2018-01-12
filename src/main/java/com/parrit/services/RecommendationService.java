@@ -106,7 +106,7 @@ public class RecommendationService {
     private PairingBoard popNextEmptyPairingBoard(Project project, List<PairingBoard> emptyPairingBoards) {
         PairingBoard pairingBoard;
         if(emptyPairingBoards.isEmpty()) {
-            pairingBoard = new PairingBoard("New Pairing Board", false, new ArrayList<>());
+            pairingBoard = new PairingBoard("New Pairing Board", false, new ArrayList<>(), new ArrayList<>());
             project.getPairingBoards().add(pairingBoard);
         }
         else {

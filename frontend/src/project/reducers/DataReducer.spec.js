@@ -8,6 +8,7 @@ describe("DataReducer", () => {
             project: {
                 id: 0,
                 people: [],
+                roles: [],
                 pairingBoards: []
             },
             pairingHistory: {

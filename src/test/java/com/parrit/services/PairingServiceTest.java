@@ -58,7 +58,7 @@ public class PairingServiceTest {
         Person p2 = new Person("Mary");
         p2.setId(2L);
 
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2));
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2), new ArrayList<>());
         pairingBoard.setId(1L);
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
 
@@ -89,9 +89,9 @@ public class PairingServiceTest {
         Person p4 = new Person("Tammy");
         p4.setId(4L);
 
-        PairingBoard pairingBoard1 = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2));
+        PairingBoard pairingBoard1 = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2), new ArrayList<>());
         pairingBoard1.setId(1L);
-        PairingBoard pairingBoard2 = new PairingBoard("The Second Pairing Board", false, Arrays.asList(p3, p4));
+        PairingBoard pairingBoard2 = new PairingBoard("The Second Pairing Board", false, Arrays.asList(p3, p4), new ArrayList<>());
         pairingBoard2.setId(2L);
 
         List<PairingBoard> pairingBoards = Arrays.asList(pairingBoard1, pairingBoard2);
@@ -124,7 +124,7 @@ public class PairingServiceTest {
         Person p3 = new Person("Steve");
         p3.setId(3L);
 
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2, p3));
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Arrays.asList(p1, p2, p3), new ArrayList<>());
         pairingBoard.setId(1L);
 
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
@@ -150,7 +150,7 @@ public class PairingServiceTest {
         Person p1 = new Person("John");
         p1.setId(1L);
 
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Collections.singletonList(p1));
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Collections.singletonList(p1), new ArrayList<>());
         pairingBoard.setId(1L);
 
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);
@@ -173,7 +173,7 @@ public class PairingServiceTest {
 
     @Test
     public void savePairing_doesNotCreateAPairingHistory_whenThereIsNoOneInAPairingBoard() {
-        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Collections.emptyList());
+        PairingBoard pairingBoard = new PairingBoard("The Pairing Board", false, Collections.emptyList(), new ArrayList<>());
         pairingBoard.setId(1L);
 
         List<PairingBoard> pairingBoards = Collections.singletonList(pairingBoard);

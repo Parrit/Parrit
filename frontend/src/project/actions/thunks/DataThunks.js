@@ -1,6 +1,6 @@
-import { putProjectAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js';
+import { putProjectAndDo, postAddNewPersonAndDo, postAddNewRoleAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js';
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from '../creators/DataCreators.js';
-import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setEditPairingBoardErrorMessageCreator, clearEditPairingBoardErrorMessageCreator } from '../creators/SettingsCreators.js';
+import { setNewPersonModalErrorMessageCreator, setNewRoleModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setEditPairingBoardErrorMessageCreator, clearEditPairingBoardErrorMessageCreator } from '../creators/SettingsCreators.js';
 
 export function autoSaveThunk(action) {
     return function (dispatch, getState) {
@@ -25,6 +25,20 @@ export function addNewPersonThunk(projectId, name, callback) {
             },
             function errorCallback(errorResponse) {
                 dispatch(setNewPersonModalErrorMessageCreator(errorResponse))
+            }
+        )
+    }
+}
+
+export function addNewRoleThunk(projectId, name, pairingBoardId, callback) {
+    return function(dispatch, getState) {
+        postAddNewRoleAndDo(projectId, name, pairingBoardId,
+            function successCallback(project) {
+                callback();
+                dispatch(loadProjectCreator(project));
+            },
+            function errorCallback(errorResponse) {
+                dispatch(setNewRoleModalErrorMessageCreator(errorResponse))
             }
         )
     }

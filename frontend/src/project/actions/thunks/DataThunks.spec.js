@@ -7,15 +7,16 @@ import * as settingsCreators from '../creators/SettingsCreators.js';
 describe('DataThunks', () => {
     let thunk;
     let dispatchSpy, getStateSpy;
-    let putProjectAndDoSpy, postAddNewPersonAndDoSpy, postAddNewPairingBoardAndDoSpy, putPairingBoardAndDoSpy,
+    let putProjectAndDoSpy, postAddNewPersonAndDoSpy, postAddNewRoleAndDoSpy, postAddNewPairingBoardAndDoSpy, putPairingBoardAndDoSpy,
         postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, getPairingHistoryAndDoSpy;
 
     beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatchSpy');
         getStateSpy = jasmine.createSpy('getStateSpy');
-        
+
         putProjectAndDoSpy = spyOn(databaseHelpers, 'putProjectAndDo');
         postAddNewPersonAndDoSpy = spyOn(databaseHelpers, 'postAddNewPersonAndDo');
+        postAddNewRoleAndDoSpy = spyOn(databaseHelpers, 'postAddNewRoleAndDo');
         postAddNewPairingBoardAndDoSpy = spyOn(databaseHelpers, 'postAddNewPairingBoardAndDo');
         putPairingBoardAndDoSpy = spyOn(databaseHelpers, 'putPairingBoardAndDo');
         postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo');
@@ -100,6 +101,47 @@ describe('DataThunks', () => {
                 errorCallback(errorResponse);
 
                 expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewPersonModalErrorMessageCreator(errorResponse));
+            });
+        });
+    })
+
+    describe('#addNewRoleThunk', () => {
+        const callbackSpy = jasmine.createSpy('callbackSpy');
+
+        beforeEach(() => {
+            thunk = dataThunks.addNewRoleThunk(1, "Name", 10, callbackSpy);
+        });
+
+        it('returns a function', () => {
+            expect(typeof thunk).toBe('function');
+        });
+
+        describe('when calling the returned function', () => {
+            const newProjectData = { data: 'blarg' };
+
+            beforeEach(() => {
+                thunk(dispatchSpy, getStateSpy);
+            });
+
+            it('calls postAddNewRoleAndDo helper with correct arguments', () => {
+                expect(postAddNewRoleAndDoSpy).toHaveBeenCalledWith(1, "Name", 10, jasmine.anything(), jasmine.anything());
+            });
+
+            it('calls the custom callback and dispatches a loadProject action when adding a role is successful', () => {
+                const successCallback = postAddNewRoleAndDoSpy.calls.mostRecent().args[3];
+                successCallback(newProjectData);
+
+                expect(callbackSpy).toHaveBeenCalled();
+                expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData));
+            });
+
+            it('dispatches a setNewRoleModalErrorMessage action when adding a role fails', () => {
+                const errorResponse = {message: "Need more coffee!", fieldErrors: {}};
+
+                const errorCallback = postAddNewRoleAndDoSpy.calls.mostRecent().args[4];
+                errorCallback(errorResponse);
+
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setNewRoleModalErrorMessageCreator(errorResponse));
             });
         });
     })

@@ -18,6 +18,9 @@ public class PairingBoardDTO {
     @Valid
     private List<PersonDTO> people;
 
+    @Valid
+    private List<RoleDTO> roles;
+
     public long getId() {
         return id;
     }
@@ -50,6 +53,14 @@ public class PairingBoardDTO {
         this.people = people;
     }
 
+    public List<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleDTO> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,7 +71,8 @@ public class PairingBoardDTO {
         if (getId() != that.getId()) return false;
         if (isExempt() != that.isExempt()) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null;
+        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null &&
+            getRoles() != null ? getRoles().equals(that.getRoles()) : that.getRoles() == null;
     }
 
 }

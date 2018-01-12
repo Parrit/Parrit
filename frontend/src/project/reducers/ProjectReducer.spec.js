@@ -8,6 +8,7 @@ describe("ProjectReducer", () => {
         const stateAfter = {
             id: 0,
             people: [],
+            roles: [],
             pairingBoards: []
         };
 
@@ -39,11 +40,12 @@ describe("ProjectReducer", () => {
             });
         });
 
-        describe("MOVE_PERSON", () => {
+        describe("MOVE_ASSIGMENT", () => {
             it('should move a person between pairingBoards', () => {
                 const stateBefore = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -56,15 +58,17 @@ describe("ProjectReducer", () => {
                 };
 
                 const action = {
-                    type: "MOVE_PERSON",
+                    type: "MOVE_ASSIGMENT",
                     toPairingBoardIndex: 1,
                     fromPairingBoardIndex: 0,
-                    personIndex: 0
+                    assignmentIndex: 0,
+                    assignmentType: "PERSON"
                 };
 
                 const stateAfter = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -86,6 +90,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Captain Kirk"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -98,15 +103,17 @@ describe("ProjectReducer", () => {
                 };
 
                 const action = {
-                    type: "MOVE_PERSON",
+                    type: "MOVE_ASSIGMENT",
                     toPairingBoardIndex: 1,
                     fromPairingBoardIndex: -1,
-                    personIndex: 0
+                    assignmentIndex: 0,
+                    assignmentType: "PERSON"
                 };
 
                 const stateAfter = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -128,6 +135,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -140,15 +148,17 @@ describe("ProjectReducer", () => {
                 };
 
                 const action = {
-                    type: "MOVE_PERSON",
+                    type: "MOVE_ASSIGMENT",
                     toPairingBoardIndex: -1,
                     fromPairingBoardIndex: 1,
-                    personIndex: 0
+                    assignmentIndex: 0,
+                    assignmentType: "PERSON"
                 };
 
                 const stateAfter = {
                     id: 7,
                     people: [{name: "Captain Kirk"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -165,6 +175,141 @@ describe("ProjectReducer", () => {
 
                 expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
+
+            it('should move a role between pairingBoards', () => {
+                const stateBefore = {
+                    id: 7,
+                    roles: [],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: [{name: "Captain Kirk"}]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }]
+                };
+
+                const action = {
+                    type: "MOVE_ASSIGMENT",
+                    toPairingBoardIndex: 1,
+                    fromPairingBoardIndex: 0,
+                    assignmentIndex: 0,
+                    assignmentType: "ROLE"
+                };
+
+                const stateAfter = {
+                    id: 7,
+                    roles: [],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: [{name: "Captain Kirk"}]
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
+            });
+
+            it('should move a role from the project to a pairing board', () => {
+                const stateBefore = {
+                    id: 7,
+                    people: [],
+                    roles: [{name: "Captain Kirk"}],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }]
+                };
+
+                const action = {
+                    type: "MOVE_ASSIGMENT",
+                    toPairingBoardIndex: 1,
+                    fromPairingBoardIndex: -1,
+                    assignmentIndex: 0,
+                    assignmentType: "ROLE"
+                };
+
+                const stateAfter = {
+                    id: 7,
+                    roles: [],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: [{name: "Captain Kirk"}]
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
+            });
+
+            it('should move a role from pairing board to the project', () => {
+                const stateBefore = {
+                    id: 7,
+                    roles: [],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: [{name: "Captain Kirk"}]
+                        }]
+                };
+
+                const action = {
+                    type: "MOVE_ASSIGMENT",
+                    toPairingBoardIndex: -1,
+                    fromPairingBoardIndex: 1,
+                    assignmentIndex: 0,
+                    assignmentType: "ROLE"
+                };
+
+                const stateAfter = {
+                    id: 7,
+                    people: [],
+                    roles: [{name: "Captain Kirk"}],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: []
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
+            });
         });
 
         describe('RESET_PAIRING_BOARD', () => {
@@ -172,6 +317,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -186,9 +332,9 @@ describe("ProjectReducer", () => {
                         }
                     ]
                 };
-                
+
                 const action = { type: 'RESET_PAIRING_BOARD' };
-                
+
                 const stateAfter = {
                     id: 7,
                     people: [
@@ -197,6 +343,7 @@ describe("ProjectReducer", () => {
                         {name: "Hanzle"},
                         {name: "Gretel"}
                     ],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -219,6 +366,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -232,9 +380,9 @@ describe("ProjectReducer", () => {
                             ]
                         },
                         {
-                          name: "OOO",
-                          exempt: true,
-                          people: [{name: "Rip van Winkle"}]
+                            name: "OOO",
+                            exempt: true,
+                            people: [{name: "Rip van Winkle"}]
                         }
                     ]
                 };
@@ -249,6 +397,7 @@ describe("ProjectReducer", () => {
                         {name: "Hansel"},
                         {name: "Gretel"}
                     ],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -259,9 +408,9 @@ describe("ProjectReducer", () => {
                             people: []
                         },
                         {
-                          name: "OOO",
-                          exempt: true,
-                          people: [{name: "Rip van Winkle"}]
+                            name: "OOO",
+                            exempt: true,
+                            people: [{name: "Rip van Winkle"}]
                         }
                     ]
                 };
@@ -278,6 +427,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -315,6 +465,7 @@ describe("ProjectReducer", () => {
                         {name: "Alice"},
                         {name: "Jim"}
                     ],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -351,6 +502,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -361,9 +513,9 @@ describe("ProjectReducer", () => {
                             people: [{name: "Hansel"}]
                         },
                         {
-                          name: "OOO",
-                          exempt: true,
-                          people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
+                            name: "OOO",
+                            exempt: true,
+                            people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
                         }
                     ]
                 };
@@ -373,6 +525,7 @@ describe("ProjectReducer", () => {
                 const stateAfter = {
                     id: 7,
                     people: [{name: "Bubba Gump"}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "BOARD1",
@@ -383,9 +536,9 @@ describe("ProjectReducer", () => {
                             people: [{name: "Hansel"}]
                         },
                         {
-                          name: "OOO",
-                          exempt: true,
-                          people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
+                            name: "OOO",
+                            exempt: true,
+                            people: [{name: "Gretel"}, {name: "Rip van Winkle"}, {name: "Alice" }]
                         }
                     ]
                 };
@@ -397,11 +550,12 @@ describe("ProjectReducer", () => {
             });
         });
 
-        describe("DELETE_PERSON", () => {
+        describe("DELETE_ASSIGNMENT", () => {
             it('should delete a person from a pairing board', () => {
                 const stateBefore = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -417,14 +571,16 @@ describe("ProjectReducer", () => {
                 };
 
                 const action = {
-                    type: "DELETE_PERSON",
+                    type: "DELETE_ASSIGNMENT",
                     pairingBoardIndex: 0,
-                    personIndex: 1
+                    assignmentIndex: 1,
+                    assignmentType: "PERSON"
                 };
 
                 const stateAfter = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -447,6 +603,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: 'Albert Einstein'}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -462,14 +619,16 @@ describe("ProjectReducer", () => {
                 };
 
                 const action = {
-                    type: "DELETE_PERSON",
+                    type: "DELETE_ASSIGNMENT",
                     pairingBoardIndex: -1,
-                    personIndex: 0
+                    assignmentIndex: 0,
+                    assignmentType: "PERSON"
                 };
 
                 const stateAfter = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -489,6 +648,104 @@ describe("ProjectReducer", () => {
 
                 expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
             });
+
+            it('should delete a role from a pairing board', () => {
+                const stateBefore = {
+                    id: 7,
+                    roles: [],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }]
+                };
+
+                const action = {
+                    type: "DELETE_ASSIGNMENT",
+                    pairingBoardIndex: 0,
+                    assignmentIndex: 1,
+                    assignmentType: "ROLE"
+                };
+
+                const stateAfter = {
+                    id: 7,
+                    roles: [],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: [{name: "Captain Kirk"}]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }
+                    ]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
+            });
+
+            it('should delete a role from the project', () => {
+                const stateBefore = {
+                    id: 7,
+                    roles: [{name: 'Albert Einstein'}],
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }]
+                };
+
+                const action = {
+                    type: "DELETE_ASSIGNMENT",
+                    pairingBoardIndex: -1,
+                    assignmentIndex: 0,
+                    assignmentType: "ROLE"
+                };
+
+                const stateAfter = {
+                    id: 7,
+                    people: [],
+                    roles: [],
+                    pairingBoards: [
+                        {
+                            name: "USS Enterprise",
+                            roles: [
+                                {name: "Captain Kirk"},
+                                {name: "Spock"}
+                            ]
+                        },
+                        {
+                            name: "Klingon Warbird",
+                            roles: []
+                        }]
+                };
+
+                deepFreeze(stateBefore);
+                deepFreeze(action);
+
+                expect(projectReducer(stateBefore, action)).toEqual(stateAfter);
+            });
         });
 
         describe("DELETE_PAIRING_BOARD", () => {
@@ -496,6 +753,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -519,6 +777,7 @@ describe("ProjectReducer", () => {
                 const stateAfter = {
                     id: 7,
                     people: [],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -540,6 +799,7 @@ describe("ProjectReducer", () => {
                 const stateBefore = {
                     id: 7,
                     people: [{name: 'Albert Einstein'}],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "USS Enterprise",
@@ -567,6 +827,7 @@ describe("ProjectReducer", () => {
                         {name: "Captain Kirk"},
                         {name: "Spock"}
                     ],
+                    roles: [],
                     pairingBoards: [
                         {
                             name: "Klingon Warbird",

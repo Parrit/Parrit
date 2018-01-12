@@ -5,27 +5,27 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "person",
+@Table(name = "role",
         indexes = {
-                @Index(name = "person_pkey", unique = true, columnList = "id")
+                @Index(name = "role_pkey", unique = true, columnList = "id")
         }
 )
-public class Person {
+public class Role {
 
     @Id
     @Column(name = "id", nullable = false)
-    @ColumnDefault("nextval('person_id_seq')")
-    @SequenceGenerator(name = "person_id_gen", sequenceName = "person_id_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(generator = "person_id_gen", strategy = GenerationType.SEQUENCE)
+    @ColumnDefault("nextval('role_id_seq')")
+    @SequenceGenerator(name = "role_id_gen", sequenceName = "role_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "role_id_gen", strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    public Person() {
+    public Role() {
     }
 
-    public Person(String name) {
+    public Role(String name) {
         this.name = name;
     }
 
@@ -48,12 +48,12 @@ public class Person {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Person)) return false;
+        if (!(o instanceof Role)) return false;
 
-        Person person = (Person) o;
+        Role role = (Role) o;
 
-        if (getId() != person.getId()) return false;
-        return getName() != null ? getName().equals(person.getName()) : person.getName() == null;
+        if (getId() != role.getId()) return false;
+        return getName() != null ? getName().equals(role.getName()) : role.getName() == null;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
