@@ -1,15 +1,15 @@
-.floating-parrits .person {
-  background-color: $veryLightPink;
-  color: $salmon;
+.floating-parrits .role {
+  background-color: $veryLightPurple;
+  color: $purple;
 }
 
-.pairing-board .person,
-.person.can-drop {
-  background-color: $salmon;
+.pairing-board .role,
+.role.can-drop {
+  background-color: $purple;
   color: white;
 }
 
-.person {
+.role {
   position: relative;
   display: inline-block;
   border-radius: 26px;

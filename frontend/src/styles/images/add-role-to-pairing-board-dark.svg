@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="13px"
+   height="13px"
+   viewBox="0 0 13 13"
+   version="1.1"
+   id="svg36"
+   sodipodi:docname="rename-pairing-board-dark.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+  <metadata
+     id="metadata40">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3840"
+     inkscape:window-height="2092"
+     id="namedview38"
+     showgrid="false"
+     inkscape:zoom="72.615385"
+     inkscape:cx="5.0033039"
+     inkscape:cy="6.9861038"
+     inkscape:window-x="0"
+     inkscape:window-y="68"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg36" />
+  <!-- Generator: sketchtool 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title22">edit</title>
+  <desc
+     id="desc24">Created with sketchtool.</desc>
+  <defs
+     id="defs26">
+    <inkscape:path-effect
+       effect="bend_path"
+       id="path-effect4879"
+       is_visible="true"
+       bendpath="M 0.29296875,6.2421875 H 12.716797"
+       prop_scale="1"
+       scale_y_rel="false"
+       vertical="false" />
+    <inkscape:path-effect
+       effect="bend_path"
+       id="path-effect4877"
+       is_visible="true"
+       bendpath="M 0.29296875,6.2421875 H 12.716797"
+       prop_scale="1"
+       scale_y_rel="false"
+       vertical="false" />
+    <marker
+       inkscape:stockid="DiamondL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="DiamondL"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4638"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;stroke:#bdd63e;stroke-width:1pt;stroke-opacity:1;fill:#bdd63e;fill-opacity:1"
+         transform="scale(0.8)" />
+    </marker>
+  </defs>
+  <g
+     id="g4920"
+     transform="matrix(1.0605898,0,0,1.059647,-0.38006163,-0.43230378)">
+    <rect
+       ry="0.54044229"
+       y="5.9220829"
+       x="1.2577912"
+       height="1.2270008"
+       width="10.484416"
+       id="rect4881"
+       style="fill:#bdd63e;fill-opacity:1;stroke:#bdd63e;stroke-width:1.74460602;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       ry="0.49175382"
+       transform="rotate(90)"
+       y="-7.1363006"
+       x="1.3128759"
+       height="1.2270008"
+       width="10.484416"
+       id="rect4881-6"
+       style="fill:#bdd63e;fill-opacity:1;stroke:#bdd63e;stroke-width:1.745;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10.30000019;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

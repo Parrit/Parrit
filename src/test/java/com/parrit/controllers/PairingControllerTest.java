@@ -42,13 +42,13 @@ public class PairingControllerTest {
 
     @Before
     public void setUp() {
-        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", false, new ArrayList<>());
+        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", false, new ArrayList<>(), new ArrayList<>());
         pairingBoard.setId(1L);
 
         exampleProject = new Project("Nancy", "nancypass", Collections.singletonList(pairingBoard), new ArrayList<>());
         exampleProject.setId(2L);
 
-        String pairingBoardString = "{\"id\":1,\"name\":\"Super Pairing Board\",\"exempt\":false,\"people\":[]}";
+        String pairingBoardString = "{\"id\":1,\"name\":\"Super Pairing Board\",\"exempt\":false,\"people\":[],\"roles\":[]}";
         exampleProjectString = "{\"id\":2,\"name\":\"Nancy\",\"pairingBoards\":[" + pairingBoardString + "],\"people\":[]}";
     }
 

@@ -3,9 +3,11 @@ package com.parrit.controllers;
 import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.PairingBoardDTO;
 import com.parrit.DTOs.PersonDTO;
+import com.parrit.DTOs.RoleDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
+import com.parrit.entities.Role;
 import com.parrit.entities.Project;
 import com.parrit.exceptions.PairingBoardNotFoundException;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
@@ -69,12 +71,12 @@ public class ProjectController {
         String hashedPassword = passwordEncoder.encodePassword(newProjectDTO.getPassword(), null);
 
         List<PairingBoard> defaultPairingBoards = new ArrayList<>();
-        defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("MACAW", false, new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("LOVEBIRD", false, new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("PARAKEET", false, new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("MACAW", false, new ArrayList<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("LOVEBIRD", false, new ArrayList<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("PARAKEET", false, new ArrayList<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>(), new ArrayList<>()));
 
         Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new ArrayList<>());
         projectRepository.save(project);
@@ -105,12 +107,29 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}/role", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<ProjectDTO> addRole(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid RoleDTO roleDTO) {
+        Project savedProject = projectRepository.findOne(projectId);
+
+        PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
+                .filter(pb -> pb.getId() == pairingBoardId)
+                .findFirst()
+                .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
+
+        matchingPairingBoard.getRoles().add(new Role(roleDTO.getName()));
+
+        Project updatedProject = projectRepository.save(savedProject);
+        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
         Project savedProject = projectRepository.findOne(projectId);
 
-        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>()));
+        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>(), new ArrayList<>()));
 
         Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);

@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 const initialState = {
     id: 0,
     people: [],
+    roles: [],
     pairingBoards: []
 };
 
@@ -11,13 +12,20 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case "LOAD_PROJECT":
             return action.project;
-        case "MOVE_PERSON":
+        case "MOVE_ASSIGMENT":
             stateClone = _.cloneDeep(state);
 
             const fromPairingBoard = action.fromPairingBoardIndex >= 0 ? stateClone.pairingBoards[action.fromPairingBoardIndex] : stateClone;
             const toPairingBoard = action.toPairingBoardIndex >= 0 ? stateClone.pairingBoards[action.toPairingBoardIndex] : stateClone;
 
-            toPairingBoard.people.push(_.pullAt(fromPairingBoard.people, action.personIndex)[0]);
+            switch (action.assignmentType) {
+                case "ROLE":
+                    toPairingBoard.roles.push(_.pullAt(fromPairingBoard.roles, action.assignmentIndex)[0]);
+                    break;
+                case "PERSON":
+                    toPairingBoard.people.push(_.pullAt(fromPairingBoard.people, action.assignmentIndex)[0]);
+                    break;
+            }
 
             return stateClone;
         case "RESET_PAIRING_BOARD":
@@ -60,11 +68,20 @@ export default function (state = initialState, action) {
             );
 
             return stateClone;
-        case "DELETE_PERSON":
+        case "DELETE_ASSIGNMENT":
             stateClone = _.cloneDeep(state);
 
             const pairingBoard = action.pairingBoardIndex >= 0 ? stateClone.pairingBoards[action.pairingBoardIndex] : stateClone;
-            _.pullAt(pairingBoard.people, action.personIndex);
+
+            switch (action.assignmentType) {
+                case "ROLE":
+                    _.pullAt(pairingBoard.roles, action.assignmentIndex);
+                    break;
+                case "PERSON":
+                    _.pullAt(pairingBoard.people, action.assignmentIndex);
+                    break;
+            }
+
 
             return stateClone;
         case "DELETE_PAIRING_BOARD":

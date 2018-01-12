@@ -2,8 +2,8 @@ import * as dataCreators from './creators/DataCreators.js';
 import * as settingsCreators from './creators/SettingsCreators.js';
 import * as dataThunks from './thunks/DataThunks.js';
 
-function movePersonCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.movePersonCreator(...args));
+function moveAssignmentCombo(...args) {
+    return dataThunks.autoSaveThunk(dataCreators.moveAssignmentCreator(...args));
 }
 
 function resetPairingBoardCombo() {
@@ -14,8 +14,8 @@ function smartResetBoardCombo() {
     return dataThunks.autoSaveThunk(dataCreators.smartResetBoard());
 }
 
-function deletePersonCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.deletePersonCreator(...args));
+function deleteAssignmentCombo(...args) {
+    return dataThunks.autoSaveThunk(dataCreators.deleteAssignmentCreator(...args));
 }
 
 function deletePairingBoardCombo(...args) {
@@ -23,12 +23,13 @@ function deletePairingBoardCombo(...args) {
 }
 
 export default {
-    movePerson: movePersonCombo,
+    moveAssignment: moveAssignmentCombo,
     resetPairs: resetPairingBoardCombo,
     smartReset: smartResetBoardCombo,
     createPerson: dataThunks.addNewPersonThunk,
+    createRole: dataThunks.addNewRoleThunk,
     createPairingBoard: dataThunks.addNewPairingBoardThunk,
-    deletePerson: deletePersonCombo,
+    deleteAssignment: deleteAssignmentCombo,
     deletePairingBoard: deletePairingBoardCombo,
     renamePairingBoard: dataThunks.renamePairingBoardThunk,
     savePairing: dataThunks.savePairingThunk,
@@ -36,6 +37,7 @@ export default {
     fetchPairingHistory: dataThunks.getPairingHistoryThunk,
     postLogout: dataThunks.postLogoutThunk,
     setNewPersonModalOpen: settingsCreators.setNewPersonModalOpenCreator,
+    setNewRoleModalOpen: settingsCreators.setNewRoleModalOpenCreator,
     setNewPairingBoardModalOpen: settingsCreators.setNewPairingBoardModalOpenCreator,
     setPairingHistoryPanelOpen: settingsCreators.setPairingHistoryPanelOpenCreator,
 };

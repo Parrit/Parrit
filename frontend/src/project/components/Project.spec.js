@@ -18,6 +18,7 @@ describe('<Project/>', () => {
                 id: 77,
                 name: 'The Best Around',
                 people: [],
+                roles: [],
                 pairingBoards: [
                     {
                         name: 'PairingBoard1',
@@ -31,8 +32,10 @@ describe('<Project/>', () => {
             }
         },
         setNewPersonModalOpen: () => {},
+        setNewRoleModalOpen: () => {},
         setNewPairingBoardModalOpen: () => {},
         createPerson: () => {},
+        createRole: () => {},
         createPairingBoard: () => {},
         deletePairingBoard: () => {},
         renamePairingBoard: () => {}
@@ -96,8 +99,10 @@ describe('<Project/>', () => {
         expect(workspaceComponent.prop('pairingBoards')).toBe(props.data.project.pairingBoards, 'No pairingBoards passed to project');
 
         expect(workspaceComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen, 'No setNewPersonModalOpen passed to project');
+        expect(workspaceComponent.prop('setNewRoleModalOpen')).toBe(props.setNewRoleModalOpen, 'No setNewRoleModalOpen passed to project');
         expect(workspaceComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen, 'No setNewPairingBoardModalOpen passed to project');
         expect(workspaceComponent.prop('createPerson')).toBe(props.createPerson, 'No createPerson passed to project');
+        expect(workspaceComponent.prop('createRole')).toBe(props.createRole, 'No createRole passed to project');
         expect(workspaceComponent.prop('createPairingBoard')).toBe(props.createPairingBoard, 'No createPairingBoard passed to project');
 
         expect(workspaceComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard, 'No deletePairingBoard passed to project');

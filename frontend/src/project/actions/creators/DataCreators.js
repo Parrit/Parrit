@@ -5,20 +5,22 @@ export function loadProjectCreator(project) {
     };
 }
 
-export function movePersonCreator(fromPairingBoardIndex, toPairingBoardIndex, personIndex) {
+export function moveAssignmentCreator(fromPairingBoardIndex, toPairingBoardIndex, assignmentIndex, assignmentType) {
     return {
-        type: 'MOVE_PERSON',
+        type: 'MOVE_ASSIGMENT',
         fromPairingBoardIndex: fromPairingBoardIndex,
         toPairingBoardIndex: toPairingBoardIndex,
-        personIndex: personIndex
+        assignmentIndex: assignmentIndex,
+        assignmentType: assignmentType
     };
 }
 
-export function deletePersonCreator(pairingBoardIndex, personIndex) {
+export function deleteAssignmentCreator(pairingBoardIndex, assignmentIndex, assignmentType) {
     return {
-        type: 'DELETE_PERSON',
+        type: 'DELETE_ASSIGNMENT',
         pairingBoardIndex: pairingBoardIndex,
-        personIndex: personIndex
+        assignmentIndex: assignmentIndex,
+        assignmentType: assignmentType
     };
 }
 

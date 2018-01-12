@@ -30,13 +30,18 @@ public class PairingBoard {
     @JoinColumn(name = "pairing_board_id", nullable = true, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
     private List<Person> people;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pairing_board_id", nullable = true, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
+    private List<Role> roles;
+
     public PairingBoard() {
     }
 
-    public PairingBoard(String name, boolean exempt, List<Person> people) {
+    public PairingBoard(String name, boolean exempt, List<Person> people, List<Role> roles) {
         this.name = name;
         this.exempt = exempt;
         this.people = people;
+        this.roles = roles;
     }
 
     public long getId() {
@@ -71,6 +76,14 @@ public class PairingBoard {
         this.people = people;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,7 +94,8 @@ public class PairingBoard {
         if (getId() != that.getId()) return false;
         if (isExempt() != that.isExempt()) return false;
         if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null;
+        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null &&
+            getRoles() != null ? getRoles().equals(that.getRoles()) : that.getRoles() == null;
     }
 
     @Override
@@ -90,6 +104,7 @@ public class PairingBoard {
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (isExempt() ? 1 : 0);
         result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
+        result = 31 * result + (getRoles() != null ? getRoles().hashCode() : 0);
         return result;
     }
 
@@ -100,6 +115,7 @@ public class PairingBoard {
                 ", name='" + name + '\'' +
                 ", exempt=" + exempt +
                 ", people=" + people +
+                ", roles=" + roles +
                 '}';
     }
 

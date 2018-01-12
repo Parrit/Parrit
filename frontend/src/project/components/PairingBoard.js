@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import PersonList from './PersonList.js';
+import RoleList from './RoleList.js';
+
+import Modal from 'react-modal';
+import NameForm from '../../shared/components/NameForm.js';
+import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
 
 export default class PairingBoard extends React.Component {
     constructor(props) {
@@ -20,7 +25,7 @@ export default class PairingBoard extends React.Component {
 
     render() {
         const pairingBoardIndex = this.props.index;
-        const {name, exempt, people} = this.props.pairingBoard;
+        const {name, exempt, people, roles} = this.props.pairingBoard;
 
         let pairingBoardClasses = "pairing-board dropzone";
         let pairingBoardNameSection;
@@ -54,12 +59,14 @@ export default class PairingBoard extends React.Component {
             <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
                 <div className="pairing-board-header">
                     {pairingBoardNameSection}
+                    <div className="add-role-to-pairing-board" onClick={this.openNewRoleModal.bind(this)}/>
                     {pairingBoardDeleteSection}
                 </div>
+                <RoleList roles={roles} index={pairingBoardIndex} />
                 <PersonList people={people} index={pairingBoardIndex} />
             </div>
-		)
-	}
+        )
+    }
 
     enableEditMode() {
         this.setState({editMode: true});
@@ -83,6 +90,10 @@ export default class PairingBoard extends React.Component {
     renamePairingBoard(event) {
         this.props.renamePairingBoard(this.props.pairingBoard.id, event.target.value, this.disableEditMode.bind(this));
     }
+
+    openNewRoleModal () {
+        this.props.setNewRoleModalOpen(true, this.props.pairingBoard.id);
+    }
 }
 
 PairingBoard.propTypes = {
@@ -90,5 +101,6 @@ PairingBoard.propTypes = {
     pairingBoard: PropTypes.object.isRequired,
     editErrorMessage: PropTypes.string,
     deletePairingBoard: PropTypes.func.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired
+    renamePairingBoard: PropTypes.func.isRequired,
+    setNewRoleModalOpen: PropTypes.func.isRequired,
 };

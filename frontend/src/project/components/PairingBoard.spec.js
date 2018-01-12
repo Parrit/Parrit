@@ -16,11 +16,15 @@ describe('<PairingBoard/>', () => {
                     { name: "George" },
                     { name: "Hank Muchacho" }
                 ],
+                roles: [
+                    { name: "Interrupt" }
+                ],
                 exempt: false,
             },
             editErrorMessage: 'some error message',
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
-            renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
+            renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy'),
+            setNewRoleModalOpen: jasmine.createSpy('setNewRoleModalOpen')
         };
 
         wrapper = shallow(<PairingBoard {...props} />);
@@ -36,12 +40,25 @@ describe('<PairingBoard/>', () => {
         expect(people.prop('people')).toBe(props.pairingBoard.people);
     });
 
+    it('renders the list of roles', () => {
+        const roles = wrapper.find('RoleList');
+        expect(roles.prop('index')).toBe(props.index);
+        expect(roles.prop('roles')).toBe(props.pairingBoard.roles);
+    });
+
     it('renders a rename button', () => {
         expect(wrapper.find('.rename-pairing-board').exists()).toBeTruthy();
     });
 
     it('renders a delete button', () => {
         expect(wrapper.find('.delete-pairing-board').exists()).toBeTruthy();
+    });
+
+    describe('#openNewRoleModal', () => {
+        it('shows the modal', () => {
+            wrapper.find('.add-role-to-pairing-board').simulate('click');
+            expect(props.setNewRoleModalOpen).toHaveBeenCalledWith(true, props.pairingBoard.id);
+        });
     });
 
     describe('#exempt', () => {

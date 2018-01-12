@@ -6,6 +6,7 @@ import Workspace from './Workspace.js';
 describe('<Workspace/>', () => {
     let wrapper, props;
     let newPersonModal, newPersonForm;
+    let newRoleModal, newRoleForm;
     let newPairingBoardModal, newPairingBoardForm;
 
     beforeEach(() => {
@@ -14,9 +15,12 @@ describe('<Workspace/>', () => {
             settings: {
                 modal: {
                     isNewPersonModalOpen: false,
+                    isNewRoleModalOpen: false,
                     isNewPairingBoardModalOpen: true,
                     newPersonModalErrorMessage: "some error message",
-                    newPairingBoardModalErrorMessage: "some error message"
+                    newRoleModalErrorMessage: "some error message",
+                    newPairingBoardModalErrorMessage: "some error message",
+                    newRoleModalPairingBoardId: 17
                 },
                 pairingBoardErrors: {
                     89: 'some edit error message'
@@ -46,8 +50,10 @@ describe('<Workspace/>', () => {
             ],
 
             createPerson: jasmine.createSpy('createPersonSpy'),
+            createRole: jasmine.createSpy('createRoleSpy'),
             createPairingBoard: jasmine.createSpy('createPairingBoardSpy'),
             setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
+            setNewRoleModalOpen: jasmine.createSpy('setNewRoleModalOpenSpy'),
             setNewPairingBoardModalOpen: jasmine.createSpy('setNewPairingBoardModalOpenSpy'),
 
             deletePairingBoard: () => {},
@@ -58,9 +64,11 @@ describe('<Workspace/>', () => {
 
         const Modals = wrapper.find('Modal');
         newPersonModal = Modals.at(0);
-        newPairingBoardModal = Modals.at(1);
+        newRoleModal = Modals.at(1);
+        newPairingBoardModal = Modals.at(2);
 
         newPersonForm = newPersonModal.find('NameForm');
+        newRoleForm = newRoleModal.find('NameForm');
         newPairingBoardForm = newPairingBoardModal.find('NameForm');
     });
 
@@ -122,6 +130,37 @@ describe('<Workspace/>', () => {
                 callback();
 
                 expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
+            });
+        });
+    });
+
+    describe('newRoleModal', () => {
+        it('has a configured newRoleModal component as a child', () => {
+            expect(newRoleModal.prop('isOpen')).toBe(props.settings.modal.isNewRoleModalOpen);
+        });
+
+        it('has a configured new role form in a modal', () => {
+            expect(newRoleForm.prop('formTitle')).toBe("Add Parrit Role");
+        });
+
+        it('passes in the error message', () => {
+            expect(newRoleForm.prop('errorMessage')).toBe("some error message");
+        });
+
+        describe('#createRoleWithName', () => {
+            beforeEach(() => {
+                newRoleForm.prop('confirmFunction')('Luke Skywalker');
+            });
+
+            it('should call the createRole action with the projectId, the passed in name and a callback', () => {
+                expect(props.createRole).toHaveBeenCalledWith(77, 'Luke Skywalker', 17, jasmine.anything());
+            });
+
+            it('the passed in callback should close the modal', () => {
+                const callback = props.createRole.calls.mostRecent().args[3];
+                callback();
+
+                expect(props.setNewRoleModalOpen).toHaveBeenCalledWith(false);
             });
         });
     });

@@ -190,6 +190,47 @@ describe('DatabaseHelpers', () => {
         });
     });
 
+    describe('#postAddNewRoleAndDo', () => {
+        let successCallbackSpy, errorCallbackSpy;
+
+        const projectId = 87;
+        const newRoleName = 'John';
+        const pairingBoardId = 870;
+        const data = {iamaproperty: "blahblah"};
+
+        beforeEach(() => {
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
+
+            databaseHelpers.postAddNewRoleAndDo(projectId, newRoleName, pairingBoardId, successCallbackSpy, errorCallbackSpy);
+        });
+
+        it('makes an Ajax call to post the new role', () => {
+            expect(Axios.post.calls.count()).toBe(1);
+            expect(Axios.post).toHaveBeenCalledWith('/api/project/87/pairingBoard/870/role', {name: newRoleName});
+        });
+
+        describe('when the Ajax call returns with a response', () => {
+            beforeEach(() => {
+                axiosPostPromise.resolve({data: data});
+            });
+
+            it('calls the callback with the response', () => {
+                expect(successCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+
+        describe('when the Ajax call returns with an error', () => {
+            beforeEach(() => {
+                axiosPostPromise.reject({response: {data: data}});
+            });
+
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+    });
+
     describe('#postAddNewPairingAndDo', () => {
         let successCallbackSpy, errorCallbackSpy;
 
