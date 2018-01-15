@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 
 import Workspace from './Workspace.js';
 import Button from '../../shared/components/Button.js';
@@ -38,7 +39,7 @@ class Project extends React.Component {
     }
 }
 
-Project.propTypes = {
+Project.propTypes = exact({
     data: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     createPerson: PropTypes.func.isRequired,
@@ -53,6 +54,6 @@ Project.propTypes = {
     savePairing: PropTypes.func.isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired
-};
+});
 
 export default Project;

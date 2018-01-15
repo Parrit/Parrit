@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import { DragLayer } from 'react-dnd';
 
 import { Person } from './Person.js'
@@ -38,14 +39,14 @@ class CustomDragLayer extends React.Component {
     }
 }
 
-CustomDragLayer.propTypes = {
+CustomDragLayer.propTypes = exact({
     itemType: PropTypes.string,
     isDragging: PropTypes.bool.isRequired,
     currentOffset: PropTypes.shape({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired,
     })
-}
+});
 
 const dragCollect = (monitor) => {
     return {

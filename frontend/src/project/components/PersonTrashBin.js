@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 
@@ -18,11 +19,11 @@ class PersonTrashBin extends React.Component {
     }
 }
 
-PersonTrashBin.propTypes = {
+PersonTrashBin.propTypes = exact({
     isOver: PropTypes.bool.isRequired,
     deletePerson: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
-};
+});
 
 const dragSpec = {
     drop(props, monitor) {

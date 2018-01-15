@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 
 import Footer from '../../shared/components/Footer.js';
 
@@ -30,10 +31,10 @@ class ProjectLogin extends React.Component {
     }
 }
 
-ProjectLogin.propTypes = {
+ProjectLogin.propTypes = exact({
     projectName: PropTypes.string.isRequired,
     csrfParameterName: PropTypes.string.isRequired,
     csrfToken: PropTypes.string.isRequired
-};
+});
 
 export default ProjectLogin;

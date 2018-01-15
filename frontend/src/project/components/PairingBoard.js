@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 
@@ -94,7 +95,7 @@ class PairingBoard extends React.Component {
     }
 }
 
-PairingBoard.propTypes = {
+PairingBoard.propTypes = exact({
     pairingBoard: PropTypes.object.isRequired,
     editErrorMessage: PropTypes.string,
     isOver: PropTypes.bool.isRequired,
@@ -102,7 +103,7 @@ PairingBoard.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
     movePerson: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
-};
+});
 
 const dragSpec = {
     drop(props, monitor) {

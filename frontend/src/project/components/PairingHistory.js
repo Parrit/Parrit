@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import { Scrollbars } from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
@@ -51,11 +52,11 @@ class PairingHistory extends React.Component {
     }
 }
 
-PairingHistory.propTypes = {
+PairingHistory.propTypes = exact({
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
     fetchPairingHistory: PropTypes.func.isRequired,
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired
-};
+});
 
 export default PairingHistory;

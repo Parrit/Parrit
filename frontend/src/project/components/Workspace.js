@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import Modal from 'react-modal';
 
 import PersonList from './PersonList.js';
@@ -79,7 +80,7 @@ class Workspace extends React.Component {
     }
 }
 
-Workspace.propTypes = {
+Workspace.propTypes = exact({
     people: PropTypes.arrayOf(PropTypes.object).isRequired,
     pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
     settings: PropTypes.object.isRequired,
@@ -91,6 +92,6 @@ Workspace.propTypes = {
     deletePairingBoard: PropTypes.func.isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired
-}
+});
 
 export default Workspace;

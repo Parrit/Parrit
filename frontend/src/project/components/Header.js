@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import classNames from 'classnames';
 
 class Header extends React.Component {
@@ -35,10 +36,10 @@ class Header extends React.Component {
     }
 }
 
-Header.propTypes = {
+Header.propTypes = exact({
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
     postLogout: PropTypes.func.isRequired
-};
+});
 
 export default Header;

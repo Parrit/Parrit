@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
@@ -14,11 +15,11 @@ class Person extends React.Component {
     }
 }
 
-Person.propTypes = {
+Person.propTypes = exact({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     connectDragSource: PropTypes.func.isRequired
-};
+});
 
 const dragSpec = {
     beginDrag(props, monitor) {

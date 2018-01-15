@@ -8,6 +8,7 @@
     "lodash": "4.17.4",
     "moment-timezone": "0.5.14",
     "prop-types": "15.6.0",
+    "prop-types-exact": "1.1.1",
     "raf": "3.4.0",
     "react": "16.2.0",
     "react-custom-scrollbars": "4.2.1",

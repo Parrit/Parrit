@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import Moment from 'moment-timezone';
 
 class PairingHistoryRecord extends React.Component {
@@ -31,9 +32,9 @@ class PairingHistoryRecord extends React.Component {
     }
 }
 
-PairingHistoryRecord.propTypes = {
+PairingHistoryRecord.propTypes = exact({
     pairingTime: PropTypes.string.isRequired,
     pairingBoardsWithPeople: PropTypes.arrayOf(PropTypes.object).isRequired
-};
+});
 
 export default PairingHistoryRecord;

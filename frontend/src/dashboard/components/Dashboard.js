@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 
 import Footer from '../../shared/components/Footer.js';
 import Button from '../../shared/components/Button.js';
@@ -95,7 +96,7 @@ class Dashboard extends React.Component {
     }
 }
 
-Dashboard.propTypes = {
+Dashboard.propTypes = exact({
     newProjectErrorMessage: PropTypes.string,
     newProjectErrorName: PropTypes.bool.isRequired,
     newProjectErrorPassword: PropTypes.bool.isRequired,
@@ -104,6 +105,6 @@ Dashboard.propTypes = {
     loginErrorPassword: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     createProject: PropTypes.func.isRequired
-};
+});
 
 export default Dashboard;

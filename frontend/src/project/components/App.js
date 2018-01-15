@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import exact from 'prop-types-exact';
 import { DragDropContext, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import classNames from 'classnames';
@@ -31,7 +32,7 @@ class App extends React.Component {
             getRecommendedPairs: this.props.getRecommendedPairs,
             savePairing: this.props.savePairing,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
-            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
+            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen
         };
 
         const pairingHistoryProps = {
@@ -60,7 +61,7 @@ class App extends React.Component {
 	}
 }
 
-App.propTypes = {
+App.propTypes = exact({
     data: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
     createPerson: PropTypes.func.isRequired,
@@ -79,7 +80,7 @@ App.propTypes = {
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     postLogout: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
-};
+});
 
 const dragSpec = {
     drop(props, monitor) {
