@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import exact from 'prop-types-exact';
 import { DropTarget } from 'react-dnd';
@@ -11,14 +10,6 @@ class PairingBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editMode: false};
-    }
-
-    componentDidUpdate() {
-        if(this.state.editMode) {
-            setTimeout(function() {
-                ReactDOM.findDOMNode(this.refs.editName).focus();
-            }.bind(this), 0);
-        }
     }
 
     render() {
@@ -34,7 +25,7 @@ class PairingBoard extends React.Component {
                 'error': this.props.editErrorMessage
             });
             pairingBoardNameSection = <div className="pairing-board-name-wrapper">
-                <input ref="editName" className={pairingBoardNameInputClasses} defaultValue={name}
+                <input className={pairingBoardNameInputClasses} autoFocus defaultValue={name}
                     onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
                 <div className="error-message">{this.props.editErrorMessage}</div>
             </div>;

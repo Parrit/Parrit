@@ -1,17 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 export default class NameForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = { name: '' };
-    }
-
-    componentDidMount() {
-        setTimeout(function() {
-            ReactDOM.findDOMNode(this.refs.input).focus();
-        }.bind(this), 0);
     }
 
     render() {
@@ -28,8 +21,8 @@ export default class NameForm extends React.Component {
                 <div className="error-message">{this.props.errorMessage}</div>
 
                 <input
-                    ref="input"
                     className={inputClasses}
+                    autoFocus
                     type="text"
                     placeholder="Name"
                     value={this.state.name}

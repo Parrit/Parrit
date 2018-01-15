@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import exact from 'prop-types-exact';
 import { DragSource } from 'react-dnd';
