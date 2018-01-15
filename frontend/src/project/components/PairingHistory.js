@@ -4,7 +4,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import PairingHistoryRecordList from './PairingHistoryRecordList.js';
 
-export default class PairingHistory extends React.Component {
+class PairingHistory extends React.Component {
     componentDidMount() {
         this.props.fetchPairingHistory(this.props.projectId);
     }
@@ -56,3 +56,5 @@ PairingHistory.propTypes = {
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired
 };
+
+export default PairingHistory;

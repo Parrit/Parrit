@@ -1,5 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { DragDropContext } from 'react-dnd';
+import TestBackend from 'react-dnd-test-backend';
 
 import Person from './Person.js';
 
@@ -8,19 +10,19 @@ describe('<Person/>', () => {
 
     beforeEach(() => {
         props = {
-            name: "person",
-            pairingBoardIndex: 1,
-            index: 1
+            id: 1,
+            name: "Billy",
+            connectDragSource: jasmine.createSpy('connectDragSourceSpy')
         };
 
-        wrapper = shallow(<Person {...props} />);
+        props.connectDragSource.and.callFake(i => i);
+
+        const InnerPerson = Person.DecoratedComponent;
+        wrapper = mount(<InnerPerson {...props} />);
     });
 
-    it('renders the person element with an id relative to index', () => {
-        expect(wrapper.prop('id')).toBe("pairing_board_1_person_1", "Did not make correct id");
+    it('displays the name', () => {
+        expect(wrapper.text()).toBe("Billy");
     });
 
-    it('should have the draggable class', () => {
-        expect(wrapper.prop('className')).toContain('draggable');
-    });
 });

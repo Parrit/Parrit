@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Footer from '../../shared/components/Footer.js';
 
-export default class ProjectLogin extends React.Component {
+class ProjectLogin extends React.Component {
     componentDidMount() {
         setTimeout(function() {
             ReactDOM.findDOMNode(this.refs.passwordInput).focus();
@@ -35,3 +35,5 @@ ProjectLogin.propTypes = {
     csrfParameterName: PropTypes.string.isRequired,
     csrfToken: PropTypes.string.isRequired
 };
+
+export default ProjectLogin;

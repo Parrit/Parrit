@@ -1,4 +1,4 @@
-import { putProjectAndDo, postAddNewPersonAndDo, postAddNewPairingBoardAndDo, putPairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js';
+import { putProjectAndDo, postPersonAndDo, putPersonPositionAndDo, deletePersonAndDo, postPairingBoardAndDo, putPairingBoardAndDo, deletePairingBoardAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js';
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from '../creators/DataCreators.js';
 import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setEditPairingBoardErrorMessageCreator, clearEditPairingBoardErrorMessageCreator } from '../creators/SettingsCreators.js';
 
@@ -18,7 +18,7 @@ export function autoSaveThunk(action) {
 
 export function addNewPersonThunk(projectId, name, callback) {
     return function(dispatch, getState) {
-        postAddNewPersonAndDo(projectId, name,
+        postPersonAndDo(projectId, name,
             function successCallback(project) {
                 callback();
                 dispatch(loadProjectCreator(project));
@@ -30,9 +30,35 @@ export function addNewPersonThunk(projectId, name, callback) {
     }
 }
 
+export function movePersonThunk(personId, newPosition) {
+    return function(dispatch, getState) {
+        putPersonPositionAndDo(getState().data.project.id, personId, newPosition,
+            function successCallback(project) {
+                dispatch(loadProjectCreator(project));
+            },
+            function errorCallback(errorResponse) {
+                //TODO: Huh?
+            }
+        )
+    }
+}
+
+export function deletePersonThunk(personId) {
+    return function(dispatch, getState) {
+        deletePersonAndDo(getState().data.project.id, personId,
+            function successCallback(project) {
+                dispatch(loadProjectCreator(project));
+            },
+            function errorCallback(errorResponse) {
+                //TODO: Huh?
+            }
+        )
+    }
+}
+
 export function addNewPairingBoardThunk(projectId, name, callback) {
     return function(dispatch, getState) {
-        postAddNewPairingBoardAndDo(projectId, name,
+        postPairingBoardAndDo(projectId, name,
             function successCallback(project) {
                 callback();
                 dispatch(loadProjectCreator(project));
@@ -54,6 +80,19 @@ export function renamePairingBoardThunk(pairingBoardId, name, callback) {
             },
             function errorCallback(errorResponse) {
                 dispatch(setEditPairingBoardErrorMessageCreator(pairingBoardId, errorResponse))
+            }
+        )
+    }
+}
+
+export function deletePairingBoardThunk(pairingBoardId) {
+    return function(dispatch, getState) {
+        deletePairingBoardAndDo(getState().data.project.id, pairingBoardId,
+            function successCallback(project) {
+                dispatch(loadProjectCreator(project));
+            },
+            function errorCallback(errorResponse) {
+                //TODO: Huh?
             }
         )
     }

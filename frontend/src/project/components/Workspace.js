@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 import PersonList from './PersonList.js';
+import PersonTrashBin from './PersonTrashBin.js';
 import PairingBoard from './PairingBoard.js';
 import NameForm from '../../shared/components/NameForm.js';
 import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
 
-export default class Workspace extends React.Component {
+class Workspace extends React.Component {
     render() {
         return (
             <div className="workspace">
 
                 <div className="floating-parrits">
                     <h2 className="floating-parrit-title">Floating Parrits</h2>
-                    <PersonList people={this.props.people} index={-1} />
+                    <PersonList people={this.props.people}/>
                     <div className="floating-parrit-actions">
                         <div className="add-parrit-button" onClick={this.openNewPersonModal.bind(this)}/>
-                        <div className="delete-parrit"/>
+                        <PersonTrashBin deletePerson={this.props.deletePerson}/>
                     </div>
                 </div>
 
@@ -29,11 +30,11 @@ export default class Workspace extends React.Component {
                         {this.props.pairingBoards.map((pairingBoard, idx) => {
                             return <PairingBoard
                                         key={idx}
-                                        index={idx}
                                         pairingBoard={pairingBoard}
                                         editErrorMessage={this.props.settings.pairingBoardErrors[pairingBoard.id]}
-                                        deletePairingBoard={this.props.deletePairingBoard}
                                         renamePairingBoard={this.props.renamePairingBoard}
+                                        deletePairingBoard={this.props.deletePairingBoard}
+                                        movePerson={this.props.movePerson}
                                     />
                         })}
                     </div>
@@ -80,13 +81,17 @@ export default class Workspace extends React.Component {
 
 Workspace.propTypes = {
     projectId: PropTypes.number.isRequired,
-    settings: PropTypes.object.isRequired,
     people: PropTypes.arrayOf(PropTypes.object).isRequired,
     pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
-    setNewPersonModalOpen: PropTypes.func.isRequired,
-    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    settings: PropTypes.object.isRequired,
     createPerson: PropTypes.func.isRequired,
+    movePerson: PropTypes.func.isRequired,
+    deletePerson: PropTypes.func.isRequired,
     createPairingBoard: PropTypes.func.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired
+    setNewPersonModalOpen: PropTypes.func.isRequired,
+    setNewPairingBoardModalOpen: PropTypes.func.isRequired
 }
+
+export default Workspace;

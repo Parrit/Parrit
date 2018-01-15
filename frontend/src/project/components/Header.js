@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
     render() {
         const classes = 'history' + (this.props.isPairingHistoryPanelOpen ? ' open' : '');
 
@@ -35,3 +35,5 @@ Header.propTypes = {
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
     postLogout: PropTypes.func.isRequired
 };
+
+export default Header;

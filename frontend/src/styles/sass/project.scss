@@ -170,6 +170,7 @@
       }
 
       .dotted-line {
+        flex-shrink: 0;
         width: 5px;
         margin: 0 50px 0 45px;
         background-image: url("./images/dot-light.svg");

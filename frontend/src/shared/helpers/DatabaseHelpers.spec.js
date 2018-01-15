@@ -4,7 +4,7 @@ import Axios from 'axios'
 
 describe('DatabaseHelpers', () => {
 
-    let axiosGetPromise, axiosPostPromise, axiosPutPromise;
+    let axiosGetPromise, axiosPostPromise, axiosPutPromise, axiosDeletePromise;
 
     beforeEach(() => {
         const axiosGetPromiseLocal = new Promise((resolve, reject) => {
@@ -19,9 +19,14 @@ describe('DatabaseHelpers', () => {
             axiosPutPromise = {resolve, reject};
         });
 
+        const axiosDeletePromiseLocal = new Promise((resolve, reject) => {
+            axiosDeletePromise = {resolve, reject};
+        });
+
         spyOn(Axios, 'get').and.returnValue(axiosGetPromiseLocal);
         spyOn(Axios, 'post').and.returnValue(axiosPostPromiseLocal);
         spyOn(Axios, 'put').and.returnValue(axiosPutPromiseLocal);
+        spyOn(Axios, 'delete').and.returnValue(axiosDeletePromiseLocal);
     })
 
     describe('#postLoginAndRedirect', () => {
@@ -150,7 +155,7 @@ describe('DatabaseHelpers', () => {
         });
     });
 
-    describe('#postAddNewPersonAndDo', () => {
+    describe('#postPersonAndDo', () => {
         let successCallbackSpy, errorCallbackSpy;
 
         const projectId = 87;
@@ -161,7 +166,7 @@ describe('DatabaseHelpers', () => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy');
             errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
 
-            databaseHelpers.postAddNewPersonAndDo(projectId, newPersonName, successCallbackSpy, errorCallbackSpy);
+            databaseHelpers.postPersonAndDo(projectId, newPersonName, successCallbackSpy, errorCallbackSpy);
         });
 
         it('makes an Ajax call to post the new person', () => {
@@ -190,7 +195,86 @@ describe('DatabaseHelpers', () => {
         });
     });
 
-    describe('#postAddNewPairingAndDo', () => {
+    describe('#postPersonAndDo', () => {
+        let successCallbackSpy, errorCallbackSpy;
+
+        const projectId = 87;
+        const personId = 55;
+        const newPosition = { floating: false, pairingBoardId: 99 };
+        const data = {iamaproperty: "blahblah"};
+
+        beforeEach(() => {
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
+
+            databaseHelpers.putPersonPositionAndDo(projectId, personId, newPosition, successCallbackSpy, errorCallbackSpy);
+        });
+
+        it('makes an Ajax call to put the new position of the person', () => {
+            expect(Axios.put.calls.count()).toBe(1);
+            expect(Axios.put).toHaveBeenCalledWith('/api/project/87/person/55/position', newPosition);
+        });
+
+        describe('when the Ajax call returns with a response', () => {
+            beforeEach(() => {
+                axiosPutPromise.resolve({data: data});
+            });
+
+            it('calls the callback with the response', () => {
+                expect(successCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+
+        describe('when the Ajax call returns with an error', () => {
+            beforeEach(() => {
+                axiosPutPromise.reject({response: {data: data}});
+            });
+
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+    });
+
+    describe('#deletePersonAndDo', () => {
+        let successCallbackSpy, errorCallbackSpy;
+
+        const data = {iamaproperty: "blahblah"};
+
+        beforeEach(() => {
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
+
+            databaseHelpers.deletePersonAndDo(1, 44, successCallbackSpy, errorCallbackSpy);
+        });
+
+        it('makes an Ajax call to delete the person', () => {
+            expect(Axios.delete.calls.count()).toBe(1);
+            expect(Axios.delete).toHaveBeenCalledWith('/api/project/1/person/44');
+        });
+
+        describe('when the Ajax call returns with a response', () => {
+            beforeEach(() => {
+                axiosDeletePromise.resolve({data: data});
+            });
+
+            it('calls the callback with the response', () => {
+                expect(successCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+
+        describe('when the Ajax call returns with an error', () => {
+            beforeEach(() => {
+                axiosDeletePromise.reject({response: {data: data}});
+            });
+
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+    });
+
+    describe('#postPairingAndDo', () => {
         let successCallbackSpy, errorCallbackSpy;
 
         const projectId = 87;
@@ -201,7 +285,7 @@ describe('DatabaseHelpers', () => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy');
             errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
 
-            databaseHelpers.postAddNewPairingBoardAndDo(projectId, newPairingBoardName, successCallbackSpy, errorCallbackSpy);
+            databaseHelpers.postPairingBoardAndDo(projectId, newPairingBoardName, successCallbackSpy, errorCallbackSpy);
         });
 
         it('makes an Ajax call to post the new pairing board', () => {
@@ -261,6 +345,44 @@ describe('DatabaseHelpers', () => {
         describe('when the Ajax call returns with an error', () => {
             beforeEach(() => {
                 axiosPutPromise.reject({response: {data: data}});
+            });
+
+            it('calls the error callback with the response in the error', () => {
+                expect(errorCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+    });
+
+    describe('#deletePairingBoardAndDo', () => {
+        let successCallbackSpy, errorCallbackSpy;
+
+        const data = {iamaproperty: "blahblah"};
+
+        beforeEach(() => {
+            successCallbackSpy = jasmine.createSpy('successCallbackSpy');
+            errorCallbackSpy = jasmine.createSpy('errorCallbackSpy');
+
+            databaseHelpers.deletePairingBoardAndDo(1, 2, successCallbackSpy, errorCallbackSpy);
+        });
+
+        it('makes an Ajax call to delete the pairing board', () => {
+            expect(Axios.delete.calls.count()).toBe(1);
+            expect(Axios.delete).toHaveBeenCalledWith('/api/project/1/pairingBoard/2');
+        });
+
+        describe('when the Ajax call returns with a response', () => {
+            beforeEach(() => {
+                axiosDeletePromise.resolve({data: data});
+            });
+
+            it('calls the callback with the response', () => {
+                expect(successCallbackSpy).toHaveBeenCalledWith(data);
+            });
+        });
+
+        describe('when the Ajax call returns with an error', () => {
+            beforeEach(() => {
+                axiosDeletePromise.reject({response: {data: data}});
             });
 
             it('calls the error callback with the response in the error', () => {

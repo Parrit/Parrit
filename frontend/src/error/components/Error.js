@@ -2,7 +2,7 @@ import React from 'react';
 
 import Footer from '../../shared/components/Footer.js';
 
-export default class Error extends React.Component {
+class Error extends React.Component {
     render() {
         return (
             <div className="layout-wrapper error-container">
@@ -17,3 +17,5 @@ export default class Error extends React.Component {
         )
     }
 }
+
+export default Error;

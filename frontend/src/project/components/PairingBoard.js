@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { DropTarget } from 'react-dnd';
 
 import PersonList from './PersonList.js';
 
-export default class PairingBoard extends React.Component {
+class PairingBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editMode: false};
@@ -19,10 +20,10 @@ export default class PairingBoard extends React.Component {
     }
 
     render() {
-        const pairingBoardIndex = this.props.index;
-        const {name, exempt, people} = this.props.pairingBoard;
+        const {isOver, connectDropTarget} = this.props;
+        const {id, name, exempt, people} = this.props.pairingBoard;
 
-        let pairingBoardClasses = "pairing-board dropzone";
+        let pairingBoardClasses = "pairing-board";
         let pairingBoardNameSection;
         let pairingBoardDeleteSection;
 
@@ -50,13 +51,15 @@ export default class PairingBoard extends React.Component {
             pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard.bind(this)}/>;
         }
 
-        return (
-            <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
+        pairingBoardClasses += (isOver ? ' drop-target' : '');
+
+        return connectDropTarget(
+            <div className={pairingBoardClasses}>
                 <div className="pairing-board-header">
                     {pairingBoardNameSection}
                     {pairingBoardDeleteSection}
                 </div>
-                <PersonList people={people} index={pairingBoardIndex} />
+                <PersonList people={people}/>
             </div>
 		)
 	}
@@ -77,7 +80,7 @@ export default class PairingBoard extends React.Component {
     }
 
     deletePairingBoard() {
-        this.props.deletePairingBoard(this.props.index);
+        this.props.deletePairingBoard(this.props.pairingBoard.id);
     }
 
     renamePairingBoard(event) {
@@ -86,9 +89,30 @@ export default class PairingBoard extends React.Component {
 }
 
 PairingBoard.propTypes = {
-    index: PropTypes.number.isRequired,
     pairingBoard: PropTypes.object.isRequired,
     editErrorMessage: PropTypes.string,
+    isOver: PropTypes.bool.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired
+    movePerson: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired
 };
+
+const dragSpec = {
+    drop(props, monitor) {
+        if(monitor.didDrop()) return;
+
+        const person = monitor.getItem();
+        const pairingBoardPosition = { floating: false, pairingBoardId: props.pairingBoard.id }
+        props.movePerson(person.id, pairingBoardPosition);
+    }
+};
+
+const dragCollect = (connect, monitor) => {
+    return {
+        isOver: monitor.isOver(),
+        connectDropTarget: connect.dropTarget()
+    };
+};
+
+export default DropTarget('Person', dragSpec, dragCollect)(PairingBoard);

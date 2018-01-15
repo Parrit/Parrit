@@ -11,15 +11,6 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case "LOAD_PROJECT":
             return action.project;
-        case "MOVE_PERSON":
-            stateClone = _.cloneDeep(state);
-
-            const fromPairingBoard = action.fromPairingBoardIndex >= 0 ? stateClone.pairingBoards[action.fromPairingBoardIndex] : stateClone;
-            const toPairingBoard = action.toPairingBoardIndex >= 0 ? stateClone.pairingBoards[action.toPairingBoardIndex] : stateClone;
-
-            toPairingBoard.people.push(_.pullAt(fromPairingBoard.people, action.personIndex)[0]);
-
-            return stateClone;
         case "RESET_PAIRING_BOARD":
             stateClone = _.cloneDeep(state);
 
@@ -58,20 +49,6 @@ export default function (state = initialState, action) {
                     return people;
                 }, [])
             );
-
-            return stateClone;
-        case "DELETE_PERSON":
-            stateClone = _.cloneDeep(state);
-
-            const pairingBoard = action.pairingBoardIndex >= 0 ? stateClone.pairingBoards[action.pairingBoardIndex] : stateClone;
-            _.pullAt(pairingBoard.people, action.personIndex);
-
-            return stateClone;
-        case "DELETE_PAIRING_BOARD":
-            stateClone = _.cloneDeep(state);
-
-            stateClone.people = stateClone.people.concat(stateClone.pairingBoards[action.pairingBoardIndex].people);
-            _.pullAt(stateClone.pairingBoards, action.pairingBoardIndex);
 
             return stateClone;
         default:

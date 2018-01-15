@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Footer from '../../shared/components/Footer.js';
 import Button from '../../shared/components/Button.js';
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
     constructor(props) {
         super(props);
 
@@ -105,3 +105,5 @@ Dashboard.propTypes = {
     login: PropTypes.func.isRequired,
     createProject: PropTypes.func.isRequired
 };
+
+export default Dashboard;

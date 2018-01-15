@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import PairingHistoryRecord from './PairingHistoryRecord.js';
 
-export default class PairingHistoryRecordList extends React.Component {
+class PairingHistoryRecordList extends React.Component {
     render() {
 
         function createPairingHistoryRecord(pairingTime) {
@@ -17,7 +17,7 @@ export default class PairingHistoryRecordList extends React.Component {
         let currentPairingTime = this.props.pairingHistoryList[0].pairingTime;
         let currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime);
 
-        this.props.pairingHistoryList.forEach(function(pairingHistory) {
+        this.props.pairingHistoryList.forEach(pairingHistory => {
             if(pairingHistory.pairingTime !== currentPairingTime) {
                 pairingHistoryRecords.push(currentPairingHistoryRecord);
                 currentPairingTime = pairingHistory.pairingTime;
@@ -31,9 +31,12 @@ export default class PairingHistoryRecordList extends React.Component {
 
         return (
             <div className="pairing-history-record-list">
-                {pairingHistoryRecords.map(function(pairingHistoryRecord, idx) {
-                    return <PairingHistoryRecord key={idx} pairingTime={pairingHistoryRecord.pairingTime}
-                        pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople} />;
+                {pairingHistoryRecords.map((pairingHistoryRecord, idx) => {
+                    return <PairingHistoryRecord
+                                key={idx}
+                                pairingTime={pairingHistoryRecord.pairingTime}
+                                pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople}
+                            />;
                 })}
             </div>
         )
@@ -43,3 +46,5 @@ export default class PairingHistoryRecordList extends React.Component {
 PairingHistoryRecordList.propTypes = {
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired
 };
+
+export default PairingHistoryRecordList;

@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 const initialState = {
     newProjectErrorMessage: undefined,
     newProjectErrorName: false,

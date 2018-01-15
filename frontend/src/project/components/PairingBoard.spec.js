@@ -5,10 +5,10 @@ import PairingBoard from './PairingBoard.js';
 
 describe('<PairingBoard/>', () => {
     let wrapper, props;
+    const InnerPairingBoard = PairingBoard.DecoratedComponent;
 
     beforeEach(() => {
         props  = {
-            index: 1,
             pairingBoard: {
                 id: 77,
                 name: "PairingBoard1",
@@ -19,20 +19,20 @@ describe('<PairingBoard/>', () => {
                 exempt: false,
             },
             editErrorMessage: 'some error message',
+            isOver: true,
+            renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy'),
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
-            renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy')
+            movePerson: jasmine.createSpy('movePersonSpy'),
+            connectDropTarget: jasmine.createSpy('connectDropTargetSpy')
         };
 
-        wrapper = shallow(<PairingBoard {...props} />);
-    });
+        props.connectDropTarget.and.callFake(i => i);
 
-    it('renders the pairingBoard element with an id relative to index', () => {
-        expect(wrapper.prop('id')).toBe("pairing_board_1", "No correct id");
+        wrapper = shallow(<InnerPairingBoard {...props} />);
     });
 
     it('renders the list of people', () => {
         const people = wrapper.find('PersonList');
-        expect(people.prop('index')).toBe(props.index);
         expect(people.prop('people')).toBe(props.pairingBoard.people);
     });
 
@@ -44,10 +44,14 @@ describe('<PairingBoard/>', () => {
         expect(wrapper.find('.delete-pairing-board').exists()).toBeTruthy();
     });
 
+    it('adds the drop-targer class when isOver is true', () => {
+        expect(wrapper.prop('className')).toContain('drop-target');
+    })
+
     describe('#exempt', () => {
         beforeEach(() => {
             props.pairingBoard.exempt = true;
-            wrapper = shallow(<PairingBoard {...props} />);
+            wrapper = shallow(<InnerPairingBoard {...props} />);
         });
 
         it('renders an exempt header', () => {
@@ -68,15 +72,8 @@ describe('<PairingBoard/>', () => {
         });
     });
 
-    describe('#deletePairingBoard', () => {
-        it('calls the deletePairingBoard prop function with the index prop', () => {
-            wrapper.find('.delete-pairing-board').simulate('click');
-            expect(props.deletePairingBoard).toHaveBeenCalledWith(1);
-        })
-    });
-
     describe('#renamePairingBoard', () => {
-        it('calls the renamePairingBoard prop function with the pairingBoard id and event target value', () => {
+        it('calls the renamePairingBoard prop function with the pairing board id and event target value', () => {
             const event = {target: {value: 'Cheese'}};
             wrapper.setState({editMode: true})
             wrapper.find('.editing-pairing-board-name').simulate('blur', event);
@@ -93,6 +90,13 @@ describe('<PairingBoard/>', () => {
             successCallback();
 
             expect(wrapper.state('editMode')).toBe(false)
+        })
+    });
+
+    describe('#deletePairingBoard', () => {
+        it('calls the deletePairingBoard prop function with the pairing board id', () => {
+            wrapper.find('.delete-pairing-board').simulate('click');
+            expect(props.deletePairingBoard).toHaveBeenCalledWith(77);
         })
     });
 });

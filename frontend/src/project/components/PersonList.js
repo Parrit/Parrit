@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 
 import Person from './Person.js';
 
-export default class PersonList extends React.Component {
+class PersonList extends React.Component {
     render() {
-        const pairingBoardIndex = this.props.index;
-
         return (
             <div className="person-list">
-                {this.props.people.map(function (person, idx) {
-                    return <Person key={idx} name={person.name} index={idx} pairingBoardIndex={pairingBoardIndex}/>
+                {this.props.people.map((person, idx) => {
+                    return <Person key={idx} id={person.id} name={person.name}/>
                 })}
             </div>
         )
@@ -18,6 +16,7 @@ export default class PersonList extends React.Component {
 }
 
 PersonList.propTypes = {
-    index: PropTypes.number.isRequired,
-    people: PropTypes.arrayOf(PropTypes.object).isRequired
+    people: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+export default PersonList;

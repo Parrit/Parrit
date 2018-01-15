@@ -36,7 +36,7 @@ export function putProjectAndDo(project, successCallback, errorCallback) {
         });
 }
 
-export function postAddNewPersonAndDo(projectId, name, successCallback, errorCallback) {
+export function postPersonAndDo(projectId, name, successCallback, errorCallback) {
     Axios.post('/api/project/' + encodeURIComponent(projectId) + '/person', {name})
         .then(function onSuccess(response) {
             successCallback(response.data);
@@ -45,7 +45,25 @@ export function postAddNewPersonAndDo(projectId, name, successCallback, errorCal
         });
 }
 
-export function postAddNewPairingBoardAndDo(projectId, name, successCallback, errorCallback) {
+export function putPersonPositionAndDo(projectId, personId, newPosition, successCallback, errorCallback) {
+     Axios.put('/api/project/' + encodeURIComponent(projectId) + '/person/' + + encodeURIComponent(personId) + '/position', newPosition)
+         .then(function onSuccess(response) {
+             successCallback(response.data);
+         }, function onError(error) {
+             errorCallback(error.response.data);
+         });
+ }
+
+export function deletePersonAndDo(projectId, pairingBoardId, successCallback, errorCallback) {
+    Axios.delete('/api/project/' + encodeURIComponent(projectId) + '/person/' + encodeURIComponent(pairingBoardId))
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        }, function onError(error) {
+            errorCallback(error.response.data);
+        });
+}
+
+export function postPairingBoardAndDo(projectId, name, successCallback, errorCallback) {
     Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard', {name})
         .then(function onSuccess(response) {
             successCallback(response.data);
@@ -56,6 +74,15 @@ export function postAddNewPairingBoardAndDo(projectId, name, successCallback, er
 
 export function putPairingBoardAndDo(projectId, pairingBoardId, name, successCallback, errorCallback) {
     Axios.put('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId), {name})
+        .then(function onSuccess(response) {
+            successCallback(response.data);
+        }, function onError(error) {
+            errorCallback(error.response.data);
+        });
+}
+
+export function deletePairingBoardAndDo(projectId, pairingBoardId, successCallback, errorCallback) {
+    Axios.delete('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId))
         .then(function onSuccess(response) {
             successCallback(response.data);
         }, function onError(error) {

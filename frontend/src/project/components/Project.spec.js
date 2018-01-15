@@ -7,12 +7,6 @@ describe('<Project/>', () => {
     let wrapper;
 
     const props = {
-        getRecommendedPairs: () => {},
-        savePairing: () => {},
-        resetPairs: () => {},
-        smartReset: () => {},
-
-        settings: {},
         data: {
             project: {
                 id: 77,
@@ -22,20 +16,25 @@ describe('<Project/>', () => {
                     {
                         name: 'PairingBoard1',
                         people: [
-                            {
-                                name: 'George'
-                            }
+                            { name: 'George' }
                         ]
                     }
                 ]
             }
         },
-        setNewPersonModalOpen: () => {},
-        setNewPairingBoardModalOpen: () => {},
+        settings: {},
         createPerson: () => {},
+        movePerson: () => {},
+        deletePerson: () => {},
         createPairingBoard: () => {},
+        renamePairingBoard: () => {},
         deletePairingBoard: () => {},
-        renamePairingBoard: () => {}
+        resetPairs: () => {},
+        smartReset: () => {},
+        getRecommendedPairs: () => {},
+        savePairing: () => {},
+        setNewPersonModalOpen: () => {},
+        setNewPairingBoardModalOpen: () => {}
     };
 
     beforeEach(() => {
@@ -90,17 +89,17 @@ describe('<Project/>', () => {
         const workspaceComponent = wrapper.find('Workspace');
         expect(workspaceComponent.exists()).toBeTruthy();
 
-        expect(workspaceComponent.prop('projectId')).toBe(props.data.project.id, 'No projectId passed to project');
-        expect(workspaceComponent.prop('settings')).toBe(props.settings, 'No pairingBoards passed to project');
-        expect(workspaceComponent.prop('people')).toBe(props.data.project.people, 'No people passed to project');
-        expect(workspaceComponent.prop('pairingBoards')).toBe(props.data.project.pairingBoards, 'No pairingBoards passed to project');
-
-        expect(workspaceComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen, 'No setNewPersonModalOpen passed to project');
-        expect(workspaceComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen, 'No setNewPairingBoardModalOpen passed to project');
-        expect(workspaceComponent.prop('createPerson')).toBe(props.createPerson, 'No createPerson passed to project');
-        expect(workspaceComponent.prop('createPairingBoard')).toBe(props.createPairingBoard, 'No createPairingBoard passed to project');
-
-        expect(workspaceComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard, 'No deletePairingBoard passed to project');
-        expect(workspaceComponent.prop('renamePairingBoard')).toBe(props.renamePairingBoard, 'No renamePairingBoard passed to project');
+        expect(workspaceComponent.prop('projectId')).toBe(props.data.project.id);
+        expect(workspaceComponent.prop('people')).toBe(props.data.project.people);
+        expect(workspaceComponent.prop('pairingBoards')).toBe(props.data.project.pairingBoards);
+        expect(workspaceComponent.prop('settings')).toBe(props.settings);
+        expect(workspaceComponent.prop('createPerson')).toBe(props.createPerson);
+        expect(workspaceComponent.prop('movePerson')).toBe(props.movePerson);
+        expect(workspaceComponent.prop('deletePerson')).toBe(props.deletePerson);
+        expect(workspaceComponent.prop('createPairingBoard')).toBe(props.createPairingBoard);
+        expect(workspaceComponent.prop('renamePairingBoard')).toBe(props.renamePairingBoard);
+        expect(workspaceComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard);
+        expect(workspaceComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen);
+        expect(workspaceComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen);
     });
 });
