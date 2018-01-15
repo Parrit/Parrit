@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import classNames from 'classnames';
 
 import PersonList from './PersonList.js';
 
@@ -23,13 +24,14 @@ class PairingBoard extends React.Component {
         const {isOver, connectDropTarget} = this.props;
         const {id, name, exempt, people} = this.props.pairingBoard;
 
-        let pairingBoardClasses = "pairing-board";
         let pairingBoardNameSection;
         let pairingBoardDeleteSection;
 
         if (this.state.editMode) {
-            pairingBoardClasses += " editing";
-            const pairingBoardNameInputClasses = "editing-pairing-board-name" + (this.props.editErrorMessage ? " error" : "");
+            const pairingBoardNameInputClasses = classNames({
+                'editing-pairing-board-name': true,
+                'error': this.props.editErrorMessage
+            });
             pairingBoardNameSection = <div className="pairing-board-name-wrapper">
                 <input ref="editName" className={pairingBoardNameInputClasses} defaultValue={name}
                     onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
@@ -44,14 +46,18 @@ class PairingBoard extends React.Component {
         }
 
         if (exempt) {
-            pairingBoardClasses += " exempt";
             pairingBoardDeleteSection = null;
         }
         else {
             pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard.bind(this)}/>;
         }
 
-        pairingBoardClasses += (isOver ? ' drop-target' : '');
+        const pairingBoardClasses = classNames({
+            'pairing-board': true,
+            'editing': this.state.editMode,
+            'exempt': exempt,
+            'drop-target': isOver
+        });
 
         return connectDropTarget(
             <div className={pairingBoardClasses}>

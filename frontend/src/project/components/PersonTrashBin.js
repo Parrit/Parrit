@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
+import classNames from 'classnames';
 
 class PersonTrashBin extends React.Component {
     render() {
         const {isOver, connectDropTarget} = this.props;
 
-        const classes = "delete-parrit" + (isOver ? ' drop-target' : '');
+        const classes = classNames({
+            'delete-parrit': true,
+            'drop-target': isOver
+        });
 
         return connectDropTarget(
             <div className={classes}/>

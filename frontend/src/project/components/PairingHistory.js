@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
+import classNames from 'classnames';
 
 import PairingHistoryRecordList from './PairingHistoryRecordList.js';
 
@@ -10,7 +11,11 @@ class PairingHistory extends React.Component {
     }
 
     render() {
-        const classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
+        const classes = classNames({
+            'pairing-history-panel': true,
+            'panel-open': this.props.isPairingHistoryPanelOpen,
+            'panel-closed': !this.props.isPairingHistoryPanelOpen
+        });
 
         return (
             <div className={classes}>

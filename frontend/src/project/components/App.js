@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DragDropContext, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import classNames from 'classnames';
 
 import Header from './Header.js';
 import Project from './Project.js';
@@ -41,8 +42,12 @@ class App extends React.Component {
         };
 
         const {connectDropTarget} = this.props;
-        const shiftLeft = this.props.settings.pairingHistoryPanel.isOpen;
-        const classes = "layout-wrapper project-page-container" + (shiftLeft ? ' shift-left' : '');
+
+        const classes = classNames({
+            'layout-wrapper': true,
+            'project-page-container': true,
+            'shift-left': this.props.settings.pairingHistoryPanel.isOpen
+        });
 
 		return connectDropTarget(
             <div className={classes}>
