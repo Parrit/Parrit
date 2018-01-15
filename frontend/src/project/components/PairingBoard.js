@@ -4,6 +4,7 @@ import exact from 'prop-types-exact';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 
+import PairingBoardHeader from './PairingBoardHeader.js';
 import PersonList from './PersonList.js';
 
 class PairingBoard extends React.Component {
@@ -13,35 +14,7 @@ class PairingBoard extends React.Component {
     }
 
     render() {
-        const {id, name, exempt, people, isOver, connectDropTarget} = this.props;
-
-        let pairingBoardNameSection;
-        let pairingBoardDeleteSection;
-
-        if (this.state.editMode) {
-            const pairingBoardNameInputClasses = classNames({
-                'editing-pairing-board-name': true,
-                'error': this.props.editErrorMessage
-            });
-            pairingBoardNameSection = <div className="pairing-board-name-wrapper">
-                <input className={pairingBoardNameInputClasses} autoFocus defaultValue={name}
-                    onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
-                <div className="error-message">{this.props.editErrorMessage}</div>
-            </div>;
-        }
-        else {
-            pairingBoardNameSection = <div className="pairing-board-name-wrapper" onClick={this.enableEditMode.bind(this)}>
-                <h3 className="pairing-board-name">{name}</h3>
-                <div className="rename-pairing-board"/>
-            </div>;
-        }
-
-        if (exempt) {
-            pairingBoardDeleteSection = null;
-        }
-        else {
-            pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard.bind(this)}/>;
-        }
+        const {name, exempt, people, editErrorMessage, isOver, connectDropTarget} = this.props;
 
         const pairingBoardClasses = classNames({
             'pairing-board': true,
@@ -52,10 +25,15 @@ class PairingBoard extends React.Component {
 
         return connectDropTarget(
             <div className={pairingBoardClasses}>
-                <div className="pairing-board-header">
-                    {pairingBoardNameSection}
-                    {pairingBoardDeleteSection}
-                </div>
+                <PairingBoardHeader
+                    name={name}
+                    exempt={exempt}
+                    editMode={this.state.editMode}
+                    editErrorMessage={editErrorMessage}
+                    renamePairingBoard={this.renamePairingBoard.bind(this)}
+                    deletePairingBoard={this.deletePairingBoard.bind(this)}
+                    enableEditMode={this.enableEditMode.bind(this)}
+                />
                 <PersonList people={people}/>
             </div>
 		)
@@ -69,19 +47,12 @@ class PairingBoard extends React.Component {
         this.setState({editMode: false});
     }
 
-    onKeyDownHandler(event) {
-        const EnterKeyCode = 13;
-        if(event.keyCode === EnterKeyCode) {
-            this.renamePairingBoard(event);
-        }
+    renamePairingBoard(name) {
+        this.props.renamePairingBoard(this.props.id, name, this.disableEditMode.bind(this));
     }
 
     deletePairingBoard() {
         this.props.deletePairingBoard(this.props.id);
-    }
-
-    renamePairingBoard(event) {
-        this.props.renamePairingBoard(this.props.id, event.target.value, this.disableEditMode.bind(this));
     }
 }
 
