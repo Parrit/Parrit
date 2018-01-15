@@ -6,12 +6,12 @@ export default function (state = initialState, action) {
             const updatedSettings = Object.assign({}, state[action.pairingBoardId], {editMode: action.editMode});
             return Object.assign({}, state, {[action.pairingBoardId]: updatedSettings});
         }
-        case 'SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE': {
+        case 'SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE': {
             const errorMessage = action.errorResponse.fieldErrors ? action.errorResponse.fieldErrors.name : action.errorResponse.message;
             const updatedSettings = Object.assign({}, state[action.pairingBoardId], {editErrorMessage: errorMessage});
             return Object.assign({}, state, {[action.pairingBoardId]: updatedSettings});
         }
-        case 'CLEAR_EDIT_PAIRING_BOARD_ERROR_MESSAGE': {
+        case 'CLEAR_PAIRING_BOARD_EDIT_ERROR_MESSAGE': {
             const updatedSettings = Object.assign({}, state[action.pairingBoardId]);
             delete updatedSettings.editErrorMessage;
             return Object.assign({}, state, {[action.pairingBoardId]: updatedSettings});

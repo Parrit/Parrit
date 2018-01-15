@@ -33,17 +33,17 @@ export function setNewPairingBoardModalErrorMessageCreator(errorResponse) {
     }
 }
 
-export function setEditPairingBoardErrorMessageCreator(pairingBoardId, errorResponse) {
+export function setPairingBoardEditErrorMessageCreator(pairingBoardId, errorResponse) {
     return {
-        type: 'SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE',
+        type: 'SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE',
         pairingBoardId: pairingBoardId,
         errorResponse: errorResponse
     }
 }
 
-export function clearEditPairingBoardErrorMessageCreator(pairingBoardId) {
+export function clearPairingBoardEditErrorMessageCreator(pairingBoardId) {
     return {
-        type: 'CLEAR_EDIT_PAIRING_BOARD_ERROR_MESSAGE',
+        type: 'CLEAR_PAIRING_BOARD_EDIT_ERROR_MESSAGE',
         pairingBoardId: pairingBoardId
     }
 }

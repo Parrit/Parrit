@@ -60,12 +60,12 @@ describe("PairingBoardSettingsReducer", () => {
         })
     })
 
-	describe('SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE', () => {
+	describe('SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE', () => {
 	    it('sets the pairing board error message using the name field error', () => {
             const stateBefore = {};
 
             const action = {
-                type: "SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE",
+                type: "SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE",
                 pairingBoardId: 7,
                 errorResponse: {
                     message: 'some message',
@@ -89,7 +89,7 @@ describe("PairingBoardSettingsReducer", () => {
             const stateBefore = {};
 
             const action = {
-                type: "SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE",
+                type: "SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE",
                 pairingBoardId: 7,
                 errorResponse: {
                     message: 'some message',
@@ -122,7 +122,7 @@ describe("PairingBoardSettingsReducer", () => {
             };
 
             const action = {
-                type: "SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE",
+                type: "SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE",
                 pairingBoardId: 7,
                 errorResponse: {
                     message: 'some message',
@@ -148,7 +148,7 @@ describe("PairingBoardSettingsReducer", () => {
 	    })
 	})
 
-	describe('CLEAR_EDIT_PAIRING_BOARD_ERROR_MESSAGE', () => {
+	describe('CLEAR_PAIRING_BOARD_EDIT_ERROR_MESSAGE', () => {
 	    it('removes the pairing board error message', () => {
             const stateBefore = {
                 7: {
@@ -162,7 +162,7 @@ describe("PairingBoardSettingsReducer", () => {
             };
 
             const action = {
-                type: "CLEAR_EDIT_PAIRING_BOARD_ERROR_MESSAGE",
+                type: "CLEAR_PAIRING_BOARD_EDIT_ERROR_MESSAGE",
                 pairingBoardId: 7,
             };
 
