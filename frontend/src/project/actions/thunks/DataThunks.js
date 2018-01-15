@@ -16,9 +16,9 @@ export function autoSaveThunk(action) {
     }
 }
 
-export function addNewPersonThunk(projectId, name, callback) {
+export function addNewPersonThunk(name, callback) {
     return function(dispatch, getState) {
-        postPersonAndDo(projectId, name,
+        postPersonAndDo(getState().data.project.id, name,
             function successCallback(project) {
                 callback();
                 dispatch(loadProjectCreator(project));
@@ -56,9 +56,9 @@ export function deletePersonThunk(personId) {
     }
 }
 
-export function addNewPairingBoardThunk(projectId, name, callback) {
+export function addNewPairingBoardThunk(name, callback) {
     return function(dispatch, getState) {
-        postPairingBoardAndDo(projectId, name,
+        postPairingBoardAndDo(getState().data.project.id, name,
             function successCallback(project) {
                 callback();
                 dispatch(loadProjectCreator(project));
@@ -116,9 +116,9 @@ export function getRecommendedPairsThunk() {
     }
 }
 
-export function getPairingHistoryThunk(projectId) {
+export function getPairingHistoryThunk() {
     return function(dispatch, getState) {
-        getPairingHistoryAndDo(projectId,
+        getPairingHistoryAndDo(getState().data.project.id,
             function successCallback(pairingHistories) {
                 dispatch(loadPairingHistoryCreator(pairingHistories));
             })

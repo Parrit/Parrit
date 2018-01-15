@@ -34,7 +34,6 @@ class App extends React.Component {
         };
 
         const pairingHistoryProps = {
-            projectId: this.props.data.project.id,
             pairingHistoryList: this.props.data.pairingHistory.pairingHistoryList,
             fetchPairingHistory: this.props.fetchPairingHistory,
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,

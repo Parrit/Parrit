@@ -7,7 +7,6 @@ import Button from '../../shared/components/Button.js';
 class Project extends React.Component {
     render() {
         const workspaceProps = {
-            projectId: this.props.data.project.id,
             people: this.props.data.project.people,
             pairingBoards: this.props.data.project.pairingBoards,
             settings: this.props.settings,

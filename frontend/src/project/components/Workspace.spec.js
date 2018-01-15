@@ -12,7 +12,6 @@ describe('<Workspace/>', () => {
 
     beforeEach(() => {
         props  = {
-            projectId: 77,
             people: [
                 { name: "Mike Wazowski" },
                 { name: "Sully" }
@@ -119,11 +118,11 @@ describe('<Workspace/>', () => {
             });
 
             it('should call the createPerson action with the projectId, the passed in name and a callback', () => {
-                expect(props.createPerson).toHaveBeenCalledWith(77, 'Luke Skywalker', jasmine.anything());
+                expect(props.createPerson).toHaveBeenCalledWith('Luke Skywalker', jasmine.anything());
             });
 
             it('the passed in callback should close the modal', () => {
-                const callback = props.createPerson.calls.mostRecent().args[2];
+                const callback = props.createPerson.calls.mostRecent().args[1];
                 callback();
 
                 expect(props.setNewPersonModalOpen).toHaveBeenCalledWith(false);
@@ -157,11 +156,11 @@ describe('<Workspace/>', () => {
             });
 
             it('should call the createPairingBoard action with the passed in name', () => {
-                expect(props.createPairingBoard).toHaveBeenCalledWith(77, 'Luke Skywalker', jasmine.anything());
+                expect(props.createPairingBoard).toHaveBeenCalledWith('Luke Skywalker', jasmine.anything());
             });
 
             it('the passed in callback should close the modal', () => {
-                const callback = props.createPairingBoard.calls.mostRecent().args[2];
+                const callback = props.createPairingBoard.calls.mostRecent().args[1];
                 callback();
 
                 expect(props.setNewPairingBoardModalOpen).toHaveBeenCalledWith(false);

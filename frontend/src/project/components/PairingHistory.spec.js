@@ -8,7 +8,6 @@ describe('<PairingHistory/>', () => {
 
     beforeEach(() => {
         props = {
-            projectId: 12,
             pairingHistoryList: [
                 {pairingTime: 'time1', people:[{name: 'joe'}, {name: 'tom'}], pairingBoardName: 'board1'},
                 {pairingTime: 'time1', people:[{name: 'bob'}], pairingBoardName: 'board2'},
@@ -23,7 +22,7 @@ describe('<PairingHistory/>', () => {
     });
 
     it('calls the fetchPairingHistory action on mount', () => {
-        expect(props.fetchPairingHistory).toHaveBeenCalledWith(12);
+        expect(props.fetchPairingHistory).toHaveBeenCalled();
     });
     
     describe('when the pairingHistoryList has content', () => {

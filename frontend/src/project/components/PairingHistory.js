@@ -6,14 +6,10 @@ import PairingHistoryRecordList from './PairingHistoryRecordList.js';
 
 class PairingHistory extends React.Component {
     componentDidMount() {
-        this.props.fetchPairingHistory(this.props.projectId);
+        this.props.fetchPairingHistory();
     }
 
     render() {
-        const pairingHistoryRecordListProps = {
-            pairingHistoryList: this.props.pairingHistoryList
-        };
-
         const classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
 
         return (
@@ -25,7 +21,7 @@ class PairingHistory extends React.Component {
                             <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
                         </div>
                         <div className="body">
-                            {(function(pairingHistoryList) {
+                            {((pairingHistoryList) => {
                                 if(pairingHistoryList.length === 0) {
                                     return <div className="no-history">
                                         <div className="clock"/>
@@ -35,7 +31,7 @@ class PairingHistory extends React.Component {
                                     </div>
                                 }
                                 else {
-                                    return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
+                                    return <PairingHistoryRecordList pairingHistoryList={this.props.pairingHistoryList}/>
                                 }
                             })(this.props.pairingHistoryList)}
                         </div>

@@ -9,7 +9,6 @@ describe('<Project/>', () => {
     const props = {
         data: {
             project: {
-                id: 77,
                 name: 'The Best Around',
                 people: [],
                 pairingBoards: [
@@ -89,7 +88,6 @@ describe('<Project/>', () => {
         const workspaceComponent = wrapper.find('Workspace');
         expect(workspaceComponent.exists()).toBeTruthy();
 
-        expect(workspaceComponent.prop('projectId')).toBe(props.data.project.id);
         expect(workspaceComponent.prop('people')).toBe(props.data.project.people);
         expect(workspaceComponent.prop('pairingBoards')).toBe(props.data.project.pairingBoards);
         expect(workspaceComponent.prop('settings')).toBe(props.settings);

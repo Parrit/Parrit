@@ -97,7 +97,6 @@ describe('<App/>', () => {
         const pairingHistoryComponent = wrapper.find('PairingHistory');
         expect(pairingHistoryComponent.exists()).toBeTruthy();
 
-        expect(pairingHistoryComponent.prop('projectId')).toBe(props.data.project.id);
         expect(pairingHistoryComponent.prop('pairingHistoryList')).toBe(props.data.pairingHistory.pairingHistoryList);
         expect(pairingHistoryComponent.prop('fetchPairingHistory')).toBe(props.fetchPairingHistory);
         expect(pairingHistoryComponent.prop('setPairingHistoryPanelOpen')).toBe(props.setPairingHistoryPanelOpen);

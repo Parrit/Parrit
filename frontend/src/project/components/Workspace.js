@@ -55,7 +55,7 @@ class Workspace extends React.Component {
     }
 
     createPersonWithName(name) {
-        this.props.createPerson(this.props.projectId, name, this.closeNewPersonModal.bind(this));
+        this.props.createPerson(name, this.closeNewPersonModal.bind(this));
     }
 
     openNewPersonModal () {
@@ -67,7 +67,7 @@ class Workspace extends React.Component {
     }
 
     createPairingBoardWithName(name) {
-        this.props.createPairingBoard(this.props.projectId, name, this.closeNewPairingBoardModal.bind(this));
+        this.props.createPairingBoard(name, this.closeNewPairingBoardModal.bind(this));
     }
 
     openNewPairingBoardModal () {
@@ -80,7 +80,6 @@ class Workspace extends React.Component {
 }
 
 Workspace.propTypes = {
-    projectId: PropTypes.number.isRequired,
     people: PropTypes.arrayOf(PropTypes.object).isRequired,
     pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
     settings: PropTypes.object.isRequired,

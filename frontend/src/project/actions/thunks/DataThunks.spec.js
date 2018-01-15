@@ -72,7 +72,7 @@ describe('DataThunks', () => {
         const callbackSpy = jasmine.createSpy('callbackSpy');
 
         beforeEach(() => {
-            thunk = dataThunks.addNewPersonThunk(1, "Name", callbackSpy);
+            thunk = dataThunks.addNewPersonThunk("Name", callbackSpy);
         });
 
         it('returns a function', () => {
@@ -81,13 +81,17 @@ describe('DataThunks', () => {
 
         describe('when calling the returned function', () => {
             const newProjectData = { data: 'blarg' };
+            const project = { id: 7, data: 'le stuff' };
+            const stateOfApp = { data: { project: project } };
 
             beforeEach(() => {
+                getStateSpy.and.returnValue(stateOfApp);
+
                 thunk(dispatchSpy, getStateSpy);
             });
 
             it('calls postPersonAndDo helper with correct arguments', () => {
-                expect(postPersonAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
+                expect(postPersonAndDoSpy).toHaveBeenCalledWith(7, "Name", jasmine.anything(), jasmine.anything());
             });
 
             it('calls the custom callback and dispatches a loadProject action when adding a person is successful', () => {
@@ -181,7 +185,7 @@ describe('DataThunks', () => {
         const callbackSpy = jasmine.createSpy('callbackSpy');
 
         beforeEach(() => {
-            thunk = dataThunks.addNewPairingBoardThunk(1, "Name", callbackSpy);
+            thunk = dataThunks.addNewPairingBoardThunk("Name", callbackSpy);
         });
 
         it('returns a function', () => {
@@ -190,13 +194,17 @@ describe('DataThunks', () => {
 
         describe('when calling the returned function', () => {
             const newProjectData = { data: 'blarg' };
+            const project = { id: 7, data: 'le stuff' };
+            const stateOfApp = { data: { project: project } };
 
             beforeEach(() => {
+                getStateSpy.and.returnValue(stateOfApp);
+
                 thunk(dispatchSpy, getStateSpy);
             });
 
             it('calls postPairingBoardAndDo helper with correct arguments', () => {
-                expect(postPairingBoardAndDoSpy).toHaveBeenCalledWith(1, "Name", jasmine.anything(), jasmine.anything());
+                expect(postPairingBoardAndDoSpy).toHaveBeenCalledWith(7, "Name", jasmine.anything(), jasmine.anything());
             });
 
             it('calls the custom callback and dispatches a loadProject action when adding a pairing board is successful', () => {
@@ -378,7 +386,7 @@ describe('DataThunks', () => {
 
     describe('#getPairingHistoryThunk', () => {
         beforeEach(() => {
-            thunk = dataThunks.getPairingHistoryThunk(77);
+            thunk = dataThunks.getPairingHistoryThunk();
         });
 
         it('returns a function', () => {
@@ -387,13 +395,17 @@ describe('DataThunks', () => {
 
         describe('when calling the returned function', () => {
             const pairingHistoryData = [ { data:'Weeeee' } ];
+            const project = { id: 7, data: 'le stuff' };
+            const stateOfApp = { data: { project: project } };
 
             beforeEach(() => {
+                getStateSpy.and.returnValue(stateOfApp);
+
                 thunk(dispatchSpy, getStateSpy);
             });
 
             it('calls getPairingHistoryAndDo helper with correct arguments', () => {
-                expect(getPairingHistoryAndDoSpy).toHaveBeenCalledWith(77, jasmine.anything());
+                expect(getPairingHistoryAndDoSpy).toHaveBeenCalledWith(7, jasmine.anything());
             });
 
             it('dispatches a loadPairingHistory action when getting the pairing history is successful', () => {
