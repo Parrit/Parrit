@@ -18,6 +18,8 @@ describe("ProjectReducer", () => {
         describe("LOAD_PROJECT", () => {
             it("should set the project to the passed in project object", () => {
                 const stateBefore = {
+                    id: 77,
+                    people: [{name: "Billy"}],
                     pairingBoards: []
                 };
 
