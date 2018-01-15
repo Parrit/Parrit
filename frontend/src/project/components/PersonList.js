@@ -9,7 +9,11 @@ class PersonList extends React.Component {
         return (
             <div className="person-list">
                 {this.props.people.map((person, idx) => {
-                    return <Person key={idx} id={person.id} name={person.name}/>
+                    return <Person
+                                key={idx}
+                                id={person.id}
+                                name={person.name}
+                            />
                 })}
             </div>
         )

@@ -13,8 +13,7 @@ class PairingBoard extends React.Component {
     }
 
     render() {
-        const {isOver, connectDropTarget} = this.props;
-        const {id, name, exempt, people} = this.props.pairingBoard;
+        const {id, name, exempt, people, isOver, connectDropTarget} = this.props;
 
         let pairingBoardNameSection;
         let pairingBoardDeleteSection;
@@ -78,16 +77,19 @@ class PairingBoard extends React.Component {
     }
 
     deletePairingBoard() {
-        this.props.deletePairingBoard(this.props.pairingBoard.id);
+        this.props.deletePairingBoard(this.props.id);
     }
 
     renamePairingBoard(event) {
-        this.props.renamePairingBoard(this.props.pairingBoard.id, event.target.value, this.disableEditMode.bind(this));
+        this.props.renamePairingBoard(this.props.id, event.target.value, this.disableEditMode.bind(this));
     }
 }
 
 PairingBoard.propTypes = exact({
-    pairingBoard: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    exempt: PropTypes.bool.isRequired,
+    people: PropTypes.arrayOf(PropTypes.object).isRequired,
     editErrorMessage: PropTypes.string,
     isOver: PropTypes.bool.isRequired,
     renamePairingBoard: PropTypes.func.isRequired,
@@ -101,7 +103,7 @@ const dragSpec = {
         if(monitor.didDrop()) return;
 
         const person = monitor.getItem();
-        const pairingBoardPosition = { floating: false, pairingBoardId: props.pairingBoard.id }
+        const pairingBoardPosition = { floating: false, pairingBoardId: props.id }
         props.movePerson(person.id, pairingBoardPosition);
     }
 };

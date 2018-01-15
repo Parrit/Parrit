@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 
 import Workspace from './Workspace.js';
 import PersonTrashBin from './PersonTrashBin.js'
-import PairingBoard from './PairingBoard.js'
 
 describe('<Workspace/>', () => {
     let wrapper, props;
@@ -75,21 +74,13 @@ describe('<Workspace/>', () => {
         expect(personTrashBin.prop('deletePerson')).toBe(props.deletePerson);
     });
 
-    it('renders all of the pairingBoards in the project', () => {
-        const pairingBoards = wrapper.find(PairingBoard);
-        expect(pairingBoards.length).toBe(2);
-
-        expect(pairingBoards.at(0).prop('pairingBoard')).toBe(props.pairingBoards[0]);
-        expect(pairingBoards.at(0).prop('editErrorMessage')).toBe(props.settings.pairingBoardErrors[56]);
+    it('renders the list of pairing boards in the project', () => {
+        const pairingBoards = wrapper.find('PairingBoardList');
+        expect(pairingBoards.at(0).prop('pairingBoards')).toBe(props.pairingBoards);
+        expect(pairingBoards.at(0).prop('pairingBoardErrors')).toBe(props.settings.pairingBoardErrors);
         expect(pairingBoards.at(0).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
         expect(pairingBoards.at(0).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(pairingBoards.at(0).prop('movePerson')).toBe(props.movePerson);
-
-        expect(pairingBoards.at(1).prop('pairingBoard')).toBe(props.pairingBoards[1]);
-        expect(pairingBoards.at(1).prop('editErrorMessage')).toBe(props.settings.pairingBoardErrors[89]);
-        expect(pairingBoards.at(1).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
-        expect(pairingBoards.at(1).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
-        expect(pairingBoards.at(1).prop('movePerson')).toBe(props.movePerson);
     });
 
     describe('newPersonModal', () => {

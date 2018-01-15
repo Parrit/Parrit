@@ -9,15 +9,13 @@ describe('<PairingBoard/>', () => {
 
     beforeEach(() => {
         props  = {
-            pairingBoard: {
-                id: 77,
-                name: "PairingBoard1",
-                people: [
-                    { name: "George" },
-                    { name: "Hank Muchacho" }
-                ],
-                exempt: false,
-            },
+            id: 77,
+            name: "PairingBoard1",
+            people: [
+                { name: "George" },
+                { name: "Hank Muchacho" }
+            ],
+            exempt: false,
             editErrorMessage: 'some error message',
             isOver: true,
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy'),
@@ -33,7 +31,7 @@ describe('<PairingBoard/>', () => {
 
     it('renders the list of people', () => {
         const people = wrapper.find('PersonList');
-        expect(people.prop('people')).toBe(props.pairingBoard.people);
+        expect(people.prop('people')).toBe(props.people);
     });
 
     it('renders a rename button', () => {
@@ -50,7 +48,7 @@ describe('<PairingBoard/>', () => {
 
     describe('#exempt', () => {
         beforeEach(() => {
-            props.pairingBoard.exempt = true;
+            props.exempt = true;
             wrapper = shallow(<InnerPairingBoard {...props} />);
         });
 

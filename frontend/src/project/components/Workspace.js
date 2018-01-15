@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 
 import PersonList from './PersonList.js';
 import PersonTrashBin from './PersonTrashBin.js';
-import PairingBoard from './PairingBoard.js';
+import PairingBoardList from './PairingBoardList.js';
 import NameForm from '../../shared/components/NameForm.js';
 import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
 
@@ -27,18 +27,13 @@ class Workspace extends React.Component {
 
                 <div className="pairing-boards-container">
                     <h2 className="pairing-boards-title">Pairing Boards</h2>
-                    <div className="pairing-boards">
-                        {this.props.pairingBoards.map((pairingBoard, idx) => {
-                            return <PairingBoard
-                                        key={idx}
-                                        pairingBoard={pairingBoard}
-                                        editErrorMessage={this.props.settings.pairingBoardErrors[pairingBoard.id]}
-                                        renamePairingBoard={this.props.renamePairingBoard}
-                                        deletePairingBoard={this.props.deletePairingBoard}
-                                        movePerson={this.props.movePerson}
-                                    />
-                        })}
-                    </div>
+                    <PairingBoardList
+                        pairingBoards={this.props.pairingBoards}
+                        pairingBoardErrors={this.props.settings.pairingBoardErrors}
+                        renamePairingBoard={this.props.renamePairingBoard}
+                        deletePairingBoard={this.props.deletePairingBoard}
+                        movePerson={this.props.movePerson}
+                    />
                     <div className="add-board-button" onClick={this.openNewPairingBoardModal.bind(this)}/>
                 </div>
 
