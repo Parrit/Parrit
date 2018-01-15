@@ -40,8 +40,11 @@ describe('<Workspace/>', () => {
                     newPersonModalErrorMessage: "some error message",
                     newPairingBoardModalErrorMessage: "some error message"
                 },
-                pairingBoardErrors: {
-                    89: 'some edit error message'
+                pairingBoardSettings: {
+                    89: {
+                        editMode: false,
+                        editErrorMessage: 'some edit error message'
+                    }
                 }
             },
             createPerson: jasmine.createSpy('createPersonSpy'),
@@ -51,7 +54,8 @@ describe('<Workspace/>', () => {
             renamePairingBoard: () => {},
             deletePairingBoard: () => {},
             setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
-            setNewPairingBoardModalOpen: jasmine.createSpy('setNewPairingBoardModalOpenSpy')
+            setNewPairingBoardModalOpen: jasmine.createSpy('setNewPairingBoardModalOpenSpy'),
+            setPairingBoardEditMode: () => {}
         };
 
         wrapper = shallow(<Workspace {...props} />);
@@ -77,10 +81,11 @@ describe('<Workspace/>', () => {
     it('renders the list of pairing boards in the project', () => {
         const pairingBoards = wrapper.find('PairingBoardList');
         expect(pairingBoards.at(0).prop('pairingBoards')).toBe(props.pairingBoards);
-        expect(pairingBoards.at(0).prop('pairingBoardErrors')).toBe(props.settings.pairingBoardErrors);
+        expect(pairingBoards.at(0).prop('pairingBoardSettings')).toBe(props.settings.pairingBoardSettings);
         expect(pairingBoards.at(0).prop('renamePairingBoard')).toBe(props.renamePairingBoard);
         expect(pairingBoards.at(0).prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(pairingBoards.at(0).prop('movePerson')).toBe(props.movePerson);
+        expect(pairingBoards.at(0).prop('setPairingBoardEditMode')).toBe(props.setPairingBoardEditMode);
     });
 
     describe('newPersonModal', () => {

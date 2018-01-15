@@ -9,16 +9,20 @@ class PairingBoardList extends React.Component {
         return (
             <div className="pairing-boards">
                 {this.props.pairingBoards.map((pairingBoard, idx) => {
+                    const settings = this.props.pairingBoardSettings[pairingBoard.id] || {};
+
                     return <PairingBoard
                                 key={idx}
                                 id={pairingBoard.id}
                                 name={pairingBoard.name}
                                 exempt={pairingBoard.exempt}
                                 people={pairingBoard.people}
-                                editErrorMessage={this.props.pairingBoardErrors[pairingBoard.id]}
+                                editMode={settings.editMode || false}
+                                editErrorMessage={settings.editErrorMessage}
                                 renamePairingBoard={this.props.renamePairingBoard}
                                 deletePairingBoard={this.props.deletePairingBoard}
                                 movePerson={this.props.movePerson}
+                                setPairingBoardEditMode={this.props.setPairingBoardEditMode}
                             />
                 })}
             </div>
@@ -28,10 +32,11 @@ class PairingBoardList extends React.Component {
 
 PairingBoardList.propTypes = exact({
     pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
-    pairingBoardErrors: PropTypes.object.isRequired,
+    pairingBoardSettings: PropTypes.object.isRequired,
     renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
-    movePerson: PropTypes.func.isRequired
+    movePerson: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired
 });
 
 export default PairingBoardList;

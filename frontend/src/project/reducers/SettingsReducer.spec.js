@@ -12,7 +12,7 @@ describe("SettingsReducer", () => {
                 newPersonModalErrorMessage: undefined,
                 newPairingBoardModalErrorMessage: undefined
 		    },
-		    pairingBoardErrors: {},
+		    pairingBoardSettings: {},
 		    pairingHistoryPanel: {
 		        isOpen: false
 		    }

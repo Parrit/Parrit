@@ -8,17 +8,12 @@ import PairingBoardHeader from './PairingBoardHeader.js';
 import PersonList from './PersonList.js';
 
 class PairingBoard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {editMode: false};
-    }
-
     render() {
-        const {name, exempt, people, editErrorMessage, isOver, connectDropTarget} = this.props;
+        const {name, exempt, people, editMode, editErrorMessage, isOver, connectDropTarget} = this.props;
 
         const pairingBoardClasses = classNames({
             'pairing-board': true,
-            'editing': this.state.editMode,
+            'editing': editMode,
             'exempt': exempt,
             'drop-target': isOver
         });
@@ -28,7 +23,7 @@ class PairingBoard extends React.Component {
                 <PairingBoardHeader
                     name={name}
                     exempt={exempt}
-                    editMode={this.state.editMode}
+                    editMode={editMode}
                     editErrorMessage={editErrorMessage}
                     renamePairingBoard={this.renamePairingBoard.bind(this)}
                     deletePairingBoard={this.deletePairingBoard.bind(this)}
@@ -39,13 +34,13 @@ class PairingBoard extends React.Component {
 		)
 	}
 
-    enableEditMode() {
-        this.setState({editMode: true});
-    }
+	enableEditMode() {
+	    this.props.setPairingBoardEditMode(this.props.id, true);
+	}
 
-    disableEditMode() {
-        this.setState({editMode: false});
-    }
+	disableEditMode() {
+	    this.props.setPairingBoardEditMode(this.props.id, false);
+	}
 
     renamePairingBoard(name) {
         this.props.renamePairingBoard(this.props.id, name, this.disableEditMode.bind(this));
@@ -61,11 +56,13 @@ PairingBoard.propTypes = exact({
     name: PropTypes.string.isRequired,
     exempt: PropTypes.bool.isRequired,
     people: PropTypes.arrayOf(PropTypes.object).isRequired,
+    editMode: PropTypes.bool.isRequired,
     editErrorMessage: PropTypes.string,
     isOver: PropTypes.bool.isRequired,
     renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
     movePerson: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
 });
 

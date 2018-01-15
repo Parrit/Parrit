@@ -29,10 +29,11 @@ class Workspace extends React.Component {
                     <h2 className="pairing-boards-title">Pairing Boards</h2>
                     <PairingBoardList
                         pairingBoards={this.props.pairingBoards}
-                        pairingBoardErrors={this.props.settings.pairingBoardErrors}
+                        pairingBoardSettings={this.props.settings.pairingBoardSettings}
                         renamePairingBoard={this.props.renamePairingBoard}
                         deletePairingBoard={this.props.deletePairingBoard}
                         movePerson={this.props.movePerson}
+                        setPairingBoardEditMode={this.props.setPairingBoardEditMode}
                     />
                     <div className="add-board-button" onClick={this.openNewPairingBoardModal.bind(this)}/>
                 </div>
@@ -86,7 +87,8 @@ Workspace.propTypes = exact({
     renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
-    setNewPairingBoardModalOpen: PropTypes.func.isRequired
+    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired
 });
 
 export default Workspace;

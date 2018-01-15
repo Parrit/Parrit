@@ -18,7 +18,8 @@ class Project extends React.Component {
             renamePairingBoard: this.props.renamePairingBoard,
             deletePairingBoard: this.props.deletePairingBoard,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
-            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen
+            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
+            setPairingBoardEditMode: this.props.setPairingBoardEditMode
         };
 
         return (
@@ -53,7 +54,8 @@ Project.propTypes = exact({
     getRecommendedPairs: PropTypes.func.isRequired,
     savePairing: PropTypes.func.isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
-    setNewPairingBoardModalOpen: PropTypes.func.isRequired
+    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired
 });
 
 export default Project;

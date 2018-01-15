@@ -33,7 +33,8 @@ describe('<Project/>', () => {
         getRecommendedPairs: () => {},
         savePairing: () => {},
         setNewPersonModalOpen: () => {},
-        setNewPairingBoardModalOpen: () => {}
+        setNewPairingBoardModalOpen: () => {},
+        setPairingBoardEditMode: () => {}
     };
 
     beforeEach(() => {
@@ -99,5 +100,6 @@ describe('<Project/>', () => {
         expect(workspaceComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard);
         expect(workspaceComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen);
         expect(workspaceComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen);
+        expect(workspaceComponent.prop('setPairingBoardEditMode')).toBe(props.setPairingBoardEditMode);
     });
 });

@@ -25,6 +25,7 @@ export default {
     postLogout: dataThunks.postLogoutThunk,
     setNewPersonModalOpen: settingsCreators.setNewPersonModalOpenCreator,
     setNewPairingBoardModalOpen: settingsCreators.setNewPairingBoardModalOpenCreator,
+    setPairingBoardEditMode: settingsCreators.setPairingBoardEditModeCreator,
     setPairingHistoryPanelOpen: settingsCreators.setPairingHistoryPanelOpenCreator,
 };
 

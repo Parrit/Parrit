@@ -45,6 +45,7 @@ describe('<App/>', () => {
         fetchPairingHistory: () => {},
         setNewPersonModalOpen: () => {},
         setNewPairingBoardModalOpen: () => {},
+        setPairingBoardEditMode: () => {},
         setPairingHistoryPanelOpen: () => {},
         postLogout: () => {},
         connectDropTarget: jasmine.createSpy("connectDropTargetSpy")
@@ -86,6 +87,7 @@ describe('<App/>', () => {
         expect(projectComponent.prop('savePairing')).toBe(props.savePairing);
         expect(projectComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen);
         expect(projectComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen);
+        expect(projectComponent.prop('setPairingBoardEditMode')).toBe(props.setPairingBoardEditMode);
     });
 
     it('has a Footer component', () => {

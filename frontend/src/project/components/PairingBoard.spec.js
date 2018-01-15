@@ -16,11 +16,13 @@ describe('<PairingBoard/>', () => {
                 { name: "Hank Muchacho" }
             ],
             exempt: false,
+            editMode: false,
             editErrorMessage: 'some error message',
             isOver: false,
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy'),
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
             movePerson: jasmine.createSpy('movePersonSpy'),
+            setPairingBoardEditMode: jasmine.createSpy('setPairingBoardEditModeSpy'),
             connectDropTarget: jasmine.createSpy('connectDropTargetSpy')
         };
 
@@ -41,7 +43,7 @@ describe('<PairingBoard/>', () => {
         expect(pairingBoardHeader.prop('editErrorMessage')).toBe("some error message");
     });
 
-    it('passes the header a rename function that calls renamePairingBoard', () => {
+    it('passes the header a rename function that calls renamePairingBoard with a callback that sets editMode to false', () => {
         const passedRenameFunction = wrapper.find('PairingBoardHeader').prop('renamePairingBoard');
         passedRenameFunction("SomeNewName");
 
@@ -50,7 +52,7 @@ describe('<PairingBoard/>', () => {
         const successCallback = props.renamePairingBoard.calls.mostRecent().args[2];
         successCallback();
 
-        expect(wrapper.state('editMode')).toBe(false);
+        expect(props.setPairingBoardEditMode).toHaveBeenCalledWith(77, false);
     });
 
     it('passes the header a delete function that calls deletePairingBoard', () => {
@@ -64,7 +66,7 @@ describe('<PairingBoard/>', () => {
         const passedEnableEditModeFunction = wrapper.find('PairingBoardHeader').prop('enableEditMode');
         passedEnableEditModeFunction();
 
-        expect(wrapper.state('editMode')).toBe(true);
+        expect(props.setPairingBoardEditMode).toHaveBeenCalledWith(77, true);
     });
 
     it('renders the list of people', () => {
@@ -73,7 +75,8 @@ describe('<PairingBoard/>', () => {
     });
 
     it('adds the editing class when editMode is true', () => {
-        wrapper.setState({editMode: true});
+        props.editMode = true;
+        wrapper = shallow(<InnerPairingBoard {...props} />);
         expect(wrapper.prop('className')).toContain('editing');
     })
 

@@ -47,3 +47,11 @@ export function clearEditPairingBoardErrorMessageCreator(pairingBoardId) {
         pairingBoardId: pairingBoardId
     }
 }
+
+export function setPairingBoardEditModeCreator(pairingBoardId, editMode) {
+    return {
+        type: 'SET_PAIRING_BOARD_EDIT_MODE',
+        pairingBoardId: pairingBoardId,
+        editMode: editMode
+    }
+}

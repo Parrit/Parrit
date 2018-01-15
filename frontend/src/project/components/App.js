@@ -32,7 +32,8 @@ class App extends React.Component {
             getRecommendedPairs: this.props.getRecommendedPairs,
             savePairing: this.props.savePairing,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
-            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen
+            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
+            setPairingBoardEditMode: this.props.setPairingBoardEditMode
         };
 
         const pairingHistoryProps = {
@@ -77,6 +78,7 @@ App.propTypes = exact({
     fetchPairingHistory: PropTypes.func.isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired,
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     postLogout: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
