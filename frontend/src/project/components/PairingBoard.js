@@ -44,6 +44,7 @@ export default class PairingBoard extends React.Component {
             pairingBoardNameSection = <div className="pairing-board-name-wrapper" onClick={this.enableEditMode.bind(this)}>
                 <h3 className="pairing-board-name">{name}</h3>
                 <div className="rename-pairing-board"/>
+                <div className="add-role-to-pairing-board" onClick={this.openNewRoleModal.bind(this)}/>
             </div>;
         }
 
@@ -59,10 +60,9 @@ export default class PairingBoard extends React.Component {
             <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
                 <div className="pairing-board-header">
                     {pairingBoardNameSection}
-                    <div className="add-role-to-pairing-board" onClick={this.openNewRoleModal.bind(this)}/>
                     {pairingBoardDeleteSection}
+                    <RoleList roles={roles} index={pairingBoardIndex} />
                 </div>
-                <RoleList roles={roles} index={pairingBoardIndex} />
                 <PersonList people={people} index={pairingBoardIndex} />
             </div>
         )
