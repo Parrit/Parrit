@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import { DragDropContext, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import classNames from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { DragDropContext, DropTarget } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+import classNames from 'classnames'
 
-import Header from './Header.js';
-import Project from './Project.js';
-import PairingHistory from './PairingHistory.js';
-import Footer from '../../shared/components/Footer.js';
+import Header from './Header.js'
+import Project from './Project.js'
+import PairingHistory from './PairingHistory.js'
+import Footer from '../../shared/components/Footer.js'
 
 class App extends React.Component {
 	render() {
@@ -16,7 +16,7 @@ class App extends React.Component {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen,
             postLogout: this.props.postLogout
-        };
+        }
 
         const projectProps = {
             data: this.props.data,
@@ -34,22 +34,22 @@ class App extends React.Component {
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
             setPairingBoardEditMode: this.props.setPairingBoardEditMode
-        };
+        }
 
         const pairingHistoryProps = {
             pairingHistoryList: this.props.data.pairingHistory.pairingHistoryList,
             fetchPairingHistory: this.props.fetchPairingHistory,
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen
-        };
+        }
 
-        const {connectDropTarget} = this.props;
+        const {connectDropTarget} = this.props
 
         const classes = classNames({
             'layout-wrapper': true,
             'project-page-container': true,
             'shift-left': this.props.settings.pairingHistoryPanel.isOpen
-        });
+        })
 
 		return connectDropTarget(
             <div className={classes}>
@@ -82,22 +82,22 @@ App.propTypes = exact({
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     postLogout: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
-});
+})
 
 const dragSpec = {
     drop(props, monitor) {
-        if(monitor.didDrop()) return;
+        if(monitor.didDrop()) return
 
-        const person = monitor.getItem();
+        const person = monitor.getItem()
         const floatingPosition = { floating: true, pairingBoardId: undefined }
-        props.movePerson(person.id, floatingPosition);
+        props.movePerson(person.id, floatingPosition)
     }
-};
+}
 
-const dragCollect = (connect, monitor) => {
+const dragCollect = (connect) => {
     return {
         connectDropTarget: connect.dropTarget()
-    };
-};
+    }
+}
 
-export default DragDropContext(HTML5Backend)(DropTarget('Person', dragSpec, dragCollect)(App));
+export default DragDropContext(HTML5Backend)(DropTarget('Person', dragSpec, dragCollect)(App))

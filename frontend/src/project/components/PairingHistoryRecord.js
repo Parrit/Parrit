@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import Moment from 'moment-timezone';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import Moment from 'moment-timezone'
 
 class PairingHistoryRecord extends React.Component {
     render() {
-        const localPairingTime = Moment.tz(this.props.pairingTime, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]", 'UTC')
-            .local().format('MMMM D, YYYY h:mm A');
+        const localPairingTime = Moment.tz(this.props.pairingTime, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]', 'UTC')
+            .local().format('MMMM D, YYYY h:mm A')
 
         return (
             <div className="pairing-history-record">
@@ -35,6 +35,6 @@ class PairingHistoryRecord extends React.Component {
 PairingHistoryRecord.propTypes = exact({
     pairingTime: PropTypes.string.isRequired,
     pairingBoardsWithPeople: PropTypes.arrayOf(PropTypes.object).isRequired
-});
+})
 
-export default PairingHistoryRecord;
+export default PairingHistoryRecord

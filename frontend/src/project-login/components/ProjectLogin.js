@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import Footer from '../../shared/components/Footer.js';
+import Footer from '../../shared/components/Footer.js'
 
 class ProjectLogin extends React.Component {
     render() {
@@ -28,6 +28,6 @@ ProjectLogin.propTypes = exact({
     projectName: PropTypes.string.isRequired,
     csrfParameterName: PropTypes.string.isRequired,
     csrfToken: PropTypes.string.isRequired
-});
+})
 
-export default ProjectLogin;
+export default ProjectLogin

@@ -1,22 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import { DropTarget } from 'react-dnd';
-import classNames from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { DropTarget } from 'react-dnd'
+import classNames from 'classnames'
 
-import PairingBoardHeader from './PairingBoardHeader.js';
-import PersonList from './PersonList.js';
+import PairingBoardHeader from './PairingBoardHeader.js'
+import PersonList from './PersonList.js'
 
 class PairingBoard extends React.Component {
     render() {
-        const {name, exempt, people, editMode, editErrorMessage, isOver, connectDropTarget} = this.props;
+        const {name, exempt, people, editMode, editErrorMessage, isOver, connectDropTarget} = this.props
 
         const pairingBoardClasses = classNames({
             'pairing-board': true,
             'editing': editMode,
             'exempt': exempt,
             'drop-target': isOver
-        });
+        })
 
         return connectDropTarget(
             <div className={pairingBoardClasses}>
@@ -31,23 +31,23 @@ class PairingBoard extends React.Component {
                 />
                 <PersonList people={people}/>
             </div>
-		)
+        )
 	}
 
-	enableEditMode() {
-	    this.props.setPairingBoardEditMode(this.props.id, true);
-	}
+    enableEditMode() {
+        this.props.setPairingBoardEditMode(this.props.id, true)
+    }
 
-	disableEditMode() {
-	    this.props.setPairingBoardEditMode(this.props.id, false);
-	}
+    disableEditMode() {
+        this.props.setPairingBoardEditMode(this.props.id, false)
+    }
 
     renamePairingBoard(name) {
-        this.props.renamePairingBoard(this.props.id, name, this.disableEditMode.bind(this));
+        this.props.renamePairingBoard(this.props.id, name, this.disableEditMode.bind(this))
     }
 
     deletePairingBoard() {
-        this.props.deletePairingBoard(this.props.id);
+        this.props.deletePairingBoard(this.props.id)
     }
 }
 
@@ -64,23 +64,23 @@ PairingBoard.propTypes = exact({
     movePerson: PropTypes.func.isRequired,
     setPairingBoardEditMode: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired
-});
+})
 
 const dragSpec = {
     drop(props, monitor) {
-        if(monitor.didDrop()) return;
+        if(monitor.didDrop()) return
 
-        const person = monitor.getItem();
+        const person = monitor.getItem()
         const pairingBoardPosition = { floating: false, pairingBoardId: props.id }
-        props.movePerson(person.id, pairingBoardPosition);
+        props.movePerson(person.id, pairingBoardPosition)
     }
-};
+}
 
 const dragCollect = (connect, monitor) => {
     return {
         isOver: monitor.isOver(),
         connectDropTarget: connect.dropTarget()
-    };
-};
+    }
+}
 
-export default DropTarget('Person', dragSpec, dragCollect)(PairingBoard);
+export default DropTarget('Person', dragSpec, dragCollect)(PairingBoard)

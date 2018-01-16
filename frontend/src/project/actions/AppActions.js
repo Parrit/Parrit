@@ -1,13 +1,13 @@
-import * as dataCreators from './creators/DataCreators.js';
-import * as settingsCreators from './creators/SettingsCreators.js';
-import * as dataThunks from './thunks/DataThunks.js';
+import * as dataCreators from './creators/DataCreators.js'
+import * as settingsCreators from './creators/SettingsCreators.js'
+import * as dataThunks from './thunks/DataThunks.js'
 
 function resetPairingBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoardCreator());
+    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoardCreator())
 }
 
 function smartResetBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.smartResetBoard());
+    return dataThunks.autoSaveThunk(dataCreators.smartResetBoard())
 }
 
 export default {
@@ -27,5 +27,5 @@ export default {
     setNewPairingBoardModalOpen: settingsCreators.setNewPairingBoardModalOpenCreator,
     setPairingBoardEditMode: settingsCreators.setPairingBoardEditModeCreator,
     setPairingHistoryPanelOpen: settingsCreators.setPairingHistoryPanelOpenCreator,
-};
+}
 

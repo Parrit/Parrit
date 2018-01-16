@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import PairingBoard from './PairingBoard.js';
+import PairingBoard from './PairingBoard.js'
 
 class PairingBoardList extends React.Component {
     render() {
         return (
             <div className="pairing-boards">
                 {this.props.pairingBoards.map((pairingBoard, idx) => {
-                    const settings = this.props.pairingBoardSettings[pairingBoard.id] || {};
+                    const settings = this.props.pairingBoardSettings[pairingBoard.id] || {}
 
                     return <PairingBoard
                                 key={idx}
@@ -37,9 +37,9 @@ PairingBoardList.propTypes = exact({
     deletePairingBoard: PropTypes.func.isRequired,
     movePerson: PropTypes.func.isRequired,
     setPairingBoardEditMode: PropTypes.func.isRequired
-});
+})
 
-export default PairingBoardList;
+export default PairingBoardList
 
 
 

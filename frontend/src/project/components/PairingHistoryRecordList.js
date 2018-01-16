@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import PairingHistoryRecord from './PairingHistoryRecord.js';
+import PairingHistoryRecord from './PairingHistoryRecord.js'
 
 class PairingHistoryRecordList extends React.Component {
     render() {
@@ -14,21 +14,21 @@ class PairingHistoryRecordList extends React.Component {
             }
         }
 
-        const pairingHistoryRecords = [];
-        let currentPairingTime = this.props.pairingHistoryList[0].pairingTime;
-        let currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime);
+        const pairingHistoryRecords = []
+        let currentPairingTime = this.props.pairingHistoryList[0].pairingTime
+        let currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime)
 
         this.props.pairingHistoryList.forEach(pairingHistory => {
             if(pairingHistory.pairingTime !== currentPairingTime) {
-                pairingHistoryRecords.push(currentPairingHistoryRecord);
-                currentPairingTime = pairingHistory.pairingTime;
-                currentPairingHistoryRecord = createPairingHistoryRecord(pairingHistory.pairingTime);
+                pairingHistoryRecords.push(currentPairingHistoryRecord)
+                currentPairingTime = pairingHistory.pairingTime
+                currentPairingHistoryRecord = createPairingHistoryRecord(pairingHistory.pairingTime)
             }
                 
             currentPairingHistoryRecord.pairingBoardsWithPeople
-                .push({pairingBoardName: pairingHistory.pairingBoardName, people: pairingHistory.people});
-        });
-        pairingHistoryRecords.push(currentPairingHistoryRecord);
+                .push({pairingBoardName: pairingHistory.pairingBoardName, people: pairingHistory.people})
+        })
+        pairingHistoryRecords.push(currentPairingHistoryRecord)
 
         return (
             <div className="pairing-history-record-list">
@@ -37,7 +37,7 @@ class PairingHistoryRecordList extends React.Component {
                                 key={idx}
                                 pairingTime={pairingHistoryRecord.pairingTime}
                                 pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople}
-                            />;
+                            />
                 })}
             </div>
         )
@@ -46,6 +46,6 @@ class PairingHistoryRecordList extends React.Component {
 
 PairingHistoryRecordList.propTypes = exact({
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired
-});
+})
 
-export default PairingHistoryRecordList;
+export default PairingHistoryRecordList

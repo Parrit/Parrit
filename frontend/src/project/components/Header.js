@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import classNames from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import classNames from 'classnames'
 
 class Header extends React.Component {
     render() {
-        const pairingHistoryOpen = this.props.isPairingHistoryPanelOpen;
+        const pairingHistoryOpen = this.props.isPairingHistoryPanelOpen
         const classes = classNames({
             'history': true,
             'open': pairingHistoryOpen
-        });
+        })
 
         return (
             <header>
@@ -28,11 +28,11 @@ class Header extends React.Component {
     }
 
     openPairingHistoryPanel() {
-        this.props.setPairingHistoryPanelOpen(true);
+        this.props.setPairingHistoryPanelOpen(true)
     }
 
     closePairingHistoryPanel() {
-        this.props.setPairingHistoryPanelOpen(false);
+        this.props.setPairingHistoryPanelOpen(false)
     }
 }
 
@@ -40,6 +40,6 @@ Header.propTypes = exact({
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
     postLogout: PropTypes.func.isRequired
-});
+})
 
-export default Header;
+export default Header

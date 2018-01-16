@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Button extends React.Component {
     render() {
-        const type = this.props.type || 'button';
+        const type = this.props.type || 'button'
 
         return (
             <button type={type} title={this.props.tooltip} className={this.props.className} onClick={this.props.clickFunction}>
@@ -21,4 +21,4 @@ Button.propTypes = {
     clickFunction: PropTypes.func,
     type: PropTypes.string,
     tooltip: PropTypes.string
-};
+}

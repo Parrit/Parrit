@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import Modal from 'react-modal';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import Modal from 'react-modal'
 
-import PersonList from './PersonList.js';
-import PersonTrashBin from './PersonTrashBin.js';
-import PairingBoardList from './PairingBoardList.js';
-import NameForm from '../../shared/components/NameForm.js';
-import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
+import PersonList from './PersonList.js'
+import PersonTrashBin from './PersonTrashBin.js'
+import PairingBoardList from './PairingBoardList.js'
+import NameForm from '../../shared/components/NameForm.js'
+import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js'
 
 class Workspace extends React.Component {
     render() {
@@ -52,27 +52,27 @@ class Workspace extends React.Component {
     }
 
     createPersonWithName(name) {
-        this.props.createPerson(name, this.closeNewPersonModal.bind(this));
+        this.props.createPerson(name, this.closeNewPersonModal.bind(this))
     }
 
     openNewPersonModal () {
-        this.props.setNewPersonModalOpen(true);
+        this.props.setNewPersonModalOpen(true)
     }
 
     closeNewPersonModal () {
-        this.props.setNewPersonModalOpen(false);
+        this.props.setNewPersonModalOpen(false)
     }
 
     createPairingBoardWithName(name) {
-        this.props.createPairingBoard(name, this.closeNewPairingBoardModal.bind(this));
+        this.props.createPairingBoard(name, this.closeNewPairingBoardModal.bind(this))
     }
 
     openNewPairingBoardModal () {
-        this.props.setNewPairingBoardModalOpen(true);
+        this.props.setNewPairingBoardModalOpen(true)
     }
 
     closeNewPairingBoardModal () {
-        this.props.setNewPairingBoardModalOpen(false);
+        this.props.setNewPairingBoardModalOpen(false)
     }
 }
 
@@ -89,6 +89,6 @@ Workspace.propTypes = exact({
     setNewPersonModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired,
     setPairingBoardEditMode: PropTypes.func.isRequired
-});
+})
 
-export default Workspace;
+export default Workspace

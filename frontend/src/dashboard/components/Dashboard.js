@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import Footer from '../../shared/components/Footer.js';
-import Button from '../../shared/components/Button.js';
+import Footer from '../../shared/components/Footer.js'
+import Button from '../../shared/components/Button.js'
 
 class Dashboard extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             newProjectName: '',
             newProjectPassword: '',
             loginProjectName: '',
             loginProjectPassword: ''
-        };
+        }
     }
 
     render() {
@@ -70,28 +70,28 @@ class Dashboard extends React.Component {
     }
 
     handleLoginName(event) {
-        this.setState({loginProjectName: event.target.value});
+        this.setState({loginProjectName: event.target.value})
     }
 
     handleLoginPassword(event) {
-        this.setState({loginProjectPassword: event.target.value});
+        this.setState({loginProjectPassword: event.target.value})
     }
 
     handleLogin(event) {
-        event.preventDefault();
+        event.preventDefault()
         this.props.login(this.state.loginProjectName, this.state.loginProjectPassword)
     }
 
     handleNewProjectName(event) {
-        this.setState({newProjectName: event.target.value});
+        this.setState({newProjectName: event.target.value})
     }
 
     handleNewProjectPassword(event) {
-        this.setState({newProjectPassword: event.target.value});
+        this.setState({newProjectPassword: event.target.value})
     }
 
     createProjectWithName(event) {
-        event.preventDefault();
+        event.preventDefault()
         this.props.createProject(this.state.newProjectName, this.state.newProjectPassword)
     }
 }
@@ -105,6 +105,6 @@ Dashboard.propTypes = exact({
     loginErrorPassword: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     createProject: PropTypes.func.isRequired
-});
+})
 
-export default Dashboard;
+export default Dashboard

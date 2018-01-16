@@ -1,28 +1,26 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import { DragDropContext } from 'react-dnd';
-import TestBackend from 'react-dnd-test-backend';
+import React from 'react'
+import { mount } from 'enzyme'
 
-import Person from './Person.js';
+import Person from './Person.js'
 
 describe('<Person/>', () => {
-    let wrapper, props;
+    let wrapper, props
 
     beforeEach(() => {
         props = {
             id: 1,
-            name: "Billy",
+            name: 'Billy',
             connectDragSource: jasmine.createSpy('connectDragSourceSpy')
-        };
+        }
 
-        props.connectDragSource.and.callFake(i => i);
+        props.connectDragSource.and.callFake(i => i)
 
-        const InnerPerson = Person.DecoratedComponent;
-        wrapper = mount(<InnerPerson {...props} />);
-    });
+        const InnerPerson = Person.DecoratedComponent
+        wrapper = mount(<InnerPerson {...props} />)
+    })
 
     it('displays the name', () => {
-        expect(wrapper.text()).toBe("Billy");
-    });
+        expect(wrapper.text()).toBe('Billy')
+    })
 
-});
+})

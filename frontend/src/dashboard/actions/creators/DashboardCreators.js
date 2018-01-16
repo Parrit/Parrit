@@ -9,5 +9,5 @@ export function setLoginErrorCreator(errorResponse) {
     return {
         type: 'SET_LOGIN_ERROR',
         errorResponse: errorResponse
-    };
+    }
 }

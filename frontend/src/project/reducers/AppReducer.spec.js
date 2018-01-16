@@ -1,9 +1,9 @@
-import appReducer from './AppReducer.js';
+import appReducer from './AppReducer.js'
 
-describe("AppReducer", () => {
-	it("should get the default state", () => {
-		const stateBefore = undefined;
-		const action = {};
+describe('AppReducer', () => {
+	it('should get the default state', () => {
+		const stateBefore = undefined
+		const action = {}
 		const stateAfter = {
             settings: {
                 modal: {
@@ -27,9 +27,9 @@ describe("AppReducer", () => {
                     pairingHistoryList: []
                 }
             }
-		};
+		}
 
-		expect(appReducer(stateBefore, action)).toEqual(stateAfter);
-	});
-});
+		expect(appReducer(stateBefore, action)).toEqual(stateAfter)
+	})
+})
 

@@ -1,7 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import { DragLayer } from 'react-dnd';
+/* eslint-disable */
+
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { DragLayer } from 'react-dnd'
 
 import { Person } from './Person.js'
 
@@ -13,10 +15,10 @@ const layerStyles = {
 	top: 0,
 	width: '100%',
 	height: '100%'
-};
+}
 
 function getTransformStyle(currentOffset) {
-    if(!currentOffset) return { display: 'none' };
+    if(!currentOffset) return { display: 'none' }
 
     return {
         transform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`
@@ -25,9 +27,9 @@ function getTransformStyle(currentOffset) {
 
 class CustomDragLayer extends React.Component {
     render() {
-        const {item, itemType, isDragging, currentOffset} = this.props;
+        const {item, itemType, isDragging, currentOffset} = this.props
 
-        if(!isDragging) return null;
+        if(!isDragging) return null
 
         return (
             <div style={layerStyles}>
@@ -46,7 +48,7 @@ CustomDragLayer.propTypes = exact({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired,
     })
-});
+})
 
 const dragCollect = (monitor) => {
     return {
@@ -57,4 +59,4 @@ const dragCollect = (monitor) => {
     }
 }
 
-export default DragLayer(dragCollect)(CustomDragLayer);
+export default DragLayer(dragCollect)(CustomDragLayer)

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import Workspace from './Workspace.js';
-import Button from '../../shared/components/Button.js';
+import Workspace from './Workspace.js'
+import Button from '../../shared/components/Button.js'
 
 class Project extends React.Component {
     render() {
@@ -20,7 +20,7 @@ class Project extends React.Component {
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
             setPairingBoardEditMode: this.props.setPairingBoardEditMode
-        };
+        }
 
         return (
             <main className="project">
@@ -56,6 +56,6 @@ Project.propTypes = exact({
     setNewPersonModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired,
     setPairingBoardEditMode: PropTypes.func.isRequired
-});
+})
 
-export default Project;
+export default Project

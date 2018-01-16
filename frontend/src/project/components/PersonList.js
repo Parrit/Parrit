@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import Person from './Person.js';
+import Person from './Person.js'
 
 class PersonList extends React.Component {
     render() {
@@ -22,6 +22,6 @@ class PersonList extends React.Component {
 
 PersonList.propTypes = exact({
     people: PropTypes.arrayOf(PropTypes.object).isRequired,
-});
+})
 
-export default PersonList;
+export default PersonList

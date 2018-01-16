@@ -13,4 +13,4 @@ export default {
         borderRadius: null,
         padding: null
     }
-};
+}

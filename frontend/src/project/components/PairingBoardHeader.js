@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import classNames from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import classNames from 'classnames'
 
 class PairingBoardHeader extends React.Component {
     render() {
-        const {name, exempt, editMode, editErrorMessage} = this.props;
+        const {name, exempt, editMode, editErrorMessage} = this.props
 
-        let pairingBoardNameSection;
+        let pairingBoardNameSection
 
         if (editMode) {
             const nameInputClasses = classNames({
                 'editing-pairing-board-name': true,
                 'error': editErrorMessage != undefined
-            });
+            })
 
             pairingBoardNameSection = (
                 <div className="pairing-board-name-wrapper">
@@ -21,7 +21,7 @@ class PairingBoardHeader extends React.Component {
                         onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
                     <div className="error-message">{editErrorMessage}</div>
                 </div>
-            );
+            )
         }
         else {
             pairingBoardNameSection = (
@@ -29,7 +29,7 @@ class PairingBoardHeader extends React.Component {
                     <h3 className="pairing-board-name">{name}</h3>
                     <div className="rename-pairing-board"/>
                 </div>
-            );
+            )
         }
 
         return (
@@ -44,14 +44,14 @@ class PairingBoardHeader extends React.Component {
     }
 
     onKeyDownHandler(event) {
-        const EnterKeyCode = 13;
+        const EnterKeyCode = 13
         if(event.keyCode === EnterKeyCode) {
-            this.renamePairingBoard(event);
+            this.renamePairingBoard(event)
         }
     }
 
     renamePairingBoard(event) {
-        this.props.renamePairingBoard(event.target.value);
+        this.props.renamePairingBoard(event.target.value)
     }
 }
 
@@ -63,6 +63,6 @@ PairingBoardHeader.propTypes = exact({
     renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
     enableEditMode: PropTypes.func.isRequired
-});
+})
 
-export default PairingBoardHeader;
+export default PairingBoardHeader

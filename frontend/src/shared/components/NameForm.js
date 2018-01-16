@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class NameForm extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = { name: '' };
+        super(props)
+        this.state = { name: '' }
     }
 
     render() {
-        let inputClasses = 'form-control';
-        inputClasses += this.props.errorMessage ? ' error': '';
+        let inputClasses = 'form-control'
+        inputClasses += this.props.errorMessage ? ' error': ''
 
         return (
             <form onSubmit={this.submit.bind(this)}>
@@ -38,12 +38,12 @@ export default class NameForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({name: event.target.value});
+        this.setState({name: event.target.value})
     }
 
     submit(e) {
-        e.preventDefault();
-        this.props.confirmFunction(this.state.name);
+        e.preventDefault()
+        this.props.confirmFunction(this.state.name)
     }
 }
 
@@ -52,4 +52,4 @@ NameForm.propTypes = {
     confirmFunction: PropTypes.func.isRequired,
     cancelFunction: PropTypes.func.isRequired,
     errorMessage: PropTypes.string
-};
+}

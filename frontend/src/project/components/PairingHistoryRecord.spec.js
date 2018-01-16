@@ -1,11 +1,11 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React from 'react'
+import { shallow } from 'enzyme'
 import timezoneMock from 'timezone-mock'
 
-import PairingHistoryRecord from './PairingHistoryRecord.js';
+import PairingHistoryRecord from './PairingHistoryRecord.js'
 
 describe('<PairingHistoryRecord/>', () => {
-    let wrapper, props;
+    let wrapper, props
 
     beforeAll(() => {
         timezoneMock.register('US/Pacific')
@@ -22,23 +22,23 @@ describe('<PairingHistoryRecord/>', () => {
                 {pairingBoardName: 'board1', people: [{name: 'Bob'}, {name: 'Billy'}]},
                 {pairingBoardName: 'board2', people: [{name: 'Alice'}]}
             ]
-        };
+        }
 
-        wrapper = shallow(<PairingHistoryRecord {...props}/>);
-    });
+        wrapper = shallow(<PairingHistoryRecord {...props}/>)
+    })
 
     it('displays the pairing time in the local timezone', () => {
-        expect(wrapper.find('.pairing-time').text()).toBe('March 8, 2016 9:30 AM');
-    });
+        expect(wrapper.find('.pairing-time').text()).toBe('March 8, 2016 9:30 AM')
+    })
 
     it('displays the pairing boards with the people', () => {
-        const pairingBoardNames = wrapper.find('.pairing-board-name');
-        expect(pairingBoardNames.at(0).text()).toContain('board1');
-        expect(pairingBoardNames.at(1).text()).toContain('board2');
+        const pairingBoardNames = wrapper.find('.pairing-board-name')
+        expect(pairingBoardNames.at(0).text()).toContain('board1')
+        expect(pairingBoardNames.at(1).text()).toContain('board2')
 
-        const peopleNames = wrapper.find('.person-name');
-        expect(peopleNames.at(0).text()).toContain('Bob');
-        expect(peopleNames.at(1).text()).toContain('Billy');
-        expect(peopleNames.at(2).text()).toContain('Alice');
-    });
-});
+        const peopleNames = wrapper.find('.person-name')
+        expect(peopleNames.at(0).text()).toContain('Bob')
+        expect(peopleNames.at(1).text()).toContain('Billy')
+        expect(peopleNames.at(2).text()).toContain('Alice')
+    })
+})

@@ -49,3 +49,13 @@ task jsBuild(type: Exec) {
     args = ["--config", "webpack.config.js"]
 }
 processResources.dependsOn(jsBuild)
+
+task jsLint(type: Exec) {
+    group = "Parrit"
+    description = "Checks the javascript code syntax"
+
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "./node_modules/.bin/eslint"
+    args = ["--config", ".eslintrc.json", "."]
+}
+jsBuild.dependsOn(jsLint)

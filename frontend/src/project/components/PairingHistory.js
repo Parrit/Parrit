@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import exact from 'prop-types-exact';
-import { Scrollbars } from 'react-custom-scrollbars';
-import classNames from 'classnames';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { Scrollbars } from 'react-custom-scrollbars'
+import classNames from 'classnames'
 
-import PairingHistoryRecordList from './PairingHistoryRecordList.js';
+import PairingHistoryRecordList from './PairingHistoryRecordList.js'
 
 class PairingHistory extends React.Component {
     componentDidMount() {
-        this.props.fetchPairingHistory();
+        this.props.fetchPairingHistory()
     }
 
     render() {
@@ -16,7 +16,7 @@ class PairingHistory extends React.Component {
             'pairing-history-panel': true,
             'panel-open': this.props.isPairingHistoryPanelOpen,
             'panel-closed': !this.props.isPairingHistoryPanelOpen
-        });
+        })
 
         return (
             <div className={classes}>
@@ -48,7 +48,7 @@ class PairingHistory extends React.Component {
     }
 
     closePairingHistoryPanel() {
-        this.props.setPairingHistoryPanelOpen(false);
+        this.props.setPairingHistoryPanelOpen(false)
     }
 }
 
@@ -57,6 +57,6 @@ PairingHistory.propTypes = exact({
     fetchPairingHistory: PropTypes.func.isRequired,
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired
-});
+})
 
-export default PairingHistory;
+export default PairingHistory
