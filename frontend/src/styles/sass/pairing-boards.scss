@@ -10,7 +10,8 @@
     margin-bottom: 15px;
 
     .role-list {
-      float: right;
+      line-height: 0;
+      height: 15.7px;
     }
 
     &:not(.editing) .pairing-board-header .pairing-board-name-wrapper {
@@ -19,7 +20,7 @@
 
     .pairing-board-header {
       margin-top: 3px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
 
       .pairing-board-name-wrapper {
         line-height: 15px;

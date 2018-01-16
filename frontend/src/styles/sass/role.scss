@@ -13,17 +13,19 @@
   position: relative;
   display: inline-block;
   border-radius: 26px;
+  border-radius: 5px;
 
-  padding: 17.5px 20px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  padding: 1px 6px 0px 6px;
+  margin-right: 2px;
 
   font: $Raleway-Bold;
-  font-size: 13px;
+  font-size: 8px;
   line-height: 15px;
   letter-spacing: 1px;
+  text-transform: uppercase;
 
   &.can-drop {
     z-index: 3;
   }
 }
+
