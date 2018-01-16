@@ -35,7 +35,6 @@
     "jest": "22.0.6",
     "node-sass": "4.7.2",
     "react-dnd-test-backend": "2.5.4",
-    "react-test-renderer": "16.2.0",
     "resolve-url-loader": "2.2.1",
     "sass-loader": "6.0.6",
     "timezone-mock": "0.0.7",
