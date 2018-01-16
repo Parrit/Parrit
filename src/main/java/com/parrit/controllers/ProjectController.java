@@ -1,11 +1,9 @@
 package com.parrit.controllers;
 
-import com.parrit.DTOs.*;
+import com.parrit.DTOs.NewProjectDTO;
+import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
-import com.parrit.entities.Person;
 import com.parrit.entities.Project;
-import com.parrit.exceptions.PairingBoardNotFoundException;
-import com.parrit.exceptions.PersonNotFoundException;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Controller
 public class ProjectController {
@@ -91,115 +88,4 @@ public class ProjectController {
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>()));
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> updatePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
-                .filter(pb -> pb.getId() == pairingBoardId)
-                .findFirst()
-                .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
-
-        matchingPairingBoard.setName(pairingBoardDTO.getName());
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> deletePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
-                .filter(pb -> pb.getId() == pairingBoardId)
-                .findFirst()
-                .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
-
-        savedProject.getPeople().addAll(matchingPairingBoard.getPeople());
-        savedProject.getPairingBoards().remove(matchingPairingBoard);
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        savedProject.getPeople().add(new Person(personDTO.getName()));
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person/{personId}/position", method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> movePerson(@PathVariable long projectId, @PathVariable long personId, @RequestBody @Valid PositionDTO positionDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
-        Stream<List<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
-        List<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
-                .filter(ppl -> ppl.stream().anyMatch(p -> p.getId() == personId))
-                .findFirst()
-                .orElseThrow(() -> new PersonNotFoundException("Keeaa!? That person doesn't seem to exist."));
-
-        Person person = listWithPerson.stream()
-                .filter(p -> p.getId() == personId)
-                .findFirst()
-                .get();
-        listWithPerson.remove(person);
-
-        if(positionDTO.isFloating()) {
-            savedProject.getPeople().add(person);
-        } else {
-            PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
-                    .filter(pb -> pb.getId() == positionDTO.getPairingBoardId())
-                    .findFirst()
-                    .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
-
-            matchingPairingBoard.getPeople().add(person);
-        }
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person/{personId}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> deletePerson(@PathVariable long projectId, @PathVariable long personId) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
-        Stream<List<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
-        List<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
-                .filter(ppl -> ppl.stream().anyMatch(p -> p.getId() == personId))
-                .findFirst()
-                .orElseThrow(() -> new PersonNotFoundException("Keeaa!? That person doesn't seem to exist."));
-
-        listWithPerson.removeIf(p -> p.getId() == personId);
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
 }

@@ -2,6 +2,7 @@ package com.parrit.controllers;
 
 import com.parrit.DTOs.ErrorDTO;
 import com.parrit.exceptions.PairingBoardNotFoundException;
+import com.parrit.exceptions.PairingBoardPositionNotFoundException;
 import com.parrit.exceptions.PersonNotFoundException;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import org.slf4j.Logger;
@@ -59,6 +60,16 @@ public class ExceptionHandlerController {
     public ResponseEntity<ErrorDTO> handlePairingBoardNotFound(PairingBoardNotFoundException exception) {
         Map<String, String> fieldErrorMessages = new HashMap<>();
         fieldErrorMessages.put("id", exception.getMessage());
+
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setFieldErrors(fieldErrorMessages);
+        return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PairingBoardPositionNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handlePairingBoardPositionNotFound(PairingBoardPositionNotFoundException exception) {
+        Map<String, String> fieldErrorMessages = new HashMap<>();
+        fieldErrorMessages.put("pairingBoardId", exception.getMessage());
 
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setFieldErrors(fieldErrorMessages);
