@@ -9,6 +9,7 @@ import Header from './Header.js'
 import Project from './Project.js'
 import PairingHistory from './PairingHistory.js'
 import Footer from '../../shared/components/Footer.js'
+import CustomDragLayer from './CustomDragLayer.js'
 
 class App extends React.Component {
 	render() {
@@ -51,13 +52,19 @@ class App extends React.Component {
             'shift-left': this.props.settings.pairingHistoryPanel.isOpen
         })
 
-		return connectDropTarget(
-            <div className={classes}>
-                <Header {...headerProps}/>
-                <Project {...projectProps}/>
-                <Footer/>
-                <PairingHistory {...pairingHistoryProps}/>
-            </div>
+		return (
+            <React.Fragment>
+                {connectDropTarget(
+                    <div className={classes}>
+                        <Header {...headerProps}/>
+                        <Project {...projectProps}/>
+                        <Footer/>
+                        <PairingHistory {...pairingHistoryProps}/>
+                    </div>
+                )}
+
+                <CustomDragLayer/>
+            </React.Fragment>
         )
 	}
 }

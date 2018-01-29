@@ -2,13 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
 import { DragSource } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
+
+export function renderPerson(name) {
+    return <div className="person">{name}</div>
+}
 
 class Person extends React.Component {
+    componentDidMount() {
+        this.props.connectDragPreview(getEmptyImage())
+    }
+
     render() {
-        const {name, connectDragSource} = this.props
+        const {name, isDragging, connectDragSource} = this.props
+
+        if(isDragging) return null
 
         return connectDragSource(
-            <div className="person">{name}</div>
+            renderPerson(name)
         )
     }
 }
@@ -16,18 +27,25 @@ class Person extends React.Component {
 Person.propTypes = exact({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    connectDragSource: PropTypes.func.isRequired
+    isDragging: PropTypes.bool.isRequired,
+    connectDragSource: PropTypes.func.isRequired,
+    connectDragPreview: PropTypes.func.isRequired
 })
 
 const dragSpec = {
     beginDrag(props) {
-        return { id: props.id }
+        return {
+            id: props.id,
+            name: props.name
+        }
     }
 }
 
-const dragCollect = (connect) => {
+const dragCollect = (connect, monitor) => {
     return {
-        connectDragSource: connect.dragSource()
+        isDragging: monitor.isDragging(),
+        connectDragSource: connect.dragSource(),
+        connectDragPreview: connect.dragPreview()
     }
 }
 

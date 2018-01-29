@@ -4,54 +4,54 @@ import { shallow } from 'enzyme'
 import App from './App.js'
 
 describe('<App/>', () => {
-    let wrapper
+    let wrapper, props
     const InnerApp = App.DecoratedComponent
 
-    const props = {
-        data: {
-            project: {
-                name: 'The Best Around',
-                people: [],
-                pairingBoards: [
-                    {
-                        name: 'PairingBoard1',
-                        people: [
-                            {
-                                name: 'George'
-                            }
-                        ]
-                    }
-                ]
-            },
-            pairingHistory: {
-                pairingHistoryList: [{data: 'blah'}]
-            }
-        },
-        settings: {
-            pairingHistoryPanel: {
-                isOpen: true
-            }
-        },
-        createPerson: () => {},
-        movePerson: () => {},
-        deletePerson: () => {},
-        createPairingBoard: () => {},
-        renamePairingBoard: () => {},
-        deletePairingBoard: () => {},
-        resetPairs: () => {},
-        smartReset: () => {},
-        getRecommendedPairs: () => {},
-        savePairing: () => {},
-        fetchPairingHistory: () => {},
-        setNewPersonModalOpen: () => {},
-        setNewPairingBoardModalOpen: () => {},
-        setPairingBoardEditMode: () => {},
-        setPairingHistoryPanelOpen: () => {},
-        postLogout: () => {},
-        connectDropTarget: jasmine.createSpy('connectDropTargetSpy')
-    }
-
     beforeEach(() => {
+        props = {
+            data: {
+                project: {
+                    name: 'The Best Around',
+                    people: [],
+                    pairingBoards: [
+                        {
+                            name: 'PairingBoard1',
+                            people: [
+                                {
+                                    name: 'George'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                pairingHistory: {
+                    pairingHistoryList: [{data: 'blah'}]
+                }
+            },
+            settings: {
+                pairingHistoryPanel: {
+                    isOpen: true
+                }
+            },
+            createPerson: () => {},
+            movePerson: () => {},
+            deletePerson: () => {},
+            createPairingBoard: () => {},
+            renamePairingBoard: () => {},
+            deletePairingBoard: () => {},
+            resetPairs: () => {},
+            smartReset: () => {},
+            getRecommendedPairs: () => {},
+            savePairing: () => {},
+            fetchPairingHistory: () => {},
+            setNewPersonModalOpen: () => {},
+            setNewPairingBoardModalOpen: () => {},
+            setPairingBoardEditMode: () => {},
+            setPairingHistoryPanelOpen: () => {},
+            postLogout: () => {},
+            connectDropTarget: jasmine.createSpy('connectDropTargetSpy')
+        }
+
         props.connectDropTarget.and.callFake(i => i)
 
         wrapper = shallow(<InnerApp {...props}/>)
