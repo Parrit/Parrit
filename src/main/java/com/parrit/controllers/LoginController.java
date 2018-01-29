@@ -37,6 +37,11 @@ public class LoginController {
     //******  Views  ******//
     //*********************//
 
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public String getDashboard() {
+        return "dashboard";
+    }
+
     /*
      *  Login page for a project. This method expects that this page was reached
      *  by a redirect due to not being authenticated.  Therefore, we can see which

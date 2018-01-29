@@ -46,13 +46,6 @@ public class ProjectControllerTest {
     //*********************//
 
     @Test
-    public void getDashboard_returnsDashboardView() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("dashboard"));
-    }
-
-    @Test
     public void getProject_returnsProjectView_withProjectData() throws Exception {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
         existingProject.setId(1L);

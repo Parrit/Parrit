@@ -36,11 +36,6 @@ public class ProjectController {
     //******  Views  ******//
     //*********************//
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String getDashboard() {
-        return "dashboard";
-    }
-
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectName)")
     @RequestMapping(path = "/{projectName:.+}", method = RequestMethod.GET)
     public String getProject(@PathVariable String projectName, Model model) {
