@@ -31,7 +31,7 @@ public class PairingBoard {
     private List<Person> people;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "pairing_board_id", nullable = true, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
+    @JoinColumn(name = "pairing_board_id", nullable = false, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
     private List<Role> roles;
 
     public PairingBoard() {
