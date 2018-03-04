@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AuthorizationService {
@@ -23,7 +24,9 @@ public class AuthorizationService {
     }
 
     public boolean canAccessProject(User user, long projectId) {
-        Project project = projectRepository.findOne(projectId);
-        return project != null && canAccessProject(user, project.getName());
+        Optional<Project> project = projectRepository.findById(projectId);
+        return project
+           .filter(p -> canAccessProject(user, p.getName()))
+			  .isPresent();
     }
 }
