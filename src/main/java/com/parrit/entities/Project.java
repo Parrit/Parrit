@@ -3,10 +3,14 @@ package com.parrit.entities;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
+import static com.parrit.repositories.ProjectRepository.PASSWORD_COLUMN_NAME;
+import static com.parrit.repositories.ProjectRepository.TABLE_NAME;
+
 @Entity
-@Table(name = "project",
+@Table(name = TABLE_NAME,
         indexes = {
                 @Index(name = "project_pkey", unique = true, columnList = "id")
         },
@@ -15,6 +19,14 @@ import java.util.List;
         }
 )
 public class Project {
+    public static Project NULL;
+    static {
+        NULL = new Project();
+        NULL.pairingBoards = Collections.emptyList();
+        NULL.people = Collections.emptyList();
+        NULL.name = "";
+        NULL.password = "";
+    }
 
     @Id
     @Column(name = "id", nullable = false)
@@ -26,7 +38,7 @@ public class Project {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = PASSWORD_COLUMN_NAME, nullable = false, length = 255)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -116,7 +128,7 @@ public class Project {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
+                ", password='********'" +
                 ", pairingBoards=" + pairingBoards +
                 ", people=" + people +
                 '}';

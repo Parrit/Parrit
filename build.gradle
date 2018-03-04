@@ -1,6 +1,10 @@
 plugins {
-    id "org.springframework.boot" version "1.5.9.RELEASE"
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
 }
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
 
 repositories {
     mavenCentral()

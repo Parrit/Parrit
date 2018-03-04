@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +68,7 @@ public class ProjectController {
             throw new ProjectNameAlreadyExistsException("Not again. That name already exists, try a different one.");
         }
 
-        String hashedPassword = passwordEncoder.encodePassword(newProjectDTO.getPassword(), null);
+        String hashedPassword = passwordEncoder.encode(newProjectDTO.getPassword());
 
         List<PairingBoard> defaultPairingBoards = new ArrayList<>();
         defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
@@ -86,7 +86,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/{projectId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> updateProject(@PathVariable long projectId, @RequestBody @Valid ProjectDTO projectDTO) {
-        Project existingProject = projectRepository.findOne(projectId);
+        Project existingProject = projectRepository.findById(projectId).orElse(Project.NULL);
 
         Project updatedProject = ProjectTransformer.merge(existingProject, projectDTO);
 
@@ -98,7 +98,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).orElse(Project.NULL);
 
         savedProject.getPeople().add(new Person(personDTO.getName()));
 
@@ -110,7 +110,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}/role", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addRole(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid RoleDTO roleDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).orElse(Project.NULL);
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)
@@ -127,7 +127,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).orElse(Project.NULL);
 
         savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>(), new ArrayList<>()));
 
@@ -139,7 +139,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> updatePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).orElse(Project.NULL);
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)
