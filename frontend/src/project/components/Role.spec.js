@@ -1,26 +1,41 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React from 'react'
+import { shallow } from 'enzyme'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
-import Role from './Role.js';
+import Role from './Role.js'
 
 describe('<Role/>', () => {
-    let wrapper, props;
+    let wrapper, props
+    const InnerRole = Role.DecoratedComponent
 
     beforeEach(() => {
         props = {
-            name: "role",
-            pairingBoardIndex: 1,
-            index: 1
-        };
+            id: 1,
+            name: 'Ballers',
+            isDragging: false,
+            moveRole: jasmine.createSpy('moveRoleSpy'),
+            deleteRole: jasmine.createSpy('deleteRoleSpy'),
+            connectDragSource: jasmine.createSpy('connectDragSourceSpy'),
+            connectDragPreview: jasmine.createSpy('connectDragPreviewSpy')
+        }
 
-        wrapper = shallow(<Role {...props} />);
-    });
+        props.connectDragSource.and.callFake(i => i)
 
-    it('renders the role element with an id relative to index', () => {
-        expect(wrapper.prop('id')).toBe("pairing_board_1_role_1", "Did not make correct id");
-    });
+        wrapper = shallow(<InnerRole {...props} />)
+    })
 
-    it('should have the draggable class', () => {
-        expect(wrapper.prop('className')).toContain('draggable');
-    });
-});
+    it('displays the name', () => {
+        expect(wrapper.text()).toBe('Ballers')
+    })
+
+    it('sets an empty image as the drag preview', () => {
+        expect(props.connectDragPreview).toHaveBeenCalledWith(getEmptyImage())
+    })
+
+    it('renders nothing when being dragged', () => {
+        props.isDragging = true
+        wrapper = shallow(<InnerRole {...props} />)
+
+        expect(wrapper.type()).toBe(null)
+    })
+})

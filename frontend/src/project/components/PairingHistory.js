@@ -1,20 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Scrollbars } from 'react-custom-scrollbars';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { Scrollbars } from 'react-custom-scrollbars'
+import classNames from 'classnames'
 
-import PairingHistoryRecordList from './PairingHistoryRecordList.js';
+import PairingHistoryRecordList from './PairingHistoryRecordList.js'
 
-export default class PairingHistory extends React.Component {
+class PairingHistory extends React.Component {
     componentDidMount() {
-        this.props.fetchPairingHistory(this.props.projectId);
+        this.props.fetchPairingHistory()
     }
 
     render() {
-        const pairingHistoryRecordListProps = {
-            pairingHistoryList: this.props.pairingHistoryList
-        };
+        const {pairingHistoryList} = this.props
 
-        const classes = 'pairing-history-panel' + (this.props.isPairingHistoryPanelOpen ? ' panel-open' : ' panel-closed');
+        const classes = classNames({
+            'pairing-history-panel': true,
+            'panel-open': this.props.isPairingHistoryPanelOpen,
+            'panel-closed': !this.props.isPairingHistoryPanelOpen
+        })
 
         return (
             <div className={classes}>
@@ -24,20 +28,20 @@ export default class PairingHistory extends React.Component {
                             <h2>Pair Rotation History</h2>
                             <div className="cancel" onClick={this.closePairingHistoryPanel.bind(this)}/>
                         </div>
+
                         <div className="body">
-                            {(function(pairingHistoryList) {
-                                if(pairingHistoryList.length === 0) {
-                                    return <div className="no-history">
-                                        <div className="clock"/>
-                                        <div className="no-history-content">
-                                            ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
-                                        </div>
+                            {pairingHistoryList.length === 0 && (
+                                <div className="no-history">
+                                    <div className="clock"/>
+                                    <div className="no-history-content">
+                                        ‘Record Pairs’ to track daily rotation history. The more you record, the better the recommendation engine becomes.
                                     </div>
-                                }
-                                else {
-                                    return <PairingHistoryRecordList {...pairingHistoryRecordListProps}/>
-                                }
-                            })(this.props.pairingHistoryList)}
+                                </div>
+                            )}
+
+                            {pairingHistoryList.length > 0 && (
+                                <PairingHistoryRecordList pairingHistoryList={pairingHistoryList}/>
+                            )}
                         </div>
                     </div>
                 </Scrollbars>
@@ -46,13 +50,15 @@ export default class PairingHistory extends React.Component {
     }
 
     closePairingHistoryPanel() {
-        this.props.setPairingHistoryPanelOpen(false);
+        this.props.setPairingHistoryPanelOpen(false)
     }
 }
 
-PairingHistory.propTypes = {
+PairingHistory.propTypes = exact({
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
     fetchPairingHistory: PropTypes.func.isRequired,
     setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired
-};
+})
+
+export default PairingHistory

@@ -1,10 +1,10 @@
-.floating-parrits .role {
-  background-color: $veryLightPurple;
-  color: $purple;
+.role-list {
+  line-height: 0px;
+  margin-bottom: 6px;
 }
 
-.pairing-board .role,
-.role.can-drop {
+.drag-layer .role,
+.pairing-board .role {
   background-color: $purple;
   color: white;
 }
@@ -12,20 +12,16 @@
 .role {
   position: relative;
   display: inline-block;
-  border-radius: 26px;
   border-radius: 5px;
 
-  padding: 1px 6px 0px 6px;
+  padding: 2px 6px;
   margin-right: 2px;
+  margin-bottom: 1px;
 
   font: $Raleway-Bold;
   font-size: 8px;
-  line-height: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
 
-  &.can-drop {
-    z-index: 3;
-  }
+  cursor: move;
 }
-

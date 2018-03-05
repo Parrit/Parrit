@@ -1,22 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-export default class NameForm extends React.Component {
+class NameForm extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = { name: '' };
-    }
-
-    componentDidMount() {
-        setTimeout(function() {
-            ReactDOM.findDOMNode(this.refs.input).focus();
-        }.bind(this), 0);
+        super(props)
+        this.state = { name: '' }
     }
 
     render() {
-        let inputClasses = 'form-control';
-        inputClasses += this.props.errorMessage ? ' error': '';
+        let inputClasses = 'form-control'
+        inputClasses += this.props.errorMessage ? ' error': ''
 
         return (
             <form onSubmit={this.submit.bind(this)}>
@@ -28,8 +22,8 @@ export default class NameForm extends React.Component {
                 <div className="error-message">{this.props.errorMessage}</div>
 
                 <input
-                    ref="input"
                     className={inputClasses}
+                    autoFocus
                     type="text"
                     placeholder="Name"
                     value={this.state.name}
@@ -45,18 +39,20 @@ export default class NameForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({name: event.target.value});
+        this.setState({name: event.target.value})
     }
 
     submit(e) {
-        e.preventDefault();
-        this.props.confirmFunction(this.state.name);
+        e.preventDefault()
+        this.props.confirmFunction(this.state.name)
     }
 }
 
-NameForm.propTypes = {
+NameForm.propTypes = exact({
     formTitle: PropTypes.string.isRequired,
     confirmFunction: PropTypes.func.isRequired,
     cancelFunction: PropTypes.func.isRequired,
     errorMessage: PropTypes.string
-};
+})
+
+export default NameForm

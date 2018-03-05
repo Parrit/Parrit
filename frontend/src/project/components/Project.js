@@ -1,26 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import Workspace from './Workspace.js';
-import Button from '../../shared/components/Button.js';
+import Workspace from './Workspace.js'
+import Button from '../../shared/components/Button.js'
 
-export default class Project extends React.Component {
+class Project extends React.Component {
     render() {
         const workspaceProps = {
-            projectId: this.props.data.project.id,
-            settings: this.props.settings,
             people: this.props.data.project.people,
-            roles: this.props.data.project.roles,
             pairingBoards: this.props.data.project.pairingBoards,
-            setNewPersonModalOpen: this.props.setNewPersonModalOpen,
-            setNewRoleModalOpen: this.props.setNewRoleModalOpen,
-            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
+            settings: this.props.settings,
             createPerson: this.props.createPerson,
-            createRole: this.props.createRole,
+            movePerson: this.props.movePerson,
+            deletePerson: this.props.deletePerson,
             createPairingBoard: this.props.createPairingBoard,
+            renamePairingBoard: this.props.renamePairingBoard,
             deletePairingBoard: this.props.deletePairingBoard,
-            renamePairingBoard: this.props.renamePairingBoard
-        };
+            createRole: this.props.createRole,
+            moveRole: this.props.moveRole,
+            deleteRole: this.props.deleteRole,
+            setNewPersonModalOpen: this.props.setNewPersonModalOpen,
+            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
+            setNewRoleModalOpen: this.props.setNewRoleModalOpen,
+            setPairingBoardEditMode: this.props.setPairingBoardEditMode
+        }
 
         return (
             <main className="project">
@@ -40,20 +44,26 @@ export default class Project extends React.Component {
     }
 }
 
-Project.propTypes = {
-    savePairing: PropTypes.func.isRequired,
-    getRecommendedPairs: PropTypes.func.isRequired,
+Project.propTypes = exact({
+    data: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired,
+    createPerson: PropTypes.func.isRequired,
+    movePerson: PropTypes.func.isRequired,
+    deletePerson: PropTypes.func.isRequired,
+    createPairingBoard: PropTypes.func.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired,
+    deletePairingBoard: PropTypes.func.isRequired,
+    createRole: PropTypes.func.isRequired,
+    moveRole: PropTypes.func.isRequired,
+    deleteRole: PropTypes.func.isRequired,
     resetPairs: PropTypes.func.isRequired,
     smartReset: PropTypes.func.isRequired,
-
-    settings: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+    getRecommendedPairs: PropTypes.func.isRequired,
+    savePairing: PropTypes.func.isRequired,
     setNewPersonModalOpen: PropTypes.func.isRequired,
-    setNewRoleModalOpen: PropTypes.func.isRequired,
     setNewPairingBoardModalOpen: PropTypes.func.isRequired,
-    createPerson: PropTypes.func.isRequired,
-    createRole: PropTypes.func.isRequired,
-    createPairingBoard: PropTypes.func.isRequired,
-    deletePairingBoard: PropTypes.func.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired
-};
+    setNewRoleModalOpen: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired
+})
+
+export default Project

@@ -40,6 +40,16 @@ task jsTest(type: Exec) {
 }
 test.dependsOn(jsTest)
 
+task jsLint(type: Exec) {
+    group = "Parrit"
+    description = "Checks the javascript code syntax"
+
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "./node_modules/.bin/eslint"
+    args = ["--config", ".eslintrc.json", "."]
+}
+jsTest.dependsOn(jsLint)
+
 task jsBuild(type: Exec) {
     group = "Parrit"
     description = "Bundles the frontend javascript code"

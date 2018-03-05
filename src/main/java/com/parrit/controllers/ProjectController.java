@@ -1,15 +1,9 @@
 package com.parrit.controllers;
 
 import com.parrit.DTOs.NewProjectDTO;
-import com.parrit.DTOs.PairingBoardDTO;
-import com.parrit.DTOs.PersonDTO;
-import com.parrit.DTOs.RoleDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
-import com.parrit.entities.Person;
-import com.parrit.entities.Role;
 import com.parrit.entities.Project;
-import com.parrit.exceptions.PairingBoardNotFoundException;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
@@ -41,11 +35,6 @@ public class ProjectController {
     //*********************//
     //******  Views  ******//
     //*********************//
-
-    @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String getDashboard() {
-        return "dashboard";
-    }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectName)")
     @RequestMapping(path = "/{projectName:.+}", method = RequestMethod.GET)
@@ -94,61 +83,4 @@ public class ProjectController {
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        savedProject.getPeople().add(new Person(personDTO.getName()));
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}/role", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> addRole(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid RoleDTO roleDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
-                .filter(pb -> pb.getId() == pairingBoardId)
-                .findFirst()
-                .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
-
-        matchingPairingBoard.getRoles().add(new Role(roleDTO.getName()));
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>(), new ArrayList<>()));
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
-
-    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> updatePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
-
-        PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
-                .filter(pb -> pb.getId() == pairingBoardId)
-                .findFirst()
-                .orElseThrow(() -> new PairingBoardNotFoundException("Keeaa!? That pairing board doesn't seem to exist."));
-
-        matchingPairingBoard.setName(pairingBoardDTO.getName());
-
-        Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
-    }
 }

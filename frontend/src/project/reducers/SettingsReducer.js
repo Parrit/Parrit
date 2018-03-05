@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
 
-import modalReducer from './ModalReducer.js';
-import pairingBoardErrorsReducer from './PairingBoardErrorsReducer.js';
-import pairingHistoryPanelReducer from './PairingHistoryPanelReducer.js';
+import modalReducer from './ModalReducer.js'
+import pairingBoardSettingsReducer from './PairingBoardSettingsReducer.js'
+import pairingHistoryPanelReducer from './PairingHistoryPanelReducer.js'
 
 export default combineReducers({
     modal: modalReducer,
-    pairingBoardErrors: pairingBoardErrorsReducer,
+    pairingBoardSettings: pairingBoardSettingsReducer,
     pairingHistoryPanel: pairingHistoryPanelReducer
-});
+})

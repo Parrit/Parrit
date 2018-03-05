@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import PairingHistoryRecord from './PairingHistoryRecord.js';
+import PairingHistoryRecord from './PairingHistoryRecord.js'
 
-export default class PairingHistoryRecordList extends React.Component {
+class PairingHistoryRecordList extends React.Component {
     render() {
 
         function createPairingHistoryRecord(pairingTime) {
@@ -13,33 +14,38 @@ export default class PairingHistoryRecordList extends React.Component {
             }
         }
 
-        const pairingHistoryRecords = [];
-        let currentPairingTime = this.props.pairingHistoryList[0].pairingTime;
-        let currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime);
+        const pairingHistoryRecords = []
+        let currentPairingTime = this.props.pairingHistoryList[0].pairingTime
+        let currentPairingHistoryRecord = createPairingHistoryRecord(currentPairingTime)
 
-        this.props.pairingHistoryList.forEach(function(pairingHistory) {
+        this.props.pairingHistoryList.forEach(pairingHistory => {
             if(pairingHistory.pairingTime !== currentPairingTime) {
-                pairingHistoryRecords.push(currentPairingHistoryRecord);
-                currentPairingTime = pairingHistory.pairingTime;
-                currentPairingHistoryRecord = createPairingHistoryRecord(pairingHistory.pairingTime);
+                pairingHistoryRecords.push(currentPairingHistoryRecord)
+                currentPairingTime = pairingHistory.pairingTime
+                currentPairingHistoryRecord = createPairingHistoryRecord(pairingHistory.pairingTime)
             }
                 
             currentPairingHistoryRecord.pairingBoardsWithPeople
-                .push({pairingBoardName: pairingHistory.pairingBoardName, people: pairingHistory.people});
-        });
-        pairingHistoryRecords.push(currentPairingHistoryRecord);
+                .push({pairingBoardName: pairingHistory.pairingBoardName, people: pairingHistory.people})
+        })
+        pairingHistoryRecords.push(currentPairingHistoryRecord)
 
         return (
             <div className="pairing-history-record-list">
-                {pairingHistoryRecords.map(function(pairingHistoryRecord, idx) {
-                    return <PairingHistoryRecord key={idx} pairingTime={pairingHistoryRecord.pairingTime}
-                        pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople} />;
+                {pairingHistoryRecords.map((pairingHistoryRecord, idx) => {
+                    return <PairingHistoryRecord
+                                key={idx}
+                                pairingTime={pairingHistoryRecord.pairingTime}
+                                pairingBoardsWithPeople={pairingHistoryRecord.pairingBoardsWithPeople}
+                            />
                 })}
             </div>
         )
     }
 }
 
-PairingHistoryRecordList.propTypes = {
+PairingHistoryRecordList.propTypes = exact({
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired
-};
+})
+
+export default PairingHistoryRecordList

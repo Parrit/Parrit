@@ -1,208 +1,119 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Interact from 'interact.js';
-import * as _ from 'lodash';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { DragDropContext, DropTarget } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+import classNames from 'classnames'
 
-import Header from './Header.js';
-import Project from './Project.js';
-import PairingHistory from './PairingHistory.js';
-import Footer from '../../shared/components/Footer.js';
+import { dragTypes, dropTypes } from '../DragAndDrop.js'
+import Header from './Header.js'
+import Project from './Project.js'
+import PairingHistory from './PairingHistory.js'
+import Footer from '../../shared/components/Footer.js'
+import CustomDragLayer from './CustomDragLayer.js'
 
-export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            fromPairingBoardIndex: undefined,
-            toPairingBoardIndex: undefined
-        }
-    }
-
-    componentDidMount() {
-        Interact('.draggable').draggable({
-            restrict: {
-                restriction: ".project-page-container"
-            },
-            autoScroll: true,
-
-            onmove: function dragMoveListener (event) {
-                const target = event.target;
-                const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
-            },
-
-            onend: function(event) {
-                event.target.removeAttribute('style');
-                event.target.removeAttribute('data-x');
-                event.target.removeAttribute('data-y');
-            }
-        });
-
-        Interact('.dropzone').dropzone({
-            accept: '.draggable.person, .draggable.role',
-            overlap: 'center',
-
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-            },
-            ondragenter: this.dropzoneOnDragEnter.bind(this),
-            ondragleave: this.dropzoneOnDragLeave.bind(this),
-            ondrop: this.dropzoneOnDrop.bind(this)
-        });
-
-        Interact('.delete-parrit').dropzone({
-            accept: '.draggable.person, .draggable.role',
-            overlap: 0.01,
-
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-            },
-            ondragenter: function (event) {
-                event.target.classList.add('drop-target');
-                event.relatedTarget.classList.add('can-drop');
-            },
-            ondragleave: function (event) {
-                event.target.classList.remove('drop-target');
-                event.relatedTarget.classList.remove('can-drop');
-            },
-            ondrop: this.trashOnDrop.bind(this)
-        });
-    }
-
-    render() {
+class App extends React.Component {
+	render() {
         const headerProps = {
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen,
             postLogout: this.props.postLogout
-        };
+        }
 
         const projectProps = {
-            savePairing: this.props.savePairing,
-            getRecommendedPairs: this.props.getRecommendedPairs,
+            data: this.props.data,
+            settings: this.props.settings,
+            createPerson: this.props.createPerson,
+            movePerson: this.props.movePerson,
+            deletePerson: this.props.deletePerson,
+            createPairingBoard: this.props.createPairingBoard,
+            renamePairingBoard: this.props.renamePairingBoard,
+            deletePairingBoard: this.props.deletePairingBoard,
+            createRole: this.props.createRole,
+            moveRole: this.props.moveRole,
+            deleteRole: this.props.deleteRole,
             resetPairs: this.props.resetPairs,
             smartReset: this.props.smartReset,
-            settings: this.props.settings,
-            data: this.props.data,
+            getRecommendedPairs: this.props.getRecommendedPairs,
+            savePairing: this.props.savePairing,
             setNewPersonModalOpen: this.props.setNewPersonModalOpen,
             setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
-            createPerson: this.props.createPerson,
-            createPairingBoard: this.props.createPairingBoard,
-            deletePairingBoard: this.props.deletePairingBoard,
-            renamePairingBoard: this.props.renamePairingBoard,
             setNewRoleModalOpen: this.props.setNewRoleModalOpen,
-            createRole: this.props.createRole
-        };
+            setPairingBoardEditMode: this.props.setPairingBoardEditMode
+        }
 
         const pairingHistoryProps = {
-            projectId: this.props.data.project.id,
             pairingHistoryList: this.props.data.pairingHistory.pairingHistoryList,
             fetchPairingHistory: this.props.fetchPairingHistory,
             setPairingHistoryPanelOpen: this.props.setPairingHistoryPanelOpen,
             isPairingHistoryPanelOpen: this.props.settings.pairingHistoryPanel.isOpen
-        };
+        }
 
-        const classes = "layout-wrapper project-page-container dropzone" + (this.props.settings.pairingHistoryPanel.isOpen ? ' shift-left' : '');
+        const {connectDropTarget} = this.props
 
-        return (
-            <div id="pairing_board_-1" className={classes}>
-                <Header {...headerProps}/>
-                <Project {...projectProps}/>
-                <Footer/>
-                <PairingHistory {...pairingHistoryProps}/>
-            </div>
+        const classes = classNames({
+            'layout-wrapper': true,
+            'project-page-container': true,
+            'shift-left': this.props.settings.pairingHistoryPanel.isOpen
+        })
+
+		return (
+            <React.Fragment>
+                {connectDropTarget(
+                    <div className={classes}>
+                        <Header {...headerProps}/>
+                        <Project {...projectProps}/>
+                        <Footer/>
+                        <PairingHistory {...pairingHistoryProps}/>
+                    </div>
+                )}
+
+                <CustomDragLayer/>
+            </React.Fragment>
         )
-    }
+	}
+}
 
-    dropzoneOnDragEnter(event) {
-        event.target.classList.add('drop-target');
-        event.relatedTarget.classList.add('can-drop');
+App.propTypes = exact({
+    data: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired,
+    createPerson: PropTypes.func.isRequired,
+    movePerson: PropTypes.func.isRequired,
+    deletePerson: PropTypes.func.isRequired,
+    createPairingBoard: PropTypes.func.isRequired,
+    renamePairingBoard: PropTypes.func.isRequired,
+    deletePairingBoard: PropTypes.func.isRequired,
+    createRole: PropTypes.func.isRequired,
+    moveRole: PropTypes.func.isRequired,
+    deleteRole: PropTypes.func.isRequired,
+    resetPairs: PropTypes.func.isRequired,
+    smartReset: PropTypes.func.isRequired,
+    getRecommendedPairs: PropTypes.func.isRequired,
+    savePairing: PropTypes.func.isRequired,
+    fetchPairingHistory: PropTypes.func.isRequired,
+    setNewPersonModalOpen: PropTypes.func.isRequired,
+    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
+    setNewRoleModalOpen: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired,
+    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
+    postLogout: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired
+})
 
-        this.setState({toPairingBoardIndex: this.getIndexFromId(event.target.id)});
-    }
+const dragSpec = {
+    drop(props, monitor) {
+        if(monitor.didDrop()) return
 
-    dropzoneOnDragLeave(event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-
-        if(this.state.fromPairingBoardIndex === undefined) {
-            this.setState({fromPairingBoardIndex: this.getIndexFromId(event.target.id)});
+        return {
+            type: dropTypes.Floating
         }
-    }
-
-    dropzoneOnDrop(event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-
-        const assignmentIndex = this.getIndexFromId(event.relatedTarget.id);
-        var assignmentType = 'ROLE'
-        if (event.relatedTarget.classList.contains('person')) {
-            assignmentType = 'PERSON';
-        }
-
-        if(this.state.fromPairingBoardIndex === undefined) {
-            this.setState({fromPairingBoardIndex: this.state.toPairingBoardIndex});
-        }
-
-        if (assignmentType === 'PERSON' || this.state.toPairingBoardIndex >= 0) {
-            this.props.moveAssignment(this.state.fromPairingBoardIndex, this.state.toPairingBoardIndex, assignmentIndex, assignmentType);
-        }
-
-        this.setState({fromPairingBoardIndex: undefined});
-        this.setState({toPairingBoardIndex: undefined});
-    }
-
-    trashOnDrop(event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-
-        const assignmentIndex = this.getIndexFromId(event.relatedTarget.id);
-        var assignmentType = 'ROLE'
-        if (event.relatedTarget.classList.contains('person')) {
-            assignmentType = 'PERSON';
-        }
-
-        this.props.deleteAssignment(this.state.fromPairingBoardIndex, assignmentIndex, assignmentType);
-
-        this.setState({fromPairingBoardIndex: undefined});
-        this.setState({toPairingBoardIndex: undefined});
-    }
-
-    getIndexFromId(idString) {
-        if(idString === undefined) return -1;
-
-        const segments = _.split(idString, '_');
-        return parseInt(segments[segments.length-1]);
     }
 }
 
-App.propTypes = {
-    moveAssignment: PropTypes.func.isRequired,
-    deleteAssignment: PropTypes.func.isRequired,
+const dragCollect = (connect) => {
+    return {
+        connectDropTarget: connect.dropTarget()
+    }
+}
 
-    savePairing: PropTypes.func.isRequired,
-    getRecommendedPairs: PropTypes.func.isRequired,
-    resetPairs: PropTypes.func.isRequired,
-    settings: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    setNewPersonModalOpen: PropTypes.func.isRequired,
-    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
-    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
-    createPerson: PropTypes.func.isRequired,
-    createPairingBoard: PropTypes.func.isRequired,
-    deletePairingBoard: PropTypes.func.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired,
-    fetchPairingHistory: PropTypes.func.isRequired,
-
-    postLogout: PropTypes.func.isRequired
-};
+export default DragDropContext(HTML5Backend)(DropTarget(dragTypes.Person, dragSpec, dragCollect)(App))

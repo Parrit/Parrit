@@ -1,5 +1,3 @@
-import * as _ from 'lodash';
-
 const initialState = {
     newProjectErrorMessage: undefined,
     newProjectErrorName: false,
@@ -11,7 +9,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case "SET_NEW_PROJECT_ERROR": {
+        case 'SET_NEW_PROJECT_ERROR': {
             if(action.errorResponse.fieldErrors) {
                 const newProjectErrorMessage = makeFieldErrorMessage(action.errorResponse.fieldErrors.name, action.errorResponse.fieldErrors.password)
                 const newProjectErrorName = action.errorResponse.fieldErrors.name !== undefined
@@ -22,7 +20,7 @@ export default function (state = initialState, action) {
                 return Object.assign({}, state, {newProjectErrorMessage, newProjectErrorName: false, newProjectErrorPassword: false})
             }
         }
-        case "SET_LOGIN_ERROR": {
+        case 'SET_LOGIN_ERROR': {
             if(action.errorResponse.fieldErrors) {
                 const loginErrorMessage = makeFieldErrorMessage(action.errorResponse.fieldErrors.name, action.errorResponse.fieldErrors.password)
                 const loginErrorName = action.errorResponse.fieldErrors.name !== undefined
@@ -34,7 +32,7 @@ export default function (state = initialState, action) {
             }
         }
         default:
-            return state;
+            return state
     }
 }
 

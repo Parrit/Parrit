@@ -1,23 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
 
-import Person from './Person.js';
+import Person from './Person.js'
 
-export default class PersonList extends React.Component {
+class PersonList extends React.Component {
     render() {
-        const pairingBoardIndex = this.props.index;
-
         return (
             <div className="person-list">
-                {this.props.people.map(function (person, idx) {
-                    return <Person key={idx} name={person.name} index={idx} pairingBoardIndex={pairingBoardIndex}/>
+                {this.props.people.map((person, idx) => {
+                    return <Person
+                                key={idx}
+                                id={person.id}
+                                name={person.name}
+                                movePerson={this.props.movePerson}
+                                deletePerson={this.props.deletePerson}
+                            />
                 })}
             </div>
         )
     }
 }
 
-PersonList.propTypes = {
-    index: PropTypes.number.isRequired,
-    people: PropTypes.arrayOf(PropTypes.object).isRequired
-};
+PersonList.propTypes = exact({
+    people: PropTypes.arrayOf(PropTypes.object).isRequired,
+    movePerson: PropTypes.func.isRequired,
+    deletePerson: PropTypes.func.isRequired
+})
+
+export default PersonList

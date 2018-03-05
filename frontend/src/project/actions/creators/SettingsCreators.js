@@ -5,17 +5,17 @@ export function setNewPersonModalOpenCreator(isOpen) {
     }
 }
 
-export function setNewRoleModalOpenCreator(isOpen, pairingBoardId) {
-    return {
-        type: 'SET_NEW_ROLE_MODAL_OPEN',
-        isOpen: isOpen,
-        pairingBoardId: pairingBoardId
-    }
-}
-
 export function setNewPairingBoardModalOpenCreator(isOpen) {
     return {
         type: 'SET_NEW_PAIRING_BOARD_MODAL_OPEN',
+        isOpen: isOpen
+    }
+}
+
+export function setNewRoleModalOpenCreator(pairingBoardId, isOpen) {
+    return {
+        type: 'SET_NEW_ROLE_MODAL_OPEN',
+        pairingBoardId: pairingBoardId,
         isOpen: isOpen
     }
 }
@@ -34,13 +34,6 @@ export function setNewPersonModalErrorMessageCreator(errorResponse) {
     }
 }
 
-export function setNewRoleModalErrorMessageCreator(errorResponse) {
-    return {
-        type: 'SET_NEW_ROLE_MODAL_ERROR_MESSAGE',
-        errorResponse: errorResponse
-    }
-}
-
 export function setNewPairingBoardModalErrorMessageCreator(errorResponse) {
     return {
         type: 'SET_NEW_PAIRING_BOARD_MODAL_ERROR_MESSAGE',
@@ -48,17 +41,32 @@ export function setNewPairingBoardModalErrorMessageCreator(errorResponse) {
     }
 }
 
-export function setEditPairingBoardErrorMessageCreator(pairingBoardId, errorResponse) {
+export function setNewRoleModalErrorMessageCreator(errorResponse) {
     return {
-        type: 'SET_EDIT_PAIRING_BOARD_ERROR_MESSAGE',
+        type: 'SET_NEW_ROLE_MODAL_ERROR_MESSAGE',
+        errorResponse: errorResponse
+    }
+}
+
+export function setPairingBoardEditErrorMessageCreator(pairingBoardId, errorResponse) {
+    return {
+        type: 'SET_PAIRING_BOARD_EDIT_ERROR_MESSAGE',
         pairingBoardId: pairingBoardId,
         errorResponse: errorResponse
     }
 }
 
-export function clearEditPairingBoardErrorMessageCreator(pairingBoardId) {
+export function clearPairingBoardEditErrorMessageCreator(pairingBoardId) {
     return {
-        type: 'CLEAR_EDIT_PAIRING_BOARD_ERROR_MESSAGE',
+        type: 'CLEAR_PAIRING_BOARD_EDIT_ERROR_MESSAGE',
         pairingBoardId: pairingBoardId
+    }
+}
+
+export function setPairingBoardEditModeCreator(pairingBoardId, editMode) {
+    return {
+        type: 'SET_PAIRING_BOARD_EDIT_MODE',
+        pairingBoardId: pairingBoardId,
+        editMode: editMode
     }
 }

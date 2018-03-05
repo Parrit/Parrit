@@ -1,10 +1,14 @@
+.person-list {
+  line-height: 0px;
+}
+
 .floating-parrits .person {
   background-color: $veryLightPink;
   color: $salmon;
 }
 
-.pairing-board .person,
-.person.can-drop {
+.drag-layer .person,
+.pairing-board .person {
   background-color: $salmon;
   color: white;
 }
@@ -20,10 +24,7 @@
 
   font: $Raleway-Bold;
   font-size: 13px;
-  line-height: 15px;
   letter-spacing: 1px;
 
-  &.can-drop {
-    z-index: 3;
-  }
+  cursor: move;
 }

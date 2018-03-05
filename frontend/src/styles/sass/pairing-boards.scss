@@ -9,18 +9,12 @@
     padding: 0 10px 10px;
     margin-bottom: 15px;
 
-    .role-list {
-      line-height: 0;
-      height: 15.7px;
-    }
-
     &:not(.editing) .pairing-board-header .pairing-board-name-wrapper {
       display: inline-block;
     }
 
     .pairing-board-header {
-      margin-top: 3px;
-      margin-bottom: 6px;
+      margin: 3px 0px;
 
       .pairing-board-name-wrapper {
         line-height: 15px;
@@ -54,11 +48,13 @@
       }
     }
 
-    &:hover:not(.drop-active),
+    &:hover,
     &.drop-target,
     &.editing {
       background-color: $lightKhaki;
+    }
 
+    &:hover:not(.drop-target) {
       .rename-pairing-board {
         display: inline-block;
         cursor: pointer;
@@ -109,30 +105,30 @@
 /*
  *  Mobile
  */
-  @media (max-width: $desktopContentWidth) {
-  }
+@media (max-width: $desktopContentWidth) {
+}
 
-  /*
-   *  Desktop
-   */
-  @media (min-width: $desktopContentWidth) {
-    .pairing-boards {
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  .pairing-boards {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
 
-      .pairing-board {
-        width: 495px;
-        margin-right: 15px;
-      }
+    .pairing-board {
+      width: 495px;
+      margin-right: 15px;
     }
   }
+}
 
-  // Rofl
-  @media (min-width: $desktopContentWidth) and (max-width: 1506px + 15px) {
-    .pairing-boards {
-      .pairing-board {
-        width: calc(50% - 2*15px - 13px)
-      }
+// Rofl
+@media (min-width: $desktopContentWidth) and (max-width: 1506px + 15px) {
+  .pairing-boards {
+    .pairing-board {
+      width: calc(50% - 2*15px - 13px)
     }
   }
+}

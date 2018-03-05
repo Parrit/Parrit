@@ -1,106 +1,110 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
+import exact from 'prop-types-exact'
+import { DropTarget } from 'react-dnd'
+import classNames from 'classnames'
 
-import PersonList from './PersonList.js';
-import RoleList from './RoleList.js';
+import { dragTypes, dropTypes } from '../DragAndDrop.js'
+import PairingBoardHeader from './PairingBoardHeader.js'
+import RoleList from './RoleList.js'
+import PersonList from './PersonList.js'
 
-import Modal from 'react-modal';
-import NameForm from '../../shared/components/NameForm.js';
-import ModalStyles from '../../shared/misc/OverrideBullshitModalStyles.js';
-
-export default class PairingBoard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {editMode: false};
-    }
-
-    componentDidUpdate() {
-        if(this.state.editMode) {
-            setTimeout(function() {
-                ReactDOM.findDOMNode(this.refs.editName).focus();
-            }.bind(this), 0);
-        }
-    }
-
+class PairingBoard extends React.Component {
     render() {
-        const pairingBoardIndex = this.props.index;
-        const {name, exempt, people, roles} = this.props.pairingBoard;
+        const {name, exempt, people, roles, editMode, editErrorMessage, isOver, connectDropTarget} = this.props
 
-        let pairingBoardClasses = "pairing-board dropzone";
-        let pairingBoardNameSection;
-        let pairingBoardDeleteSection;
+        const pairingBoardClasses = classNames({
+            'pairing-board': true,
+            'editing': editMode,
+            'exempt': exempt,
+            'drop-target': isOver
+        })
 
-        if (this.state.editMode) {
-            pairingBoardClasses += " editing";
-            const pairingBoardNameInputClasses = "editing-pairing-board-name" + (this.props.editErrorMessage ? " error" : "");
-            pairingBoardNameSection = <div className="pairing-board-name-wrapper">
-                <input ref="editName" className={pairingBoardNameInputClasses} defaultValue={name}
-                    onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
-                <div className="error-message">{this.props.editErrorMessage}</div>
-            </div>;
-        }
-        else {
-            pairingBoardNameSection = <div className="pairing-board-name-wrapper" onClick={this.enableEditMode.bind(this)}>
-                <h3 className="pairing-board-name">{name}</h3>
-                <div className="rename-pairing-board"/>
-                <div className="add-role-to-pairing-board" onClick={this.openNewRoleModal.bind(this)}/>
-            </div>;
-        }
+        return connectDropTarget(
+            <div className={pairingBoardClasses}>
+                <PairingBoardHeader
+                    name={name}
+                    exempt={exempt}
+                    editMode={editMode}
+                    editErrorMessage={editErrorMessage}
+                    renamePairingBoard={this.renamePairingBoard.bind(this)}
+                    deletePairingBoard={this.deletePairingBoard.bind(this)}
+                    enableEditMode={this.enableEditMode.bind(this)}
+                    openNewRoleModal={this.openNewRoleModal.bind(this)}
+                />
 
-        if (exempt) {
-            pairingBoardClasses += " exempt";
-            pairingBoardDeleteSection = null;
-        }
-        else {
-            pairingBoardDeleteSection = <div className="delete-pairing-board" onClick={this.deletePairingBoard.bind(this)}/>;
-        }
+                <RoleList
+                    roles={roles}
+                    moveRole={this.props.moveRole.bind(this, this.props.id)}
+                    deleteRole={this.props.deleteRole.bind(this, this.props.id)}
+                />
 
-        return (
-            <div id={"pairing_board_" + pairingBoardIndex} className={pairingBoardClasses}>
-                <div className="pairing-board-header">
-                    {pairingBoardNameSection}
-                    {pairingBoardDeleteSection}
-                    <RoleList roles={roles} index={pairingBoardIndex} />
-                </div>
-                <PersonList people={people} index={pairingBoardIndex} />
+                <PersonList
+                    people={people}
+                    movePerson={this.props.movePerson}
+                    deletePerson={this.props.deletePerson}
+                />
             </div>
         )
-    }
+	}
 
     enableEditMode() {
-        this.setState({editMode: true});
+        this.props.setPairingBoardEditMode(this.props.id, true)
     }
 
     disableEditMode() {
-        this.setState({editMode: false});
+        this.props.setPairingBoardEditMode(this.props.id, false)
     }
 
-    onKeyDownHandler(event) {
-        const EnterKeyCode = 13;
-        if(event.keyCode === EnterKeyCode) {
-            this.renamePairingBoard(event);
-        }
+    renamePairingBoard(name) {
+        this.props.renamePairingBoard(this.props.id, name, this.disableEditMode.bind(this))
     }
 
     deletePairingBoard() {
-        this.props.deletePairingBoard(this.props.index);
-    }
-
-    renamePairingBoard(event) {
-        this.props.renamePairingBoard(this.props.pairingBoard.id, event.target.value, this.disableEditMode.bind(this));
+        this.props.deletePairingBoard(this.props.id)
     }
 
     openNewRoleModal () {
-        this.props.setNewRoleModalOpen(true, this.props.pairingBoard.id);
+        this.props.setNewRoleModalOpen(this.props.id, true)
     }
 }
 
-PairingBoard.propTypes = {
-    index: PropTypes.number.isRequired,
-    pairingBoard: PropTypes.object.isRequired,
+PairingBoard.propTypes = exact({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    exempt: PropTypes.bool.isRequired,
+    people: PropTypes.arrayOf(PropTypes.object).isRequired,
+    roles: PropTypes.arrayOf(PropTypes.object).isRequired,
+    editMode: PropTypes.bool.isRequired,
     editErrorMessage: PropTypes.string,
-    deletePairingBoard: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
     renamePairingBoard: PropTypes.func.isRequired,
+    deletePairingBoard: PropTypes.func.isRequired,
+    movePerson: PropTypes.func.isRequired,
+    deletePerson: PropTypes.func.isRequired,
+    moveRole: PropTypes.func.isRequired,
+    deleteRole: PropTypes.func.isRequired,
+    setPairingBoardEditMode: PropTypes.func.isRequired,
     setNewRoleModalOpen: PropTypes.func.isRequired,
-};
+    connectDropTarget: PropTypes.func.isRequired
+})
+
+const dragSpec = {
+    drop(props, monitor) {
+        if(monitor.didDrop()) return
+
+        return {
+            type: dropTypes.PairingBoard,
+            id: props.id
+        }
+    }
+}
+
+const dragCollect = (connect, monitor) => {
+    return {
+        isOver: monitor.isOver(),
+        connectDropTarget: connect.dropTarget()
+    }
+}
+
+export default DropTarget([dragTypes.Person, dragTypes.Role], dragSpec, dragCollect)(PairingBoard)

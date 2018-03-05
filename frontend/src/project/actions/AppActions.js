@@ -1,44 +1,35 @@
-import * as dataCreators from './creators/DataCreators.js';
-import * as settingsCreators from './creators/SettingsCreators.js';
-import * as dataThunks from './thunks/DataThunks.js';
-
-function moveAssignmentCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.moveAssignmentCreator(...args));
-}
+import * as dataCreators from './creators/DataCreators.js'
+import * as settingsCreators from './creators/SettingsCreators.js'
+import * as dataThunks from './thunks/DataThunks.js'
 
 function resetPairingBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoardCreator());
+    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoardCreator())
 }
 
 function smartResetBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.smartResetBoard());
-}
-
-function deleteAssignmentCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.deleteAssignmentCreator(...args));
-}
-
-function deletePairingBoardCombo(...args) {
-    return dataThunks.autoSaveThunk(dataCreators.deletePairingBoardCreator(...args));
+    return dataThunks.autoSaveThunk(dataCreators.smartResetBoard())
 }
 
 export default {
-    moveAssignment: moveAssignmentCombo,
+    createPerson: dataThunks.addNewPersonThunk,
+    movePerson: dataThunks.movePersonThunk,
+    deletePerson: dataThunks.deletePersonThunk,
+    createPairingBoard: dataThunks.addNewPairingBoardThunk,
+    renamePairingBoard: dataThunks.renamePairingBoardThunk,
+    deletePairingBoard: dataThunks.deletePairingBoardThunk,
+    createRole: dataThunks.addNewRoleThunk,
+    moveRole: dataThunks.moveRoleThunk,
+    deleteRole: dataThunks.deleteRoleThunk,
     resetPairs: resetPairingBoardCombo,
     smartReset: smartResetBoardCombo,
-    createPerson: dataThunks.addNewPersonThunk,
-    createRole: dataThunks.addNewRoleThunk,
-    createPairingBoard: dataThunks.addNewPairingBoardThunk,
-    deleteAssignment: deleteAssignmentCombo,
-    deletePairingBoard: deletePairingBoardCombo,
-    renamePairingBoard: dataThunks.renamePairingBoardThunk,
-    savePairing: dataThunks.savePairingThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
+    savePairing: dataThunks.savePairingThunk,
     fetchPairingHistory: dataThunks.getPairingHistoryThunk,
-    postLogout: dataThunks.postLogoutThunk,
     setNewPersonModalOpen: settingsCreators.setNewPersonModalOpenCreator,
-    setNewRoleModalOpen: settingsCreators.setNewRoleModalOpenCreator,
     setNewPairingBoardModalOpen: settingsCreators.setNewPairingBoardModalOpenCreator,
+    setNewRoleModalOpen: settingsCreators.setNewRoleModalOpenCreator,
+    setPairingBoardEditMode: settingsCreators.setPairingBoardEditModeCreator,
     setPairingHistoryPanelOpen: settingsCreators.setPairingHistoryPanelOpenCreator,
-};
+    postLogout: dataThunks.postLogoutThunk,
+}
 
