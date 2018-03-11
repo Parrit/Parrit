@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 @Controller
 public class PersonController {
 
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Autowired
     public PersonController(ProjectRepository projectRepository) {

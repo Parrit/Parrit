@@ -7,6 +7,7 @@ import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
+import com.parrit.repositories.PersonRepository;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.PersonTransformer;
 import com.parrit.transformers.ProjectTransformer;
@@ -42,6 +43,9 @@ public class PersonControllerTest {
 
     @MockBean
     private ProjectRepository mockProjectRepository;
+
+    @MockBean
+    private PersonRepository personRepository;
 
     @Test
     public void addPerson_createsAPersonWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {

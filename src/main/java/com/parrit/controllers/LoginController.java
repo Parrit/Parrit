@@ -26,7 +26,7 @@ import java.util.Collections;
 @Controller
 public class LoginController {
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     public LoginController(AuthenticationManager authenticationManager) {

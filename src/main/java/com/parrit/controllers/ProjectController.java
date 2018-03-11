@@ -23,8 +23,8 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-    private ProjectRepository projectRepository;
-    private PasswordEncoder passwordEncoder;
+    private final ProjectRepository projectRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public ProjectController(ProjectRepository projectRepository, PasswordEncoder passwordEncoder) {

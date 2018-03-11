@@ -8,6 +8,7 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Project;
 import com.parrit.entities.Role;
 import com.parrit.repositories.ProjectRepository;
+import com.parrit.repositories.RoleRepository;
 import com.parrit.transformers.ProjectTransformer;
 import com.parrit.transformers.RoleTransformer;
 import org.junit.Test;
@@ -43,6 +44,9 @@ public class RoleControllerTest {
 
     @MockBean
     private ProjectRepository mockProjectRepository;
+
+    @MockBean
+    private RoleRepository mockRoleRepository;
 
     @Test
     public void addRole_createsARoleWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {
@@ -322,6 +326,10 @@ public class RoleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
+        Role expectedDeletedRole = new Role("Ballers");
+        expectedDeletedRole.setId(3L);
+
+        verify(mockRoleRepository).delete(expectedDeletedRole);
         verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }

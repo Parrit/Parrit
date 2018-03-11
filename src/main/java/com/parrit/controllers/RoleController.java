@@ -10,6 +10,7 @@ import com.parrit.exceptions.PairingBoardNotFoundException;
 import com.parrit.exceptions.PairingBoardPositionNotFoundException;
 import com.parrit.exceptions.RoleNotFoundException;
 import com.parrit.repositories.ProjectRepository;
+import com.parrit.repositories.RoleRepository;
 import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,13 @@ import javax.validation.Valid;
 @Controller
 public class RoleController {
 
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public RoleController(ProjectRepository projectRepository) {
+    public RoleController(ProjectRepository projectRepository, RoleRepository roleRepository) {
         this.projectRepository = projectRepository;
+        this.roleRepository = roleRepository;
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
@@ -93,6 +96,7 @@ public class RoleController {
                 .orElseThrow(() -> new RoleNotFoundException("Keeaa!? That role doesn't seem to exist."));
 
         matchingPairingBoard.getRoles().remove(matchingRole);
+        roleRepository.delete(matchingRole);
 
         Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);

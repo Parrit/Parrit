@@ -5,6 +5,7 @@ import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Project;
 import com.parrit.exceptions.PairingBoardNotFoundException;
+import com.parrit.repositories.PairingBoardRepository;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ import java.util.ArrayList;
 @Controller
 public class PairingBoardController {
 
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
+    private final PairingBoardRepository pairingBoardRepository;
 
     @Autowired
-    public PairingBoardController(ProjectRepository projectRepository) {
+    public PairingBoardController(ProjectRepository projectRepository, PairingBoardRepository pairingBoardRepository) {
         this.projectRepository = projectRepository;
+        this.pairingBoardRepository = pairingBoardRepository;
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
@@ -69,6 +72,7 @@ public class PairingBoardController {
 
         savedProject.getPeople().addAll(matchingPairingBoard.getPeople());
         savedProject.getPairingBoards().remove(matchingPairingBoard);
+        pairingBoardRepository.delete(matchingPairingBoard);
 
         Project updatedProject = projectRepository.save(savedProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);

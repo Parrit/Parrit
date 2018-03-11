@@ -6,6 +6,7 @@ import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
+import com.parrit.repositories.PairingBoardRepository;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.PairingBoardTransformer;
 import com.parrit.transformers.ProjectTransformer;
@@ -41,6 +42,9 @@ public class PairingBoardControllerTest {
 
     @MockBean
     private ProjectRepository mockProjectRepository;
+
+    @MockBean
+    private PairingBoardRepository mockParingBoardRepository;
 
     @Test
     public void addPairingBoard_createsAPairingBoardWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {
@@ -195,6 +199,10 @@ public class PairingBoardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
+        PairingBoard expectedDeletedPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(), new ArrayList<>());
+        expectedDeletedPairingBoard.setId(55L);
+
+        verify(mockParingBoardRepository).delete(expectedDeletedPairingBoard);
         verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
@@ -222,6 +230,10 @@ public class PairingBoardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
+        PairingBoard expectedDeletedPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(Collections.singletonList(existingPerson)), new ArrayList<>());
+        expectedDeletedPairingBoard.setId(55L);
+
+        verify(mockParingBoardRepository).delete(expectedDeletedPairingBoard);
         verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }

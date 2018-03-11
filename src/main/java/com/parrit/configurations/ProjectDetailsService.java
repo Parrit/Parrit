@@ -14,7 +14,7 @@ import java.util.Collections;
 @Service
 public class ProjectDetailsService implements UserDetailsService {
 
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Autowired
     public ProjectDetailsService(ProjectRepository projectRepository) {

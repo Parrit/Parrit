@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class PairingController {
 
-    private PairingService pairingService;
+    private final PairingService pairingService;
 
     @Autowired
     public PairingController(PairingService pairingService) {

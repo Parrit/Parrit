@@ -11,7 +11,7 @@ import java.util.Objects;
 @Service
 public class AuthorizationService {
 
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Autowired
     public AuthorizationService(ProjectRepository projectRepository) {

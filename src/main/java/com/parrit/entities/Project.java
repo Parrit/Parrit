@@ -29,7 +29,7 @@ public class Project {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "project_id_fk"))
     private List<PairingBoard> pairingBoards;
 

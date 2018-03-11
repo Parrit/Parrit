@@ -1,9 +1,9 @@
 package com.parrit.services;
 
+import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
-import com.parrit.entities.PairingBoard;
 import com.parrit.repositories.PairingHistoryRepository;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.utilities.CurrentTimeProvider;
@@ -17,10 +17,10 @@ import java.util.List;
 @Service
 public class PairingService {
 
-    private PairingHistoryRepository pairingHistoryRepository;
-    private ProjectRepository projectRepository;
-    private RecommendationService recommendationService;
-    private CurrentTimeProvider currentTimeProvider;
+    private final PairingHistoryRepository pairingHistoryRepository;
+    private final ProjectRepository projectRepository;
+    private final RecommendationService recommendationService;
+    private final CurrentTimeProvider currentTimeProvider;
 
     @Autowired
     PairingService(PairingHistoryRepository pairingHistoryRepository,
@@ -39,10 +39,10 @@ public class PairingService {
         Project project = projectRepository.findOne(projectId);
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
 
-        for(PairingBoard pairingBoard : project.getPairingBoards()) {
+        for (PairingBoard pairingBoard : project.getPairingBoards()) {
             List<Person> pairingBoardPeople = pairingBoard.getPeople();
 
-            if(!pairingBoardPeople.isEmpty()) {
+            if (!pairingBoardPeople.isEmpty()) {
                 PairingHistory pairingHistory = new PairingHistory(project, pairingBoard.getName(), new ArrayList<>(pairingBoardPeople), currentTime);
                 PairingHistory savedPairingHistory = pairingHistoryRepository.save(pairingHistory);
                 pairingHistories.add(savedPairingHistory);
