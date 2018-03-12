@@ -116,22 +116,22 @@ describe('DatabaseHelpers', () => {
         })
     })
 
-    describe('#putProjectAndDo', () => {
+    describe('#resetProjectAndDo', () => {
         let successCallbackSpy, errorCallbackSpy
 
-        const projectToSave = {id: 77, MISSISSIPPI: 'Anthony is more fun than that'}
+        const projectId = 87
         const data = {iamaproperty: 'blahblah'}
 
         beforeEach(() => {
             successCallbackSpy = jasmine.createSpy('successCallbackSpy')
             errorCallbackSpy = jasmine.createSpy('errorCallbackSpy')
 
-            databaseHelpers.putProjectAndDo(projectToSave, successCallbackSpy, errorCallbackSpy)
+            databaseHelpers.resetProjectAndDo(projectId, successCallbackSpy, errorCallbackSpy)
         })
 
         it('makes an Ajax call to put the project', () => {
             expect(Axios.put.calls.count()).toBe(1)
-            expect(Axios.put).toHaveBeenCalledWith('/api/project/77', projectToSave)
+            expect(Axios.put).toHaveBeenCalledWith('/api/project/87/reset')
         })
 
         describe('when the Ajax call returns with a response', () => {

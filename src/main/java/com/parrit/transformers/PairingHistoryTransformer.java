@@ -4,7 +4,9 @@ import com.parrit.DTOs.PairingHistoryDTO;
 import com.parrit.entities.PairingHistory;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 public class PairingHistoryTransformer {

@@ -32,7 +32,6 @@ describe('<Project/>', () => {
         moveRole: () => {},
         deleteRole: () => {},
         resetPairs: () => {},
-        smartReset: () => {},
         getRecommendedPairs: () => {},
         savePairing: () => {},
         setNewPersonModalOpen: () => {},
@@ -59,19 +58,9 @@ describe('<Project/>', () => {
         expect(recommendPairsButton.prop('clickFunction')).toBe(props.resetPairs)
     })
 
-    it('has a smart reset button', () => {
-        const allButtons = wrapper.find('Button')
-        const recommendPairsButton = allButtons.at(1)
-
-        expect(recommendPairsButton.prop('className')).toBe('button-blue')
-        expect(recommendPairsButton.prop('name')).toBe('Smart Reset')
-        expect(recommendPairsButton.prop('shortName')).toBe('Smart')
-        expect(recommendPairsButton.prop('clickFunction')).toBe(props.smartReset)
-    })
-
     it('has a recommend pairs button', () => {
         const allButtons = wrapper.find('Button')
-        const recommendPairsButton = allButtons.at(2)
+        const recommendPairsButton = allButtons.at(1)
 
         expect(recommendPairsButton.prop('className')).toBe('button-blue')
         expect(recommendPairsButton.prop('name')).toBe('Recommend Pairs')
@@ -81,7 +70,7 @@ describe('<Project/>', () => {
 
     it('has a records pairs button', () => {
         const allButtons = wrapper.find('Button')
-        const recordPairs = allButtons.at(3)
+        const recordPairs = allButtons.at(2)
 
         expect(recordPairs.prop('className')).toBe('button-green')
         expect(recordPairs.prop('name')).toBe('Record Pairs')

@@ -14,13 +14,4 @@ public class ProjectTransformer {
         return projectDTO;
     }
 
-    public static Project merge(Project project, ProjectDTO projectDTO) {
-        Project mergedProject = new Project();
-        mergedProject.setId(project.getId());
-        mergedProject.setName(projectDTO.getName());
-        mergedProject.setPassword(project.getPassword());
-        mergedProject.setPeople(PersonTransformer.reverse(projectDTO.getPeople()));
-        mergedProject.setPairingBoards(PairingBoardTransformer.reverse(projectDTO.getPairingBoards()));
-        return mergedProject;
-    }
 }

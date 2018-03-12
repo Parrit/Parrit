@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
+import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
@@ -18,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.any;
@@ -197,24 +200,47 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void updateProject_persistsTheProjectWithChanges_andReturnsTheResult() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
-        existingProject.setId(1L);
+    public void resetProject_movesAllPeopleIntoFloating_andReturnsTheUpdatedProject() throws Exception {
+        Person existingPerson1 = new Person("Billy");
+        existingPerson1.setId(7L);
 
-        ProjectDTO updatedProjectDTO = ProjectTransformer.transform(existingProject);
-        updatedProjectDTO.setName("Bob");
+        Person existingPerson2 = new Person("Amelia");
+        existingPerson2.setId(8L);
+
+        Person existingPerson3 = new Person("John");
+        existingPerson3.setId(9L);
+
+        Person existingPerson4 = new Person("Alexa");
+        existingPerson4.setId(10L);
+
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(Arrays.asList(existingPerson1, existingPerson2)), new ArrayList<>());
+        existingPairingBoard1.setId(88L);
+
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
+        existingPairingBoard2.setId(99L);
+
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
+                new ArrayList<>(Collections.singleton(existingPerson4)));
+        existingProject.setId(1L);
 
         when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        mockMvc.perform(put("/api/project/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(updatedProjectDTO)))
+        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        expectedPairingBoard1.setId(88L);
+
+        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        expectedPairingBoard2.setId(99L);
+
+        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
+                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2, existingPerson3)));
+        expectedProject.setId(1L);
+
+        ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
+
+        mockMvc.perform(put("/api/project/1/reset"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
-
-        Project expectedProject = new Project("Bob", "henrypass", new ArrayList<>(), new ArrayList<>());
-        expectedProject.setId(1L);
 
         verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(eq(expectedProject));

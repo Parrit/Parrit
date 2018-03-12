@@ -27,8 +27,8 @@ export function postProjectAndDo(name, password, successCallback, errorCallback)
         })
 }
 
-export function putProjectAndDo(project, successCallback, errorCallback) {
-    Axios.put('/api/project/' + encodeURIComponent(project.id), project)
+export function resetProjectAndDo(projectId, successCallback, errorCallback) {
+    Axios.put('/api/project/' + encodeURIComponent(projectId) + '/reset')
         .then(function onSuccess(response) {
             successCallback(response.data)
         }, function onError(error) {

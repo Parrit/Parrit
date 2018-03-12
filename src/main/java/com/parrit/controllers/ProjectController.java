@@ -3,6 +3,7 @@ package com.parrit.controllers;
 import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
+import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProjectController {
@@ -72,14 +74,19 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}", method = RequestMethod.PUT)
+    @RequestMapping(path = "/api/project/{projectId}/reset", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<ProjectDTO> updateProject(@PathVariable long projectId, @RequestBody @Valid ProjectDTO projectDTO) {
+    public ResponseEntity<ProjectDTO> resetProject(@PathVariable long projectId) {
         Project existingProject = projectRepository.findOne(projectId);
 
-        Project updatedProject = ProjectTransformer.merge(existingProject, projectDTO);
+        List<Person> allPeopleInPairingBoards = existingProject.getPairingBoards().stream()
+                .flatMap(pb -> pb.getPeople().stream())
+                .collect(Collectors.toList());
 
-        updatedProject = projectRepository.save(updatedProject);
+        existingProject.getPairingBoards().forEach(pb -> pb.getPeople().clear());
+        existingProject.getPeople().addAll(allPeopleInPairingBoards);
+
+        Project updatedProject = projectRepository.save(existingProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 

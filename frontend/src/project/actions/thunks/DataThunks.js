@@ -1,16 +1,15 @@
-import { putProjectAndDo, postPersonAndDo, putPersonPositionAndDo, deletePersonAndDo, postPairingBoardAndDo, putPairingBoardAndDo, deletePairingBoardAndDo, postRoleAndDo, putRolePositionAndDo, deleteRoleAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js'
+import { resetProjectAndDo, postPersonAndDo, putPersonPositionAndDo, deletePersonAndDo, postPairingBoardAndDo, putPairingBoardAndDo, deletePairingBoardAndDo, postRoleAndDo, putRolePositionAndDo, deleteRoleAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js'
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from '../creators/DataCreators.js'
 import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setNewRoleModalErrorMessageCreator, setPairingBoardEditErrorMessageCreator, clearPairingBoardEditErrorMessageCreator } from '../creators/SettingsCreators.js'
 
-export function autoSaveThunk(action) {
+export function resetProjectThunk() {
     return function (dispatch, getState) {
-        dispatch(action)
-        putProjectAndDo(getState().data.project,
+        resetProjectAndDo(getState().data.project.id,
             function successCallback(project) {
                 dispatch(loadProjectCreator(project))
             },
             function errorCallback() {
-                //TODO: Reverse action? Display error message?
+                //TODO: Huh?
             }
         )
     }

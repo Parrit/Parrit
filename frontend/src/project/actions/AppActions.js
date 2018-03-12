@@ -1,14 +1,5 @@
-import * as dataCreators from './creators/DataCreators.js'
 import * as settingsCreators from './creators/SettingsCreators.js'
 import * as dataThunks from './thunks/DataThunks.js'
-
-function resetPairingBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.resetPairingBoardCreator())
-}
-
-function smartResetBoardCombo() {
-    return dataThunks.autoSaveThunk(dataCreators.smartResetBoard())
-}
 
 export default {
     createPerson: dataThunks.addNewPersonThunk,
@@ -20,8 +11,7 @@ export default {
     createRole: dataThunks.addNewRoleThunk,
     moveRole: dataThunks.moveRoleThunk,
     deleteRole: dataThunks.deleteRoleThunk,
-    resetPairs: resetPairingBoardCombo,
-    smartReset: smartResetBoardCombo,
+    resetPairs: dataThunks.resetProjectThunk,
     getRecommendedPairs: dataThunks.getRecommendedPairsThunk,
     savePairing: dataThunks.savePairingThunk,
     fetchPairingHistory: dataThunks.getPairingHistoryThunk,

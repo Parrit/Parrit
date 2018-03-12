@@ -5,18 +5,6 @@ export function loadProjectCreator(project) {
     }
 }
 
-export function resetPairingBoardCreator() {
-    return {
-        type: 'RESET_PAIRING_BOARD'
-    }
-}
-
-export function smartResetBoard() {
-    return {
-        type: 'SMART_RESET_BOARD'
-    }
-}
-
 export function loadPairingHistoryCreator(pairingHistoryList) {
     return {
         type: 'LOAD_PAIRING_HISTORY',

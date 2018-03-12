@@ -44,7 +44,6 @@ describe('<App/>', () => {
             moveRole: () => {},
             deleteRole: () => {},
             resetPairs: () => {},
-            smartReset: () => {},
             getRecommendedPairs: () => {},
             savePairing: () => {},
             fetchPairingHistory: () => {},
@@ -90,7 +89,6 @@ describe('<App/>', () => {
         expect(projectComponent.prop('moveRole')).toBe(props.moveRole)
         expect(projectComponent.prop('deleteRole')).toBe(props.deleteRole)
         expect(projectComponent.prop('resetPairs')).toBe(props.resetPairs)
-        expect(projectComponent.prop('smartReset')).toBe(props.smartReset)
         expect(projectComponent.prop('getRecommendedPairs')).toBe(props.getRecommendedPairs)
         expect(projectComponent.prop('savePairing')).toBe(props.savePairing)
         expect(projectComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen)

@@ -7,35 +7,19 @@ import * as settingsCreators from '../creators/SettingsCreators.js'
 describe('DataThunks', () => {
     let thunk
     let dispatchSpy, getStateSpy
-    let putProjectAndDoSpy, postPersonAndDoSpy, putPersonPositionAndDoSpy, deletePersonAndDoSpy, postPairingBoardAndDoSpy,
-        putPairingBoardAndDoSpy, deletePairingBoardAndDoSpy, postRoleAndDoSpy, putRolePositionAndDoSpy, deleteRoleAndDoSpy,
-        postProjectPairingAndDoSpy, getRecommendedPairingAndDoSpy, getPairingHistoryAndDoSpy
 
     beforeEach(() => {
         dispatchSpy = jasmine.createSpy('dispatchSpy')
         getStateSpy = jasmine.createSpy('getStateSpy')
-
-        //TODO: Inline into specific tests once putProjectAndDo is dead
-        putProjectAndDoSpy = spyOn(databaseHelpers, 'putProjectAndDo')
-        postPersonAndDoSpy = spyOn(databaseHelpers, 'postPersonAndDo')
-        putPersonPositionAndDoSpy = spyOn(databaseHelpers, 'putPersonPositionAndDo')
-        deletePersonAndDoSpy = spyOn(databaseHelpers, 'deletePersonAndDo')
-        postPairingBoardAndDoSpy = spyOn(databaseHelpers, 'postPairingBoardAndDo')
-        putPairingBoardAndDoSpy = spyOn(databaseHelpers, 'putPairingBoardAndDo')
-        deletePairingBoardAndDoSpy = spyOn(databaseHelpers, 'deletePairingBoardAndDo')
-        postRoleAndDoSpy = spyOn(databaseHelpers, 'postRoleAndDo')
-        putRolePositionAndDoSpy = spyOn(databaseHelpers, 'putRolePositionAndDo')
-        deleteRoleAndDoSpy = spyOn(databaseHelpers, 'deleteRoleAndDo')
-        postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo')
-        getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo')
-        getPairingHistoryAndDoSpy = spyOn(databaseHelpers, 'getPairingHistoryAndDo')
     })
 
-    describe('#autoSaveThunk', () => {
-        const action = { type: 'DELETE_INTERNET' }
+    describe('#resetProjectThunk', () => {
+        let resetProjectAndDoSpy
 
         beforeEach(() => {
-            thunk = dataThunks.autoSaveThunk(action)
+            resetProjectAndDoSpy = spyOn(databaseHelpers, 'resetProjectAndDo')
+
+            thunk = dataThunks.resetProjectThunk()
         })
 
         it('returns a function', () => {
@@ -43,9 +27,9 @@ describe('DataThunks', () => {
         })
 
         describe('when calling the returned function', () => {
-            const projectToSave = { world: 'doomed' }
-            const stateOfApp = { data: { project: projectToSave } }
             const newProjectData = { data: 'blarg' }
+            const project = { id: 7, data: 'le stuff' }
+            const stateOfApp = { data: { project: project } }
 
             beforeEach(() => {
                 getStateSpy.and.returnValue(stateOfApp)
@@ -53,17 +37,12 @@ describe('DataThunks', () => {
                 thunk(dispatchSpy, getStateSpy)
             })
 
-            it('calls the dispatch function with the passed in action', () => {
-                expect(dispatchSpy).toHaveBeenCalledWith(action)
+            it('calls resetProjectAndDo helper with correct arguments', () => {
+                expect(resetProjectAndDoSpy).toHaveBeenCalledWith(7, jasmine.anything(), jasmine.anything())
             })
 
-            it('calls postStateAndDo helper with correct arguments', () => {
-                expect(getStateSpy).toHaveBeenCalled()
-                expect(putProjectAndDoSpy).toHaveBeenCalledWith(projectToSave, jasmine.anything(), jasmine.anything())
-            })
-
-            it('dispatches a loadProject action when posting the project is successful', () => {
-                const successCallback = putProjectAndDoSpy.calls.mostRecent().args[1]
+            it('dispatches a loadProject action when resetting the project is successful', () => {
+                const successCallback = resetProjectAndDoSpy.calls.mostRecent().args[1]
                 successCallback(newProjectData)
 
                 expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.loadProjectCreator(newProjectData))
@@ -72,9 +51,12 @@ describe('DataThunks', () => {
     })
 
     describe('#addNewPersonThunk', () => {
+        let postPersonAndDoSpy
         const callbackSpy = jasmine.createSpy('callbackSpy')
 
         beforeEach(() => {
+            postPersonAndDoSpy = spyOn(databaseHelpers, 'postPersonAndDo')
+
             thunk = dataThunks.addNewPersonThunk('Name', callbackSpy)
         })
 
@@ -117,9 +99,12 @@ describe('DataThunks', () => {
     })
 
     describe('#movePersonThunk', () => {
+        let putPersonPositionAndDoSpy
         const newPosition = { floating: false, pairingBoardId: 88 }
 
         beforeEach(() => {
+            putPersonPositionAndDoSpy = spyOn(databaseHelpers, 'putPersonPositionAndDo')
+
             thunk = dataThunks.movePersonThunk(1, newPosition)
         })
 
@@ -152,7 +137,11 @@ describe('DataThunks', () => {
     })
 
     describe('#deletePersonThunk', () => {
+        let deletePersonAndDoSpy
+
         beforeEach(() => {
+            deletePersonAndDoSpy = spyOn(databaseHelpers, 'deletePersonAndDo')
+
             thunk = dataThunks.deletePersonThunk(2)
         })
 
@@ -185,9 +174,12 @@ describe('DataThunks', () => {
     })
 
     describe('#addNewPairingBoardThunk', () => {
+        let postPairingBoardAndDoSpy
         const callbackSpy = jasmine.createSpy('callbackSpy')
 
         beforeEach(() => {
+            postPairingBoardAndDoSpy = spyOn(databaseHelpers, 'postPairingBoardAndDo')
+
             thunk = dataThunks.addNewPairingBoardThunk('Name', callbackSpy)
         })
 
@@ -230,9 +222,12 @@ describe('DataThunks', () => {
     })
 
     describe('#renamePairingBoardThunk', () => {
+        let putPairingBoardAndDoSpy
         const callbackSpy = jasmine.createSpy('callbackSpy')
 
         beforeEach(() => {
+            putPairingBoardAndDoSpy = spyOn(databaseHelpers, 'putPairingBoardAndDo')
+
             thunk = dataThunks.renamePairingBoardThunk(2, 'Name', callbackSpy)
         })
 
@@ -279,7 +274,11 @@ describe('DataThunks', () => {
     })
 
     describe('#deletePairingBoardThunk', () => {
+        let deletePairingBoardAndDoSpy
+
         beforeEach(() => {
+            deletePairingBoardAndDoSpy = spyOn(databaseHelpers, 'deletePairingBoardAndDo')
+
             thunk = dataThunks.deletePairingBoardThunk(2)
         })
 
@@ -312,9 +311,12 @@ describe('DataThunks', () => {
     })
 
     describe('#addNewRoleThunk', () => {
+        let postRoleAndDoSpy
         const callbackSpy = jasmine.createSpy('callbackSpy')
 
         beforeEach(() => {
+            postRoleAndDoSpy = spyOn(databaseHelpers, 'postRoleAndDo')
+
             thunk = dataThunks.addNewRoleThunk(10, 'Name', callbackSpy)
         })
 
@@ -357,9 +359,12 @@ describe('DataThunks', () => {
     })
 
     describe('#moveRoleThunk', () => {
+        let putRolePositionAndDoSpy
         const newPosition = { pairingBoardId: 88 }
 
         beforeEach(() => {
+            putRolePositionAndDoSpy = spyOn(databaseHelpers, 'putRolePositionAndDo')
+
             thunk = dataThunks.moveRoleThunk(1, 2, newPosition)
         })
 
@@ -392,7 +397,11 @@ describe('DataThunks', () => {
     })
 
     describe('#deleteRoleThunk', () => {
+        let deleteRoleAndDoSpy
+
         beforeEach(() => {
+            deleteRoleAndDoSpy = spyOn(databaseHelpers, 'deleteRoleAndDo')
+
             thunk = dataThunks.deleteRoleThunk(2, 3)
         })
 
@@ -425,7 +434,11 @@ describe('DataThunks', () => {
     })
 
     describe('#savePairingThunk', () => {
+        let postProjectPairingAndDoSpy
+
         beforeEach(() => {
+            postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo')
+
             thunk = dataThunks.savePairingThunk()
         })
 
@@ -463,7 +476,11 @@ describe('DataThunks', () => {
     })
 
     describe('#getRecommendedPairsThunk', () => {
+        let getRecommendedPairingAndDoSpy
+
         beforeEach(() => {
+            getRecommendedPairingAndDoSpy = spyOn(databaseHelpers, 'getRecommendedPairingAndDo')
+
             thunk = dataThunks.getRecommendedPairsThunk()
         })
 
@@ -501,7 +518,11 @@ describe('DataThunks', () => {
     })
 
     describe('#getPairingHistoryThunk', () => {
+        let getPairingHistoryAndDoSpy
+
         beforeEach(() => {
+            getPairingHistoryAndDoSpy = spyOn(databaseHelpers, 'getPairingHistoryAndDo')
+
             thunk = dataThunks.getPairingHistoryThunk()
         })
 
