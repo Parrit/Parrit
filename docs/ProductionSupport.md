@@ -19,7 +19,7 @@ $ cf push parrit
 
     1. Go to `https://github.com/Parrit/Parrit/releases`
     2. Make a new release with the changes since the last release
-    3. Increment the tag version logically and make sure to select the specific commit
+    3. Increment the tag version logically and make sure to select the specific commit that is being deployed
 
 ## Restoring a prod backup to a test site
 
