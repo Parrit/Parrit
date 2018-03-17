@@ -1,0 +1,1 @@
+UPDATE project SET password = '{sha256}' || password;

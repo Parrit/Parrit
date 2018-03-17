@@ -14,16 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -79,7 +79,7 @@ public class ProjectControllerTest {
         newProjectDTO.setPassword("bobpass");
 
         when(mockProjectRepository.save(any(Project.class))).thenReturn(persistedProject);
-        when(passwordEncoder.encodePassword("bobpass", null)).thenReturn("encodedBobpass");
+        when(passwordEncoder.encode("bobpass")).thenReturn("encodedBobpass");
 
         mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -223,7 +223,7 @@ public class ProjectControllerTest {
                 new ArrayList<>(Collections.singleton(existingPerson4)));
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
@@ -242,7 +242,7 @@ public class ProjectControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(eq(expectedProject));
     }
 

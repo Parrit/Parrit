@@ -35,7 +35,7 @@ public class PersonController {
     @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         savedProject.getPeople().add(new Person(personDTO.getName()));
 
@@ -47,7 +47,7 @@ public class PersonController {
     @RequestMapping(path = "/api/project/{projectId}/person/{personId}/position", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> movePerson(@PathVariable long projectId, @PathVariable long personId, @RequestBody @Valid PersonPositionDTO personPositionDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
         Stream<List<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
@@ -81,7 +81,7 @@ public class PersonController {
     @RequestMapping(path = "/api/project/{projectId}/person/{personId}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<ProjectDTO> deletePerson(@PathVariable long projectId, @PathVariable long personId) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
         Stream<List<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);

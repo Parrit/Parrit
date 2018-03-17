@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +59,7 @@ public class ProjectController {
             throw new ProjectNameAlreadyExistsException("Not again. That name already exists, try a different one.");
         }
 
-        String hashedPassword = passwordEncoder.encodePassword(newProjectDTO.getPassword(), null);
+        String hashedPassword = passwordEncoder.encode(newProjectDTO.getPassword());
 
         List<PairingBoard> defaultPairingBoards = new ArrayList<>();
         defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
@@ -77,7 +77,7 @@ public class ProjectController {
     @RequestMapping(path = "/api/project/{projectId}/reset", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> resetProject(@PathVariable long projectId) {
-        Project existingProject = projectRepository.findOne(projectId);
+        Project existingProject = projectRepository.findById(projectId).get();
 
         List<Person> allPeopleInPairingBoards = existingProject.getPairingBoards().stream()
                 .flatMap(pb -> pb.getPeople().stream())
