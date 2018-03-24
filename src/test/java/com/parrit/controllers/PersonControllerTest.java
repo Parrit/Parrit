@@ -22,10 +22,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -56,7 +57,7 @@ public class PersonControllerTest {
 
         PersonDTO personDTO = PersonTransformer.transform(newPerson);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), Collections.singletonList(newPerson));
@@ -70,7 +71,7 @@ public class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -128,7 +129,7 @@ public class PersonControllerTest {
         personPositionDTO.setFloating(true);
         personPositionDTO.setPairingBoardId(0L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
@@ -145,7 +146,7 @@ public class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -164,7 +165,7 @@ public class PersonControllerTest {
         personPositionDTO.setFloating(false);
         personPositionDTO.setPairingBoardId(88L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, Collections.singletonList(existingPerson), new ArrayList<>());
@@ -181,7 +182,7 @@ public class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -225,7 +226,7 @@ public class PersonControllerTest {
         personPositionDTO.setFloating(true);
         personPositionDTO.setPairingBoardId(0L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(put("/api/project/1/person/76/position")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -234,7 +235,7 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That person doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -252,7 +253,7 @@ public class PersonControllerTest {
         personPositionDTO.setFloating(false);
         personPositionDTO.setPairingBoardId(89L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(put("/api/project/1/person/76/position")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -261,7 +262,7 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.pairingBoardId", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -272,7 +273,7 @@ public class PersonControllerTest {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)));
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
@@ -284,7 +285,7 @@ public class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -296,14 +297,14 @@ public class PersonControllerTest {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)));
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(delete("/api/project/1/person/99"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That person doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
 }

@@ -34,7 +34,7 @@ public class PairingBoardController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>(), new ArrayList<>()));
 
@@ -46,7 +46,7 @@ public class PairingBoardController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> updatePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)
@@ -63,7 +63,7 @@ public class PairingBoardController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<ProjectDTO> deletePairingBoard(@PathVariable long projectId, @PathVariable long pairingBoardId) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)

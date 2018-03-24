@@ -1,5 +1,7 @@
 plugins {
-    id "org.springframework.boot" version "1.5.10.RELEASE"
+    id "java"
+    id "org.springframework.boot" version "2.0.3.RELEASE"
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
 }
 
 repositories {
@@ -8,17 +10,14 @@ repositories {
 
 dependencies {
     ext.commonsLang3Version = "3.7"
-    ext.flywayVersion = "4.2.0"
 
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-security"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.cloud:spring-cloud-spring-service-connector"
-    compile "org.springframework.cloud:spring-cloud-cloudfoundry-connector"
     compile "org.apache.commons:commons-lang3:$commonsLang3Version"
     compile "org.postgresql:postgresql"
-    compile "org.flywaydb:flyway-core:$flywayVersion"
+    compile "org.flywaydb:flyway-core"
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
 }

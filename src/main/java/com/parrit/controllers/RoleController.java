@@ -37,7 +37,7 @@ public class RoleController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}/role", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<ProjectDTO> addRole(@PathVariable long projectId, @PathVariable long pairingBoardId, @RequestBody @Valid RoleDTO roleDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)
@@ -54,7 +54,7 @@ public class RoleController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}/role/{roleId}/position", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<ProjectDTO> moveRole(@PathVariable long projectId, @PathVariable long pairingBoardId, @PathVariable long roleId, @RequestBody @Valid RolePositionDTO rolePositionDTO) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)
@@ -83,7 +83,7 @@ public class RoleController {
     @RequestMapping(path = "/api/project/{projectId}/pairingBoard/{pairingBoardId}/role/{roleId}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<ProjectDTO> deleteRole(@PathVariable long projectId, @PathVariable long pairingBoardId, @PathVariable long roleId) {
-        Project savedProject = projectRepository.findOne(projectId);
+        Project savedProject = projectRepository.findById(projectId).get();
 
         PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
                 .filter(pb -> pb.getId() == pairingBoardId)

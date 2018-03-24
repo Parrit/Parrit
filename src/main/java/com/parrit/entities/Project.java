@@ -116,7 +116,7 @@ public class Project {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
+                ", password='**********'" +
                 ", pairingBoards=" + pairingBoards +
                 ", people=" + people +
                 '}';

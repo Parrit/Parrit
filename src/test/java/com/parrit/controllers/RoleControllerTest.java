@@ -23,10 +23,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -60,7 +61,7 @@ public class RoleControllerTest {
 
         RoleDTO roleDTO = RoleTransformer.transform(newRole);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), Collections.singletonList(newRole));
@@ -77,7 +78,7 @@ public class RoleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -132,7 +133,7 @@ public class RoleControllerTest {
 
         RoleDTO roleDTO = RoleTransformer.transform(newRole);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(post("/api/project/1/pairingBoard/77/role")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -141,7 +142,7 @@ public class RoleControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -161,7 +162,7 @@ public class RoleControllerTest {
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
         rolePositionDTO.setPairingBoardId(4L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Role expectedRole = new Role("Ballers");
@@ -184,7 +185,7 @@ public class RoleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -230,7 +231,7 @@ public class RoleControllerTest {
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
         rolePositionDTO.setPairingBoardId(4L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(put("/api/project/1/pairingBoard/44/role/3/position")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -239,7 +240,7 @@ public class RoleControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -259,7 +260,7 @@ public class RoleControllerTest {
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
         rolePositionDTO.setPairingBoardId(4L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(put("/api/project/1/pairingBoard/2/role/77/position")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -268,7 +269,7 @@ public class RoleControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That role doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -288,7 +289,7 @@ public class RoleControllerTest {
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
         rolePositionDTO.setPairingBoardId(77L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(put("/api/project/1/pairingBoard/2/role/3/position")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -297,7 +298,7 @@ public class RoleControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.pairingBoardId", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -311,7 +312,7 @@ public class RoleControllerTest {
         Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
@@ -330,7 +331,7 @@ public class RoleControllerTest {
         expectedDeletedRole.setId(3L);
 
         verify(mockRoleRepository).delete(expectedDeletedRole);
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -345,14 +346,14 @@ public class RoleControllerTest {
         Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(delete("/api/project/1/pairingBoard/55/role/3"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 
     @Test
@@ -366,13 +367,13 @@ public class RoleControllerTest {
         Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(delete("/api/project/1/pairingBoard/2/role/77"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That role doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).findById(1L);
     }
 }
