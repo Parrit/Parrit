@@ -21,11 +21,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -56,7 +55,7 @@ public class PairingBoardControllerTest {
 
         PairingBoardDTO pairingBoardDTO = PairingBoardTransformer.transform(newPairingBoard);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(newPairingBoard), new ArrayList<>());
@@ -70,7 +69,7 @@ public class PairingBoardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findById(1L);
+        verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -113,7 +112,7 @@ public class PairingBoardControllerTest {
 
         PairingBoardDTO updatedPairingBoardDTO = PairingBoardTransformer.transform(updatedPairingBoard);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(updatedPairingBoard), new ArrayList<>());
@@ -127,7 +126,7 @@ public class PairingBoardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        verify(mockProjectRepository).findById(1L);
+        verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -168,7 +167,7 @@ public class PairingBoardControllerTest {
         PairingBoardDTO updatedPairingBoardDTO = new PairingBoardDTO();
         updatedPairingBoardDTO.setName("someName");
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
 
         mockMvc.perform(put("/api/project/1/pairingBoard/2")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -177,7 +176,7 @@ public class PairingBoardControllerTest {
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findById(1L);
+        verify(mockProjectRepository).findOne(1L);
     }
 
     @Test
@@ -188,7 +187,7 @@ public class PairingBoardControllerTest {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Collections.singletonList(existingPairingBoard)), new ArrayList<>());
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
@@ -204,7 +203,7 @@ public class PairingBoardControllerTest {
         expectedDeletedPairingBoard.setId(55L);
 
         verify(mockParingBoardRepository).delete(expectedDeletedPairingBoard);
-        verify(mockProjectRepository).findById(1L);
+        verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -219,7 +218,7 @@ public class PairingBoardControllerTest {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Collections.singletonList(existingPairingBoard)), new ArrayList<>());
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)));
@@ -235,7 +234,7 @@ public class PairingBoardControllerTest {
         expectedDeletedPairingBoard.setId(55L);
 
         verify(mockParingBoardRepository).delete(expectedDeletedPairingBoard);
-        verify(mockProjectRepository).findById(1L);
+        verify(mockProjectRepository).findOne(1L);
         verify(mockProjectRepository).save(expectedProject);
     }
 
@@ -247,14 +246,14 @@ public class PairingBoardControllerTest {
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Collections.singletonList(existingPairingBoard)), new ArrayList<>());
         existingProject.setId(1L);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
 
         mockMvc.perform(delete("/api/project/1/pairingBoard/33"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.id", equalTo("Keeaa!? That pairing board doesn't seem to exist.")));
 
-        verify(mockProjectRepository).findById(1L);
+        verify(mockProjectRepository).findOne(1L);
     }
 
 }

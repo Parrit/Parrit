@@ -7,7 +7,7 @@ import com.parrit.entities.Project;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

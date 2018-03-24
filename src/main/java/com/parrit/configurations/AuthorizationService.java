@@ -1,5 +1,6 @@
 package com.parrit.configurations;
 
+import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -22,8 +23,7 @@ public class AuthorizationService {
     }
 
     public boolean canAccessProject(User user, long projectId) {
-        return projectRepository.findById(projectId)
-                .map(project -> canAccessProject(user, project.getName()))
-                .orElse(false);
+        Project project = projectRepository.findOne(projectId);
+        return project != null && canAccessProject(user, project.getName());
     }
 }
