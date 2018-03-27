@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800);
-@import url(https://fonts.googleapis.com/css?family=Overlock:900);
+@import url(https://fonts.googleapis.com/css?family=Overlock:700,900);
 
 /*
  *  Use these with the "font:" property.
@@ -8,6 +8,7 @@
  */
 
 $Overlock-Black: normal normal 900 30px Overlock;
+$Overlock-Bold: normal normal 700 30px Overlock;
 $Raleway-Thin: normal normal 300 30px Raleway;
 $Raleway: normal normal 400 30px Raleway;
 $Raleway-Medium: normal normal 500 30px Raleway;

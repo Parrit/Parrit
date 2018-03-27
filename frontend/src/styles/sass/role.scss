@@ -5,21 +5,21 @@
 
 .drag-layer .role,
 .pairing-board .role {
-  background-color: $purple;
+  background-color: $lightTeal;
   color: white;
 }
 
 .role {
   position: relative;
   display: inline-block;
-  border-radius: 5px;
+  border-radius: 10px;
 
-  padding: 2px 6px;
+  padding: 3px 9px;
   margin-right: 2px;
-  margin-bottom: 1px;
+  margin-bottom: 2px;
 
-  font: $Raleway-Bold;
-  font-size: 8px;
+  font: $Overlock-Bold;
+  font-size: 9px;
   letter-spacing: 1px;
   text-transform: uppercase;
 

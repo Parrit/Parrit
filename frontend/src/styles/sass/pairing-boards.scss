@@ -42,7 +42,7 @@
     }
 
     &.exempt {
-      border-color: $salmon;
+      border-color: $lightSalmon;
       h3 {
         color: $salmon;
       }
@@ -76,10 +76,10 @@
 
         width: 13px;
         height: 13px;
-        background-image: url("./images/add-role-to-pairing-board-dark.svg");
+        background-image: url("./images/tag-dark.svg");
 
         &:hover {
-          background-image: url("./images/add-role-to-pairing-board-bright.svg");
+          background-image: url("./images/tag-bright.svg");
         }
       }
 
