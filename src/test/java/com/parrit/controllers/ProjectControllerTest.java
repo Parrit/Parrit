@@ -246,4 +246,51 @@ public class ProjectControllerTest {
         verify(mockProjectRepository).save(eq(expectedProject));
     }
 
+    @Test
+    public void resetProject_doesNotResetPeopleFromExemptPairingBoards_andReturnsTheUpdatedProject() throws Exception {
+        Person existingPerson1 = new Person("Billy");
+        existingPerson1.setId(7L);
+
+        Person existingPerson2 = new Person("Amelia");
+        existingPerson2.setId(8L);
+
+        Person existingPerson3 = new Person("John");
+        existingPerson3.setId(9L);
+
+        Person existingPerson4 = new Person("Alexa");
+        existingPerson4.setId(10L);
+
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(Arrays.asList(existingPerson1, existingPerson2)), new ArrayList<>());
+        existingPairingBoard1.setId(88L);
+
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", true, new ArrayList<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
+        existingPairingBoard2.setId(99L);
+
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
+                new ArrayList<>(Collections.singleton(existingPerson4)));
+        existingProject.setId(1L);
+
+        when(mockProjectRepository.findOne(anyLong())).thenReturn(existingProject);
+        when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        expectedPairingBoard1.setId(88L);
+
+        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", true, new ArrayList<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
+        expectedPairingBoard2.setId(99L);
+
+        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
+                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2)));
+        expectedProject.setId(1L);
+
+        ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
+
+        mockMvc.perform(put("/api/project/1/reset"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
+
+        verify(mockProjectRepository).findOne(1L);
+        verify(mockProjectRepository).save(eq(expectedProject));
+    }
+
 }

@@ -79,12 +79,16 @@ public class ProjectController {
     public ResponseEntity<ProjectDTO> resetProject(@PathVariable long projectId) {
         Project existingProject = projectRepository.findOne(projectId);
 
-        List<Person> allPeopleInPairingBoards = existingProject.getPairingBoards().stream()
+        List<PairingBoard> nonExemptPairingBoards = existingProject.getPairingBoards().stream()
+                .filter(pb -> !pb.isExempt())
+                .collect(Collectors.toList());
+
+        List<Person> allPeopleInNonExemptPairingBoards = nonExemptPairingBoards.stream()
                 .flatMap(pb -> pb.getPeople().stream())
                 .collect(Collectors.toList());
 
-        existingProject.getPairingBoards().forEach(pb -> pb.getPeople().clear());
-        existingProject.getPeople().addAll(allPeopleInPairingBoards);
+        nonExemptPairingBoards.forEach(pb -> pb.getPeople().clear());
+        existingProject.getPeople().addAll(allPeopleInNonExemptPairingBoards);
 
         Project updatedProject = projectRepository.save(existingProject);
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
