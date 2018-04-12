@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
     <title>Parrit</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="robots" content="noindex, nofollow"/>
 
-    <link rel="stylesheet" href="../built/main.css"/>
+    <link rel="stylesheet" th:href="@{/built/main.css}"/>
 </head>
 <body>
 <div id="reactRoot"></div>
-<script src="../built/main.js"></script>
+<script th:src="@{/built/main.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var projectName = /*[[${projectName}]]*/ null;
