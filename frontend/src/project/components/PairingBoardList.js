@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
+import { connect } from 'react-redux'
 
 import PairingBoard from './PairingBoard.js'
 
@@ -20,14 +21,6 @@ class PairingBoardList extends React.Component {
                                 roles={pairingBoard.roles}
                                 editMode={settings.editMode || false}
                                 editErrorMessage={settings.editErrorMessage}
-                                renamePairingBoard={this.props.renamePairingBoard}
-                                deletePairingBoard={this.props.deletePairingBoard}
-                                movePerson={this.props.movePerson}
-                                deletePerson={this.props.deletePerson}
-                                moveRole={this.props.moveRole}
-                                deleteRole={this.props.deleteRole}
-                                setNewRoleModalOpen={this.props.setNewRoleModalOpen}
-                                setPairingBoardEditMode={this.props.setPairingBoardEditMode}
                             />
                 })}
             </div>
@@ -37,18 +30,14 @@ class PairingBoardList extends React.Component {
 
 PairingBoardList.propTypes = exact({
     pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
-    pairingBoardSettings: PropTypes.object.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired,
-    deletePairingBoard: PropTypes.func.isRequired,
-    movePerson: PropTypes.func.isRequired,
-    deletePerson: PropTypes.func.isRequired,
-    moveRole: PropTypes.func.isRequired,
-    deleteRole: PropTypes.func.isRequired,
-    setNewRoleModalOpen: PropTypes.func.isRequired,
-    setPairingBoardEditMode: PropTypes.func.isRequired
+    pairingBoardSettings: PropTypes.object.isRequired
 })
 
-export default PairingBoardList
+function mapStateToProps({data, settings}) {
+    return {
+        pairingBoards: data.project.pairingBoards,
+        pairingBoardSettings: settings.pairingBoardSettings
+    }
+}
 
-
-
+export default connect(mapStateToProps, {})(PairingBoardList)

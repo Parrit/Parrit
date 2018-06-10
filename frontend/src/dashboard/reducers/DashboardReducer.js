@@ -37,5 +37,5 @@ export default function (state = initialState, action) {
 }
 
 function makeFieldErrorMessage(nameFieldError, passwordFieldError) {
-    return [nameFieldError, passwordFieldError].filter(val => val != undefined).join(' ')
+    return [nameFieldError, passwordFieldError].filter(val => val !== undefined).join(' ')
 }

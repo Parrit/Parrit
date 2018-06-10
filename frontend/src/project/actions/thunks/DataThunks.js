@@ -2,19 +2,6 @@ import { resetProjectAndDo, postPersonAndDo, putPersonPositionAndDo, deletePerso
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from '../creators/DataCreators.js'
 import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setNewRoleModalErrorMessageCreator, setPairingBoardEditErrorMessageCreator, clearPairingBoardEditErrorMessageCreator } from '../creators/SettingsCreators.js'
 
-export function resetProjectThunk() {
-    return function (dispatch, getState) {
-        resetProjectAndDo(getState().data.project.id,
-            function successCallback(project) {
-                dispatch(loadProjectCreator(project))
-            },
-            function errorCallback() {
-                //TODO: Huh?
-            }
-        )
-    }
-}
-
 export function addNewPersonThunk(name, callback) {
     return function(dispatch, getState) {
         postPersonAndDo(getState().data.project.id, name,
@@ -137,12 +124,16 @@ export function deleteRoleThunk(pairingBoardId, roleId) {
     }
 }
 
-export function savePairingThunk() {
+export function resetProjectThunk() {
     return function (dispatch, getState) {
-        postProjectPairingAndDo(getState().data.project.id,
-            function successCallback(newPairingHistories) {
-                dispatch(updatePairingHistoriesCreator(newPairingHistories))
-            })
+        resetProjectAndDo(getState().data.project.id,
+            function successCallback(project) {
+                dispatch(loadProjectCreator(project))
+            },
+            function errorCallback() {
+                //TODO: Huh?
+            }
+        )
     }
 }
 
@@ -151,6 +142,15 @@ export function getRecommendedPairsThunk() {
         getRecommendedPairingAndDo(getState().data.project.id,
             function successCallback(project) {
                 dispatch(loadProjectCreator(project))
+            })
+    }
+}
+
+export function savePairingThunk() {
+    return function (dispatch, getState) {
+        postProjectPairingAndDo(getState().data.project.id,
+            function successCallback(newPairingHistories) {
+                dispatch(updatePairingHistoriesCreator(newPairingHistories))
             })
     }
 }

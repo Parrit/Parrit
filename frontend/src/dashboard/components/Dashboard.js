@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
+import { connect } from 'react-redux'
 
+import { createProjectThunk, loginThunk } from '../actions/thunks/DashboardThunks.js'
 import Footer from '../../shared/components/Footer.js'
 import Button from '../../shared/components/Button.js'
 
@@ -107,4 +109,21 @@ Dashboard.propTypes = exact({
     createProject: PropTypes.func.isRequired
 })
 
-export default Dashboard
+function mapStateToProps({newProjectErrorMessage, newProjectErrorName, newProjectErrorPassword, loginErrorMessage, 
+                             loginErrorName, loginErrorPassword}) {
+    return {
+        newProjectErrorMessage,
+        newProjectErrorName,
+        newProjectErrorPassword,
+        loginErrorMessage,
+        loginErrorName,
+        loginErrorPassword
+    }
+}
+
+const mapDispatchToProps = {
+    login: loginThunk,
+    createProject: createProjectThunk
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

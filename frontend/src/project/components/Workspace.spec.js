@@ -3,36 +3,21 @@ import { shallow } from 'enzyme'
 
 import Workspace from './Workspace.js'
 import TrashBin from './TrashBin.js'
+import PairingBoardList from './PairingBoardList'
+import PersonList from './PersonList'
 
 describe('<Workspace/>', () => {
     let wrapper, props
     let newPersonModal, newPersonForm
     let newPairingBoardModal, newPairingBoardForm
     let newRoleModal, newRoleForm
+    const InnerWorkspace = Workspace.WrappedComponent
 
     beforeEach(() => {
         props  = {
             people: [
                 { name: 'Mike Wazowski' },
                 { name: 'Sully' }
-            ],
-            pairingBoards: [
-                {
-                    id: 56,
-                    name: 'PairingBoard1',
-                    people: [
-                        { name: 'George' }
-                    ],
-                    exempt: true
-                },
-                {
-                    id: 89,
-                    name: 'Ghost',
-                    people: [
-                        { name: 'Coast2Coast' }
-                    ],
-                    exempt: false
-                }
             ],
             settings: {
                 modal: {
@@ -43,30 +28,17 @@ describe('<Workspace/>', () => {
                     newPairingBoardModalErrorMessage: 'some error message',
                     newRoleModalErrorMessage: 'some error message',
                     newRolePairingBoardId: 56
-                },
-                pairingBoardSettings: {
-                    89: {
-                        editMode: false,
-                        editErrorMessage: 'some edit error message'
-                    }
                 }
             },
             createPerson: jasmine.createSpy('createPersonSpy'),
-            movePerson: () => {},
-            deletePerson: () => {},
             createPairingBoard: jasmine.createSpy('createPairingBoardSpy'),
-            renamePairingBoard: () => {},
-            deletePairingBoard: () => {},
             createRole: jasmine.createSpy('createRoleSpy'),
-            moveRole: () => {},
-            deleteRole: () => {},
             setNewPersonModalOpen: jasmine.createSpy('setNewPersonModalOpenSpy'),
             setNewPairingBoardModalOpen: jasmine.createSpy('setNewPairingBoardModalOpenSpy'),
             setNewRoleModalOpen: jasmine.createSpy('setNewRoleModalOpenSpy'),
-            setPairingBoardEditMode: () => {}
         }
 
-        wrapper = shallow(<Workspace {...props} />)
+        wrapper = shallow(<InnerWorkspace {...props} />)
 
         const Modals = wrapper.find('Modal')
         newPersonModal = Modals.at(0)
@@ -79,10 +51,9 @@ describe('<Workspace/>', () => {
     })
 
     it('renders the list of people in the project', () => {
-        const people = wrapper.find('PersonList')
+        const people = wrapper.find(PersonList)
+        expect(people.exists()).toBe(true)
         expect(people.prop('people')).toBe(props.people)
-        expect(people.prop('movePerson')).toBe(props.movePerson)
-        expect(people.prop('deletePerson')).toBe(props.deletePerson)
     })
 
     it('render the trash bin', () => {
@@ -91,16 +62,8 @@ describe('<Workspace/>', () => {
     })
 
     it('renders the list of pairing boards in the project', () => {
-        const pairingBoards = wrapper.find('PairingBoardList')
-        expect(pairingBoards.at(0).prop('pairingBoards')).toBe(props.pairingBoards)
-        expect(pairingBoards.at(0).prop('pairingBoardSettings')).toBe(props.settings.pairingBoardSettings)
-        expect(pairingBoards.at(0).prop('renamePairingBoard')).toBe(props.renamePairingBoard)
-        expect(pairingBoards.at(0).prop('deletePairingBoard')).toBe(props.deletePairingBoard)
-        expect(pairingBoards.at(0).prop('movePerson')).toBe(props.movePerson)
-        expect(pairingBoards.at(0).prop('deletePerson')).toBe(props.deletePerson)
-        expect(pairingBoards.at(0).prop('moveRole')).toBe(props.moveRole)
-        expect(pairingBoards.at(0).prop('deleteRole')).toBe(props.deleteRole)
-        expect(pairingBoards.at(0).prop('setPairingBoardEditMode')).toBe(props.setPairingBoardEditMode)
+        const pairingBoards = wrapper.find(PairingBoardList)
+        expect(pairingBoards.exists()).toBe(true)
     })
 
     describe('newPersonModal', () => {

@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
+
+import { setPairingHistoryPanelOpenCreator } from '../actions/creators/SettingsCreators'
+import { postLogoutThunk } from '../actions/thunks/DataThunks'
 
 class Header extends React.Component {
     render() {
@@ -37,9 +41,20 @@ class Header extends React.Component {
 }
 
 Header.propTypes = exact({
-    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
+    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
     postLogout: PropTypes.func.isRequired
 })
 
-export default Header
+function mapStateToProps({settings}) {
+    return {
+        isPairingHistoryPanelOpen: settings.pairingHistoryPanel.isOpen
+    }
+}
+
+const mapDispatchToProps = {
+    setPairingHistoryPanelOpen: setPairingHistoryPanelOpenCreator,
+    postLogout: postLogoutThunk
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

@@ -1,31 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
+import { connect } from 'react-redux'
 
+import { resetProjectThunk, getRecommendedPairsThunk, savePairingThunk } from '../actions/thunks/DataThunks.js'
 import Workspace from './Workspace.js'
 import Button from '../../shared/components/Button.js'
 
 class Project extends React.Component {
     render() {
-        const workspaceProps = {
-            people: this.props.data.project.people,
-            pairingBoards: this.props.data.project.pairingBoards,
-            settings: this.props.settings,
-            createPerson: this.props.createPerson,
-            movePerson: this.props.movePerson,
-            deletePerson: this.props.deletePerson,
-            createPairingBoard: this.props.createPairingBoard,
-            renamePairingBoard: this.props.renamePairingBoard,
-            deletePairingBoard: this.props.deletePairingBoard,
-            createRole: this.props.createRole,
-            moveRole: this.props.moveRole,
-            deleteRole: this.props.deleteRole,
-            setNewPersonModalOpen: this.props.setNewPersonModalOpen,
-            setNewPairingBoardModalOpen: this.props.setNewPairingBoardModalOpen,
-            setNewRoleModalOpen: this.props.setNewRoleModalOpen,
-            setPairingBoardEditMode: this.props.setPairingBoardEditMode
-        }
-
         return (
             <main className="project">
                 <div className="sub-header">
@@ -37,31 +20,29 @@ class Project extends React.Component {
                     </div>
                 </div>
                 <div className="sub-header-dotted-line"/>
-                <Workspace {...workspaceProps}/>
+                <Workspace/>
             </main>
         )
     }
 }
 
 Project.propTypes = exact({
-    data: PropTypes.object.isRequired,
-    settings: PropTypes.object.isRequired,
-    createPerson: PropTypes.func.isRequired,
-    movePerson: PropTypes.func.isRequired,
-    deletePerson: PropTypes.func.isRequired,
-    createPairingBoard: PropTypes.func.isRequired,
-    renamePairingBoard: PropTypes.func.isRequired,
-    deletePairingBoard: PropTypes.func.isRequired,
-    createRole: PropTypes.func.isRequired,
-    moveRole: PropTypes.func.isRequired,
-    deleteRole: PropTypes.func.isRequired,
-    resetPairs: PropTypes.func.isRequired,
-    getRecommendedPairs: PropTypes.func.isRequired,
-    savePairing: PropTypes.func.isRequired,
-    setNewPersonModalOpen: PropTypes.func.isRequired,
-    setNewPairingBoardModalOpen: PropTypes.func.isRequired,
-    setNewRoleModalOpen: PropTypes.func.isRequired,
-    setPairingBoardEditMode: PropTypes.func.isRequired
+   data: PropTypes.object.isRequired,
+   resetPairs: PropTypes.func.isRequired,
+   getRecommendedPairs: PropTypes.func.isRequired,
+   savePairing: PropTypes.func.isRequired,
 })
 
-export default Project
+function mapStateToProps({data}) {
+    return {
+        data
+    }
+}
+
+const mapDispatchToProps = {
+    resetPairs: resetProjectThunk,
+    getRecommendedPairs: getRecommendedPairsThunk,
+    savePairing: savePairingThunk,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Project)

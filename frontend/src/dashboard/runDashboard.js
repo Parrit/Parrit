@@ -5,7 +5,7 @@ import { applyMiddleware, createStore } from 'redux'
 import Thunk from 'redux-thunk'
 import Modal from 'react-modal'
 
-import DashboardContainer from './containers/DashboardContainer.js'
+import Dashboard from './components/Dashboard.js'
 import dashboardReducer from './reducers/DashboardReducer.js'
 
 export default function runDashboard() {
@@ -13,7 +13,7 @@ export default function runDashboard() {
 
     ReactDOM.render(
         <Provider store={store}>
-            <DashboardContainer/>
+            <Dashboard/>
         </Provider>,
         document.getElementById('reactRoot')
     )

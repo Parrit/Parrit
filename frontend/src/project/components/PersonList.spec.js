@@ -6,6 +6,7 @@ import Person from './Person.js'
 
 describe('<PersonList/>', () => {
     let wrapper, props
+    const InnerPersonList = PersonList.WrappedComponent
 
     beforeEach(() => {
         props = {
@@ -23,7 +24,7 @@ describe('<PersonList/>', () => {
             deletePerson: () => {}
         }
 
-        wrapper = shallow(<PersonList {...props} />)
+        wrapper = shallow(<InnerPersonList {...props} />)
     })
 
     it('renders all of the people', () => {

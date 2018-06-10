@@ -1,9 +1,13 @@
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
 import { DropTarget } from 'react-dnd'
+import { connect } from 'react-redux'
 import classNames from 'classnames'
 
+import { deletePairingBoardThunk, deleteRoleThunk, moveRoleThunk, renamePairingBoardThunk } from '../actions/thunks/DataThunks'
+import { setNewRoleModalOpenCreator, setPairingBoardEditModeCreator } from '../actions/creators/SettingsCreators'
 import { dragTypes, dropTypes } from '../DragAndDrop.js'
 import PairingBoardHeader from './PairingBoardHeader.js'
 import RoleList from './RoleList.js'
@@ -39,11 +43,7 @@ class PairingBoard extends React.Component {
                     deleteRole={this.props.deleteRole.bind(this, this.props.id)}
                 />
 
-                <PersonList
-                    people={people}
-                    movePerson={this.props.movePerson}
-                    deletePerson={this.props.deletePerson}
-                />
+                <PersonList people={people}/>
             </div>
         )
 	}
@@ -80,8 +80,6 @@ PairingBoard.propTypes = exact({
     isOver: PropTypes.bool.isRequired,
     renamePairingBoard: PropTypes.func.isRequired,
     deletePairingBoard: PropTypes.func.isRequired,
-    movePerson: PropTypes.func.isRequired,
-    deletePerson: PropTypes.func.isRequired,
     moveRole: PropTypes.func.isRequired,
     deleteRole: PropTypes.func.isRequired,
     setPairingBoardEditMode: PropTypes.func.isRequired,
@@ -107,4 +105,13 @@ const dragCollect = (connect, monitor) => {
     }
 }
 
-export default DropTarget([dragTypes.Person, dragTypes.Role], dragSpec, dragCollect)(PairingBoard)
+const mapDispatchToProps = {
+    renamePairingBoard: renamePairingBoardThunk,
+    deletePairingBoard: deletePairingBoardThunk,
+    moveRole: moveRoleThunk,
+    deleteRole: deleteRoleThunk,
+    setNewRoleModalOpen: setNewRoleModalOpenCreator,
+    setPairingBoardEditMode: setPairingBoardEditModeCreator
+}
+
+export default DropTarget([dragTypes.Person, dragTypes.Role], dragSpec, dragCollect)(connect(undefined, mapDispatchToProps)(PairingBoard))

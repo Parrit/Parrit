@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
+import { connect } from 'react-redux'
 
+import { deletePersonThunk, movePersonThunk } from '../actions/thunks/DataThunks'
 import Person from './Person.js'
 
 class PersonList extends React.Component {
@@ -28,4 +30,9 @@ PersonList.propTypes = exact({
     deletePerson: PropTypes.func.isRequired
 })
 
-export default PersonList
+const mapDispatchToProps = {
+    movePerson: movePersonThunk,
+    deletePerson: deletePersonThunk
+}
+
+export default connect(undefined, mapDispatchToProps)(PersonList)

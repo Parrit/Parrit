@@ -1,5 +1,6 @@
 const initialState = {
     id: 0,
+    name: undefined,
     people: [],
     pairingBoards: []
 }

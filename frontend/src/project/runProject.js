@@ -5,7 +5,7 @@ import { applyMiddleware, createStore } from 'redux'
 import Thunk from 'redux-thunk'
 import Modal from 'react-modal'
 
-import AppContainer from './containers/AppContainer.js'
+import App from './components/App.js'
 import appReducer from './reducers/AppReducer.js'
 
 export default function runProject(projectJSON) {
@@ -20,7 +20,7 @@ export default function runProject(projectJSON) {
 
     ReactDOM.render(
         <Provider store={store}>
-            <AppContainer/>
+            <App/>
         </Provider>,
         document.getElementById('reactRoot')
     )

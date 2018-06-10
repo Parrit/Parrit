@@ -5,6 +5,7 @@ import PairingHistory from './PairingHistory.js'
 
 describe('<PairingHistory/>', () => {
     let wrapper, props
+    const InnerPairingHistory = PairingHistory.WrappedComponent
 
     beforeEach(() => {
         props = {
@@ -18,7 +19,7 @@ describe('<PairingHistory/>', () => {
             isPairingHistoryPanelOpen: true
         }
 
-        wrapper = shallow(<PairingHistory {...props}/>)
+        wrapper = shallow(<InnerPairingHistory {...props}/>)
     })
 
     it('calls the fetchPairingHistory action on mount', () => {
@@ -37,7 +38,7 @@ describe('<PairingHistory/>', () => {
     describe('when the pairingHistoryList is empty', () => {
         beforeEach(() => {
             props.pairingHistoryList = []
-            wrapper = shallow(<PairingHistory {...props}/>)
+            wrapper = shallow(<InnerPairingHistory {...props}/>)
         })
         
         it('renders the no-history display text', () => {

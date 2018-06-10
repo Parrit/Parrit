@@ -5,6 +5,7 @@ import Dashboard from './Dashboard.js'
 
 describe('<Dashboard/>', () => {
     let wrapper, props
+    const InnerDashboard = Dashboard.WrappedComponent
 
     beforeEach(() => {
         props = {
@@ -18,7 +19,7 @@ describe('<Dashboard/>', () => {
             createProject: jasmine.createSpy('createProjectSpy')
         }
 
-        wrapper = shallow(<Dashboard {...props} />)
+        wrapper = shallow(<InnerDashboard {...props} />)
     })
 
     describe('#newProjectError', () => {
@@ -29,7 +30,7 @@ describe('<Dashboard/>', () => {
         it('displays a project name error message when the newProjectErrorMessage is present', () => {
             props.newProjectErrorMessage = 'some new project error message'
 
-            wrapper = shallow(<Dashboard {...props} />)
+            wrapper = shallow(<InnerDashboard {...props} />)
 
             expect(wrapper.find('.new-form .error-message').text()).toBe('some new project error message')
         })
@@ -37,7 +38,7 @@ describe('<Dashboard/>', () => {
         it('highlights the name field when the newProjectErrorName is true', () => {
             props.newProjectErrorName = true
 
-            wrapper = shallow(<Dashboard {...props} />)
+            wrapper = shallow(<InnerDashboard {...props} />)
 
             expect(wrapper.find('.new-form input').at(0).prop('className')).toContain('error')
         })
@@ -45,7 +46,7 @@ describe('<Dashboard/>', () => {
         it('highlights the password field when the newProjectErrorPassword is true', () => {
             props.newProjectErrorPassword = true
 
-            wrapper = shallow(<Dashboard {...props} />)
+            wrapper = shallow(<InnerDashboard {...props} />)
 
             expect(wrapper.find('.new-form input').at(1).prop('className')).toContain('error')
         })
@@ -59,7 +60,7 @@ describe('<Dashboard/>', () => {
         it('displays a login error message when the loginErrorMessage is present', () => {
             props.loginErrorMessage = 'some login error message'
 
-            wrapper = shallow(<Dashboard {...props} />)
+            wrapper = shallow(<InnerDashboard {...props} />)
 
             expect(wrapper.find('.login-form .error-message').text()).toBe('some login error message')
         })
@@ -67,7 +68,7 @@ describe('<Dashboard/>', () => {
         it('highlights the name field when the loginErrorName is true', () => {
             props.loginErrorName = true
 
-            wrapper = shallow(<Dashboard {...props} />)
+            wrapper = shallow(<InnerDashboard {...props} />)
 
             expect(wrapper.find('.login-form input').at(0).prop('className')).toContain('error')
         })
@@ -75,7 +76,7 @@ describe('<Dashboard/>', () => {
         it('highlights the name field when the loginErrorPassword is true', () => {
             props.loginErrorPassword = true
 
-            wrapper = shallow(<Dashboard {...props} />)
+            wrapper = shallow(<InnerDashboard {...props} />)
 
             expect(wrapper.find('.login-form input').at(1).prop('className')).toContain('error')
         })

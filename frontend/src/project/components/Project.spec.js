@@ -2,46 +2,25 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import Project from './Project.js'
+import Workspace from './Workspace.js'
 
 describe('<Project/>', () => {
     let wrapper
+    const InnerProject = Project.WrappedComponent
 
     const props = {
         data: {
             project: {
-                name: 'The Best Around',
-                people: [],
-                pairingBoards: [
-                    {
-                        name: 'PairingBoard1',
-                        people: [
-                            { name: 'George' }
-                        ]
-                    }
-                ]
+                name: 'The Best Around'
             }
         },
-        settings: {},
-        createPerson: () => {},
-        movePerson: () => {},
-        deletePerson: () => {},
-        createPairingBoard: () => {},
-        renamePairingBoard: () => {},
-        deletePairingBoard: () => {},
-        createRole: () => {},
-        moveRole: () => {},
-        deleteRole: () => {},
         resetPairs: () => {},
         getRecommendedPairs: () => {},
-        savePairing: () => {},
-        setNewPersonModalOpen: () => {},
-        setNewPairingBoardModalOpen: () => {},
-        setNewRoleModalOpen: () => {},
-        setPairingBoardEditMode: () => {}
+        savePairing: () => {}
     }
 
     beforeEach(() => {
-        wrapper = shallow(<Project {...props} />)
+        wrapper = shallow(<InnerProject {...props} />)
     })
 
     it('displays the project name', () => {
@@ -78,25 +57,8 @@ describe('<Project/>', () => {
         expect(recordPairs.prop('clickFunction')).toBe(props.savePairing)
     })
 
-    it('has a configured Workspace component as a child', () => {
-        const workspaceComponent = wrapper.find('Workspace')
+    it('has a Workspace component as a child', () => {
+        const workspaceComponent = wrapper.find(Workspace)
         expect(workspaceComponent.exists()).toBeTruthy()
-
-        expect(workspaceComponent.prop('people')).toBe(props.data.project.people)
-        expect(workspaceComponent.prop('pairingBoards')).toBe(props.data.project.pairingBoards)
-        expect(workspaceComponent.prop('settings')).toBe(props.settings)
-        expect(workspaceComponent.prop('createPerson')).toBe(props.createPerson)
-        expect(workspaceComponent.prop('movePerson')).toBe(props.movePerson)
-        expect(workspaceComponent.prop('deletePerson')).toBe(props.deletePerson)
-        expect(workspaceComponent.prop('createPairingBoard')).toBe(props.createPairingBoard)
-        expect(workspaceComponent.prop('renamePairingBoard')).toBe(props.renamePairingBoard)
-        expect(workspaceComponent.prop('deletePairingBoard')).toBe(props.deletePairingBoard)
-        expect(workspaceComponent.prop('createRole')).toBe(props.createRole)
-        expect(workspaceComponent.prop('moveRole')).toBe(props.moveRole)
-        expect(workspaceComponent.prop('deleteRole')).toBe(props.deleteRole)
-        expect(workspaceComponent.prop('setNewPersonModalOpen')).toBe(props.setNewPersonModalOpen)
-        expect(workspaceComponent.prop('setNewPairingBoardModalOpen')).toBe(props.setNewPairingBoardModalOpen)
-        expect(workspaceComponent.prop('setNewRoleModalOpen')).toBe(props.setNewRoleModalOpen)
-        expect(workspaceComponent.prop('setPairingBoardEditMode')).toBe(props.setPairingBoardEditMode)
     })
 })

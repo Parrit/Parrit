@@ -2,10 +2,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import PairingBoard from './PairingBoard.js'
+import PersonList from './PersonList'
 
 describe('<PairingBoard/>', () => {
     let wrapper, props
-    const InnerPairingBoard = PairingBoard.DecoratedComponent
+    const InnerPairingBoard = PairingBoard.DecoratedComponent.WrappedComponent
 
     beforeEach(() => {
         props  = {
@@ -24,8 +25,6 @@ describe('<PairingBoard/>', () => {
             isOver: false,
             renamePairingBoard: jasmine.createSpy('renamePairingBoardSpy'),
             deletePairingBoard: jasmine.createSpy('deletePairingBoardSpy'),
-            movePerson: jasmine.createSpy('movePersonSpy'),
-            deletePerson: jasmine.createSpy('deletePersonSpy'),
             moveRole: jasmine.createSpy('moveRoleSpy'),
             deleteRole: jasmine.createSpy('deleteRoleSpy'),
             setNewRoleModalOpen: jasmine.createSpy('setNewRoleModalOpen'),
@@ -95,10 +94,8 @@ describe('<PairingBoard/>', () => {
     })
 
     it('renders the list of people', () => {
-        const people = wrapper.find('PersonList')
+        const people = wrapper.find(PersonList)
         expect(people.prop('people')).toBe(props.people)
-        expect(people.prop('movePerson')).toBe(props.movePerson)
-        expect(people.prop('deletePerson')).toBe(props.deletePerson)
     })
 
     it('adds the editing class when editMode is true', () => {

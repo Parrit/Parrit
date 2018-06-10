@@ -6,7 +6,6 @@ import PairingHistoryRecord from './PairingHistoryRecord.js'
 
 class PairingHistoryRecordList extends React.Component {
     render() {
-
         function createPairingHistoryRecord(pairingTime) {
             return {
                 pairingTime: pairingTime,
@@ -24,7 +23,7 @@ class PairingHistoryRecordList extends React.Component {
                 currentPairingTime = pairingHistory.pairingTime
                 currentPairingHistoryRecord = createPairingHistoryRecord(pairingHistory.pairingTime)
             }
-                
+
             currentPairingHistoryRecord.pairingBoardsWithPeople
                 .push({pairingBoardName: pairingHistory.pairingBoardName, people: pairingHistory.people})
         })

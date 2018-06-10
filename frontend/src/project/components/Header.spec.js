@@ -5,6 +5,7 @@ import Header from './Header.js'
 
 describe('<Header/>', () => {
     let wrapper, props
+    const InnerHeader = Header.WrappedComponent
 
     beforeEach(() => {
         props = {
@@ -13,7 +14,7 @@ describe('<Header/>', () => {
             postLogout: jasmine.createSpy('postLogoutSpy')
         }
 
-        wrapper = shallow(<Header {...props}/>)
+        wrapper = shallow(<InnerHeader {...props}/>)
     })
 
     it('renders a left caret when isPairingHistoryPanelOpen is false', () => {
@@ -22,7 +23,7 @@ describe('<Header/>', () => {
 
     it('renders a right caret when isPairingHistoryPanelOpen is true', () => {
         props.isPairingHistoryPanelOpen = true
-        wrapper = shallow(<Header {...props}/>)
+        wrapper = shallow(<InnerHeader {...props}/>)
 
         expect(wrapper.find('.history-caret-right').exists()).toBeTruthy()
     })
@@ -34,7 +35,7 @@ describe('<Header/>', () => {
 
     it('calls setPairingHistoryPanelOpen with false when clicking on the history label and isPairingHistoryPanelOpen is true', () => {
         props.isPairingHistoryPanelOpen = true
-        wrapper = shallow(<Header {...props}/>)
+        wrapper = shallow(<InnerHeader {...props}/>)
 
         wrapper.find('.history').simulate('click')
         expect(props.setPairingHistoryPanelOpen).toHaveBeenCalledWith(false)

@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import exact from 'prop-types-exact'
+import { connect } from 'react-redux'
 import { Scrollbars } from 'react-custom-scrollbars'
 import classNames from 'classnames'
 
+import { getPairingHistoryThunk } from '../actions/thunks/DataThunks.js'
+import { setPairingHistoryPanelOpenCreator } from '../actions/creators/SettingsCreators'
 import PairingHistoryRecordList from './PairingHistoryRecordList.js'
 
 class PairingHistory extends React.Component {
@@ -56,9 +59,21 @@ class PairingHistory extends React.Component {
 
 PairingHistory.propTypes = exact({
     pairingHistoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    isPairingHistoryPanelOpen: PropTypes.bool.isRequired,
     fetchPairingHistory: PropTypes.func.isRequired,
-    setPairingHistoryPanelOpen: PropTypes.func.isRequired,
-    isPairingHistoryPanelOpen: PropTypes.bool.isRequired
+    setPairingHistoryPanelOpen: PropTypes.func.isRequired
 })
 
-export default PairingHistory
+function mapStateToProps({data, settings}) {
+    return {
+        pairingHistoryList: data.pairingHistory.pairingHistoryList,
+        isPairingHistoryPanelOpen: settings.pairingHistoryPanel.isOpen
+    }
+}
+
+const mapDispatchToProps = {
+    fetchPairingHistory: getPairingHistoryThunk,
+    setPairingHistoryPanelOpen: setPairingHistoryPanelOpenCreator
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PairingHistory)
