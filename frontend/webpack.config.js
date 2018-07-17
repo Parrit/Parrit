@@ -1,10 +1,10 @@
 /* eslint-env node */
 
-const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 
 module.exports = {
+    mode: 'production',
     entry: {
         main: path.resolve(__dirname, 'src/main.js')
     },
@@ -13,14 +13,16 @@ module.exports = {
         path: path.resolve(__dirname, '../build/resources/main/static')
     },
     plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
-        new ExtractTextPlugin('built/[name].css'),
+        new MiniCssExtractPlugin({filename: 'built/[name].css'})
     ],
+    optimization: {
+        noEmitOnErrors: true
+    },
     module: {
         rules: [
             {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
-            {test: /\.css$/, loader: ExtractTextPlugin.extract({use: 'css-loader', publicPath: '../'})},
-            {test: /\.scss$/, loader: ExtractTextPlugin.extract({use: 'css-loader!sass-loader', publicPath: '../'})},
+            {test: /\.css$/, use: [{loader: MiniCssExtractPlugin.loader, options: {publicPath: '../'}}, 'css-loader']},
+            {test: /\.scss$/, use: [{loader: MiniCssExtractPlugin.loader, options: {publicPath: '../'}}, 'css-loader', 'sass-loader']},
             {test: /\.(svg|png|gif|ico)$/, loader: 'url-loader?limit=10000&name=img/[name].[ext]'}
         ]
     }
