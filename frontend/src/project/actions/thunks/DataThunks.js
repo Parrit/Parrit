@@ -1,6 +1,7 @@
 import { resetProjectAndDo, postPersonAndDo, putPersonPositionAndDo, deletePersonAndDo, postPairingBoardAndDo, putPairingBoardAndDo, deletePairingBoardAndDo, postRoleAndDo, putRolePositionAndDo, deleteRoleAndDo, postProjectPairingAndDo, getRecommendedPairingAndDo, getPairingHistoryAndDo, postLogout } from '../../../shared/helpers/DatabaseHelpers.js'
 import { loadProjectCreator, loadPairingHistoryCreator, updatePairingHistoriesCreator } from '../creators/DataCreators.js'
-import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setNewRoleModalErrorMessageCreator, setPairingBoardEditErrorMessageCreator, clearPairingBoardEditErrorMessageCreator } from '../creators/SettingsCreators.js'
+import { setNewPersonModalErrorMessageCreator, setNewPairingBoardModalErrorMessageCreator, setNewRoleModalErrorMessageCreator, setPairingBoardEditErrorMessageCreator, clearPairingBoardEditErrorMessageCreator, setSystemAlertMessage, clearSystemAlertMessage } from '../creators/SettingsCreators.js'
+import { setTimeout } from '../../../shared/misc/SystemAdapter.js'
 
 export function addNewPersonThunk(name, callback) {
     return function(dispatch, getState) {
@@ -151,6 +152,10 @@ export function savePairingThunk() {
         postProjectPairingAndDo(getState().data.project.id,
             function successCallback(newPairingHistories) {
                 dispatch(updatePairingHistoriesCreator(newPairingHistories))
+                dispatch(setSystemAlertMessage('Hello. We just recorded your pairs.'))
+                setTimeout(() => {
+                    dispatch(clearSystemAlertMessage())
+                }, 10 * 1000)
             })
     }
 }

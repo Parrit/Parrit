@@ -1,0 +1,44 @@
+.system-alert {
+  height: 45px;
+  background-color: $yellow;
+  text-align: center;
+  transition: height 0.25s;
+
+  .message {
+    display: inline-block;
+    margin-top: 15.5px;
+
+    font: $Raleway-SemiBold;
+    font-size: 12px;
+    line-height: 14px;
+    color: $slateGrey
+  }
+
+  .close {
+    float: right;
+    display: inline-block;
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    background-color: $banana;
+
+    .icon {
+      margin: 16px;
+      width: 13px;
+      height: 13px;
+      background-image: url("./images/close-system-alert-bright.svg");
+    }
+
+    &:hover {
+      background-color: white;
+
+      .icon {
+        background-image: url("./images/close-system-alert-dark.svg");
+      }
+    }
+  }
+}
+
+.system-alert-closed {
+  height: 0px;
+}

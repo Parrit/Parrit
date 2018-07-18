@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 import { dragTypes, dropTypes } from '../DragAndDrop.js'
+import SystemAlert from './SystemAlert'
 import Header from './Header.js'
 import Project from './Project.js'
 import PairingHistory from './PairingHistory.js'
@@ -27,6 +28,7 @@ class App extends React.Component {
             <React.Fragment>
                 {connectDropTarget(
                     <div className={classes}>
+                        <SystemAlert/>
                         <Header/>
                         <Project/>
                         <Footer/>

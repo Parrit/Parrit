@@ -18,11 +18,15 @@ describe('AppReducer', () => {
                 pairingBoardSettings: {},
                 pairingHistoryPanel: {
                     isOpen: false
+                },
+                systemAlert: {
+                    message: undefined
                 }
 			},
             data: {
                 project: {
                     id: 0,
+                    name: undefined,
                     people: [],
                     pairingBoards: []
                 },

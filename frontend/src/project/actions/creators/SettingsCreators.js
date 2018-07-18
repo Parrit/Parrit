@@ -70,3 +70,16 @@ export function setPairingBoardEditModeCreator(pairingBoardId, editMode) {
         editMode: editMode
     }
 }
+
+export function setSystemAlertMessage(message) {
+    return {
+        type: 'SET_SYSTEM_ALERT_MESSAGE',
+        message: message
+    }
+}
+
+export function clearSystemAlertMessage() {
+    return {
+        type: 'CLEAR_SYSTEM_ALERT_MESSAGE'
+    }
+}

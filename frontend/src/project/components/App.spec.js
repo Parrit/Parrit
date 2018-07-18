@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import App from './App.js'
+import SystemAlert from './SystemAlert.js'
 import Header from './Header.js'
 import Project from './Project.js'
 import PairingHistory from './PairingHistory.js'
@@ -27,6 +28,11 @@ describe('<App/>', () => {
 
     it('adds the shift-left class on itself if isPairingHistoryPanelOpen is true', () => {
         expect(wrapper.find('.shift-left').exists()).toBeTruthy()
+    })
+
+    it('has a SystemAlert component', () => {
+        const systemAlertComponent = wrapper.find(SystemAlert)
+        expect(systemAlertComponent.exists()).toBeTruthy()
     })
 
     it('has a Header component', () => {

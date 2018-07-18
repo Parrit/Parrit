@@ -17,6 +17,9 @@ describe('SettingsReducer', () => {
             pairingBoardSettings: {},
             pairingHistoryPanel: {
                 isOpen: false
+            },
+            systemAlert: {
+                message: undefined
             }
         }
 

@@ -3,6 +3,7 @@ import * as dataThunks from './DataThunks.js'
 import * as databaseHelpers from '../../../shared/helpers/DatabaseHelpers.js'
 import * as dataCreators from '../creators/DataCreators.js'
 import * as settingsCreators from '../creators/SettingsCreators.js'
+import * as systemAdapters from '../../../shared/misc/SystemAdapter.js'
 
 describe('DataThunks', () => {
     let thunk
@@ -434,10 +435,11 @@ describe('DataThunks', () => {
     })
 
     describe('#savePairingThunk', () => {
-        let postProjectPairingAndDoSpy
+        let postProjectPairingAndDoSpy, setTimeoutSpy
 
         beforeEach(() => {
             postProjectPairingAndDoSpy = spyOn(databaseHelpers, 'postProjectPairingAndDo')
+            setTimeoutSpy = spyOn(systemAdapters, 'setTimeout')
 
             thunk = dataThunks.savePairingThunk()
         })
@@ -471,6 +473,24 @@ describe('DataThunks', () => {
                 successCallback(newPairingHistories)
 
                 expect(dispatchSpy).toHaveBeenCalledWith(dataCreators.updatePairingHistoriesCreator(newPairingHistories))
+            })
+
+            it('dispatches an setSystemAlertMessage action when saving the pairing is successful', () => {
+                const successCallback = postProjectPairingAndDoSpy.calls.mostRecent().args[1]
+                successCallback(newPairingHistories)
+
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.setSystemAlertMessage('Hello. We just recorded your pairs.'))
+            })
+
+            it('dispatches an clearSystemAlertMessage action after 10 seconds when saving the pairing is successful', () => {
+                const successCallback = postProjectPairingAndDoSpy.calls.mostRecent().args[1]
+                successCallback(newPairingHistories)
+
+                expect(setTimeoutSpy).toHaveBeenCalledWith(jasmine.anything(), 10000)
+
+                const setTimeoutCallback = setTimeoutSpy.calls.mostRecent().args[0]
+                setTimeoutCallback()
+                expect(dispatchSpy).toHaveBeenCalledWith(settingsCreators.clearSystemAlertMessage())
             })
         })
     })
