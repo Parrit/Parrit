@@ -90,8 +90,6 @@ public class ProjectControllerTest {
 
         expectedNewProject.getPairingBoards().add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
         expectedNewProject.getPairingBoards().add(new PairingBoard("MACAW", false, new ArrayList<>(), new ArrayList<>()));
-        expectedNewProject.getPairingBoards().add(new PairingBoard("LOVEBIRD", false, new ArrayList<>(), new ArrayList<>()));
-        expectedNewProject.getPairingBoards().add(new PairingBoard("PARAKEET", false, new ArrayList<>(), new ArrayList<>()));
         expectedNewProject.getPairingBoards().add(new PairingBoard("DESIGN", false, new ArrayList<>(), new ArrayList<>()));
         expectedNewProject.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>(), new ArrayList<>()));
 

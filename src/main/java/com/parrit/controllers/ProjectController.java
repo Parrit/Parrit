@@ -64,8 +64,6 @@ public class ProjectController {
         List<PairingBoard> defaultPairingBoards = new ArrayList<>();
         defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("MACAW", false, new ArrayList<>(), new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("LOVEBIRD", false, new ArrayList<>(), new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("PARAKEET", false, new ArrayList<>(), new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>(), new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>(), new ArrayList<>()));
 
