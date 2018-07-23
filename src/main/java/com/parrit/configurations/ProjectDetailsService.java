@@ -1,6 +1,5 @@
 package com.parrit.configurations;
 
-import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -23,12 +22,8 @@ public class ProjectDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Project project = projectRepository.findByName(name);
-
-        if(project == null) {
-            throw new UsernameNotFoundException("Keeaa!? That’s not your project name.");
-        }
-
-        return new User(project.getName(), project.getPassword(), Collections.emptyList());
+        return projectRepository.findByName(name)
+                .map(project -> new User(project.getName(), project.getPassword(), Collections.emptyList()))
+                .orElseThrow(() -> new UsernameNotFoundException("Keeaa!? That’s not your project name."));
     }
 }

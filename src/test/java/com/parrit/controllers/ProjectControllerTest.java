@@ -55,7 +55,7 @@ public class ProjectControllerTest {
 
         ProjectDTO existingProjectDTO = ProjectTransformer.transform(existingProject);
 
-        when(mockProjectRepository.findByName("anyProjectName")).thenReturn(existingProject);
+        when(mockProjectRepository.findByName("anyProjectName")).thenReturn(Optional.of(existingProject));
 
         mockMvc.perform(get("/anyProjectName"))
                 .andExpect(status().isOk())
@@ -78,6 +78,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("bob");
         newProjectDTO.setPassword("bobpass");
 
+        when(mockProjectRepository.findByName("Henry")).thenReturn(Optional.empty());
         when(mockProjectRepository.save(any(Project.class))).thenReturn(persistedProject);
         when(passwordEncoder.encode("bobpass")).thenReturn("encodedBobpass");
 
@@ -187,7 +188,7 @@ public class ProjectControllerTest {
         newProjectDTO.setName("someName");
         newProjectDTO.setPassword("somePassword");
 
-        when(mockProjectRepository.findByName("someName")).thenReturn(new Project());
+        when(mockProjectRepository.findByName("someName")).thenReturn(Optional.of(new Project()));
 
         mockMvc.perform(post("/api/project")
                 .contentType(MediaType.APPLICATION_JSON)

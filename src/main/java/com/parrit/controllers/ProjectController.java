@@ -41,7 +41,7 @@ public class ProjectController {
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectName)")
     @RequestMapping(path = "/{projectName:.+}", method = RequestMethod.GET)
     public String getProject(@PathVariable String projectName, Model model) {
-        Project project = projectRepository.findByName(projectName);
+        Project project = projectRepository.findByName(projectName).get();
         model.addAttribute("project", ProjectTransformer.transform(project));
         return "project";
     }
@@ -55,7 +55,7 @@ public class ProjectController {
     public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) {
         String projectName = newProjectDTO.getName();
 
-        if (projectRepository.findByName(projectName) != null) {
+        if (projectRepository.findByName(projectName).isPresent()) {
             throw new ProjectNameAlreadyExistsException("Not again. That name already exists, try a different one.");
         }
 
