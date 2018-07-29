@@ -1,19 +1,22 @@
 ## Deploy to CloudFoundry
 
 1. Build the app first!
-```
-$ ./gradlew build
-```
+
+  ```bash
+  $ ./gradlew build
+  ```
 
 2. Push the test app
-```
-$ cf push parrit-test
-```
+
+  ```bash
+  $ cf push parrit-test
+  ```
 
 3. Push the prod app
-```
-$ cf push parrit
-```
+
+  ```bash
+  $ cf push parrit
+  ```
 
 4. Make a release in github!
 

@@ -60,3 +60,13 @@ task jsBuild(type: Exec) {
     args = ["--config", "webpack.config.js"]
 }
 processResources.dependsOn(jsBuild)
+
+task jsDependencies(type: Exec) {
+    group = "Parrit"
+    description = "Downloads dependencies for the frontend javascript code"
+
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "npm"
+    args = ["install"]
+}
+jsBuild.dependsOn(jsDependencies)

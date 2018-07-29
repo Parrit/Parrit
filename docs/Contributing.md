@@ -10,47 +10,39 @@ and/or want help pointing feel free to reach out.
 
 Please submit a pull request when you are done!
 
+## Prerequisites
+
+Make sure these are installed on your machine:
+
+* Java 8
+* Node 8 with NPM 5
+* PostgreSQL 9.6
+
 ## Installation
 
 Clone the repository: `git clone https://github.com/Parrit/Parrit.git`
 
 Change into the new directory: `cd Parrit`
 
-### Create database
+### Creating the local database
 
 ```bash
-psql postgres
+createdb local_parrit;
 ```
 
-```psql
-create database local_parrit;
-```
-
-### Build the app
-
-Download dependencies for the static resources (JS and CSS)
+### Building the app
 
 ```bash
-cd frontend
-npm install
+./gradlew build
 ```
 
-Build the java app
-
-```bash
-./gradlew assemble
-```
-
-### Run all the tests
+### Running the tests
 
 ```bash
 ./gradlew test
 ```
 
 ### Starting the application locally
-
-If all of the tests pass, run the project as a spring project using your preferred method.
-To run the spring boot app locally using gradle, execute the following
 
 ```bash
 ./gradlew bootRun
