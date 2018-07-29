@@ -5,10 +5,10 @@ A historical recommendation engine for daily pair rotation management, with an i
 Visit the app: http://parrit.cfapps.io/
 
 ## Tech Stack
+- Spring Boot
+- ReactJS
+- Webpack
 - Gradle
-- Spring.io
-- React.js
-- Browserify
 
 ## Core Contributors
 Big shoutout to the following people for helping to guide the direction that Parrit took. Core contributors also please feel free to add others to the core contributor list for those who significantly shape the direction of Parrit.
