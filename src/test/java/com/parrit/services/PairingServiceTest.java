@@ -5,7 +5,6 @@ import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.PairingHistoryRepository;
-import com.parrit.repositories.ProjectRepository;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -31,9 +32,6 @@ public class PairingServiceTest {
     private PairingHistoryRepository mockPairingHistoryRepository;
 
     @Mock
-    private ProjectRepository mockProjectRepository;
-
-    @Mock
     private RecommendationService mockRecommendationService;
 
     @Mock
@@ -43,8 +41,7 @@ public class PairingServiceTest {
 
     @Before
     public void setup() {
-        pairingService = new PairingService(mockPairingHistoryRepository, mockProjectRepository, mockRecommendationService,
-                mockCurrentTimeProvider);
+        pairingService = new PairingService(mockPairingHistoryRepository, mockRecommendationService, mockCurrentTimeProvider);
 
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(currentTime);
     }
@@ -64,14 +61,12 @@ public class PairingServiceTest {
 
         PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), currentTime);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
         when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
 
-        List<PairingHistory> result = pairingService.savePairing(7L);
+        List<PairingHistory> result = pairingService.savePairing(project);
 
         assertThat(result, equalTo(Collections.singletonList(expectedPairingHistory)));
 
-        verify(mockProjectRepository).findById(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
@@ -99,15 +94,13 @@ public class PairingServiceTest {
         PairingHistory expectedPairingHistory1 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), currentTime);
         PairingHistory expectedPairingHistory2 = new PairingHistory(project, "The Second Pairing Board", Arrays.asList(p3, p4), currentTime);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
         when(mockPairingHistoryRepository.save(expectedPairingHistory1)).thenReturn(expectedPairingHistory1);
         when(mockPairingHistoryRepository.save(expectedPairingHistory2)).thenReturn(expectedPairingHistory2);
 
-        List<PairingHistory> result = pairingService.savePairing(7L);
+        List<PairingHistory> result = pairingService.savePairing(project);
 
         assertThat(result, equalTo(Arrays.asList(expectedPairingHistory1, expectedPairingHistory2)));
 
-        verify(mockProjectRepository).findById(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory1));
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory2));
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
@@ -131,14 +124,12 @@ public class PairingServiceTest {
 
         PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2, p3), currentTime);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
         when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
 
-        List<PairingHistory> result = pairingService.savePairing(7L);
+        List<PairingHistory> result = pairingService.savePairing(project);
 
         assertThat(result, equalTo(Collections.singletonList(expectedPairingHistory)));
 
-        verify(mockProjectRepository).findById(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
@@ -157,14 +148,12 @@ public class PairingServiceTest {
 
         PairingHistory expectedPairingHistory = new PairingHistory(project,  "The Pairing Board", Collections.singletonList(p1), currentTime);
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
         when(mockPairingHistoryRepository.save(expectedPairingHistory)).thenReturn(expectedPairingHistory);
 
-        List<PairingHistory> result = pairingService.savePairing(7L);
+        List<PairingHistory> result = pairingService.savePairing(project);
 
         assertThat(result, equalTo(Collections.singletonList(expectedPairingHistory)));
 
-        verify(mockProjectRepository).findById(7L);
         verify(mockPairingHistoryRepository).save(eq(expectedPairingHistory));
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
@@ -178,49 +167,30 @@ public class PairingServiceTest {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
-
-        List<PairingHistory> result = pairingService.savePairing(7L);
+        List<PairingHistory> result = pairingService.savePairing(project);
         assertThat(result, equalTo(Collections.emptyList()));
 
-        verify(mockProjectRepository).findById(7L);
         verifyZeroInteractions(mockPairingHistoryRepository);
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
     }
 
     @Test
-    public void getRecommendation_getsTheProjectAndItsPairingHistory_andCallsTheRecommendationService() {
-        Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
-        PairingHistory pairingHistory = new PairingHistory();
-        List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
-
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
-        when(mockPairingHistoryRepository.findByProject(any(Project.class))).thenReturn(pairingHistories);
-
-        pairingService.getRecommendation(77L);
-
-        verify(mockProjectRepository).findById(77L);
-        verify(mockPairingHistoryRepository).findByProject(project);
-        verify(mockRecommendationService).get(project, pairingHistories);
-    }
-
-    @Test
-    public void getRecommendation_persistsTheResultFromTheRecommendationService_andReturnsTheProject() {
+    public void getRecommendation_callsTheRecommendationService_andReturnsTheRecommendedProject() {
         Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
         PairingHistory pairingHistory = new PairingHistory();
         List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
 
         Project recommendedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
         when(mockPairingHistoryRepository.findByProject(any(Project.class))).thenReturn(pairingHistories);
         when(mockRecommendationService.get(any(Project.class), anyList())).thenReturn(recommendedProject);
 
-        Project returnedProject = pairingService.getRecommendation(77L);
+        Project returnedProject = pairingService.getRecommendation(project);
 
         assertThat(returnedProject, equalTo(recommendedProject));
 
-        verify(mockProjectRepository).save(recommendedProject);
+        verify(mockPairingHistoryRepository).findByProject(project);
+        verify(mockRecommendationService).get(project, pairingHistories);
     }
 
     @Test
@@ -232,14 +202,12 @@ public class PairingServiceTest {
             new PairingHistory(project, "Pairing Board 2", new ArrayList<>(), new Timestamp(50))
         );
 
-        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(project));
         when(mockPairingHistoryRepository.findByProjectOrderByTimestampDesc(any(Project.class))).thenReturn(pairingHistories);
 
-        List<PairingHistory> result = pairingService.getSortedPairingHistory(7L);
+        List<PairingHistory> result = pairingService.getSortedPairingHistory(project);
 
         assertThat(result, equalTo(pairingHistories));
 
-        verify(mockProjectRepository).findById(7L);
         verify(mockPairingHistoryRepository).findByProjectOrderByTimestampDesc(project);
     }
 }

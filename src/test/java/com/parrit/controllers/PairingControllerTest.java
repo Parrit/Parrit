@@ -3,6 +3,7 @@ package com.parrit.controllers;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Project;
+import com.parrit.repositories.ProjectRepository;
 import com.parrit.services.PairingService;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -36,6 +38,9 @@ public class PairingControllerTest {
 
     @MockBean
     private PairingService mockPairingService;
+
+    @MockBean
+    private ProjectRepository mockProjectRepository;
 
     private Project exampleProject;
     private String exampleProjectString;
@@ -62,7 +67,8 @@ public class PairingControllerTest {
         PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new ArrayList<>(), new Timestamp(60000));
         PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new ArrayList<>(), new Timestamp(60000));
 
-        when(mockPairingService.savePairing(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(exampleProject));
+        when(mockPairingService.savePairing(exampleProject)).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 
         MvcResult mvcResult = mockMvc.perform(post("/api/project/42/pairing"))
                 .andExpect(status().isOk())
@@ -77,12 +83,15 @@ public class PairingControllerTest {
         String returnedProject = mvcResult.getResponse().getContentAsString();
         assertThat(returnedProject, equalTo(expectedResult));
 
-        verify(mockPairingService).savePairing(42);
+        verify(mockProjectRepository).findById(42L);
+        verify(mockPairingService).savePairing(exampleProject);
     }
 
     @Test
-    public void getRecommendation_passesTheProjectToThePairingService_andReturnsAModifiedProject() throws Exception {
-        when(mockPairingService.getRecommendation(anyLong())).thenReturn(exampleProject);
+    public void getRecommendation_getsAndPersistsTheRecommendedProject_andReturnsTheRecommendedProject() throws Exception {
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(exampleProject));
+        when(mockPairingService.getRecommendation(exampleProject)).thenReturn(exampleProject);
+        when(mockProjectRepository.save(exampleProject)).thenReturn(exampleProject);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/project/42/pairing/recommend")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -92,7 +101,9 @@ public class PairingControllerTest {
         String returnedProject = mvcResult.getResponse().getContentAsString();
         assertThat(returnedProject, equalTo(exampleProjectString));
 
-        verify(mockPairingService).getRecommendation(42);
+        verify(mockProjectRepository).findById(42L);
+        verify(mockPairingService).getRecommendation(exampleProject);
+        verify(mockProjectRepository).save(exampleProject);
     }
 
     @Test
@@ -101,7 +112,8 @@ public class PairingControllerTest {
         PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new ArrayList<>(), new Timestamp(60000));
         PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new ArrayList<>(), new Timestamp(60000));
 
-        when(mockPairingService.getSortedPairingHistory(anyLong())).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(exampleProject));
+        when(mockPairingService.getSortedPairingHistory(exampleProject)).thenReturn(Arrays.asList(pairingHistory1, pairingHistory2, pairingHistory3));
 
         MvcResult mvcResult = mockMvc.perform(get("/api/project/42/pairing/history")
             .contentType(MediaType.APPLICATION_JSON))
@@ -117,6 +129,7 @@ public class PairingControllerTest {
         String returnedProject = mvcResult.getResponse().getContentAsString();
         assertThat(returnedProject, equalTo(expectedResult));
 
-        verify(mockPairingService).getSortedPairingHistory(42);
+        verify(mockProjectRepository).findById(42L);
+        verify(mockPairingService).getSortedPairingHistory(exampleProject);
     }
 }

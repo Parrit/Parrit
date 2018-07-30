@@ -4,6 +4,7 @@ import com.parrit.DTOs.PairingHistoryDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Project;
+import com.parrit.repositories.ProjectRepository;
 import com.parrit.services.PairingService;
 import com.parrit.transformers.PairingHistoryTransformer;
 import com.parrit.transformers.ProjectTransformer;
@@ -23,10 +24,12 @@ import java.util.List;
 public class PairingController {
 
     private final PairingService pairingService;
+    private final ProjectRepository projectRepository;
 
     @Autowired
-    public PairingController(PairingService pairingService) {
+    public PairingController(PairingService pairingService, ProjectRepository projectRepository) {
         this.pairingService = pairingService;
+        this.projectRepository = projectRepository;
     }
 
     //********************//
@@ -37,7 +40,8 @@ public class PairingController {
     @RequestMapping(path = "/api/project/{projectId}/pairing", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<List<PairingHistoryDTO>> savePairing(@PathVariable long projectId) {
-        List<PairingHistory> pairingHistoryList = pairingService.savePairing(projectId);
+        Project project = projectRepository.findById(projectId).get();
+        List<PairingHistory> pairingHistoryList = pairingService.savePairing(project);
         return new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
     }
 
@@ -45,15 +49,18 @@ public class PairingController {
     @RequestMapping(path = "/api/project/{projectId}/pairing/recommend", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<ProjectDTO> getRecommendation(@PathVariable long projectId) {
-        Project project = pairingService.getRecommendation(projectId);
-        return new ResponseEntity<>(ProjectTransformer.transform(project), HttpStatus.OK);
+        Project project = projectRepository.findById(projectId).get();
+        Project recommendedProject = pairingService.getRecommendation(project);
+        Project updatedProject = projectRepository.save(recommendedProject);
+        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
     @RequestMapping(path = "/api/project/{projectId}/pairing/history", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<PairingHistoryDTO>> getPairingHistory(@PathVariable long projectId) {
-        List<PairingHistory> pairingHistoryList = pairingService.getSortedPairingHistory(projectId);
+        Project project = projectRepository.findById(projectId).get();
+        List<PairingHistory> pairingHistoryList = pairingService.getSortedPairingHistory(project);
         return new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
     }
 }
