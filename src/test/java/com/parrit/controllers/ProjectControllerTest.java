@@ -79,7 +79,6 @@ public class ProjectControllerTest {
         newProjectDTO.setPassword("bobpass");
 
         when(mockProjectRepository.findByName("Henry")).thenReturn(Optional.empty());
-        when(mockProjectRepository.save(any(Project.class))).thenReturn(persistedProject);
         when(passwordEncoder.encode("bobpass")).thenReturn("encodedBobpass");
 
         mockMvc.perform(post("/api/project")

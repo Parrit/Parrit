@@ -61,7 +61,7 @@ public class PairingServiceTest {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(ph -> ph.getArguments()[0]);
+        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
 
         List<PairingHistory> result = pairingService.savePairing(project);
 
@@ -93,7 +93,7 @@ public class PairingServiceTest {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(ph -> ph.getArguments()[0]);
+        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
 
         List<PairingHistory> result = pairingService.savePairing(project);
 
@@ -123,7 +123,7 @@ public class PairingServiceTest {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(ph -> ph.getArguments()[0]);
+        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
 
         List<PairingHistory> result = pairingService.savePairing(project);
 
@@ -147,7 +147,7 @@ public class PairingServiceTest {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(ph -> ph.getArguments()[0]);
+        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
 
         List<PairingHistory> result = pairingService.savePairing(project);
 
@@ -188,7 +188,7 @@ public class PairingServiceTest {
 
         Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(ph -> ph.getArguments()[0]);
+        when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
 
         List<PairingHistory> result = pairingService.savePairing(project);
 

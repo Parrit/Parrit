@@ -91,7 +91,7 @@ public class PairingControllerTest {
     public void getRecommendation_getsAndPersistsTheRecommendedProject_andReturnsTheRecommendedProject() throws Exception {
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(exampleProject));
         when(mockPairingService.getRecommendation(exampleProject)).thenReturn(exampleProject);
-        when(mockProjectRepository.save(exampleProject)).thenReturn(exampleProject);
+        when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/project/42/pairing/recommend")
                 .contentType(MediaType.APPLICATION_JSON))
