@@ -42,7 +42,7 @@ describe('DatabaseHelpers', () => {
 
         it('makes an Ajax call to post the login credentials', () => {
             expect(Axios.post.calls.count()).toBe(1)
-            expect(Axios.post).toHaveBeenCalledWith('/login', {name: 'Username', password: 'Password'})
+            expect(Axios.post).toHaveBeenCalledWith('/api/login', {name: 'Username', password: 'Password'})
         })
 
         //TODO: Figure out how to test window.location.href

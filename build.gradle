@@ -22,6 +22,7 @@ dependencies {
     runtimeOnly "org.flywaydb:flyway-core"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.security:spring-security-test"
 }
 
 version "0.0.1-SNAPSHOT"

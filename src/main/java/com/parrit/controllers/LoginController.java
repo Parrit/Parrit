@@ -47,9 +47,9 @@ public class LoginController {
      *  by a redirect due to not being authenticated.  Therefore, we can see which
      *  project was attempted to be logged into by looking at the Session Request Cache
      *
-     *  @returns: project-login page with the project name as a model attribute
+     *  @returns: login page with the project name as a model attribute
      */
-    @RequestMapping(path = "/login/project", method = RequestMethod.GET)
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String loginProject(final HttpServletRequest request, final HttpServletResponse response, Model model) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
 
@@ -59,7 +59,7 @@ public class LoginController {
         projectName = projectName.replace("%20", " ");
 
         model.addAttribute("projectName", projectName);
-        return "project-login";
+        return "login";
     }
 
     @RequestMapping(path = "/error", method = RequestMethod.GET)
@@ -77,7 +77,7 @@ public class LoginController {
      *  @returns: href string for the project that was logged into
      *  @throws: InternalAuthenticationServiceException if somehow the user does not get authenticated and nothing else throws an exception
      */
-    @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = {"application/json"})
+    @RequestMapping(path = "/api/login", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO) throws InternalAuthenticationServiceException {
         String name = loginDTO.getName();

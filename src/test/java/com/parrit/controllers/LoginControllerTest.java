@@ -71,7 +71,7 @@ public class LoginControllerTest {
         when(mockAuthenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isOk())
@@ -87,7 +87,7 @@ public class LoginControllerTest {
         when(mockAuthenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new UsernameNotFoundException("Keeaa!? That’s not your project name."));
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isNotFound())
@@ -104,7 +104,7 @@ public class LoginControllerTest {
         when(mockAuthenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new BadCredentialsException("They bad."));
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isUnauthorized())
@@ -123,7 +123,7 @@ public class LoginControllerTest {
         when(mockAuthenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isInternalServerError())
@@ -137,7 +137,7 @@ public class LoginControllerTest {
         loginDTO.setName("");
         loginDTO.setPassword("somePassword");
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isBadRequest())
@@ -151,7 +151,7 @@ public class LoginControllerTest {
         loginDTO.setName(null);
         loginDTO.setPassword("somePassword");
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isBadRequest())
@@ -165,7 +165,7 @@ public class LoginControllerTest {
         loginDTO.setName("someName");
         loginDTO.setPassword("");
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isBadRequest())
@@ -179,7 +179,7 @@ public class LoginControllerTest {
         loginDTO.setName("someName");
         loginDTO.setPassword(null);
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isBadRequest())
@@ -193,7 +193,7 @@ public class LoginControllerTest {
         loginDTO.setName("");
         loginDTO.setPassword("");
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginDTO)))
                 .andExpect(status().isBadRequest())

@@ -3,7 +3,7 @@ import Axios from 'axios'
 Axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 export function postLoginAndRedirect(name, password, errorCallback) {
-    Axios.post('/login', {name, password})
+    Axios.post('/api/login', {name, password})
         .then(function onSuccess(response) {
             window.location.href = response.data
         }, function onError(error) {
@@ -12,7 +12,7 @@ export function postLoginAndRedirect(name, password, errorCallback) {
 }
 
 export function postLogout() {
-    Axios.post('/logout/project')
+    Axios.post('/api/logout')
         .then(function onSuccess() {
             window.location.href = '/'
         })

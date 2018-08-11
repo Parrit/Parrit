@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 
-import ProjectLogin from './components/ProjectLogin.js'
+import Login from './components/Login.js'
 
-export default function runProjectLogin(projectName, csrfParameterName, csrfToken) {
+export default function runLogin(projectName, csrfParameterName, csrfToken) {
     const props = {
         projectName,
         csrfParameterName,
@@ -12,7 +12,7 @@ export default function runProjectLogin(projectName, csrfParameterName, csrfToke
     }
 
     ReactDOM.render(
-        <ProjectLogin {...props}/>,
+        <Login {...props}/>,
         document.getElementById('reactRoot')
     )
 
