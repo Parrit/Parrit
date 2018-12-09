@@ -1,6 +1,7 @@
 package com.parrit.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parrit.DTOs.ChangePasswordDTO;
 import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
@@ -195,6 +196,30 @@ public class ProjectControllerTest {
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message", equalTo(null)))
                 .andExpect(jsonPath("$.fieldErrors.name", equalTo("Not again. That name already exists, try a different one.")));
+    }
+
+    @Test
+    public void changePassword_encodesPassword_andSetsItOnTheProject() throws Exception {
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        existingProject.setId(1L);
+
+        when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
+        when(passwordEncoder.encode("bobpass")).thenReturn("encodedBobpass");
+
+        ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
+        changePasswordDTO.setPassword("bobpass");
+
+        mockMvc.perform(put("/api/project/1/password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(changePasswordDTO)))
+                .andExpect(status().isOk());
+
+        Project expectedProject = new Project("Henry", "encodedBobpass", new ArrayList<>(), new ArrayList<>());
+        expectedProject.setId(1L);
+
+        verify(mockProjectRepository).findById(1L);
+        verify(passwordEncoder).encode("bobpass");
+        verify(mockProjectRepository).save(eq(expectedProject));
     }
 
     @Test

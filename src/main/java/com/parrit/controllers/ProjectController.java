@@ -1,5 +1,6 @@
 package com.parrit.controllers;
 
+import com.parrit.DTOs.ChangePasswordDTO;
 import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.PairingBoard;
@@ -69,6 +70,18 @@ public class ProjectController {
 
         Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new ArrayList<>());
         projectRepository.save(project);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/password", method = RequestMethod.PUT)
+    @ResponseBody
+    public void changePassword(@PathVariable long projectId, @RequestBody @Valid ChangePasswordDTO changePasswordDTO) {
+        Project existingProject = projectRepository.findById(projectId).get();
+
+        String hashedPassword = passwordEncoder.encode(changePasswordDTO.getPassword());
+        existingProject.setPassword(hashedPassword);
+
+        projectRepository.save(existingProject);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
