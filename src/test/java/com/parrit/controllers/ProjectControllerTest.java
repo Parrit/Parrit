@@ -223,6 +223,32 @@ public class ProjectControllerTest {
     }
 
     @Test
+    public void changePassword_returnsError_whenThePasswordIsEmpty() throws Exception {
+        ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
+        changePasswordDTO.setPassword("");
+
+        mockMvc.perform(put("/api/project/1/password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(changePasswordDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", equalTo(null)))
+                .andExpect(jsonPath("$.fieldErrors.password", equalTo("Keeaa!? Protect yourself with a password!")));
+    }
+
+    @Test
+    public void changePassword_returnsError_whenThePasswordIsNull() throws Exception {
+        ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
+        changePasswordDTO.setPassword(null);
+
+        mockMvc.perform(put("/api/project/1/password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(changePasswordDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", equalTo(null)))
+                .andExpect(jsonPath("$.fieldErrors.password", equalTo("Keeaa!? Protect yourself with a password!")));
+    }
+
+    @Test
     public void resetProject_movesAllPeopleIntoFloating_andReturnsTheUpdatedProject() throws Exception {
         Person existingPerson1 = new Person("Billy");
         existingPerson1.setId(7L);
