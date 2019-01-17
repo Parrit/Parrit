@@ -196,21 +196,23 @@ public class PairingServiceTest {
     }
 
     @Test
-    public void getRecommendation_callsTheRecommendationService_andReturnsTheRecommendedProject() {
+    public void getRecommendation_callsTheRecommendationService_withTheProjectsLastTwoMonthsOfPairingHistories_andReturnsTheRecommendedProject() {
         Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
         PairingHistory pairingHistory = new PairingHistory();
         List<PairingHistory> pairingHistories = Collections.singletonList(pairingHistory);
 
         Project recommendedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        when(mockPairingHistoryRepository.findByProject(any(Project.class))).thenReturn(pairingHistories);
+        when(mockPairingHistoryRepository.findByProjectAndTimestampAfter(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
         when(mockRecommendationService.get(any(Project.class), anyList())).thenReturn(recommendedProject);
 
         Project returnedProject = pairingService.getRecommendation(project);
 
         assertThat(returnedProject, equalTo(recommendedProject));
 
-        verify(mockPairingHistoryRepository).findByProject(project);
+        Timestamp twoMonthsAgoTime = new Timestamp(1451105499548L);
+
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, twoMonthsAgoTime);
         verify(mockRecommendationService).get(project, pairingHistories);
     }
 

@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class PairingService {
 
+    private static final long TWO_MONTHS_IN_MILLISECONDS = 5259486000L;
+
     private final PairingHistoryRepository pairingHistoryRepository;
     private final RecommendationService recommendationService;
     private final CurrentTimeProvider currentTimeProvider;
@@ -39,7 +41,9 @@ public class PairingService {
     }
 
     public Project getRecommendation(Project project) {
-        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProject(project);
+        Timestamp currentTime = currentTimeProvider.getCurrentTime();
+        Timestamp twoMonthsAgo = new Timestamp(currentTime.getTime() - TWO_MONTHS_IN_MILLISECONDS);
+        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProjectAndTimestampAfter(project, twoMonthsAgo);
         return recommendationService.get(project, pairingHistory);
     }
 
