@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.nio.charset.Charset;
 import java.util.Collections;
 
 @Controller
@@ -56,7 +58,7 @@ public class LoginController {
         //TODO: Check to make sure this isn't null -- maybe redirect to homepage if it is
         String originalRequestUrl = savedRequest.getRedirectUrl();
         String projectName = originalRequestUrl.substring(originalRequestUrl.lastIndexOf('/') + 1);
-        projectName = projectName.replace("%20", " ");
+        projectName = UriUtils.decode(projectName, Charset.defaultCharset());
 
         model.addAttribute("projectName", projectName);
         return "login";
