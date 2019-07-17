@@ -1,7 +1,7 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.1.1.RELEASE"
-    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "org.springframework.boot" version "2.1.6.RELEASE"
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
 }
 
 repositories {
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    ext.commonsLang3Version = "3.7"
+    ext.commonsLang3Version = "3.9"
 
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-security"
