@@ -43,7 +43,7 @@
     "sass-loader": "7.1.0",
     "timezone-mock": "1.0.8",
     "url-loader": "2.1.0",
-    "webpack": "4.36.1",
+    "webpack": "4.39.1",
     "webpack-cli": "3.3.6"
   }
 }
