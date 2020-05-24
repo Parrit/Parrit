@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    ext.commonsLang3Version = "3.10"
+    ext.commonsLang3Version = "3.9"
 
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-security"
