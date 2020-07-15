@@ -5,7 +5,7 @@
     "classnames": "2.2.6",
     "core-js": "3.6.4",
     "es6-promise": "4.2.8",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "moment-timezone": "0.5.28",
     "prop-types": "15.7.2",
     "prop-types-exact": "1.2.0",
