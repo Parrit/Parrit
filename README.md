@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Parrit/Parrit.svg?branch=master)](https://travis-ci.org/Parrit/Parrit)
 
-# UPDATE: 📣 The default hosted Parrit instance has changed addresses. We're now at https://parrit.io
+# 📣 UPDATE: The default hosted Parrit instance has changed addresses. We're now at https://parrit.io
 
 # Parrit
 A historical recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
