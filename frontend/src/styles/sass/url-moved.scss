@@ -1,0 +1,101 @@
+$desktopImageWidth: 431px;
+$desktopImageHeight: 265px;
+$mobileImageWidth: 349px;
+$mobileImageHeight: 212px;
+
+.url-moved-container {
+  background-color: $lightTan;
+
+  .url-moved-image-wrapper {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    .parrit-talk-bubble {
+      background-image: url("./images/parrit-talk-bubble.svg");
+      margin: 30px auto 0px auto;
+
+      .oh-shit-message {
+        position: relative;
+      }
+
+      .url-moved-message {
+        position: relative;
+      }
+    }
+
+    .longer-message {
+      text-align: center;
+    }
+
+    .new-url-button {
+      background-color: rgb(237, 91, 89);
+      padding: 0px 40px;
+      margin-top: 10px;
+    }
+  }
+}
+
+/*
+ *  Mobile
+ */
+@media (max-width: $desktopContentWidth) {
+  .url-moved-container {
+
+    .url-moved-image-wrapper {
+
+      .parrit-talk-bubble {
+        width: $mobileImageWidth;
+        height: $mobileImageHeight;
+        background-size: 100%;
+
+        .oh-shit-message {
+          top: 27px;
+          left: 75px;
+          font-size: 30px;
+        }
+
+        .url-moved-message {
+          top: 3px;
+          left: 53px;
+          font-size: 30px;
+        }
+      }
+
+      .longer-message {
+        width: 430px;
+      }
+    }
+  }
+}
+
+/*
+ *  Desktop
+ */
+@media (min-width: $desktopContentWidth) {
+  .url-moved-container {
+
+    .url-moved-image-wrapper {
+
+      .parrit-talk-bubble {
+        width: $desktopImageWidth;
+        height: $desktopImageHeight;
+
+        .oh-shit-message {
+          top: 40px;
+          left: 96px;
+        }
+
+        .url-moved-message {
+          top: 20px;
+          left: 68px;
+        }
+      }
+
+      .longer-message {
+        width: 530px;
+      }
+    }
+  }
+}

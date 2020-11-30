@@ -12,14 +12,9 @@ dependencies {
     ext.commonsLang3Version = "3.9"
 
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-devtools"
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
-
-    runtimeOnly "org.postgresql:postgresql"
-    runtimeOnly "org.flywaydb:flyway-core"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
