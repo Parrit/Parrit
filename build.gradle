@@ -2,6 +2,7 @@ plugins {
     id "java"
     id "org.springframework.boot" version "2.1.12.RELEASE"
     id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "org.flywaydb.flyway" version "6.3.1"
 }
 
 repositories {
@@ -17,17 +18,28 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-devtools"
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+    implementation 'org.flywaydb:flyway-core'
 
     runtimeOnly "org.postgresql:postgresql"
-    runtimeOnly "org.flywaydb:flyway-core"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
 }
 
-version "0.0.1-SNAPSHOT"
+version "1.0.0"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+// *** Database Tasks *** //
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/local_parrit'
+    user = 'parrit'
+    password = 'parrit'
+}
+
+task migrate(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+}
 
 // *** LifeCycle Tasks *** //
 

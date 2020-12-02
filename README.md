@@ -25,3 +25,9 @@ Take a look at the tech talk we presented about the making of Parrit: https://yo
 ## Want to contribute?
 * See [Contributing](./docs/Contributing.md)
 
+## Running Server Locally
+
+1. Create postgres user with name `parrit` password `parrit`
+2. create new database called `local_parrit`
+3. migrate the database with `gradle migrate`
+4. Run application through `gradle bootRun`
