@@ -1,5 +1,5 @@
-import "./polyfills.js";
-import "./styles/main.scss";
+import "../polyfills.js";
+import "../styles/main.scss";
 
 import runProject from "./project/runProject";
 import runDashboard from "./dashboard/runDashboard";
