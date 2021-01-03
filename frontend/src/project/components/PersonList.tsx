@@ -1,9 +1,4 @@
 import React from "react";
-
-// import {
-//   deletePersonThunk,
-//   movePersonThunk,
-// } from "../actions/thunks/DataThunks";
 import { Person } from "./Person";
 
 interface Props {
@@ -21,8 +16,3 @@ export const PersonList: React.FC<Props> = (props) => {
     </div>
   );
 };
-
-// const mapDispatchToProps = {
-//   movePerson: movePersonThunk,
-//   deletePerson: deletePersonThunk,
-// };

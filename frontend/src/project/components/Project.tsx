@@ -1,23 +1,18 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import { Workspace } from "./Workspace";
 import { Button } from "../../shared/components/Button";
+import { ProjectContext } from "../ProjectContext";
 
-interface Props {
-  project: IProject;
-}
-
-export const Project: React.FC<Props> = (props) => {
-  const resetPairs = () => {};
-
-  const getRecommendedPairs = () => {};
-
-  const savePairing = () => {};
+export const Project: React.FC = (props) => {
+  const { project, resetPairs, getRecommendedPairs, savePairing } = useContext(
+    ProjectContext
+  );
 
   return (
     <main className="project">
       <div className="sub-header">
-        <h1 className="project-name">{props.project.name}</h1>
+        <h1 className="project-name">{project.name}</h1>
         <div className="project-actions">
           <Button
             className="button-blue"
@@ -43,7 +38,7 @@ export const Project: React.FC<Props> = (props) => {
         </div>
       </div>
       <div className="sub-header-dotted-line" />
-      <Workspace projectId={props.project.id} people={[]} pairingBoards={[]} />
+      <Workspace />
     </main>
   );
 };

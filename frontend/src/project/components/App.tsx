@@ -6,6 +6,7 @@ import { PairingHistory } from "./PairingHistory.js";
 import { Footer } from "../../shared/components/Footer";
 import { CustomDragLayer } from "./CustomDragLayer";
 import { DragItem } from "../interfaces/DragItem";
+import { ProjectContext, ProjectProvider } from "../ProjectContext";
 
 interface Props {
   project: IProject;
@@ -51,17 +52,19 @@ export const App: React.FC<Props> = (props) => {
   return (
     <React.Fragment>
       <AppContext.Provider value={value}>
-        <div className={className}>
-          <SystemAlert close={() => setSystemAlertOpen(false)} />
-          <Header
-            isPairingHistoryPanelOpen={pairingHistoryOpen}
-            setPairingHistoryPanelOpen={setPairingHistoryOpen}
-          />
-          <Project project={props.project} />
-          <Footer />
-          <PairingHistory />
-        </div>
-        <CustomDragLayer />
+        <ProjectProvider project={props.project}>
+          <div className={className}>
+            <SystemAlert close={() => setSystemAlertOpen(false)} />
+            <Header
+              isPairingHistoryPanelOpen={pairingHistoryOpen}
+              setPairingHistoryPanelOpen={setPairingHistoryOpen}
+            />
+            <Project />
+            <Footer />
+            <PairingHistory />
+          </div>
+          <CustomDragLayer />
+        </ProjectProvider>
       </AppContext.Provider>
     </React.Fragment>
   );

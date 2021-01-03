@@ -25,13 +25,13 @@ export function resetProject(projectId: number): Promise<void> {
   return Axios.put("/api/project/" + encodeURIComponent(projectId) + "/reset");
 }
 
-export function postPerson(projectId: number, name: string): Promise<IPerson> {
-  return Axios.post(
+export function postPerson(projectId: number, name: string): Promise<IProject> {
+  return Axios.post<IProject>(
     "/api/project/" + encodeURIComponent(projectId) + "/person",
     {
       name,
     }
-  );
+  ).then((response) => response.data);
 }
 
 export function putPersonPosition(
@@ -61,11 +61,11 @@ export function deletePerson(projectId: number, personId: number) {
 export function postPairingBoard(
   projectId: number,
   name: string
-): Promise<IPairingBoard> {
-  return Axios.post(
+): Promise<IProject> {
+  return Axios.post<IProject>(
     "/api/project/" + encodeURIComponent(projectId) + "/pairingBoard",
     { name }
-  );
+  ).then((response) => response.data);
 }
 
 export function putPairingBoard(
@@ -85,28 +85,28 @@ export function putPairingBoard(
 export function deletePairingBoard(
   projectId: number,
   pairingBoardId: number
-): Promise<void> {
-  return Axios.delete(
+): Promise<IProject> {
+  return Axios.delete<IProject>(
     "/api/project/" +
       encodeURIComponent(projectId) +
       "/pairingBoard/" +
       encodeURIComponent(pairingBoardId)
-  );
+  ).then((response) => response.data);
 }
 
 export function postRole(
   projectId: number,
   pairingBoardId: number,
   name: string
-): Promise<IRole> {
-  return Axios.post(
+): Promise<IProject> {
+  return Axios.post<IProject>(
     "/api/project/" +
       encodeURIComponent(projectId) +
       "/pairingBoard/" +
       encodeURIComponent(pairingBoardId) +
       "/role",
     { name }
-  );
+  ).then((response) => response.data);
 }
 
 export function putRolePosition(

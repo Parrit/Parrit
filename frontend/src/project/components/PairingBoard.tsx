@@ -5,7 +5,7 @@ import { PairingBoardHeader } from "./PairingBoardHeader";
 import { RoleList } from "./RoleList";
 import { PersonList } from "./PersonList";
 import * as DatabaseHelpers from "../../shared/helpers/DatabaseHelpers";
-import { WorkspaceContext } from "./Workspace";
+import { ProjectContext } from "../ProjectContext";
 
 interface Props {
   pairingBoard: IPairingBoard;
@@ -18,7 +18,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
   const [editingError, setEditingError] = useState<string>();
   const [roles, setRoles] = useState<IRole[]>(props.pairingBoard.roles);
 
-  const { projectId, deletePairingBoard } = useContext(WorkspaceContext);
+  const { projectId, deletePairingBoard } = useContext(ProjectContext);
 
   const pairingBoardClasses = classNames({
     "pairing-board": true,
