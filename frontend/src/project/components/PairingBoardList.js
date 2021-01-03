@@ -1,43 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import exact from 'prop-types-exact'
-import { connect } from 'react-redux'
-
-import PairingBoard from './PairingBoard.js'
-
-class PairingBoardList extends React.Component {
-    render() {
-        return (
-            <div className="pairing-boards">
-                {this.props.pairingBoards.map((pairingBoard, idx) => {
-                    const settings = this.props.pairingBoardSettings[pairingBoard.id] || {}
-
-                    return <PairingBoard
-                                key={idx}
-                                id={pairingBoard.id}
-                                name={pairingBoard.name}
-                                exempt={pairingBoard.exempt}
-                                people={pairingBoard.people}
-                                roles={pairingBoard.roles}
-                                editMode={settings.editMode || false}
-                                editErrorMessage={settings.editErrorMessage}
-                            />
-                })}
-            </div>
-        )
-    }
-}
-
-PairingBoardList.propTypes = exact({
-    pairingBoards: PropTypes.arrayOf(PropTypes.object).isRequired,
-    pairingBoardSettings: PropTypes.object.isRequired
-})
-
-function mapStateToProps({data, settings}) {
-    return {
-        pairingBoards: data.project.pairingBoards,
-        pairingBoardSettings: settings.pairingBoardSettings
-    }
-}
-
-export default connect(mapStateToProps, {})(PairingBoardList)
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PairingBoardList = void 0;
+var react_1 = __importDefault(require("react"));
+var PairingBoard_1 = require("./PairingBoard");
+var PairingBoardList = function (props) {
+    return (react_1.default.createElement("div", { className: "pairing-boards" }, props.pairingBoards.map(function (pairingBoard, idx) {
+        return (react_1.default.createElement(PairingBoard_1.PairingBoard, { key: "pairing-board-" + pairingBoard.id, pairingBoard: pairingBoard }));
+    })));
+};
+exports.PairingBoardList = PairingBoardList;
+// function mapStateToProps({ data, settings }) {
+//   return {
+//     pairingBoards: data.project.pairingBoards,
+//     pairingBoardSettings: settings.pairingBoardSettings,
+//   };
+// }
+// export default connect(mapStateToProps, {})(PairingBoardList);

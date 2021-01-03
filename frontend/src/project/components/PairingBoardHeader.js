@@ -1,70 +1,63 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import exact from 'prop-types-exact'
-import classNames from 'classnames'
-
-class PairingBoardHeader extends React.Component {
-    render() {
-        const {name, exempt, editMode, editErrorMessage} = this.props
-
-        let pairingBoardNameSection
-
-        if (editMode) {
-            const nameInputClasses = classNames({
-                'editing-pairing-board-name': true,
-                'error': editErrorMessage != undefined
-            })
-
-            pairingBoardNameSection = (
-                <div className="pairing-board-name-wrapper">
-                    <input className={nameInputClasses} autoFocus defaultValue={name}
-                        onBlur={this.renamePairingBoard.bind(this)} onKeyDown={this.onKeyDownHandler.bind(this)}/>
-                    <div className="error-message">{editErrorMessage}</div>
-                </div>
-            )
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PairingBoardHeader = void 0;
+var react_1 = __importStar(require("react"));
+var classnames_1 = __importDefault(require("classnames"));
+var Workspace_1 = require("./Workspace");
+var PairingBoardHeader = function (props) {
+    var name = props.name, exempt = props.exempt, editMode = props.editMode, editErrorMessage = props.editErrorMessage;
+    var _a = react_1.useState(name), localName = _a[0], setLocalName = _a[1];
+    var setNewRoleOpen = react_1.useContext(Workspace_1.WorkspaceContext).setNewRoleOpen;
+    var pairingBoardNameSection;
+    var onKeyDownHandler = function (event) {
+        var EnterKeyCode = 13;
+        if (event.keyCode === EnterKeyCode) {
+            renamePairingBoard(event);
         }
-        else {
-            pairingBoardNameSection = (
-                <div className="pairing-board-name-wrapper" onClick={this.props.enableEditMode}>
-                    <h3 className="pairing-board-name">{name}</h3>
-                    <div className="rename-pairing-board"/>
-                    <div className="add-role-to-pairing-board" onClick={this.props.openNewRoleModal}/>
-                </div>
-            )
-        }
-
-        return (
-            <div className="pairing-board-header">
-                {pairingBoardNameSection}
-
-                {!exempt && (
-                    <div className="delete-pairing-board" onClick={this.props.deletePairingBoard}/>
-                )}
-            </div>
-        )
+    };
+    var renamePairingBoard = function (event) {
+        props.renamePairingBoard(event.target.value);
+    };
+    if (editMode) {
+        var nameInputClasses = classnames_1.default({
+            "editing-pairing-board-name": true,
+            error: editErrorMessage != undefined,
+        });
+        pairingBoardNameSection = (react_1.default.createElement("div", { className: "pairing-board-name-wrapper" },
+            react_1.default.createElement("input", { className: nameInputClasses, autoFocus: true, defaultValue: localName, onBlur: renamePairingBoard, onKeyDown: onKeyDownHandler }),
+            react_1.default.createElement("div", { className: "error-message" }, editErrorMessage)));
     }
-
-    onKeyDownHandler(event) {
-        const EnterKeyCode = 13
-        if(event.keyCode === EnterKeyCode) {
-            this.renamePairingBoard(event)
-        }
+    else {
+        pairingBoardNameSection = (react_1.default.createElement("div", { className: "pairing-board-name-wrapper", onClick: function () { return props.setEditing(true); } },
+            react_1.default.createElement("h3", { className: "pairing-board-name" }, name),
+            react_1.default.createElement("div", { className: "rename-pairing-board" }),
+            react_1.default.createElement("div", { className: "add-role-to-pairing-board", onClick: function () { return setNewRoleOpen(true); } })));
     }
-
-    renamePairingBoard(event) {
-        this.props.renamePairingBoard(event.target.value)
-    }
-}
-
-PairingBoardHeader.propTypes = exact({
-    name: PropTypes.string.isRequired,
-    exempt: PropTypes.bool.isRequired,
-    editMode: PropTypes.bool.isRequired,
-    editErrorMessage: PropTypes.string,
-    renamePairingBoard: PropTypes.func.isRequired,
-    deletePairingBoard: PropTypes.func.isRequired,
-    enableEditMode: PropTypes.func.isRequired,
-    openNewRoleModal: PropTypes.func.isRequired
-})
-
-export default PairingBoardHeader
+    return (react_1.default.createElement("div", { className: "pairing-board-header" },
+        pairingBoardNameSection,
+        !exempt && (react_1.default.createElement("div", { className: "delete-pairing-board", onClick: props.deletePairingBoard }))));
+};
+exports.PairingBoardHeader = PairingBoardHeader;
+exports.default = exports.PairingBoardHeader;

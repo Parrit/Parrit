@@ -1,31 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import exact from 'prop-types-exact'
-
-import Role from './Role.js'
-
-class RoleList extends React.Component {
-    render() {
-        return (
-            <div className="role-list">
-                {this.props.roles.map((role, idx) => {
-                    return <Role
-                                key={idx}
-                                id={role.id}
-                                name={role.name}
-                                moveRole={this.props.moveRole}
-                                deleteRole={this.props.deleteRole}
-                            />
-                })}
-            </div>
-        )
-    }
-}
-
-RoleList.propTypes = exact({
-    roles: PropTypes.arrayOf(PropTypes.object).isRequired,
-    moveRole: PropTypes.func.isRequired,
-    deleteRole: PropTypes.func.isRequired
-})
-
-export default RoleList
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RoleList = void 0;
+var react_1 = __importDefault(require("react"));
+var Role_1 = require("./Role");
+var RoleList = function (props) {
+    return (react_1.default.createElement("div", { className: "role-list" }, props.roles.map(function (role) {
+        return (react_1.default.createElement(Role_1.Role, { key: "role-" + role.id, id: role.id, name: role.name, moveRole: props.moveRole, deleteRole: props.deleteRole }));
+    })));
+};
+exports.RoleList = RoleList;
+exports.default = exports.RoleList;

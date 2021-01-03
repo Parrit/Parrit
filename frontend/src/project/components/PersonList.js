@@ -1,38 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import exact from 'prop-types-exact'
-import { connect } from 'react-redux'
-
-import { deletePersonThunk, movePersonThunk } from '../actions/thunks/DataThunks'
-import Person from './Person.js'
-
-class PersonList extends React.Component {
-    render() {
-        return (
-            <div className="person-list">
-                {this.props.people.map((person, idx) => {
-                    return <Person
-                                key={idx}
-                                id={person.id}
-                                name={person.name}
-                                movePerson={this.props.movePerson}
-                                deletePerson={this.props.deletePerson}
-                            />
-                })}
-            </div>
-        )
-    }
-}
-
-PersonList.propTypes = exact({
-    people: PropTypes.arrayOf(PropTypes.object).isRequired,
-    movePerson: PropTypes.func.isRequired,
-    deletePerson: PropTypes.func.isRequired
-})
-
-const mapDispatchToProps = {
-    movePerson: movePersonThunk,
-    deletePerson: deletePersonThunk
-}
-
-export default connect(undefined, mapDispatchToProps)(PersonList)
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PersonList = void 0;
+var react_1 = __importDefault(require("react"));
+// import {
+//   deletePersonThunk,
+//   movePersonThunk,
+// } from "../actions/thunks/DataThunks";
+var Person_1 = require("./Person");
+var PersonList = function (props) {
+    return (react_1.default.createElement("div", { className: "person-list" }, props.people.map(function (person, idx) {
+        return (react_1.default.createElement(Person_1.Person, { key: "person-" + idx, id: person.id, name: person.name }));
+    })));
+};
+exports.PersonList = PersonList;
+// const mapDispatchToProps = {
+//   movePerson: movePersonThunk,
+//   deletePerson: deletePersonThunk,
+// };

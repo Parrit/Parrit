@@ -1,42 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import exact from 'prop-types-exact'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-
-import { clearSystemAlertMessage } from '../actions/creators/SettingsCreators'
-
-class SystemAlert extends React.Component {
-    render() {
-        const message = this.props.systemAlertMessage
-
-        const classes = classNames({
-            'system-alert': true,
-            'system-alert-closed': message === undefined
-        })
-
-        return (
-            <div className={classes}>
-                <div className="message">{message}</div>
-                <div className="close" onClick={this.props.close}><div className="icon"/></div>
-            </div>
-        )
-    }
-}
-
-SystemAlert.propTypes = exact({
-    systemAlertMessage: PropTypes.string,
-    close: PropTypes.func.isRequired
-})
-
-function mapStateToProps({settings}) {
-    return {
-        systemAlertMessage: settings.systemAlert.message
-    }
-}
-
-const mapDispatchToProps = {
-    close: clearSystemAlertMessage
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SystemAlert)
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SystemAlert = void 0;
+var react_1 = __importDefault(require("react"));
+var SystemAlert = function (props) {
+    var message = props.systemAlertMessage;
+    var className = message === undefined ? "system-alert-close" : "system-alert";
+    return (react_1.default.createElement("div", { className: className },
+        react_1.default.createElement("div", { className: "message" }, message),
+        react_1.default.createElement("div", { className: "close", onClick: props.close },
+            react_1.default.createElement("div", { className: "icon" }))));
+};
+exports.SystemAlert = SystemAlert;

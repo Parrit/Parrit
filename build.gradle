@@ -75,6 +75,16 @@ task jsBuild(type: Exec) {
 }
 processResources.dependsOn(jsBuild)
 
+task jsCompile(type: Exec) {
+    group = "Parrit"
+    description = "Compiles the frontend typescript"
+
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "npm"
+    args = ["run", "build"]
+}
+jsBuild.dependsOn(jsCompile)
+
 task jsDependencies(type: Exec) {
     group = "Parrit"
     description = "Downloads dependencies for the frontend javascript code"

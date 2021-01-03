@@ -1,139 +1,108 @@
-import Axios from 'axios'
-
-Axios.defaults.headers.post['Content-Type'] = 'application/json'
-
-export function postLoginAndRedirect(name, password, errorCallback) {
-    Axios.post('/api/login', {name, password})
-        .then(function onSuccess(response) {
-            window.location.href = response.data
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPairingHistory = exports.getRecommendedPairing = exports.postProjectPairing = exports.deleteRole = exports.putRolePosition = exports.postRole = exports.deletePairingBoard = exports.putPairingBoard = exports.postPairingBoard = exports.deletePerson = exports.putPersonPosition = exports.postPerson = exports.resetProject = exports.postProject = exports.postLogout = exports.postLoginAndRedirect = void 0;
+var axios_1 = __importDefault(require("axios"));
+axios_1.default.defaults.headers.post["Content-Type"] = "application/json";
+function postLoginAndRedirect(name, password) {
+    return axios_1.default.post("/api/login", { name: name, password: password }).then(function (response) {
+        window.location.href = response.data;
+    });
 }
-
-export function postLogout() {
-    Axios.post('/api/logout')
-        .then(function onSuccess() {
-            window.location.href = '/'
-        })
+exports.postLoginAndRedirect = postLoginAndRedirect;
+function postLogout() {
+    axios_1.default.post("/api/logout").then(function (response) {
+        window.location.href = "/";
+    });
 }
-
-export function postProjectAndDo(name, password, successCallback, errorCallback) {
-    Axios.post('/api/project', {name, password})
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.postLogout = postLogout;
+function postProject(name, password) {
+    return axios_1.default.post("/api/project", { name: name, password: password });
 }
-
-export function resetProjectAndDo(projectId, successCallback, errorCallback) {
-    Axios.put('/api/project/' + encodeURIComponent(projectId) + '/reset')
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.postProject = postProject;
+function resetProject(projectId) {
+    return axios_1.default.put("/api/project/" + encodeURIComponent(projectId) + "/reset");
 }
-
-export function postPersonAndDo(projectId, name, successCallback, errorCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/person', {name})
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.resetProject = resetProject;
+function postPerson(projectId, name) {
+    return axios_1.default.post("/api/project/" + encodeURIComponent(projectId) + "/person", {
+        name: name,
+    });
 }
-
-export function putPersonPositionAndDo(projectId, personId, newPosition, successCallback, errorCallback) {
-     Axios.put('/api/project/' + encodeURIComponent(projectId) + '/person/' + encodeURIComponent(personId) + '/position', newPosition)
-         .then(function onSuccess(response) {
-             successCallback(response.data)
-         }, function onError(error) {
-             errorCallback(error.response.data)
-         })
- }
-
-export function deletePersonAndDo(projectId, pairingBoardId, successCallback, errorCallback) {
-    Axios.delete('/api/project/' + encodeURIComponent(projectId) + '/person/' + encodeURIComponent(pairingBoardId))
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.postPerson = postPerson;
+function putPersonPosition(projectId, personId, newPosition) {
+    return axios_1.default.put("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/person/" +
+        encodeURIComponent(personId) +
+        "/position", newPosition);
 }
-
-export function postPairingBoardAndDo(projectId, name, successCallback, errorCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard', {name})
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.putPersonPosition = putPersonPosition;
+function deletePerson(projectId, personId) {
+    return axios_1.default.delete("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/person/" +
+        encodeURIComponent(personId));
 }
-
-export function putPairingBoardAndDo(projectId, pairingBoardId, name, successCallback, errorCallback) {
-    Axios.put('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId), {name})
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.deletePerson = deletePerson;
+function postPairingBoard(projectId, name) {
+    return axios_1.default.post("/api/project/" + encodeURIComponent(projectId) + "/pairingBoard", { name: name });
 }
-
-export function deletePairingBoardAndDo(projectId, pairingBoardId, successCallback, errorCallback) {
-    Axios.delete('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId))
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.postPairingBoard = postPairingBoard;
+function putPairingBoard(projectId, pairingBoardId, name) {
+    return axios_1.default.put("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/pairingBoard/" +
+        encodeURIComponent(pairingBoardId), { name: name });
 }
-
-export function postRoleAndDo(projectId, pairingBoardId, name, successCallback, errorCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId) + '/role', {name})
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.putPairingBoard = putPairingBoard;
+function deletePairingBoard(projectId, pairingBoardId) {
+    return axios_1.default.delete("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/pairingBoard/" +
+        encodeURIComponent(pairingBoardId));
 }
-
-export function putRolePositionAndDo(projectId, pairingBoardId, roleId, newPosition, successCallback, errorCallback) {
-     Axios.put('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId) + '/role/' + encodeURIComponent(roleId) + '/position', newPosition)
-         .then(function onSuccess(response) {
-             successCallback(response.data)
-         }, function onError(error) {
-             errorCallback(error.response.data)
-         })
- }
-
-export function deleteRoleAndDo(projectId, pairingBoardId, roleId, successCallback, errorCallback) {
-    Axios.delete('/api/project/' + encodeURIComponent(projectId) + '/pairingBoard/' + encodeURIComponent(pairingBoardId) + '/role/' + encodeURIComponent(roleId))
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        }, function onError(error) {
-            errorCallback(error.response.data)
-        })
+exports.deletePairingBoard = deletePairingBoard;
+function postRole(projectId, pairingBoardId, name) {
+    return axios_1.default.post("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/pairingBoard/" +
+        encodeURIComponent(pairingBoardId) +
+        "/role", { name: name });
 }
-
-export function postProjectPairingAndDo(projectId, successCallback) {
-    Axios.post('/api/project/' + encodeURIComponent(projectId) + '/pairing')
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        })
+exports.postRole = postRole;
+function putRolePosition(projectId, pairingBoardId, roleId, newPosition) {
+    return axios_1.default.put("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/pairingBoard/" +
+        encodeURIComponent(pairingBoardId) +
+        "/role/" +
+        encodeURIComponent(roleId) +
+        "/position", newPosition);
 }
-
-export function getRecommendedPairingAndDo(projectId, successCallback) {
-    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/recommend')
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        })
+exports.putRolePosition = putRolePosition;
+function deleteRole(projectId, pairingBoardId, roleId) {
+    return axios_1.default.delete("/api/project/" +
+        encodeURIComponent(projectId) +
+        "/pairingBoard/" +
+        encodeURIComponent(pairingBoardId) +
+        "/role/" +
+        encodeURIComponent(roleId));
 }
-
-export function getPairingHistoryAndDo(projectId, successCallback) {
-    Axios.get('/api/project/' + encodeURIComponent(projectId) + '/pairing/history')
-        .then(function onSuccess(response) {
-            successCallback(response.data)
-        })
+exports.deleteRole = deleteRole;
+function postProjectPairing(projectId) {
+    return axios_1.default.post("/api/project/" + encodeURIComponent(projectId) + "/pairing");
 }
+exports.postProjectPairing = postProjectPairing;
+function getRecommendedPairing(projectId) {
+    return axios_1.default.get("/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend");
+}
+exports.getRecommendedPairing = getRecommendedPairing;
+function getPairingHistory(projectId) {
+    return axios_1.default.get("/api/project/" + encodeURIComponent(projectId) + "/pairing/history").then(function (response) {
+        return response.data;
+    });
+}
+exports.getPairingHistory = getPairingHistory;

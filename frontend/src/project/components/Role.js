@@ -1,73 +1,36 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import exact from 'prop-types-exact'
-import { DragSource } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
-
-import { dragTypes, dropTypes } from '../DragAndDrop.js'
-
-export function renderRole(name) {
-    return <div className="role">{name}</div>
-}
-
-class Role extends React.Component {
-    componentDidMount() {
-        this.props.connectDragPreview(getEmptyImage())
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RoleTile = exports.Role = void 0;
+var react_1 = __importStar(require("react"));
+var Role = function (props) {
+    var _a = react_1.useState(false), isDragging = _a[0], setIsDragging = _a[1];
+    var name = props.name;
+    if (isDragging) {
+        return null;
     }
-
-	render() {
-		const {name, isDragging, connectDragSource} = this.props
-
-        if(isDragging) return null
-
-        return connectDragSource(
-            renderRole(name)
-        )
-	}
-}
-
-Role.propTypes = exact({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    moveRole: PropTypes.func.isRequired,
-    deleteRole: PropTypes.func.isRequired,
-    connectDragSource: PropTypes.func.isRequired,
-    connectDragPreview: PropTypes.func.isRequired
-})
-
-const dragSpec = {
-    beginDrag(props) {
-        return {
-            name: props.name
-        }
-    },
-
-    endDrag(props, monitor) {
-        if(!monitor.didDrop()) return
-
-        const dropTarget = monitor.getDropResult()
-
-        switch(dropTarget.type) {
-            case dropTypes.PairingBoard: {
-                const newPosition = { pairingBoardId: dropTarget.id }
-                props.moveRole(props.id, newPosition)
-                return
-            }
-            case dropTypes.TrashBin: {
-                props.deleteRole(props.id)
-                return
-            }
-        }
-    }
-}
-
-const dragCollect = (connect, monitor) => {
-    return {
-        isDragging: monitor.isDragging(),
-        connectDragSource: connect.dragSource(),
-        connectDragPreview: connect.dragPreview()
-    }
-}
-
-export default DragSource(dragTypes.Role, dragSpec, dragCollect)(Role)
+    return react_1.default.createElement(exports.RoleTile, { name: name });
+};
+exports.Role = Role;
+var RoleTile = function (props) {
+    return react_1.default.createElement("div", { className: "role" }, props.name);
+};
+exports.RoleTile = RoleTile;
