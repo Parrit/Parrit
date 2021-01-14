@@ -2,18 +2,8 @@ import React from "react";
 
 import { PairingBoard } from "./PairingBoard";
 
-// interface PairingBoardSettings {
-//   [index: number]: PairingBoardSetting;
-// }
-
-// interface PairingBoardSetting {
-//   editMode: boolean;
-//   editErrorMessage: string;
-// }
-
 interface Props {
   pairingBoards: IPairingBoard[];
-  //   pairingBoardSettings: PairingBoardSettings;
 }
 
 export const PairingBoardList: React.FC<Props> = (props) => {
@@ -30,12 +20,3 @@ export const PairingBoardList: React.FC<Props> = (props) => {
     </div>
   );
 };
-
-// function mapStateToProps({ data, settings }) {
-//   return {
-//     pairingBoards: data.project.pairingBoards,
-//     pairingBoardSettings: settings.pairingBoardSettings,
-//   };
-// }
-
-// export default connect(mapStateToProps, {})(PairingBoardList);

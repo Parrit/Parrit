@@ -1,3 +1,10 @@
-export type DragType = "Person" | "Role";
+export enum DragType {
+  Person = "Person",
+  Role = "Role",
+}
 
-export type DropType = "Floating" | "PairingBoard" | "TrashBin";
+export enum DropType {
+  Floating = "Floating",
+  PairingBoard = "PairingBoard",
+  TrashBin = "TrashBin",
+}

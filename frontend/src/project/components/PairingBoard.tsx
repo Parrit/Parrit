@@ -40,6 +40,10 @@ export const PairingBoard: React.FC<Props> = (props) => {
 
   const deleteRole = () => {};
 
+  const movePerson = () => {};
+
+  const deletePerson = () => {};
+
   return (
     <div className={pairingBoardClasses}>
       <PairingBoardHeader
@@ -54,7 +58,11 @@ export const PairingBoard: React.FC<Props> = (props) => {
 
       <RoleList roles={roles} moveRole={moveRole} deleteRole={deleteRole} />
 
-      <PersonList people={people} />
+      <PersonList
+        people={people}
+        movePerson={movePerson}
+        deletePerson={deletePerson}
+      />
     </div>
   );
 };

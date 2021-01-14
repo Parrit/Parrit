@@ -6,6 +6,8 @@ import { TrashBin } from "./TrashBin";
 import { PairingBoardList } from "./PairingBoardList";
 import { NameForm } from "../../shared/components/NameForm";
 import { ProjectContext } from "../ProjectContext";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 interface IWorkspaceContext {
   newPersonOpen: boolean;
@@ -58,62 +60,70 @@ export const Workspace: React.FC = (props) => {
     setNewRoleOpen,
   };
 
+  const movePerson = () => {};
+  const deletePerson = () => {};
+
   return (
     <WorkspaceContext.Provider value={value}>
-      <div className="workspace">
-        <div className="floating-parrits">
-          <h2 className="floating-parrit-title">Floating Parrits</h2>
-          <PersonList people={people} />
-          <div className="floating-parrit-actions">
-            <div
-              className="add-parrit-button"
-              onClick={() => setNewPersonOpen(true)}
+      <DndProvider backend={HTML5Backend}>
+        <div className="workspace">
+          <div className="floating-parrits">
+            <h2 className="floating-parrit-title">Floating Parrits</h2>
+            <PersonList
+              people={people}
+              movePerson={movePerson}
+              deletePerson={deletePerson}
             />
-            <TrashBin />
+            <div className="floating-parrit-actions">
+              <div
+                className="add-parrit-button"
+                onClick={() => setNewPersonOpen(true)}
+              />
+              <TrashBin />
+            </div>
           </div>
-        </div>
 
-        <div className="dotted-line" />
+          <div className="dotted-line" />
 
-        <div className="pairing-boards-container">
-          <h2 className="pairing-boards-title">Pairing Boards</h2>
-          <PairingBoardList pairingBoards={pairingBoards} />
-          <div
-            className="add-board-button"
-            onClick={() => setNewPairingBoardOpen(true)}
-          />
-        </div>
+          <div className="pairing-boards-container">
+            <h2 className="pairing-boards-title">Pairing Boards</h2>
+            <PairingBoardList pairingBoards={pairingBoards} />
+            <div
+              className="add-board-button"
+              onClick={() => setNewPairingBoardOpen(true)}
+            />
+          </div>
 
-        <Modal
-          contentLabel="New Person Modal"
-          isOpen={newPersonOpen}
-          onRequestClose={() => setNewPersonOpen(false)}
-        >
-          <NameForm
-            formTitle="Add Parrit Teammate"
-            confirmFunction={handleCreatePerson}
-            cancelFunction={() => setNewPersonOpen(false)}
-            errorMessage={newPersonError?.message}
-          />
-        </Modal>
-        <Modal
-          contentLabel="New Pairing Board Modal"
-          isOpen={newPairingBoardOpen}
-          onRequestClose={() => setNewPairingBoardOpen(false)}
-        >
-          <NameForm
-            formTitle="Add Pairing Board"
-            confirmFunction={handleCreatePairingBoard}
-            cancelFunction={() => setNewPairingBoardOpen(false)}
-            errorMessage={newPairingBoardError?.message}
-          />
-        </Modal>
-        <Modal
-          contentLabel="New Role Modal"
-          isOpen={newRoleOpen}
-          onRequestClose={() => setNewRoleOpen(false)}
-        >
-          {/* <NameForm
+          <Modal
+            contentLabel="New Person Modal"
+            isOpen={newPersonOpen}
+            onRequestClose={() => setNewPersonOpen(false)}
+          >
+            <NameForm
+              formTitle="Add Parrit Teammate"
+              confirmFunction={handleCreatePerson}
+              cancelFunction={() => setNewPersonOpen(false)}
+              errorMessage={newPersonError?.message}
+            />
+          </Modal>
+          <Modal
+            contentLabel="New Pairing Board Modal"
+            isOpen={newPairingBoardOpen}
+            onRequestClose={() => setNewPairingBoardOpen(false)}
+          >
+            <NameForm
+              formTitle="Add Pairing Board"
+              confirmFunction={handleCreatePairingBoard}
+              cancelFunction={() => setNewPairingBoardOpen(false)}
+              errorMessage={newPairingBoardError?.message}
+            />
+          </Modal>
+          <Modal
+            contentLabel="New Role Modal"
+            isOpen={newRoleOpen}
+            onRequestClose={() => setNewRoleOpen(false)}
+          >
+            {/* <NameForm
             formTitle="Add Pairing Board Role"
             confirmFunction={(value) => {
               createRole(value, )
@@ -121,8 +131,9 @@ export const Workspace: React.FC = (props) => {
             cancelFunction={() => setNewRoleOpen(false)}
             errorMessage={newRoleError}
           /> */}
-        </Modal>
-      </div>
+          </Modal>
+        </div>
+      </DndProvider>
     </WorkspaceContext.Provider>
   );
 };

@@ -6,7 +6,7 @@ import { PairingHistory } from "./PairingHistory.js";
 import { Footer } from "../../shared/components/Footer";
 import { CustomDragLayer } from "./CustomDragLayer";
 import { DragItem } from "../interfaces/DragItem";
-import { ProjectContext, ProjectProvider } from "../ProjectContext";
+import { ProjectProvider } from "../ProjectContext";
 
 interface Props {
   project: IProject;
