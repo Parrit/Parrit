@@ -7,6 +7,7 @@ import { Footer } from "../../shared/components/Footer";
 import { DragItem } from "../interfaces/DragItem";
 import { ProjectProvider } from "../ProjectContext";
 import { IProject } from "../interfaces/IProject";
+import classNames from "classnames";
 
 interface Props {
   project: IProject;
@@ -33,10 +34,11 @@ export const App: React.FC<Props> = (props) => {
   const [currentOffset, setCurrentOffset] = useState({ x: 0, y: 0 });
   const projectId = props.project.id;
 
-  const className =
-    "layout-wrapper project-page-container" + pairingHistoryOpen
-      ? "shift-left"
-      : "";
+  const classes = classNames({
+    "layout-wrapper": true,
+    "project-page-container": true,
+    "shift-left": pairingHistoryOpen,
+  });
 
   const value = {
     systemAlertOpen,
@@ -50,21 +52,19 @@ export const App: React.FC<Props> = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <div className={classes}>
       <AppContext.Provider value={value}>
         <ProjectProvider project={props.project}>
-          <div className={className}>
-            <SystemAlert close={() => setSystemAlertOpen(false)} />
-            <Header
-              isPairingHistoryPanelOpen={pairingHistoryOpen}
-              setPairingHistoryPanelOpen={setPairingHistoryOpen}
-            />
-            <Project />
-            <Footer />
-            <PairingHistory />
-          </div>
+          <SystemAlert close={() => setSystemAlertOpen(false)} />
+          <Header
+            isPairingHistoryPanelOpen={pairingHistoryOpen}
+            setPairingHistoryPanelOpen={setPairingHistoryOpen}
+          />
+          <Project />
+          <Footer />
+          <PairingHistory />
         </ProjectProvider>
       </AppContext.Provider>
-    </React.Fragment>
+    </div>
   );
 };
