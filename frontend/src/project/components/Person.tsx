@@ -15,7 +15,6 @@ export const Person: React.FC<Props> = ({ person }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { ...person, type: DragType.Person },
     end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
-      console.log("dropped a person", person, monitor.getDropResult());
       const dropResult = monitor.getDropResult();
       switch (dropResult.type) {
         case DropType.PairingBoard: {
@@ -24,7 +23,6 @@ export const Person: React.FC<Props> = ({ person }) => {
           break;
         }
         case DropType.TrashBin: {
-          console.log("deleting person", person.name);
           deletePerson(person);
           break;
         }

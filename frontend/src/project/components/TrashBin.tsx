@@ -13,14 +13,6 @@ export const TrashBin: React.FC = () => {
     }),
   });
 
-  const isActive = canDrop && isOver;
-  let backgroundColor = "#222";
-  if (isActive) {
-    backgroundColor = "darkgreen";
-  } else if (canDrop) {
-    backgroundColor = "darkkhaki";
-  }
-
   const classes = classNames({
     "trash-bin": true,
     "drop-target": isOver,

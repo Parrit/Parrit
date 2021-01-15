@@ -23,7 +23,7 @@ export const FloatingParrits: React.FC<Props> = (props) => {
   const { setNewPersonOpen } = useContext(WorkspaceContext);
 
   return (
-    <div className="floating-parrits">
+    <div ref={drop} className="floating-parrits">
       <h2 className="floating-parrit-title">Floating Parrits</h2>
       <PersonList people={props.people} />
       <div className="floating-parrit-actions">

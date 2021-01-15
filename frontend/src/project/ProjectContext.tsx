@@ -90,7 +90,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
         }
       });
       copy.pairingBoards[index] = { ...board, people: arr };
-      console.log("removePerson - setting project", copy);
     }
 
     return copy;
@@ -114,7 +113,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       const index = copy.pairingBoards.indexOf(board);
       board.people.push(person);
       copy.pairingBoards[index] = board;
-      console.log("addPerson - setting project", copy);
       setProject(copy);
     }
 
