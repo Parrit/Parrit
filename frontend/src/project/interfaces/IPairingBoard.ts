@@ -1,4 +1,6 @@
-interface IPairingBoard {
+import { IPerson } from "./IPerson";
+
+export interface IPairingBoard {
   id: number;
   name: string;
   exempt: boolean;

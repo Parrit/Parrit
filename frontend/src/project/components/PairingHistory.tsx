@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { PairingHistoryRecordList } from "./PairingHistoryRecordList";
 import * as DatabaseHelpers from "../../shared/helpers/DatabaseHelpers";
 import { App, AppContext } from "./App";
+import { IPairingHistoryRecord } from "../interfaces/IPairingHistory";
 
 // interface Props {
 //   pairingHistoryList: IPairingHistory[];

@@ -60,20 +60,13 @@ export const Workspace: React.FC = (props) => {
     setNewRoleOpen,
   };
 
-  const movePerson = () => {};
-  const deletePerson = () => {};
-
   return (
     <WorkspaceContext.Provider value={value}>
       <DndProvider backend={HTML5Backend}>
         <div className="workspace">
           <div className="floating-parrits">
             <h2 className="floating-parrit-title">Floating Parrits</h2>
-            <PersonList
-              people={people}
-              movePerson={movePerson}
-              deletePerson={deletePerson}
-            />
+            <PersonList people={people} />
             <div className="floating-parrit-actions">
               <div
                 className="add-parrit-button"

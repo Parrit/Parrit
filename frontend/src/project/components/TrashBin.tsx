@@ -1,51 +1,30 @@
 import React from "react";
+import { DragType, DropType } from "../interfaces/DragAndDrop";
+import { useDrop } from "react-dnd";
 import classNames from "classnames";
 
-// interface Props {
-//   isOver: boolean;
-//   connectDropTarget: (element: ReactElement) => ReactElement;
-// }
+export const TrashBin: React.FC = () => {
+  const [{ canDrop, isOver }, drop] = useDrop({
+    accept: DragType.Person,
+    drop: () => ({ name: "Trash", type: DropType.TrashBin }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  });
 
-export const TrashBin: React.FC = (props) => {
-  //   const { isOver, connectDropTarget } = props;
+  const isActive = canDrop && isOver;
+  let backgroundColor = "#222";
+  if (isActive) {
+    backgroundColor = "darkgreen";
+  } else if (canDrop) {
+    backgroundColor = "darkkhaki";
+  }
 
   const classes = classNames({
     "trash-bin": true,
     // "drop-target": isOver,
   });
 
-  return <div className={classes} />;
-
-  //   return connectDropTarget();
+  return <div ref={drop} className={classes} />;
 };
-
-// const dragSpec = {
-//   drop(props, monitor) {
-//     if (monitor.didDrop()) return;
-
-//     return {
-//       type: dropTypes.TrashBin,
-//     };
-//   },
-// };
-
-interface Connect {
-  dropTarget: VoidFunction;
-}
-
-interface Monitor {
-  isOver: VoidFunction;
-}
-
-const dragCollect = (connect: Connect, monitor: Monitor) => {
-  return {
-    isOver: monitor.isOver(),
-    connectDropTarget: connect.dropTarget(),
-  };
-};
-
-// export default DropTarget(
-//   [dragTypes.Person, dragTypes.Role],
-//   dragSpec,
-//   dragCollect
-// )(TrashBin);

@@ -6,6 +6,9 @@ import { RoleList } from "./RoleList";
 import { PersonList } from "./PersonList";
 import * as DatabaseHelpers from "../../shared/helpers/DatabaseHelpers";
 import { ProjectContext } from "../ProjectContext";
+import { useDrop } from "react-dnd";
+import { DragType, DropType } from "../interfaces/DragAndDrop";
+import { IPairingBoard } from "../interfaces/IPairingBoard";
 
 interface Props {
   pairingBoard: IPairingBoard;
@@ -13,6 +16,16 @@ interface Props {
 
 export const PairingBoard: React.FC<Props> = (props) => {
   const { name, exempt, people } = props.pairingBoard;
+  const [{ canDrop, isOver }, drop] = useDrop({
+    accept: [DragType.Person, DragType.Role],
+    drop: () => {
+      return { ...props.pairingBoard, type: DropType.PairingBoard };
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  });
 
   const [editing, setEditing] = useState(false);
   const [editingError, setEditingError] = useState<string>();
@@ -24,7 +37,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
     "pairing-board": true,
     editing: editing,
     exempt: exempt,
-    // "drop-target": isOver,
+    "drop-target": isOver,
   });
 
   const renamePairingBoard = (name: string) => {
@@ -36,16 +49,8 @@ export const PairingBoard: React.FC<Props> = (props) => {
       });
   };
 
-  const moveRole = () => {};
-
-  const deleteRole = () => {};
-
-  const movePerson = () => {};
-
-  const deletePerson = () => {};
-
   return (
-    <div className={pairingBoardClasses}>
+    <div ref={drop} className={pairingBoardClasses}>
       <PairingBoardHeader
         name={name}
         exempt={exempt}
@@ -56,13 +61,9 @@ export const PairingBoard: React.FC<Props> = (props) => {
         setEditing={setEditing}
       />
 
-      <RoleList roles={roles} moveRole={moveRole} deleteRole={deleteRole} />
+      <RoleList roles={roles} />
 
-      <PersonList
-        people={people}
-        movePerson={movePerson}
-        deletePerson={deletePerson}
-      />
+      <PersonList people={people} />
     </div>
   );
 };

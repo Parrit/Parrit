@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Modal from "react-modal";
 
 import { App } from "./components/App";
+import { IProject } from "./interfaces/IProject";
 
 //TODO: Remove this when the first thing that page does (componentDidMount on App) is to fetch the project data
 export default function runProject(projectJSON: IProject) {

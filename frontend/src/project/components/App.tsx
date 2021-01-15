@@ -4,9 +4,9 @@ import { Header } from "./Header";
 import { Project } from "./Project";
 import { PairingHistory } from "./PairingHistory.js";
 import { Footer } from "../../shared/components/Footer";
-import { CustomDragLayer } from "./CustomDragLayer";
 import { DragItem } from "../interfaces/DragItem";
 import { ProjectProvider } from "../ProjectContext";
+import { IProject } from "../interfaces/IProject";
 
 interface Props {
   project: IProject;
@@ -63,7 +63,6 @@ export const App: React.FC<Props> = (props) => {
             <Footer />
             <PairingHistory />
           </div>
-          <CustomDragLayer />
         </ProjectProvider>
       </AppContext.Provider>
     </React.Fragment>

@@ -1,93 +1,40 @@
-import React, { useEffect } from "react";
-import { DragSource } from "react-dnd";
-import { getEmptyImage } from "react-dnd-html5-backend";
+import React, { useContext } from "react";
+import { DragSourceMonitor, useDrag } from "react-dnd";
 
 import { DragType, DropType } from "../interfaces/DragAndDrop";
-
-const dragSpec = {
-  beginDrag(props: any) {
-    return {
-      name: props.name,
-    };
-  },
-
-  endDrag(
-    props: {
-      movePerson: (
-        arg0: any,
-        arg1: { floating: boolean; pairingBoardId: any }
-      ) => void;
-      id: any;
-      deletePerson: (arg0: any) => void;
-    },
-    monitor: { didDrop: () => any; getDropResult: () => any }
-  ) {
-    if (!monitor.didDrop()) return;
-
-    const dropTarget = monitor.getDropResult();
-
-    switch (dropTarget.type) {
-      case DropType.Floating: {
-        const newPosition = { floating: true, pairingBoardId: undefined };
-        props.movePerson(props.id, newPosition);
-        return;
-      }
-      case DropType.PairingBoard: {
-        const newPosition = { floating: false, pairingBoardId: dropTarget.id };
-        props.movePerson(props.id, newPosition);
-        return;
-      }
-      case DropType.TrashBin: {
-        props.deletePerson(props.id);
-        return;
-      }
-    }
-  },
-};
-
-interface TileProps {
-  name: string;
-}
-
-export const PersonTile: React.FC<TileProps> = (props) => {
-  return <div className="person">{props.name}</div>;
-};
+import { IPairingBoard } from "../interfaces/IPairingBoard";
+import { IPerson } from "../interfaces/IPerson";
+import { ProjectContext } from "../ProjectContext";
 
 interface Props {
-  id: number;
-  name: string;
-  isDragging: boolean;
-  movePerson: (person: IPerson, position: IPosition) => void;
-  deletePerson: (role: IRole) => void;
-  connectDragSource: (element: JSX.Element) => JSX.Element;
-  connectDragPreview: (image: HTMLImageElement) => void;
+  person: IPerson;
 }
 
-const PersonRaw: React.FC<Props> = (props) => {
-  useEffect(() => {
-    props.connectDragPreview(getEmptyImage());
-  }, []);
-
-  const { name, isDragging, connectDragSource } = props;
-
-  if (isDragging) return null;
-
-  return connectDragSource(<PersonTile name={name} />);
+export const Person: React.FC<Props> = ({ person }) => {
+  const { movePerson, deletePerson } = useContext(ProjectContext);
+  const [{ isDragging }, drag] = useDrag({
+    item: { ...person, type: DragType.Person },
+    end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
+      console.log("dropped a person", person, monitor.getDropResult());
+      const dropResult = monitor.getDropResult();
+      switch (dropResult.type) {
+        case DropType.PairingBoard: {
+          const pairingBoard = dropResult as IPairingBoard;
+          movePerson(person, pairingBoard);
+        }
+        case DropType.TrashBin: {
+          console.log("deleting person", person.name);
+          deletePerson(person);
+        }
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  return (
+    <div ref={drag} className="person">
+      {person.name}
+    </div>
+  );
 };
-
-const dragCollect = (
-  connect: { dragSource: () => any; dragPreview: () => any },
-  monitor: { isDragging: () => any }
-) => {
-  return {
-    isDragging: monitor.isDragging(),
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-  };
-};
-
-export const Person = DragSource(
-  DragType.Person,
-  dragSpec,
-  dragCollect
-)(PersonRaw);

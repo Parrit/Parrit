@@ -1,4 +1,5 @@
 import React from "react";
+import { IPairingHistoryRecord } from "../interfaces/IPairingHistory";
 
 import { PairingHistoryRecord } from "./PairingHistoryRecord";
 

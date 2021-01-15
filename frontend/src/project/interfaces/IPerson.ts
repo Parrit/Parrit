@@ -1,4 +1,4 @@
-interface IPerson {
+export interface IPerson {
   id: number;
   name: string;
 }

@@ -1,4 +1,8 @@
 import Axios from "axios";
+import { IPairingBoard } from "../../project/interfaces/IPairingBoard";
+import { IPairingHistoryRecord } from "../../project/interfaces/IPairingHistory";
+import { IPerson } from "../../project/interfaces/IPerson";
+import { IProject } from "../../project/interfaces/IProject";
 
 Axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -36,17 +40,22 @@ export function postPerson(projectId: number, name: string): Promise<IProject> {
 
 export function putPersonPosition(
   projectId: number,
-  personId: string,
-  newPosition: string
-): Promise<void> {
-  return Axios.put(
+  person: IPerson,
+  newPosition?: IPairingBoard
+): Promise<IProject> {
+  const positionDTO = {
+    // translate frontend data structure into backend data structure
+    floating: !newPosition,
+    pairingBoardId: newPosition?.id,
+  };
+  return Axios.put<IProject>(
     "/api/project/" +
       encodeURIComponent(projectId) +
       "/person/" +
-      encodeURIComponent(personId) +
+      encodeURIComponent(person.id) +
       "/position",
-    newPosition
-  );
+    positionDTO
+  ).then((response) => response.data);
 }
 
 export function deletePerson(projectId: number, personId: number) {

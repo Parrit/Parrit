@@ -1,4 +1,5 @@
 import React from "react";
+import { IPairingBoard } from "../interfaces/IPairingBoard";
 
 import { PairingBoard } from "./PairingBoard";
 

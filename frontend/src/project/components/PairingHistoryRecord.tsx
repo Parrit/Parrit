@@ -1,5 +1,6 @@
 import React from "react";
 import Moment from "moment";
+import { IPairingBoard } from "../interfaces/IPairingBoard";
 
 interface Props {
   pairingTime: Date;

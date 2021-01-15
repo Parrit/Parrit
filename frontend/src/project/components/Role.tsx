@@ -1,83 +1,26 @@
-import React, { useEffect } from "react";
-import { DragSource } from "react-dnd";
-import { getEmptyImage } from "react-dnd-html5-backend";
+import React from "react";
+import { DragSourceMonitor, useDrag } from "react-dnd";
 
 import { DragType, DropType } from "../interfaces/DragAndDrop";
-
-const dragSpec = {
-  beginDrag(props: any) {
-    return {
-      name: props.name,
-    };
-  },
-
-  endDrag(
-    props: {
-      moveRole: (arg0: any, arg1: { pairingBoardId: any }) => void;
-      id: any;
-      deleteRole: (arg0: any) => void;
-    },
-    monitor: { didDrop: () => any; getDropResult: () => any }
-  ) {
-    if (!monitor.didDrop()) return;
-
-    const dropTarget = monitor.getDropResult();
-
-    switch (dropTarget.type) {
-      case DropType.PairingBoard: {
-        const newPosition = { pairingBoardId: dropTarget.id };
-        props.moveRole(props.id, newPosition);
-        return;
-      }
-      case DropType.TrashBin: {
-        props.deleteRole(props.id);
-        return;
-      }
-    }
-  },
-};
-
-interface TileProps {
-  name: string;
-}
-
-export const RoleTile: React.FC<TileProps> = (props) => {
-  return <div className="role">{props.name}</div>;
-};
 
 interface Props {
   id: number;
   name: string;
-  isDragging: boolean;
-  moveRole: (role: IRole, position: IPosition) => void;
-  deleteRole: (role: IRole) => void;
-  connectDragSource: (element: JSX.Element) => JSX.Element;
-  connectDragPreview: (image: HTMLImageElement) => void;
 }
 
-const RoleRaw: React.FC<Props> = (props) => {
-  useEffect(() => {
-    props.connectDragPreview(getEmptyImage());
+export const Role: React.FC<Props> = ({ name }) => {
+  const [{ isDragging }, drag] = useDrag({
+    item: { name, type: DragType.Role },
+    end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
+      const dropResult = monitor.getDropResult();
+      if (item && dropResult) {
+        alert(`You dropped ${item.name} into ${dropResult.name}`);
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
 
-  const { name, isDragging, connectDragSource } = props;
-
-  if (isDragging) {
-    return null;
-  }
-
-  return connectDragSource(<RoleTile name={name} />);
+  return <div className="role">{name}</div>;
 };
-
-const dragCollect = (
-  connect: { dragSource: () => any; dragPreview: () => any },
-  monitor: { isDragging: () => any }
-) => {
-  return {
-    isDragging: monitor.isDragging(),
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-  };
-};
-
-export const Role = DragSource(DragType.Role, dragSpec, dragCollect)(RoleRaw);
