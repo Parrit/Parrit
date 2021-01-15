@@ -21,10 +21,16 @@ export const Person: React.FC<Props> = ({ person }) => {
         case DropType.PairingBoard: {
           const pairingBoard = dropResult as IPairingBoard;
           movePerson(person, pairingBoard);
+          break;
         }
         case DropType.TrashBin: {
           console.log("deleting person", person.name);
           deletePerson(person);
+          break;
+        }
+        case DropType.Floating: {
+          movePerson(person);
+          break;
         }
       }
     },

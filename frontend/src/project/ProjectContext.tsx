@@ -11,7 +11,7 @@ export interface IProjectContext {
   createPerson: (name: string) => Promise<void>;
   createPairingBoard: (name: string) => Promise<void>;
   createRole: (name: string, pairingBoard: IPairingBoard) => Promise<IRole>;
-  movePerson: (person: IPerson, position: IPairingBoard) => void;
+  movePerson: (person: IPerson, position?: IPairingBoard) => void;
   deletePerson: (person: IPerson) => Promise<any>;
   deletePairingBoard: (pairingBoard: IPairingBoard) => Promise<any>;
   resetPairs: VoidFunction;
@@ -68,21 +68,14 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     proj: IProject,
     position?: IPairingBoard
   ): IProject => {
-    console.log(`remove person ${person.name} from ${position}`);
     const copy = { ...proj };
     const arr: IPerson[] = [];
     if (!position) {
-      console.log("remove from floating");
       // we're removing this person from floating
       copy.people.forEach((p) => {
         if (p.id !== person.id) {
           arr.push(p);
           copy.people = arr;
-          console.log(
-            "setting top level people array",
-            arr.map((p) => p.name)
-          );
-          console.log("setting project", copy);
         }
       });
     } else {
@@ -129,8 +122,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const movePerson = (person: IPerson, position?: IPairingBoard) => {
-    console.log("moving person", person);
-    console.log("to position", position);
     let proj = removePerson(person, project, currentPairingBoard(person));
     proj = addPerson(person, proj, position);
     setProject(proj);
@@ -142,7 +133,15 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const deletePerson = (person: IPerson) => {
-    return DatabaseHelpers.deletePerson(project.id, person.id);
+    const updatedProject = removePerson(
+      person,
+      project,
+      currentPairingBoard(person)
+    );
+    setProject(updatedProject);
+    return DatabaseHelpers.deletePerson(project.id, person.id).then((proj) =>
+      setProject(proj)
+    );
   };
   const resetPairs = () => {};
 

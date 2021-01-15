@@ -23,7 +23,7 @@ export const TrashBin: React.FC = () => {
 
   const classes = classNames({
     "trash-bin": true,
-    // "drop-target": isOver,
+    "drop-target": isOver,
   });
 
   return <div ref={drop} className={classes} />;

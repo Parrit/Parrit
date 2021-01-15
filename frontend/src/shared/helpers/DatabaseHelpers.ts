@@ -58,13 +58,16 @@ export function putPersonPosition(
   ).then((response) => response.data);
 }
 
-export function deletePerson(projectId: number, personId: number) {
-  return Axios.delete(
+export function deletePerson(
+  projectId: number,
+  personId: number
+): Promise<IProject> {
+  return Axios.delete<IProject>(
     "/api/project/" +
       encodeURIComponent(projectId) +
       "/person/" +
       encodeURIComponent(personId)
-  );
+  ).then((response) => response.data);
 }
 
 export function postPairingBoard(

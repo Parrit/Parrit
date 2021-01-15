@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import Modal from "react-modal";
 
-import { PersonList } from "./PersonList";
-import { TrashBin } from "./TrashBin";
 import { PairingBoardList } from "./PairingBoardList";
 import { NameForm } from "../../shared/components/NameForm";
 import { ProjectContext } from "../ProjectContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { FloatingParrits } from "./FloatingParrits";
 
 interface IWorkspaceContext {
   newPersonOpen: boolean;
@@ -64,20 +63,8 @@ export const Workspace: React.FC = (props) => {
     <WorkspaceContext.Provider value={value}>
       <DndProvider backend={HTML5Backend}>
         <div className="workspace">
-          <div className="floating-parrits">
-            <h2 className="floating-parrit-title">Floating Parrits</h2>
-            <PersonList people={people} />
-            <div className="floating-parrit-actions">
-              <div
-                className="add-parrit-button"
-                onClick={() => setNewPersonOpen(true)}
-              />
-              <TrashBin />
-            </div>
-          </div>
-
+          <FloatingParrits people={people} />
           <div className="dotted-line" />
-
           <div className="pairing-boards-container">
             <h2 className="pairing-boards-title">Pairing Boards</h2>
             <PairingBoardList pairingBoards={pairingBoards} />
