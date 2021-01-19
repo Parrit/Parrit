@@ -1,29 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import classNames from "classnames";
 
 import { PairingHistoryRecordList } from "./PairingHistoryRecordList";
-import * as DatabaseHelpers from "../../shared/helpers/DatabaseHelpers";
-import { App, AppContext } from "./App";
-import { IPairingHistoryRecord } from "../interfaces/IPairingHistory";
-
-// interface Props {
-//   pairingHistoryList: IPairingHistory[];
-//   isPairingHistoryPanelOpen: boolean;
-//   fetchPairingHistory: VoidFunction;
-//   setPairingHistoryPanelOpen: (isOpen: boolean) => void;
-// }
+import { AppContext } from "./App";
+import { ProjectContext } from "../ProjectContext";
 
 export const PairingHistory: React.FC = (props) => {
-  const [pairingHistory, setPairingHistory] = useState<IPairingHistoryRecord[]>(
-    []
-  );
-  const { projectId } = useContext(AppContext);
-  useEffect(() => {
-    DatabaseHelpers.getPairingHistory(projectId).then((history) => {
-      setPairingHistory(history);
-    });
-  }, []);
+  const { pairingHistory } = useContext(ProjectContext);
 
   const { pairingHistoryOpen, setPairingHistoryOpen } = useContext(AppContext);
 

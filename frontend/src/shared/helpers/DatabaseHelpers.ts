@@ -1,8 +1,8 @@
 import Axios from "axios";
 import { IPairingBoard } from "../../project/interfaces/IPairingBoard";
-import { IPairingHistoryRecord } from "../../project/interfaces/IPairingHistory";
 import { IPerson } from "../../project/interfaces/IPerson";
 import { IProject } from "../../project/interfaces/IProject";
+import { PairingHistoryDTO } from "../../project/interfaces/PairingHistoryDTO";
 
 Axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -25,8 +25,10 @@ export function postProject(name: string, password: string): Promise<void> {
   return Axios.post("/api/project", { name, password });
 }
 
-export function resetProject(projectId: number): Promise<void> {
-  return Axios.put("/api/project/" + encodeURIComponent(projectId) + "/reset");
+export function resetProject(projectId: number): Promise<IProject> {
+  return Axios.put<IProject>(
+    "/api/project/" + encodeURIComponent(projectId) + "/reset"
+  ).then((response) => response.data);
 }
 
 export function postPerson(projectId: number, name: string): Promise<IProject> {
@@ -161,22 +163,24 @@ export function deleteRole(
   );
 }
 
-export function postProjectPairing(projectId: number): Promise<void> {
-  return Axios.post(
+export function postProjectPairing(
+  projectId: number
+): Promise<PairingHistoryDTO[]> {
+  return Axios.post<PairingHistoryDTO[]>(
     "/api/project/" + encodeURIComponent(projectId) + "/pairing"
-  );
+  ).then((response) => response.data);
 }
 
-export function getRecommendedPairing(projectId: number): Promise<void> {
-  return Axios.get(
+export function getRecommendedPairing(projectId: number): Promise<IProject> {
+  return Axios.get<IProject>(
     "/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend"
-  );
+  ).then((response) => response.data);
 }
 
 export function getPairingHistory(
   projectId: number
-): Promise<IPairingHistoryRecord[]> {
-  return Axios.get<IPairingHistoryRecord[]>(
+): Promise<PairingHistoryDTO[]> {
+  return Axios.get<PairingHistoryDTO[]>(
     "/api/project/" + encodeURIComponent(projectId) + "/pairing/history"
   ).then((response) => {
     return response.data;

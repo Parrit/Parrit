@@ -1,28 +1,26 @@
 import React from "react";
-import Moment from "moment";
-import { IPairingBoard } from "../interfaces/IPairingBoard";
+import { IPerson } from "../interfaces/IPerson";
 
 interface Props {
-  pairingTime: Date;
-  pairingBoardsWithPeople: IPairingBoard[];
+  dateString: string;
+  boardNames: string[];
+  boardsWithPeople: { [key: string]: IPerson[] };
 }
 
 export const PairingHistoryRecord: React.FC<Props> = (props) => {
-  const localPairingTime = Moment.now();
+  const { boardsWithPeople, dateString } = props;
 
   return (
     <div className="pairing-history-record">
       <div className="pairing-history-record-clock" />
-      <h3 className="pairing-time">{localPairingTime}</h3>
+      <h3 className="pairing-time">{dateString}</h3>
 
       <div className="pairing-boards-with-people">
-        {props.pairingBoardsWithPeople.map((pairingBoardWithPeople, idx) => {
+        {props.boardNames.map((boardName, idx) => {
           return (
             <div key={idx} className="pairing-board-with-people">
-              <div className="pairing-board-name">
-                {pairingBoardWithPeople.name}:
-              </div>
-              {pairingBoardWithPeople.people.map((person, idx) => {
+              <div className="pairing-board-name">{boardName}:</div>
+              {boardsWithPeople[boardName].map((person, idx) => {
                 return (
                   <span key={idx} className="person-name">
                     {person.name}

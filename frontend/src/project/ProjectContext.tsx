@@ -1,13 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import * as DatabaseHelpers from "../shared/helpers/DatabaseHelpers";
 import { IPairingBoard } from "./interfaces/IPairingBoard";
 import { IPerson } from "./interfaces/IPerson";
 import { IProject } from "./interfaces/IProject";
+import { PairingHistoryDTO } from "./interfaces/PairingHistoryDTO";
 
 export interface IProjectContext {
   project: IProject;
   people: IPerson[];
   pairingBoards: IPairingBoard[];
+  pairingHistory: PairingHistoryDTO[];
   createPerson: (name: string) => Promise<void>;
   createPairingBoard: (name: string) => Promise<void>;
   createRole: (name: string, pairingBoard: IPairingBoard) => Promise<void>;
@@ -30,9 +32,17 @@ interface Props {
 
 export const ProjectProvider: React.FC<Props> = (props) => {
   const [project, setProject] = useState(props.project);
+  const [pairingHistory, setPairingHistory] = useState<PairingHistoryDTO[]>([]);
 
   const people = project.people;
   const pairingBoards = project.pairingBoards;
+
+  useEffect(() => {
+    DatabaseHelpers.getPairingHistory(project.id).then((history) => {
+      setPairingHistory(history);
+    });
+    //run only once
+  }, []);
 
   const createPerson = (name: string) => {
     return DatabaseHelpers.postPerson(project.id, name).then(
@@ -221,11 +231,32 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       setProject(proj)
     );
   };
-  const resetPairs = () => {};
 
-  const getRecommendedPairs = () => {};
+  const resetPairs = () => {
+    const people: IPerson[] = [];
+    const pbs: IPairingBoard[] = [];
+    project.pairingBoards.forEach((pb) => {
+      pb.people.forEach((p) => people.push(p));
+      pbs.push({ ...pb, people: [] });
+    });
+    const updated = { ...project, pairingBoards: pbs, people };
+    setProject(updated);
+    DatabaseHelpers.resetProject(project.id).then((updatedProject) => {
+      setProject(updatedProject);
+    });
+  };
 
-  const savePairing = () => {};
+  const getRecommendedPairs = () => {
+    DatabaseHelpers.getRecommendedPairing(project.id).then((recommended) => {
+      setProject(recommended);
+    });
+  };
+
+  const savePairing = () => {
+    DatabaseHelpers.postProjectPairing(project.id).then((updatedHistory) => {
+      setPairingHistory(updatedHistory);
+    });
+  };
 
   const value = {
     createPerson,
@@ -239,6 +270,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     resetPairs,
     getRecommendedPairs,
     savePairing,
+    pairingHistory,
     project,
     people,
     pairingBoards,

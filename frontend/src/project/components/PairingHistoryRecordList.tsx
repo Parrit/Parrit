@@ -1,56 +1,48 @@
-import React from "react";
-import { IPairingHistoryRecord } from "../interfaces/IPairingHistory";
+import React, { useMemo } from "react";
+import { IPerson } from "../interfaces/IPerson";
+import { PairingHistoryDTO } from "../interfaces/PairingHistoryDTO";
 
 import { PairingHistoryRecord } from "./PairingHistoryRecord";
 
 interface Props {
-  pairingHistoryList: IPairingHistoryRecord[];
+  pairingHistoryList: PairingHistoryDTO[];
+}
+
+// a local representation for display purposes
+interface PairingRecord {
+  boardNames: string[];
+  boardsWithPeople: { [key: string]: IPerson[] };
 }
 
 export const PairingHistoryRecordList: React.FC<Props> = (props) => {
-  const createPairingHistoryRecord = (
-    pairingTime: Date
-  ): IPairingHistoryRecord => {
-    return {
-      pairingTime: pairingTime,
-      pairingBoardsWithPeople: [],
-      pairingBoardName: "",
-      people: [],
-    };
-  };
-
-  const pairingHistoryRecords = [];
-  let currentPairingTime = props.pairingHistoryList[0].pairingTime;
-  let currentPairingHistoryRecord = createPairingHistoryRecord(
-    currentPairingTime
-  );
-
-  props.pairingHistoryList.forEach((pairingHistory) => {
-    if (pairingHistory.pairingTime !== currentPairingTime) {
-      pairingHistoryRecords.push(currentPairingHistoryRecord);
-      currentPairingTime = pairingHistory.pairingTime;
-      currentPairingHistoryRecord = createPairingHistoryRecord(
-        pairingHistory.pairingTime
-      );
-    }
-
-    // currentPairingHistoryRecord.pairingBoardsWithPeople.push({
-    //   name: pairingHistory.pairingBoardName,
-    //   people: pairingHistory.people,
-    // });
-  });
-  pairingHistoryRecords.push(currentPairingHistoryRecord);
+  const { pairingHistoryList } = props;
+  const records = useMemo(() => {
+    const r = new Map<string, PairingRecord>();
+    pairingHistoryList.forEach((item) => {
+      const current = r.get(item.pairingTime) || {
+        boardNames: [],
+        boardsWithPeople: {},
+      };
+      const updatedBoardNames = [...current.boardNames, item.pairingBoardName];
+      const updatedBoardsPeople = { ...current.boardsWithPeople };
+      updatedBoardsPeople[item.pairingBoardName] = item.people;
+      r.set(item.pairingTime, {
+        boardNames: updatedBoardNames,
+        boardsWithPeople: updatedBoardsPeople,
+      });
+    });
+    return r;
+  }, [pairingHistoryList]);
 
   return (
     <div className="pairing-history-record-list">
-      {pairingHistoryRecords.map((pairingHistoryRecord, idx) => {
+      {Array.from(records.entries()).map(([time, record], idx) => {
         return (
           <PairingHistoryRecord
             key={idx}
-            pairingTime={pairingHistoryRecord.pairingTime}
-            pairingBoardsWithPeople={
-              pairingHistoryRecord.pairingBoardsWithPeople
-            }
+            dateString={time}
+            boardNames={record.boardNames}
+            boardsWithPeople={record.boardsWithPeople}
           />
         );
       })}
