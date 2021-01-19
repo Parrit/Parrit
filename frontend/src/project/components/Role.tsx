@@ -26,9 +26,6 @@ export const Role: React.FC<Props> = ({ role }) => {
           break;
         }
       }
-      if (item && dropResult) {
-        alert(`You dropped ${item.name} into ${dropResult.name}`);
-      }
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),

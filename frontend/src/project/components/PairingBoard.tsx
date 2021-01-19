@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const PairingBoard: React.FC<Props> = (props) => {
-  const { name, exempt, people } = props.pairingBoard;
+  const { name, exempt, people, roles } = props.pairingBoard;
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: [DragType.Person, DragType.Role],
     drop: () => {
@@ -29,7 +29,6 @@ export const PairingBoard: React.FC<Props> = (props) => {
 
   const [editing, setEditing] = useState(false);
   const [editingError, setEditingError] = useState<string>();
-  const [roles, setRoles] = useState<IRole[]>(props.pairingBoard.roles);
 
   const { projectId, deletePairingBoard } = useContext(ProjectContext);
 

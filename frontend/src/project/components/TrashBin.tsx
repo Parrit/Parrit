@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 export const TrashBin: React.FC = () => {
   const [{ canDrop, isOver }, drop] = useDrop({
-    accept: DragType.Person,
+    accept: [DragType.Person, DragType.Role],
     drop: () => ({ name: "Trash", type: DropType.TrashBin }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),

@@ -66,12 +66,15 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       throw new Error("AWK! Totally Broken!");
     }
     const index = copy.pairingBoards.indexOf(board);
+    console.log("roles currently on board", position.roles);
+    console.log("role to remove", role);
     position.roles.forEach((r) => {
       if (r.id !== role.id) {
         arr.push(r);
       }
     });
-    copy.pairingBoards[index] = { ...board, people: arr };
+    copy.pairingBoards[index] = { ...board, roles: arr };
+    console.log("pairing board with removed roles", copy.pairingBoards[index]);
 
     return copy;
   };
