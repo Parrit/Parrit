@@ -7,7 +7,6 @@ import { IProject } from "./interfaces/IProject";
 
 //TODO: Remove this when the first thing that page does (componentDidMount on App) is to fetch the project data
 export default function runProject(projectJSON: IProject) {
-  console.log("projectJSON", projectJSON);
   ReactDOM.render(
     <App project={projectJSON} />,
     document.getElementById("reactRoot")

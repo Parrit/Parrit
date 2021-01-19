@@ -1,4 +1,5 @@
-import React from "react";
+import moment from "moment";
+import React, { useMemo } from "react";
 import { IPerson } from "../interfaces/IPerson";
 
 interface Props {
@@ -10,10 +11,15 @@ interface Props {
 export const PairingHistoryRecord: React.FC<Props> = (props) => {
   const { boardsWithPeople, dateString } = props;
 
+  const displayString = useMemo(() => {
+    const m = moment(dateString);
+    return m.format("MMMM Do YYYY, h:mm a");
+  }, [dateString, moment]);
+
   return (
     <div className="pairing-history-record">
       <div className="pairing-history-record-clock" />
-      <h3 className="pairing-time">{dateString}</h3>
+      <h3 className="pairing-time">{displayString}</h3>
 
       <div className="pairing-boards-with-people">
         {props.boardNames.map((boardName, idx) => {

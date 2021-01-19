@@ -4,7 +4,6 @@ import { Header } from "./Header";
 import { Project } from "./Project";
 import { PairingHistory } from "./PairingHistory.js";
 import { Footer } from "../../shared/components/Footer";
-import { DragItem } from "../interfaces/DragItem";
 import { ProjectProvider } from "../ProjectContext";
 import { IProject } from "../interfaces/IProject";
 import classNames from "classnames";
@@ -16,23 +15,15 @@ interface Props {
 interface IAppContext {
   pairingHistoryOpen: boolean;
   setPairingHistoryOpen: (isOpen: boolean) => void;
-  systemAlertOpen: boolean;
-  setSystemAlertOpen: (isOpen: boolean) => void;
-  projectId: number;
-  dragItem?: DragItem;
-  isDragging: boolean;
-  currentOffset: Offset;
+  systemAlert?: string;
+  setSystemAlert: (value?: string) => void;
 }
 
 export const AppContext = createContext({} as IAppContext);
 
 export const App: React.FC<Props> = (props) => {
-  const [systemAlertOpen, setSystemAlertOpen] = useState(false);
+  const [systemAlert, setSystemAlert] = useState<string>();
   const [pairingHistoryOpen, setPairingHistoryOpen] = useState(false);
-  const [dragItem, setDragItem] = useState<DragItem>();
-  const [isDragging, setIsDragging] = useState(false);
-  const [currentOffset, setCurrentOffset] = useState({ x: 0, y: 0 });
-  const projectId = props.project.id;
 
   const classes = classNames({
     "layout-wrapper": true,
@@ -41,21 +32,17 @@ export const App: React.FC<Props> = (props) => {
   });
 
   const value = {
-    systemAlertOpen,
-    setSystemAlertOpen,
+    systemAlert,
+    setSystemAlert,
     pairingHistoryOpen,
     setPairingHistoryOpen,
-    projectId,
-    dragItem,
-    isDragging,
-    currentOffset,
   };
 
   return (
     <div className={classes}>
       <AppContext.Provider value={value}>
         <ProjectProvider project={props.project}>
-          <SystemAlert close={() => setSystemAlertOpen(false)} />
+          <SystemAlert />
           <Header
             isPairingHistoryPanelOpen={pairingHistoryOpen}
             setPairingHistoryPanelOpen={setPairingHistoryOpen}

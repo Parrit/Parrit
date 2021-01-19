@@ -1,5 +1,6 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import * as DatabaseHelpers from "../shared/helpers/DatabaseHelpers";
+import { AppContext } from "./components/App";
 import { IPairingBoard } from "./interfaces/IPairingBoard";
 import { IPerson } from "./interfaces/IPerson";
 import { IProject } from "./interfaces/IProject";
@@ -31,6 +32,7 @@ interface Props {
 }
 
 export const ProjectProvider: React.FC<Props> = (props) => {
+  const { setSystemAlert } = useContext(AppContext);
   const [project, setProject] = useState(props.project);
   const [pairingHistory, setPairingHistory] = useState<PairingHistoryDTO[]>([]);
 
@@ -76,15 +78,12 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       throw new Error("AWK! Totally Broken!");
     }
     const index = copy.pairingBoards.indexOf(board);
-    console.log("roles currently on board", position.roles);
-    console.log("role to remove", role);
     position.roles.forEach((r) => {
       if (r.id !== role.id) {
         arr.push(r);
       }
     });
     copy.pairingBoards[index] = { ...board, roles: arr };
-    console.log("pairing board with removed roles", copy.pairingBoards[index]);
 
     return copy;
   };
@@ -253,8 +252,11 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const savePairing = () => {
-    DatabaseHelpers.postProjectPairing(project.id).then((updatedHistory) => {
-      setPairingHistory(updatedHistory);
+    DatabaseHelpers.postProjectPairing(project.id).then((newPairingRecords) => {
+      setPairingHistory((oldValue) => {
+        setSystemAlert("Hello. We just recorded your pairs.");
+        return [...oldValue, ...newPairingRecords];
+      });
     });
   };
 

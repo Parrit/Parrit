@@ -1,20 +1,19 @@
-import React from "react";
+import classNames from "classnames";
+import React, { useContext } from "react";
+import { AppContext } from "./App";
 
-interface Props {
-  systemAlertMessage?: string;
-  close: VoidFunction;
-}
+export const SystemAlert: React.FC = () => {
+  const { systemAlert, setSystemAlert } = useContext(AppContext);
 
-export const SystemAlert: React.FC<Props> = (props) => {
-  const message = props.systemAlertMessage;
-
-  const className =
-    message === undefined ? "system-alert-close" : "system-alert";
+  const classes = classNames({
+    "system-alert": true,
+    "system-alert-closed": !systemAlert,
+  });
 
   return (
-    <div className={className}>
-      <div className="message">{message}</div>
-      <div className="close" onClick={props.close}>
+    <div className={classes}>
+      <div className="message">{systemAlert}</div>
+      <div className="close" onClick={() => setSystemAlert(undefined)}>
         <div className="icon" />
       </div>
     </div>
