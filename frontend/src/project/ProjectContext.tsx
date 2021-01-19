@@ -10,9 +10,11 @@ export interface IProjectContext {
   pairingBoards: IPairingBoard[];
   createPerson: (name: string) => Promise<void>;
   createPairingBoard: (name: string) => Promise<void>;
-  createRole: (name: string, pairingBoard: IPairingBoard) => Promise<IRole>;
+  createRole: (name: string, pairingBoard: IPairingBoard) => Promise<void>;
   movePerson: (person: IPerson, position?: IPairingBoard) => void;
+  moveRole: (role: IRole, position: IPairingBoard) => void;
   deletePerson: (person: IPerson) => Promise<any>;
+  deleteRole: (role: IRole) => Promise<any>;
   deletePairingBoard: (pairingBoard: IPairingBoard) => Promise<any>;
   resetPairs: VoidFunction;
   getRecommendedPairs: VoidFunction;
@@ -52,15 +54,90 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     return DatabaseHelpers.deletePairingBoard(project.id, pairingBoard.id);
   };
 
+  const removeRole = (
+    role: IRole,
+    proj: IProject,
+    position: IPairingBoard
+  ): IProject => {
+    const copy = { ...proj };
+    const arr: IRole[] = [];
+    const board = copy.pairingBoards.find((pb) => pb.id === position.id);
+    if (!board) {
+      throw new Error("AWK! Totally Broken!");
+    }
+    const index = copy.pairingBoards.indexOf(board);
+    position.roles.forEach((r) => {
+      if (r.id !== role.id) {
+        arr.push(r);
+      }
+    });
+    copy.pairingBoards[index] = { ...board, people: arr };
+
+    return copy;
+  };
+
+  const addRole = (
+    role: IRole,
+    proj: IProject,
+    position: IPairingBoard
+  ): IProject => {
+    const copy = { ...proj };
+    const board = copy.pairingBoards.find((pb) => pb.id === position.id);
+    if (!board) {
+      throw new Error("AWK! Totally Broken!");
+    }
+    const index = copy.pairingBoards.indexOf(board);
+    board.roles.push(role);
+    copy.pairingBoards[index] = board;
+    setProject(copy);
+
+    return copy;
+  };
+
   const createRole = (name: string, pairingBoard: IPairingBoard) => {
     return DatabaseHelpers.postRole(project.id, pairingBoard.id, name).then(
-      (role) => {
-        return role;
+      (project) => {
+        setProject(project);
       }
     );
   };
 
-  const currentPairingBoard = (person: IPerson) =>
+  const moveRole = (role: IRole, position: IPairingBoard) => {
+    const currentRoleBoard = currentRolePairingBoard(role);
+    if (!currentRoleBoard) {
+      throw new Error(
+        "AWK! Totally broken, can't move role from a place it doesn't exist"
+      );
+    }
+    let proj = removeRole(role, project, currentRoleBoard);
+    proj = addRole(role, proj, position);
+    setProject(proj);
+    DatabaseHelpers.putRolePosition(
+      project.id,
+      currentRoleBoard,
+      role,
+      position
+    ).then((updatedProject) => {
+      setProject(updatedProject);
+    });
+  };
+
+  const deleteRole = (role: IRole) => {
+    const currentPB = currentRolePairingBoard(role);
+
+    if (currentPB) {
+      return DatabaseHelpers.deleteRole(project.id, currentPB, role);
+    }
+
+    return Promise.reject(
+      new Error(`couldn't find role ${role.name} on any pairing board`)
+    );
+  };
+
+  const currentRolePairingBoard = (role: IRole) =>
+    pairingBoards.find((pb) => pb.roles.find((r) => r.id === role.id));
+
+  const currentPersonPairingBoard = (person: IPerson) =>
     pairingBoards.find((pb) => pb.people.find((p) => p.id === person.id));
 
   const removePerson = (
@@ -120,7 +197,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const movePerson = (person: IPerson, position?: IPairingBoard) => {
-    let proj = removePerson(person, project, currentPairingBoard(person));
+    let proj = removePerson(person, project, currentPersonPairingBoard(person));
     proj = addPerson(person, proj, position);
     setProject(proj);
     DatabaseHelpers.putPersonPosition(project.id, person, position).then(
@@ -134,7 +211,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     const updatedProject = removePerson(
       person,
       project,
-      currentPairingBoard(person)
+      currentPersonPairingBoard(person)
     );
     setProject(updatedProject);
     return DatabaseHelpers.deletePerson(project.id, person.id).then((proj) =>
@@ -153,7 +230,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     deletePairingBoard,
     createRole,
     movePerson,
+    moveRole,
     deletePerson,
+    deleteRole,
     resetPairs,
     getRecommendedPairs,
     savePairing,

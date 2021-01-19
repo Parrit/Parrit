@@ -121,36 +121,43 @@ export function postRole(
   ).then((response) => response.data);
 }
 
+interface RolePositionDTO {
+  pairingBoardId: number;
+}
+
 export function putRolePosition(
   projectId: number,
-  pairingBoardId: string,
-  roleId: string,
-  newPosition: string
-): Promise<void> {
-  return Axios.put(
+  oldPairingBoard: IPairingBoard,
+  role: IRole,
+  newPairingBoard: IPairingBoard
+): Promise<IProject> {
+  const data: RolePositionDTO = {
+    pairingBoardId: newPairingBoard.id,
+  };
+  return Axios.put<IProject>(
     "/api/project/" +
       encodeURIComponent(projectId) +
       "/pairingBoard/" +
-      encodeURIComponent(pairingBoardId) +
+      encodeURIComponent(oldPairingBoard.id) +
       "/role/" +
-      encodeURIComponent(roleId) +
+      encodeURIComponent(role.id) +
       "/position",
-    newPosition
-  );
+    data
+  ).then((response) => response.data);
 }
 
 export function deleteRole(
   projectId: number,
-  pairingBoardId: string,
-  roleId: string
+  pairingBoard: IPairingBoard,
+  role: IRole
 ): Promise<void> {
   return Axios.delete(
     "/api/project/" +
       encodeURIComponent(projectId) +
       "/pairingBoard/" +
-      encodeURIComponent(pairingBoardId) +
+      encodeURIComponent(pairingBoard.id) +
       "/role/" +
-      encodeURIComponent(roleId)
+      encodeURIComponent(role.id)
   );
 }
 

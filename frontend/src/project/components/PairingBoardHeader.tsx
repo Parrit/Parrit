@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 import { WorkspaceContext } from "./Workspace";
+import { IPairingBoard } from "../interfaces/IPairingBoard";
 
 interface Props {
   name: string;
@@ -10,6 +11,7 @@ interface Props {
   renamePairingBoard: (name: string) => void;
   deletePairingBoard: VoidFunction;
   setEditing: (editing: boolean) => void;
+  pairingBoard: IPairingBoard;
 }
 
 export const PairingBoardHeader: React.FC<Props> = (props) => {
@@ -58,7 +60,7 @@ export const PairingBoardHeader: React.FC<Props> = (props) => {
         <div className="rename-pairing-board" />
         <div
           className="add-role-to-pairing-board"
-          onClick={() => setNewRoleOpen(true)}
+          onClick={() => setNewRoleOpen(true, props.pairingBoard)}
         />
       </div>
     );

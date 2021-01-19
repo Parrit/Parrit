@@ -59,6 +59,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
         renamePairingBoard={renamePairingBoard}
         deletePairingBoard={() => deletePairingBoard}
         setEditing={setEditing}
+        pairingBoard={props.pairingBoard}
       />
 
       <RoleList roles={roles} />

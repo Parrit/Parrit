@@ -7,6 +7,7 @@ import { ProjectContext } from "../ProjectContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { FloatingParrits } from "./FloatingParrits";
+import { IPairingBoard } from "../interfaces/IPairingBoard";
 
 interface IWorkspaceContext {
   newPersonOpen: boolean;
@@ -14,7 +15,7 @@ interface IWorkspaceContext {
   newRoleOpen: boolean;
   setNewPersonOpen: (isOpen: boolean) => void;
   setNewPairingBoardOpen: (isOpen: boolean) => void;
-  setNewRoleOpen: (isOpen: boolean) => void;
+  setNewRoleOpen: (isOpen: boolean, pairingBoard?: IPairingBoard) => void;
   newPersonError?: Error;
   newPairingBoardError?: Error;
   newRoleError?: Error;
@@ -29,6 +30,7 @@ export const Workspace: React.FC = (props) => {
   const [newPersonError, setNewPersonError] = useState<Error>();
   const [newPairingBoardError, setNewPairingBoardError] = useState<Error>();
   const [newRoleError, setNewRoleError] = useState<Error>();
+  const [newRoleBoard, setNewRoleBoard] = useState<IPairingBoard>();
 
   const {
     people,
@@ -50,13 +52,31 @@ export const Workspace: React.FC = (props) => {
       .catch((error) => setNewPairingBoardError(error));
   };
 
+  const handleCreateNewRole = (name: string) => {
+    if (!newRoleBoard) {
+      throw new Error("creating a new role without a pairing board");
+    }
+    createRole(name, newRoleBoard);
+  };
+
+  const handleSetNewRoleOpen = (
+    open: boolean,
+    pairingBoard?: IPairingBoard
+  ) => {
+    if (open && !pairingBoard) {
+      throw new Error("opening a new role dialog without a pairing board");
+    }
+    setNewRoleOpen(open);
+    setNewRoleBoard(pairingBoard);
+  };
+
   const value = {
     newPersonOpen,
     newPairingBoardOpen,
     newRoleOpen,
     setNewPersonOpen,
     setNewPairingBoardOpen,
-    setNewRoleOpen,
+    setNewRoleOpen: handleSetNewRoleOpen,
   };
 
   return (
@@ -103,14 +123,14 @@ export const Workspace: React.FC = (props) => {
             isOpen={newRoleOpen}
             onRequestClose={() => setNewRoleOpen(false)}
           >
-            {/* <NameForm
-            formTitle="Add Pairing Board Role"
-            confirmFunction={(value) => {
-              createRole(value, )
-            }}
-            cancelFunction={() => setNewRoleOpen(false)}
-            errorMessage={newRoleError}
-          /> */}
+            <NameForm
+              formTitle="Add Pairing Board Role"
+              confirmFunction={(value) => {
+                handleCreateNewRole(value);
+              }}
+              cancelFunction={() => setNewRoleOpen(false)}
+              errorMessage={newRoleError?.message}
+            />
           </Modal>
         </div>
       </DndProvider>
