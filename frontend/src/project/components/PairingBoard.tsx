@@ -56,7 +56,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
         editMode={editing}
         editErrorMessage={editingError}
         renamePairingBoard={renamePairingBoard}
-        deletePairingBoard={() => deletePairingBoard}
+        deletePairingBoard={() => deletePairingBoard(props.pairingBoard)}
         setEditing={setEditing}
         pairingBoard={props.pairingBoard}
       />

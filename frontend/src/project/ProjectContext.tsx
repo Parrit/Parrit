@@ -63,7 +63,23 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const deletePairingBoard = (pairingBoard: IPairingBoard) => {
-    return DatabaseHelpers.deletePairingBoard(project.id, pairingBoard.id);
+    const arr: IPairingBoard[] = [];
+    const copy = { ...project, pairingBoards: arr };
+    project.pairingBoards.forEach((pb) => {
+      if (pb.id === pairingBoard.id) {
+        // this is the one we want to delete
+        copy.people = [...copy.people, ...pb.people];
+      } else {
+        copy.pairingBoards.push(pb);
+      }
+    });
+    console.log("setting project post deletion", copy);
+    setProject(copy);
+    return DatabaseHelpers.deletePairingBoard(project.id, pairingBoard.id).then(
+      (updatedProject) => {
+        setProject(updatedProject);
+      }
+    );
   };
 
   const removeRole = (
