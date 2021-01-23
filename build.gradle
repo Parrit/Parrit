@@ -9,6 +9,10 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    archiveFileName = "parrit-app.jar"
+}
+
 dependencies {
     ext.commonsLang3Version = "3.9"
 
