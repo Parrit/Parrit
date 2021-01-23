@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Person: React.FC<Props> = ({ person }) => {
-  const { movePerson, deletePerson } = useContext(ProjectContext);
+  const { movePerson, destroyPerson } = useContext(ProjectContext);
   const [{ isDragging }, drag] = useDrag({
     item: { ...person, type: DragType.Person },
     end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
@@ -23,7 +23,7 @@ export const Person: React.FC<Props> = ({ person }) => {
           break;
         }
         case DropType.TrashBin: {
-          deletePerson(person);
+          destroyPerson(person);
           break;
         }
         case DropType.Floating: {

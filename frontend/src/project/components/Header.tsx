@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
-import { postLogout } from "../../shared/helpers/DatabaseHelpers";
+import { ApiContext } from "../../shared/helpers/ApiContext";
 
 interface Props {
   isPairingHistoryPanelOpen: boolean;
@@ -8,6 +8,7 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = (props) => {
+  const { postLogout } = useContext(ApiContext);
   const pairingHistoryOpen = props.isPairingHistoryPanelOpen;
   const classes = classNames({
     history: true,
@@ -22,15 +23,11 @@ export const Header: React.FC<Props> = (props) => {
     props.setPairingHistoryPanelOpen(false);
   };
 
-  const logout = () => {
-    postLogout;
-  };
-
   return (
     <header>
       <a href="/" className="header-logo" />
       <div className="links">
-        <h3 className="logout" onClick={logout}>
+        <h3 className="logout" onClick={postLogout}>
           LOGOUT
         </h3>
         <h3 className="feedback">

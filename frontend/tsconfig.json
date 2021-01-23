@@ -68,5 +68,6 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src", "polyfills.js"]
+  "include": ["src", "polyfills.js"],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.spec.tsx"]
 }

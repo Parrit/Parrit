@@ -7,6 +7,7 @@ import { Footer } from "../../shared/components/Footer";
 import { ProjectProvider } from "../ProjectContext";
 import { IProject } from "../interfaces/IProject";
 import classNames from "classnames";
+import { ApiProvider } from "../../shared/helpers/ApiContext";
 
 interface Props {
   project: IProject;
@@ -41,16 +42,18 @@ export const App: React.FC<Props> = (props) => {
   return (
     <div className={classes}>
       <AppContext.Provider value={value}>
-        <ProjectProvider project={props.project}>
-          <SystemAlert />
-          <Header
-            isPairingHistoryPanelOpen={pairingHistoryOpen}
-            setPairingHistoryPanelOpen={setPairingHistoryOpen}
-          />
-          <Project />
-          <Footer />
-          <PairingHistory />
-        </ProjectProvider>
+        <ApiProvider>
+          <ProjectProvider project={props.project}>
+            <SystemAlert />
+            <Header
+              isPairingHistoryPanelOpen={pairingHistoryOpen}
+              setPairingHistoryPanelOpen={setPairingHistoryOpen}
+            />
+            <Project />
+            <Footer />
+            <PairingHistory />
+          </ProjectProvider>
+        </ApiProvider>
       </AppContext.Provider>
     </div>
   );

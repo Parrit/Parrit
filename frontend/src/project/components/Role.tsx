@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Role: React.FC<Props> = ({ role }) => {
-  const { moveRole, deleteRole } = useContext(ProjectContext);
+  const { moveRole, destroyRole } = useContext(ProjectContext);
   const [{ isDragging }, drag] = useDrag({
     item: { ...role, type: DragType.Role },
     end: (item: { name: string } | undefined, monitor: DragSourceMonitor) => {
@@ -22,7 +22,7 @@ export const Role: React.FC<Props> = ({ role }) => {
           break;
         }
         case DropType.TrashBin: {
-          deleteRole(role);
+          destroyRole(role);
           break;
         }
       }

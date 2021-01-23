@@ -1,11 +1,8 @@
-import React, { FormEvent, useState } from "react";
-import { Footer } from "../../shared/components/Footer.js";
-import { Button } from "../../shared/components/Button.js";
-import {
-  postLoginAndRedirect,
-  postProject,
-} from "../../shared/helpers/DatabaseHelpers.js";
-import { ErrorResponse } from "../../error.js";
+import React, { FormEvent, useContext, useState } from "react";
+import { Footer } from "../../shared/components/Footer";
+import { Button } from "../../shared/components/Button";
+import { ApiContext } from "../../shared/helpers/ApiContext";
+import { ErrorResponse } from "../../error";
 
 interface Target {
   value: string;
@@ -17,13 +14,18 @@ interface Event {
 }
 
 export const Dashboard: React.FC = () => {
+  const { postLoginAndRedirect, postProject } = useContext(ApiContext);
   const [newProjectName, setNewProjectName] = useState("");
   const [newProjectPassword, setNewProjectPassword] = useState("");
   const [loginProjectName, setLoginProjectName] = useState("");
   const [loginProjectPassword, setLoginProjectPassword] = useState("");
-  const [errorResponse, setErrorResponse] = useState<{
-    [key: string]: string;
-  }>({});
+  const [loginErrorResponse, setLoginErrorResponse] = useState<ErrorResponse>(
+    {}
+  );
+  const [
+    newProjectErrorResponse,
+    setNewProjectErrorResponse,
+  ] = useState<ErrorResponse>({});
 
   const handleLoginName = (event: Event) => {
     setLoginProjectName(event.target.value);
@@ -35,7 +37,11 @@ export const Dashboard: React.FC = () => {
 
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    postLoginAndRedirect(loginProjectName, loginProjectPassword);
+    postLoginAndRedirect(loginProjectName, loginProjectPassword).catch(
+      (error: ErrorResponse) => {
+        setLoginErrorResponse(error);
+      }
+    );
   };
 
   const handleNewProjectName = (event: Event) => {
@@ -53,8 +59,7 @@ export const Dashboard: React.FC = () => {
         postLoginAndRedirect(newProjectName, newProjectPassword);
       })
       .catch((errorResponse: ErrorResponse) => {
-        console.log("fieldErrors", errorResponse);
-        setErrorResponse(errorResponse);
+        setNewProjectErrorResponse(errorResponse);
       });
   };
 
@@ -72,20 +77,25 @@ export const Dashboard: React.FC = () => {
             <form className="form new-form" onSubmit={createProjectWithName}>
               <h2 className="form-label">Create Project</h2>
               <input
-                className={errorResponse["name"] ? "error" : ""}
+                className={
+                  newProjectErrorResponse.fieldErrors?.name ? "error" : ""
+                }
                 type="text"
                 placeholder="Project name"
                 onChange={handleNewProjectName}
               />
               <input
-                className={errorResponse["password"] ? "error" : ""}
+                className={
+                  newProjectErrorResponse.fieldErrors?.password ? "error" : ""
+                }
                 type="password"
                 placeholder="Password"
                 onChange={handleNewProjectPassword}
               />
               <Button className="button-blue" name="Create" type="submit" />
               <div className="error-message">
-                {errorResponse["name"] ?? errorResponse["password"]}
+                {newProjectErrorResponse.fieldErrors?.name ??
+                  newProjectErrorResponse.fieldErrors?.password}
               </div>
             </form>
 
@@ -94,20 +104,23 @@ export const Dashboard: React.FC = () => {
             <form className="form login-form" onSubmit={handleLogin}>
               <h2 className="form-label">Login to Project</h2>
               <input
-                className={errorResponse["name"] ? "error" : ""}
+                className={loginErrorResponse.fieldErrors?.name ? "error" : ""}
                 type="text"
                 placeholder="Project name"
                 onChange={handleLoginName}
               />
               <input
-                className={errorResponse["password"] ? "error" : ""}
+                className={
+                  loginErrorResponse.fieldErrors?.password ? "error" : ""
+                }
                 type="password"
                 placeholder="Password"
                 onChange={handleLoginPassword}
               />
               <Button className="button-green" name="Login" type="submit" />
               <div className="error-message">
-                {errorResponse["name"] ?? errorResponse["password"]}
+                {loginErrorResponse.fieldErrors?.name ??
+                  loginErrorResponse.fieldErrors?.password}
               </div>
             </form>
           </div>

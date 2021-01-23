@@ -4,11 +4,11 @@ import classNames from "classnames";
 import { PairingBoardHeader } from "./PairingBoardHeader";
 import { RoleList } from "./RoleList";
 import { PersonList } from "./PersonList";
-import * as DatabaseHelpers from "../../shared/helpers/DatabaseHelpers";
 import { ProjectContext } from "../ProjectContext";
 import { useDrop } from "react-dnd";
 import { DragType, DropType } from "../interfaces/DragAndDrop";
 import { IPairingBoard } from "../interfaces/IPairingBoard";
+import { ApiContext } from "../../shared/helpers/ApiContext";
 
 interface Props {
   pairingBoard: IPairingBoard;
@@ -30,7 +30,8 @@ export const PairingBoard: React.FC<Props> = (props) => {
   const [editing, setEditing] = useState(false);
   const [editingError, setEditingError] = useState<string>();
 
-  const { projectId, deletePairingBoard } = useContext(ProjectContext);
+  const { projectId, destroyPairingBoard } = useContext(ProjectContext);
+  const { putPairingBoard } = useContext(ApiContext);
 
   const pairingBoardClasses = classNames({
     "pairing-board": true,
@@ -40,7 +41,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
   });
 
   const renamePairingBoard = (name: string) => {
-    DatabaseHelpers.putPairingBoard(projectId, props.pairingBoard.id, name)
+    putPairingBoard(projectId, props.pairingBoard.id, name)
       .then(() => setEditing(false))
       .catch((error) => {
         console.log("rename error", error);
@@ -56,7 +57,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
         editMode={editing}
         editErrorMessage={editingError}
         renamePairingBoard={renamePairingBoard}
-        deletePairingBoard={() => deletePairingBoard(props.pairingBoard)}
+        deletePairingBoard={() => destroyPairingBoard(props.pairingBoard)}
         setEditing={setEditing}
         pairingBoard={props.pairingBoard}
       />

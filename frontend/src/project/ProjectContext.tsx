@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import * as DatabaseHelpers from "../shared/helpers/DatabaseHelpers";
+import { ApiContext } from "../shared/helpers/ApiContext";
 import { AppContext } from "./components/App";
 import { IPairingBoard } from "./interfaces/IPairingBoard";
 import { IPerson } from "./interfaces/IPerson";
@@ -16,9 +16,9 @@ export interface IProjectContext {
   createRole: (name: string, pairingBoard: IPairingBoard) => Promise<void>;
   movePerson: (person: IPerson, position?: IPairingBoard) => void;
   moveRole: (role: IRole, position: IPairingBoard) => void;
-  deletePerson: (person: IPerson) => Promise<any>;
-  deleteRole: (role: IRole) => Promise<any>;
-  deletePairingBoard: (pairingBoard: IPairingBoard) => Promise<any>;
+  destroyPerson: (person: IPerson) => Promise<any>;
+  destroyRole: (role: IRole) => Promise<any>;
+  destroyPairingBoard: (pairingBoard: IPairingBoard) => Promise<any>;
   resetPairs: VoidFunction;
   getRecommendedPairs: VoidFunction;
   savePairing: VoidFunction;
@@ -35,34 +35,44 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   const { setSystemAlert } = useContext(AppContext);
   const [project, setProject] = useState(props.project);
   const [pairingHistory, setPairingHistory] = useState<PairingHistoryDTO[]>([]);
+  const {
+    getPairingHistory,
+    postPerson,
+    postPairingBoard,
+    deletePairingBoard,
+    postRole,
+    putRolePosition,
+    deleteRole,
+    putPersonPosition,
+    deletePerson,
+    postProjectPairing,
+    getRecommendedPairing,
+    resetProject,
+  } = useContext(ApiContext);
 
   const people = project.people;
   const pairingBoards = project.pairingBoards;
 
   useEffect(() => {
-    DatabaseHelpers.getPairingHistory(project.id).then((history) => {
+    getPairingHistory(project.id).then((history) => {
       setPairingHistory(history);
     });
     //run only once
   }, []);
 
   const createPerson = (name: string) => {
-    return DatabaseHelpers.postPerson(project.id, name).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    return postPerson(project.id, name).then((updatedProject) => {
+      setProject(updatedProject);
+    });
   };
 
   const createPairingBoard = (name: string) => {
-    return DatabaseHelpers.postPairingBoard(project.id, name).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    return postPairingBoard(project.id, name).then((updatedProject) => {
+      setProject(updatedProject);
+    });
   };
 
-  const deletePairingBoard = (pairingBoard: IPairingBoard) => {
+  const destroyPairingBoard = (pairingBoard: IPairingBoard) => {
     const arr: IPairingBoard[] = [];
     const copy = { ...project, pairingBoards: arr };
     project.pairingBoards.forEach((pb) => {
@@ -75,7 +85,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
     console.log("setting project post deletion", copy);
     setProject(copy);
-    return DatabaseHelpers.deletePairingBoard(project.id, pairingBoard.id).then(
+    return deletePairingBoard(project.id, pairingBoard.id).then(
       (updatedProject) => {
         setProject(updatedProject);
       }
@@ -123,11 +133,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const createRole = (name: string, pairingBoard: IPairingBoard) => {
-    return DatabaseHelpers.postRole(project.id, pairingBoard.id, name).then(
-      (project) => {
-        setProject(project);
-      }
-    );
+    return postRole(project.id, pairingBoard.id, name).then((project) => {
+      setProject(project);
+    });
   };
 
   const moveRole = (role: IRole, position: IPairingBoard) => {
@@ -140,21 +148,18 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     let proj = removeRole(role, project, currentRoleBoard);
     proj = addRole(role, proj, position);
     setProject(proj);
-    DatabaseHelpers.putRolePosition(
-      project.id,
-      currentRoleBoard,
-      role,
-      position
-    ).then((updatedProject) => {
-      setProject(updatedProject);
-    });
+    putRolePosition(project.id, currentRoleBoard, role, position).then(
+      (updatedProject) => {
+        setProject(updatedProject);
+      }
+    );
   };
 
-  const deleteRole = (role: IRole) => {
+  const destroyRole = (role: IRole) => {
     const currentPB = currentRolePairingBoard(role);
 
     if (currentPB) {
-      return DatabaseHelpers.deleteRole(project.id, currentPB, role);
+      return deleteRole(project.id, currentPB, role);
     }
 
     return Promise.reject(
@@ -228,23 +233,19 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     let proj = removePerson(person, project, currentPersonPairingBoard(person));
     proj = addPerson(person, proj, position);
     setProject(proj);
-    DatabaseHelpers.putPersonPosition(project.id, person, position).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    putPersonPosition(project.id, person, position).then((updatedProject) => {
+      setProject(updatedProject);
+    });
   };
 
-  const deletePerson = (person: IPerson) => {
+  const destroyPerson = (person: IPerson) => {
     const updatedProject = removePerson(
       person,
       project,
       currentPersonPairingBoard(person)
     );
     setProject(updatedProject);
-    return DatabaseHelpers.deletePerson(project.id, person.id).then((proj) =>
-      setProject(proj)
-    );
+    return deletePerson(project.id, person.id).then((proj) => setProject(proj));
   };
 
   const resetPairs = () => {
@@ -256,19 +257,19 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
     const updated = { ...project, pairingBoards: pbs, people };
     setProject(updated);
-    DatabaseHelpers.resetProject(project.id).then((updatedProject) => {
+    resetProject(project.id).then((updatedProject) => {
       setProject(updatedProject);
     });
   };
 
   const getRecommendedPairs = () => {
-    DatabaseHelpers.getRecommendedPairing(project.id).then((recommended) => {
+    getRecommendedPairing(project.id).then((recommended) => {
       setProject(recommended);
     });
   };
 
   const savePairing = () => {
-    DatabaseHelpers.postProjectPairing(project.id).then((newPairingRecords) => {
+    postProjectPairing(project.id).then((newPairingRecords) => {
       setPairingHistory((oldValue) => {
         setSystemAlert("Hello. We just recorded your pairs.");
         return [...oldValue, ...newPairingRecords];
@@ -279,12 +280,12 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   const value = {
     createPerson,
     createPairingBoard,
-    deletePairingBoard,
+    destroyPairingBoard,
     createRole,
     movePerson,
     moveRole,
-    deletePerson,
-    deleteRole,
+    destroyPerson,
+    destroyRole,
     resetPairs,
     getRecommendedPairs,
     savePairing,

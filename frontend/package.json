@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "build": "rm -rf ./dist && npx tsc"
+    "build": "rm -rf ./dist && npx tsc",
+    "test": "npx jest"
   },
   "private": true,
   "dependencies": {
-    "@types/jest": "^26.0.19",
-    "@types/node": "^14.14.19",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.22",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "axios": "0.19.2",
@@ -33,7 +34,9 @@
     "@babel/core": "7.8.7",
     "@babel/preset-env": "7.8.7",
     "@babel/preset-react": "7.8.3",
+    "@babel/preset-typescript": "^7.12.7",
     "@types/classnames": "^2.2.11",
+    "@types/enzyme": "^3.10.8",
     "@types/moment-timezone": "^0.5.30",
     "@types/react-custom-scrollbars": "^4.0.7",
     "@types/react-modal": "^3.10.6",
