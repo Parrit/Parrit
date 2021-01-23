@@ -1,4 +1,0 @@
-{
-    "testMatch": ["<rootDir>/src/**/*.spec.js"],
-    "setupFiles": ["<rootDir>/src/polyfills.js", "<rootDir>/src/shared/misc/TestSetup.js"]
-}

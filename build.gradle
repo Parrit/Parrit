@@ -9,6 +9,10 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    archiveFileName = "parrit-app.jar"
+}
+
 dependencies {
     ext.commonsLang3Version = "3.9"
 
@@ -26,7 +30,7 @@ dependencies {
     testImplementation "org.springframework.security:spring-security-test"
 }
 
-version "1.0.0"
+version "1.1.0"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -74,6 +78,16 @@ task jsBuild(type: Exec) {
     args = ["--config", "webpack.config.js"]
 }
 processResources.dependsOn(jsBuild)
+
+task jsCompile(type: Exec) {
+    group = "Parrit"
+    description = "Compiles the frontend typescript"
+
+    workingDir = "$project.projectDir/frontend"
+    commandLine = "npm"
+    args = ["run", "build"]
+}
+jsBuild.dependsOn(jsCompile)
 
 task jsDependencies(type: Exec) {
     group = "Parrit"
