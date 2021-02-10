@@ -42,7 +42,8 @@ module.exports = {
       },
       {
         test: /\.(svg|png|gif|ico)$/,
-        loader: "url-loader?limit=10000&name=img/[name].[ext]",
+        loader: "url-loader",
+        options: { limit: 10000, name: "img/[name].[ext]" },
       },
     ],
   },
