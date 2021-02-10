@@ -151,6 +151,8 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     const currentPB = currentRolePairingBoard(role);
 
     if (currentPB) {
+      const update = removeRole(role, project, currentPB);
+      setProject(update);
       return deleteRole(project.id, currentPB, role);
     }
 
@@ -177,9 +179,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       copy.people.forEach((p) => {
         if (p.id !== person.id) {
           arr.push(p);
-          copy.people = arr;
         }
       });
+      copy.people = arr;
     } else {
       const board = copy.pairingBoards.find((pb) => pb.id === position.id);
       if (!board) {
