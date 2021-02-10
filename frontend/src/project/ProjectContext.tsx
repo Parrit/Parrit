@@ -85,11 +85,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
     console.log("setting project post deletion", copy);
     setProject(copy);
-    return deletePairingBoard(project.id, pairingBoard.id).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    return deletePairingBoard(project.id, pairingBoard.id);
   };
 
   const removeRole = (
@@ -148,11 +144,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     let proj = removeRole(role, project, currentRoleBoard);
     proj = addRole(role, proj, position);
     setProject(proj);
-    putRolePosition(project.id, currentRoleBoard, role, position).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    putRolePosition(project.id, currentRoleBoard, role, position);
   };
 
   const destroyRole = (role: IRole) => {
@@ -233,9 +225,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     let proj = removePerson(person, project, currentPersonPairingBoard(person));
     proj = addPerson(person, proj, position);
     setProject(proj);
-    putPersonPosition(project.id, person, position).then((updatedProject) => {
-      setProject(updatedProject);
-    });
+    putPersonPosition(project.id, person, position);
   };
 
   const destroyPerson = (person: IPerson) => {
@@ -245,7 +235,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       currentPersonPairingBoard(person)
     );
     setProject(updatedProject);
-    return deletePerson(project.id, person.id).then((proj) => setProject(proj));
+    return deletePerson(project.id, person.id);
   };
 
   const resetPairs = () => {

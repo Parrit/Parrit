@@ -6,9 +6,10 @@ import { RoleList } from "./RoleList";
 import { PersonList } from "./PersonList";
 import { ProjectContext } from "../ProjectContext";
 import { useDrop } from "react-dnd";
-import { DragType, DropType } from "../interfaces/DragAndDrop";
+import { DragType } from "../interfaces/DragAndDrop";
 import { IPairingBoard } from "../interfaces/IPairingBoard";
 import { ApiContext } from "../../shared/helpers/ApiContext";
+import { IPerson } from "../interfaces/IPerson";
 
 interface Props {
   pairingBoard: IPairingBoard;
@@ -16,10 +17,23 @@ interface Props {
 
 export const PairingBoard: React.FC<Props> = (props) => {
   const { name, exempt, people, roles } = props.pairingBoard;
+  const { movePerson, moveRole } = useContext(ProjectContext);
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: [DragType.Person, DragType.Role],
-    drop: () => {
-      return { ...props.pairingBoard, type: DropType.PairingBoard };
+    drop: (item, monitor) => {
+      if (monitor.didDrop()) {
+        return; // don't do anything if a drop handler has already handled this
+      }
+      switch (item.type) {
+        case DragType.Person:
+          const person = (item as unknown) as IPerson;
+          movePerson(person, props.pairingBoard);
+          return;
+        case DragType.Role:
+          const role = (item as unknown) as IRole;
+          moveRole(role, props.pairingBoard);
+          return;
+      }
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
