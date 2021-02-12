@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Parrit/Parrit.svg?branch=master)](https://travis-ci.org/Parrit/Parrit)
+[![Codeship Status for Parrit/Parrit](https://app.codeship.com/projects/cf62bb07-9cfd-4217-8a94-564a4441f6c6/status?branch=master)](https://app.codeship.com/projects/424633)
 
 # 📣 UPDATE: The default hosted Parrit instance has changed addresses. We're now at https://parrit.io
 
