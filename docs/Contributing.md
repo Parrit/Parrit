@@ -4,7 +4,7 @@ Please email us at parrithelp@gmail.com so that we can add you to the [Parrit Sl
 direction!
 
 We have a public [Tracker backlog](https://www.pivotaltracker.com/n/projects/1504460) of prioritized stories.
-If you want to pick one we can add you to the project, just send an email to parrit@pivotal.io
+If you want to pick one we can add you to the project, just send an email to parrithelp@gmail.com
 or any of the core contributors and we will make you a member. If you need clarification on the stories 
 and/or want help pointing feel free to reach out.
 
