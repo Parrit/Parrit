@@ -13,6 +13,4 @@ public interface PairingHistoryRepository extends JpaRepository<PairingHistory, 
 
     List<PairingHistory> findByProjectAndTimestampAfter(Project project, Timestamp timestamp);
 
-    List<PairingHistory> findByProjectOrderByTimestampDesc(Project project);
-
 }

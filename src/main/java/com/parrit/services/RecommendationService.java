@@ -26,7 +26,7 @@ public class RecommendationService {
             Map<Person, Person> bestPairingMap = recHelper.getBestPairingMap();
             for (Person floatingPerson : bestPairingMap.keySet()) {
                 Person personToPairWith = bestPairingMap.get(floatingPerson);
-                PairingBoard pairPairingBoard = recHelper.getPairingBoardForAvailabelPerson(personToPairWith);
+                PairingBoard pairPairingBoard = recHelper.getPairingBoardForAvailablePerson(personToPairWith);
 
                 /*
                  * Pairing two Floating People in an empty pairing board
@@ -88,7 +88,7 @@ public class RecommendationService {
 
         recHelper.putFloatingPersonBack(currentFloatingPerson);
 
-        if(recHelper.canExcludeMySelf(currentFloatingPerson)) {
+        if(recHelper.canExcludeMySelf()) {
             recHelper.excludeFloatingPerson(currentFloatingPerson);
             findBestPairing(recHelper);
             recHelper.includeFloatingPerson(currentFloatingPerson);
@@ -304,7 +304,7 @@ public class RecommendationService {
             }
         }
 
-        public boolean canExcludeMySelf(Person currentFloatingPerson) {
+        public boolean canExcludeMySelf() {
             /*
              * No one has been excluded yet
              *   AND
@@ -331,7 +331,7 @@ public class RecommendationService {
             return bestPairingMap;
         }
 
-        public PairingBoard getPairingBoardForAvailabelPerson(Person personToPairWith) {
+        public PairingBoard getPairingBoardForAvailablePerson(Person personToPairWith) {
             return availablePersonToPairingBoardMap.get(personToPairWith);
         }
 

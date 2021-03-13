@@ -39,7 +39,7 @@ public class PairingServiceTest {
     @Mock
     private CurrentTimeProvider mockCurrentTimeProvider;
 
-    private Timestamp currentTime = new Timestamp(1456364985548L);
+    private final Timestamp currentTime = new Timestamp(1456364985548L);
 
     @Before
     public void setup() {
@@ -204,15 +204,17 @@ public class PairingServiceTest {
         Project recommendedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
         when(mockPairingHistoryRepository.findByProjectAndTimestampAfter(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
+        when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
         when(mockRecommendationService.get(any(Project.class), anyList())).thenReturn(recommendedProject);
 
         Project returnedProject = pairingService.getRecommendation(project);
 
         assertThat(returnedProject, equalTo(recommendedProject));
 
-        Timestamp twoMonthsAgoTime = new Timestamp(1451105499548L);
+        Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
 
-        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, twoMonthsAgoTime);
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, thirtyDaysAgo);
         verify(mockRecommendationService).get(project, pairingHistories);
     }
 
@@ -225,12 +227,15 @@ public class PairingServiceTest {
                 new PairingHistory(project, "Pairing Board 2", new ArrayList<>(), new Timestamp(50))
         );
 
-        when(mockPairingHistoryRepository.findByProjectOrderByTimestampDesc(any(Project.class))).thenReturn(pairingHistories);
+        when(mockPairingHistoryRepository.findByProjectAndTimestampAfter(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
+        when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
 
         List<PairingHistory> result = pairingService.getSortedPairingHistory(project);
 
         assertThat(result, equalTo(pairingHistories));
 
-        verify(mockPairingHistoryRepository).findByProjectOrderByTimestampDesc(project);
+        Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, thirtyDaysAgo);
     }
 }
