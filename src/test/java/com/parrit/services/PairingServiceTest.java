@@ -203,7 +203,7 @@ public class PairingServiceTest {
 
         Project recommendedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        when(mockPairingHistoryRepository.findByProjectAndTimestampAfter(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        when(mockPairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
         Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
         when(mockRecommendationService.get(any(Project.class), anyList())).thenReturn(recommendedProject);
@@ -214,7 +214,7 @@ public class PairingServiceTest {
 
         Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
 
-        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, thirtyDaysAgo);
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
         verify(mockRecommendationService).get(project, pairingHistories);
     }
 
@@ -227,7 +227,7 @@ public class PairingServiceTest {
                 new PairingHistory(project, "Pairing Board 2", new ArrayList<>(), new Timestamp(50))
         );
 
-        when(mockPairingHistoryRepository.findByProjectAndTimestampAfter(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        when(mockPairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
         Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
 
@@ -236,6 +236,6 @@ public class PairingServiceTest {
         assertThat(result, equalTo(pairingHistories));
 
         Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
-        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, thirtyDaysAgo);
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
     }
 }

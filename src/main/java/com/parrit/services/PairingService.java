@@ -43,13 +43,13 @@ public class PairingService {
     public Project getRecommendation(Project project) {
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
         Timestamp thirtyDaysAgo = new Timestamp(currentTime.getTime() - ONE_MONTH_IN_MILLISECONDS);
-        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProjectAndTimestampAfter(project, thirtyDaysAgo);
+        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
         return recommendationService.get(project, pairingHistory);
     }
 
     public List<PairingHistory> getSortedPairingHistory(Project project) {
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
         Timestamp thirtyDaysAgo = new Timestamp(currentTime.getTime() - ONE_MONTH_IN_MILLISECONDS);
-        return pairingHistoryRepository.findByProjectAndTimestampAfter(project, thirtyDaysAgo);
+        return pairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
     }
 }

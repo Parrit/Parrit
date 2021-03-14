@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface PairingHistoryRepository extends JpaRepository<PairingHistory, Long> {
 
-    List<PairingHistory> findByProjectAndTimestampAfter(Project project, Timestamp timestamp);
+    List<PairingHistory> findByProjectAndTimestampAfterOrderByTimestampDesc(Project project, Timestamp timestamp);
 
 }
