@@ -6,7 +6,7 @@ import { PairingHistoryRecordList } from "./PairingHistoryRecordList";
 import { AppContext } from "./App";
 import { ProjectContext } from "../ProjectContext";
 
-export const PairingHistory: React.FC = (props) => {
+export const PairingHistory: React.FC = () => {
   const { pairingHistory } = useContext(ProjectContext);
 
   const { pairingHistoryOpen, setPairingHistoryOpen } = useContext(AppContext);
@@ -30,7 +30,10 @@ export const PairingHistory: React.FC = (props) => {
       <Scrollbars>
         <div className="inner-pairing-history-wrapper">
           <div className="header">
-            <h2>Pair Rotation History</h2>
+            <div className="header-text">
+                <h2>Pair Rotation History</h2>
+                <h3>History is stored for 30 days.</h3>
+            </div>
             <div
               className="cancel"
               onClick={closePairingHistoryPanel.bind(this)}

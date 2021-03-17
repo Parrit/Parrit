@@ -28,9 +28,12 @@
     margin-top: 26px;
     margin-bottom: 38px;
 
-    h2 {
-      color: $silver;
+    .header-text {
       display: inline-block;
+
+      h2 {
+        color: $silver;
+      }
     }
 
     .cancel {
@@ -51,7 +54,7 @@
   .body {
     margin-bottom: 28px;
   }
-  
+
   .no-history {
     .clock {
       background-image: url("./images/history.svg");
