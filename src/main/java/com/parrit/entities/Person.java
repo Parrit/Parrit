@@ -1,5 +1,9 @@
 package com.parrit.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -10,6 +14,10 @@ import javax.persistence.*;
                 @Index(name = "person_pkey", unique = true, columnList = "id")
         }
 )
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Person {
 
     @Id
@@ -22,26 +30,7 @@ public class Person {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    public Person() {
-    }
-
     public Person(String name) {
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 
@@ -61,14 +50,6 @@ public class Person {
         int result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 
 }

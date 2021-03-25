@@ -9,6 +9,9 @@ import java.util.TimeZone;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class PairingHistoryTransformer {

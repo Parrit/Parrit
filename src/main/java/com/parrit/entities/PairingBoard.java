@@ -1,5 +1,6 @@
 package com.parrit.entities;
 
+import lombok.*;
 import com.parrit.DTOs.PairingBoardDTO;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -12,6 +13,11 @@ import java.util.List;
                 @Index(name = "pairing_board_pkey", unique = true, columnList = "id")
         }
 )
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class PairingBoard {
 
     @Id
@@ -35,89 +41,11 @@ public class PairingBoard {
     @JoinColumn(name = "pairing_board_id", nullable = false, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
     private List<Role> roles;
 
-    public PairingBoard() {
-    }
-
     public PairingBoard(String name, boolean exempt, List<Person> people, List<Role> roles) {
         this.name = name;
         this.exempt = exempt;
         this.people = people;
         this.roles = roles;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isExempt() {
-        return exempt;
-    }
-
-    public void setExempt(boolean exempt) {
-        this.exempt = exempt;
-    }
-
-    public List<Person> getPeople() {
-        return people;
-    }
-
-    public void setPeople(List<Person> people) {
-        this.people = people;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PairingBoard)) return false;
-
-        PairingBoard that = (PairingBoard) o;
-
-        if (getId() != that.getId()) return false;
-        if (isExempt() != that.isExempt()) return false;
-        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        return getPeople() != null ? getPeople().equals(that.getPeople()) : that.getPeople() == null &&
-            getRoles() != null ? getRoles().equals(that.getRoles()) : that.getRoles() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (isExempt() ? 1 : 0);
-        result = 31 * result + (getPeople() != null ? getPeople().hashCode() : 0);
-        result = 31 * result + (getRoles() != null ? getRoles().hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "PairingBoard{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", exempt=" + exempt +
-                ", people=" + people +
-                ", roles=" + roles +
-                '}';
     }
 
 }

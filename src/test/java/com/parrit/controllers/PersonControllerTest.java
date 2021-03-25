@@ -192,20 +192,6 @@ public class PersonControllerTest {
     }
 
     @Test
-    public void movePerson_whenPersonPositionIsFloatingIsNull_returnsError() throws Exception {
-        PersonPositionDTO personPositionDTO = new PersonPositionDTO();
-        personPositionDTO.setFloating(null);
-        personPositionDTO.setPairingBoardId(88L);
-
-        mockMvc.perform(put("/api/project/1/person/76/position")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(personPositionDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", equalTo(null)))
-                .andExpect(jsonPath("$.fieldErrors.floating", equalTo("Where are you trying to go? Floating or a pairing board?")));
-    }
-
-    @Test
     public void movePerson_whenPersonPositionIsNotFloatingButPairingBoardIdIsNull_returnsError() throws Exception {
         PersonPositionDTO personPositionDTO = new PersonPositionDTO();
         personPositionDTO.setFloating(false);
