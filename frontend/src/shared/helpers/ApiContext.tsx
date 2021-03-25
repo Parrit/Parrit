@@ -9,7 +9,7 @@ Axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export interface IApiContext {
   postLoginAndRedirect: (name: string, password: string) => Promise<any>;
-  postLogout: VoidFunction;
+  postLogout: () => void;
   postProject: (name: string, password: string) => Promise<any>;
   resetProject: (projectId: number) => Promise<IProject>;
   postPerson: (projectId: number, name: string) => Promise<IProject>;

@@ -9,6 +9,8 @@ import { ProjectContext } from "../ProjectContext";
 export const PairingHistory: React.FC = (props) => {
   const { pairingHistory } = useContext(ProjectContext);
 
+  console.log(pairingHistory);
+
   const { pairingHistoryOpen, setPairingHistoryOpen } = useContext(AppContext);
 
   const closePairingHistoryPanel = () => {

@@ -13,7 +13,7 @@ interface Props {
   project: IProject;
 }
 
-interface IAppContext {
+export interface IAppContext {
   pairingHistoryOpen: boolean;
   setPairingHistoryOpen: (isOpen: boolean) => void;
   systemAlert?: string;
@@ -45,10 +45,7 @@ export const App: React.FC<Props> = (props) => {
         <ApiProvider>
           <ProjectProvider project={props.project}>
             <SystemAlert />
-            <Header
-              isPairingHistoryPanelOpen={pairingHistoryOpen}
-              setPairingHistoryPanelOpen={setPairingHistoryOpen}
-            />
+            <Header />
             <Project />
             <Footer />
             <PairingHistory />

@@ -19,9 +19,9 @@ export interface IProjectContext {
   destroyPerson: (person: IPerson) => Promise<any>;
   destroyRole: (role: IRole) => Promise<any>;
   destroyPairingBoard: (pairingBoard: IPairingBoard) => Promise<any>;
-  resetPairs: VoidFunction;
-  getRecommendedPairs: VoidFunction;
-  savePairing: VoidFunction;
+  resetPairs: () => void;
+  getRecommendedPairs: () => void;
+  savePairing: () => void;
   projectId: number;
 }
 
@@ -55,6 +55,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getPairingHistory(project.id).then((history) => {
+      console.log("history", history);
       setPairingHistory(history);
     });
     //run only once
