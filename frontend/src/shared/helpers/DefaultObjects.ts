@@ -5,7 +5,8 @@ import { PairingHistoryDTO } from "../../project/interfaces/PairingHistoryDTO";
 
 interface IDefaultObjects {
   project(): IProject;
-  pairingBoard(): IPairingBoard;
+  pairingBoard1(): IPairingBoard;
+  pairingBoard2(): IPairingBoard;
   person1(): IPerson;
   person2(): IPerson;
   person3(): IPerson;
@@ -18,53 +19,66 @@ export const DefaultObjects: IDefaultObjects = {
   project: () => {
     return {
       name: "Test",
-      id: -1,
-      pairingBoards: [DefaultObjects.pairingBoard()],
-      people: [DefaultObjects.person2()],
+      id: 1,
+      pairingBoards: [
+        DefaultObjects.pairingBoard1(),
+        DefaultObjects.pairingBoard2(),
+      ],
+      people: [DefaultObjects.person2(), DefaultObjects.person4()],
     };
   },
 
-  pairingBoard: () => {
+  pairingBoard1: () => {
     return {
-      id: -1,
+      id: 1,
       name: "Cockatiel",
       exempt: false,
-      people: [DefaultObjects.person1(), DefaultObjects.person3()],
+      people: [DefaultObjects.person1()],
       roles: [DefaultObjects.role()],
+    };
+  },
+
+  pairingBoard2: () => {
+    return {
+      id: 2,
+      name: "Trubador",
+      exempt: false,
+      people: [DefaultObjects.person3()],
+      roles: [],
     };
   },
 
   person1: () => {
     return {
-      id: -1,
+      id: 1,
       name: "Anthony",
     };
   },
 
   person2: () => {
     return {
-      id: -2,
+      id: 2,
       name: "Hanchen",
     };
   },
 
   person3: () => {
     return {
-      id: -3,
+      id: 3,
       name: "Cat",
     };
   },
 
   person4: () => {
     return {
-      id: -4,
+      id: 4,
       name: "Darcie",
     };
   },
 
   role: () => {
     return {
-      id: -1,
+      id: 1,
       name: "The only one",
     };
   },

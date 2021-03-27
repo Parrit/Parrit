@@ -1,4 +1,4 @@
-import { Hash } from "crypto";
+import { Project } from "../../project/classes/Project";
 import { IPerson } from "../../project/interfaces/IPerson";
 import { IProject } from "../../project/interfaces/IProject";
 import { PairingHistoryDTO } from "../../project/interfaces/PairingHistoryDTO";
@@ -30,13 +30,11 @@ class Pair {
 }
 
 export class ProjectHelper {
-  private project;
-  private history;
+  private project: Project;
   timetable: { [key: string]: Date };
 
   constructor(project: IProject, history: PairingHistoryDTO[]) {
-    this.project = project;
-    this.history = history;
+    this.project = new Project(project);
     this.timetable = {};
     history.forEach((item) => {
       if (item.people.length > 1) {
@@ -59,6 +57,78 @@ export class ProjectHelper {
         }
       }
     });
+  }
+
+  recommendedConfiguration(): IProject {
+    const projectCopy = { ...this.project };
+    while (this.canAPairingBeMade) {
+      this.iterateMatch();
+    }
+    return this.project;
+  }
+
+  iterateMatch() {
+    const floating = this.floatingParrits[0];
+    const topPair = this.pairFor(floating);
+    if (topPair) {
+      const targetPairingBoard = this.project.currentPersonPairingBoard(
+        topPair
+      );
+      if (targetPairingBoard) {
+        this.project = new Project(
+          this.project.movePerson(floating, targetPairingBoard)
+        );
+      } else {
+        // we know top pair is floating because they have no pairing board
+        const emptyPairingBoard = this.emptyPairingBoard();
+        if (emptyPairingBoard) {
+          let proj = new Project(
+            this.project.movePerson(floating, emptyPairingBoard)
+          );
+          proj = new Project(proj.movePerson(topPair, emptyPairingBoard));
+          this.project = proj;
+        }
+      }
+    }
+  }
+
+  emptyPairingBoard() {
+    return this.project.pairingBoards.find((pb) => pb.people.length === 0);
+  }
+
+  pairFor(person: IPerson, nth: number = 0) {
+    // 0-indexed number from the last most recent paired
+    const allAvailable = [
+      ...this.project.people,
+      ...this.currentUnpairedStickingPeople,
+    ];
+    const partnerDates = allAvailable
+      .map((p) => {
+        if (person.id === p.id) {
+          return undefined;
+        }
+        const hashcode = new Pair(person, p).hashcode;
+        return { time: this.timetable[hashcode], partner: p };
+      })
+      .filter((el) => {
+        return el !== undefined;
+      })
+      .sort((a, b) => {
+        if (!a?.time) {
+          // this pairing has never occured
+          return -1;
+        }
+        if (!b?.time) {
+          // this pairing has never occured
+          return 1;
+        }
+        return a.time.getTime() - b.time.getTime();
+      });
+    if (partnerDates.length > 0) {
+      return partnerDates[nth]?.partner;
+    }
+
+    return undefined;
   }
 
   get canAPairingBeMade(): boolean {
