@@ -8,8 +8,7 @@ export function recommendPairs(
   history: PairingHistoryDTO[]
 ) {
   const helper = new ProjectHelper(project, history);
-  if (helper.canAPairingBeMade) {
-  }
+  return helper.recommendedConfiguration();
 }
 
 class Pair {
@@ -60,47 +59,48 @@ export class ProjectHelper {
   }
 
   recommendedConfiguration(): IProject {
-    const projectCopy = { ...this.project };
-    while (this.canAPairingBeMade) {
-      this.iterateMatch();
+    let projectCopy = new Project(this.project);
+    while (projectCopy.canAPairingBeMade) {
+      projectCopy = this.iterateMatch(projectCopy);
     }
+    this.project = projectCopy;
     return this.project;
   }
 
-  iterateMatch() {
-    const floating = this.floatingParrits[0];
-    const topPair = this.pairFor(floating);
-    if (topPair) {
-      const targetPairingBoard = this.project.currentPersonPairingBoard(
-        topPair
-      );
-      if (targetPairingBoard) {
-        this.project = new Project(
-          this.project.movePerson(floating, targetPairingBoard)
-        );
-      } else {
-        // we know top pair is floating because they have no pairing board
-        const emptyPairingBoard = this.emptyPairingBoard();
-        if (emptyPairingBoard) {
-          let proj = new Project(
-            this.project.movePerson(floating, emptyPairingBoard)
-          );
-          proj = new Project(proj.movePerson(topPair, emptyPairingBoard));
-          this.project = proj;
+  iterateMatch(project: IProject) {
+    const copy = new Project(project);
+    const floating = copy.people[0];
+    let topPair = this.pairFor(floating, copy);
+    for (let i = 0; topPair != undefined; i++) {
+      topPair = this.pairFor(floating, copy, i);
+
+      if (topPair) {
+        const targetPairingBoard = copy.currentPersonPairingBoard(topPair);
+        if (targetPairingBoard) {
+          return new Project(copy.movePerson(floating, targetPairingBoard));
+        } else {
+          // we know top pair is floating because they have no pairing board
+          const emptyPairingBoard = copy.emptyPairingBoard;
+          if (emptyPairingBoard) {
+            let proj = new Project(
+              copy.movePerson(floating, emptyPairingBoard)
+            );
+            proj = new Project(proj.movePerson(topPair, emptyPairingBoard));
+            return proj;
+          }
+          // found 2 unmatched pairs but no empty pairing board
         }
       }
     }
+
+    return copy;
   }
 
-  emptyPairingBoard() {
-    return this.project.pairingBoards.find((pb) => pb.people.length === 0);
-  }
-
-  pairFor(person: IPerson, nth: number = 0) {
+  pairFor(person: IPerson, project: Project = this.project, nth: number = 0) {
     // 0-indexed number from the last most recent paired
     const allAvailable = [
-      ...this.project.people,
-      ...this.currentUnpairedStickingPeople,
+      ...project.people,
+      ...project.currentUnpairedStickingPeople,
     ];
     const partnerDates = allAvailable
       .map((p) => {
@@ -129,40 +129,5 @@ export class ProjectHelper {
     }
 
     return undefined;
-  }
-
-  get canAPairingBeMade(): boolean {
-    return (
-      this.floatingParrits.length > 0 &&
-      this.currentUnpairedStickingPeople.length > 0
-    );
-  }
-
-  get currentUnpairedStickingPeople(): IPerson[] {
-    const val: IPerson[] = [];
-    return this.project.pairingBoards.flatMap((board) => {
-      if (board.people.length === 1) {
-        return board.people;
-      } else {
-        return [];
-      }
-    });
-  }
-
-  get floatingParrits(): IPerson[] {
-    return this.project.people;
-  }
-
-  get isCurrentPairingValid(): boolean {
-    const unpaired = this.currentUnpairedStickingPeople;
-    if (unpaired.length > 0) {
-      // If there are any unpaired sticking people
-      // it is valid ONLY if there are no floating pairs
-      return this.floatingParrits.length === 0;
-    } else {
-      // If there are NO unpaired sticking people
-      // it is valid ONLY if there is at most 1 floating pair
-      return this.floatingParrits.length <= 1;
-    }
   }
 }

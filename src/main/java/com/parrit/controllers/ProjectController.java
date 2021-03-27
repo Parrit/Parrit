@@ -105,4 +105,11 @@ public class ProjectController {
         return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
     }
 
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/update", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<ProjectDTO> updateProject(@PathVariable long projectId, @RequestBody ProjectDTO body) {
+
+    }
+
 }

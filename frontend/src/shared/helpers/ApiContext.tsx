@@ -46,7 +46,6 @@ export interface IApiContext {
     role: IRole
   ): Promise<void>;
   postProjectPairing(projectId: number): Promise<PairingHistoryDTO[]>;
-  getRecommendedPairing(projectId: number): Promise<IProject>;
   getPairingHistory(projectId: number): Promise<PairingHistoryDTO[]>;
 }
 
@@ -227,11 +226,11 @@ export const ApiProvider: React.FC = (props) => {
     ).then((response) => response.data);
   };
 
-  const getRecommendedPairing = (projectId: number): Promise<IProject> => {
-    return Axios.get<IProject>(
-      "/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend"
-    ).then((response) => response.data);
-  };
+  // const getRecommendedPairing = (projectId: number): Promise<IProject> => {
+  //   return Axios.get<IProject>(
+  //     "/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend"
+  //   ).then((response) => response.data);
+  // };
 
   const getPairingHistory = (
     projectId: number
@@ -258,7 +257,6 @@ export const ApiProvider: React.FC = (props) => {
     postRole,
     putRolePosition,
     postProjectPairing,
-    getRecommendedPairing,
     getPairingHistory,
   };
 

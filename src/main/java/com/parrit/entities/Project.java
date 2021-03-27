@@ -1,5 +1,6 @@
 package com.parrit.entities;
 
+import com.parrit.DTOs.ProjectDTO;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -45,6 +46,10 @@ public class Project {
         this.password = password;
         this.pairingBoards = pairingBoards;
         this.people = people;
+    }
+
+    public void updateWithDTO(ProjectDTO dto) {
+
     }
 
     public long getId() {

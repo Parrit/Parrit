@@ -7,10 +7,13 @@ interface IDefaultObjects {
   project(): IProject;
   pairingBoard1(): IPairingBoard;
   pairingBoard2(): IPairingBoard;
+  pairingBoard3(): IPairingBoard;
   person1(): IPerson;
   person2(): IPerson;
   person3(): IPerson;
   person4(): IPerson;
+  person5(): IPerson;
+  person6(): IPerson;
   role(): IRole;
   history(): PairingHistoryDTO[];
 }
@@ -23,8 +26,14 @@ export const DefaultObjects: IDefaultObjects = {
       pairingBoards: [
         DefaultObjects.pairingBoard1(),
         DefaultObjects.pairingBoard2(),
+        DefaultObjects.pairingBoard3(),
       ],
-      people: [DefaultObjects.person2(), DefaultObjects.person4()],
+      people: [
+        DefaultObjects.person2(),
+        DefaultObjects.person4(),
+        DefaultObjects.person5(),
+        DefaultObjects.person6(),
+      ],
     };
   },
 
@@ -44,6 +53,16 @@ export const DefaultObjects: IDefaultObjects = {
       name: "Trubador",
       exempt: false,
       people: [DefaultObjects.person3()],
+      roles: [],
+    };
+  },
+
+  pairingBoard3: () => {
+    return {
+      id: 3,
+      name: "Truffle-hunter",
+      exempt: false,
+      people: [],
       roles: [],
     };
   },
@@ -73,6 +92,20 @@ export const DefaultObjects: IDefaultObjects = {
     return {
       id: 4,
       name: "Darcie",
+    };
+  },
+
+  person5: () => {
+    return {
+      id: 5,
+      name: "Joe",
+    };
+  },
+
+  person6: () => {
+    return {
+      id: 6,
+      name: "Michael",
     };
   },
 
