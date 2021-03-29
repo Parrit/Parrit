@@ -8,6 +8,8 @@ import com.parrit.repositories.ProjectRepository;
 import com.parrit.services.PairingService;
 import com.parrit.transformers.PairingHistoryTransformer;
 import com.parrit.transformers.ProjectTransformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Controller
@@ -25,6 +29,7 @@ public class PairingController {
 
     private final PairingService pairingService;
     private final ProjectRepository projectRepository;
+    private static final Logger log = LoggerFactory.getLogger(PairingController.class);
 
     @Autowired
     public PairingController(PairingService pairingService, ProjectRepository projectRepository) {
@@ -59,8 +64,13 @@ public class PairingController {
     @RequestMapping(path = "/api/project/{projectId}/pairing/history", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<PairingHistoryDTO>> getPairingHistory(@PathVariable long projectId) {
+        Instant start = Instant.now();
         Project project = projectRepository.findById(projectId).get();
         List<PairingHistory> pairingHistoryList = pairingService.getSortedPairingHistory(project);
-        return new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
+        ResponseEntity<List<PairingHistoryDTO>> response = new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
+        Instant end = Instant.now();
+
+        log.info("Pairing history endpoint took {} to respond.", Duration.between(start, end).toMillis());
+        return response;
     }
 }
