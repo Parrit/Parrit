@@ -56,13 +56,12 @@ public class PairingController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairing/history", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<List<PairingHistoryDTO>> getPairingHistory(@PathVariable long projectId) {
+    @GetMapping(path = "/api/project/{projectId}/pairing/history")
+    public List<PairingHistoryDTO> getPairingHistory(@PathVariable long projectId) {
         Instant start = Instant.now();
         Project project = projectRepository.findById(projectId).get();
         List<PairingHistory> pairingHistoryList = pairingService.getSortedPairingHistory(project);
-        ResponseEntity<List<PairingHistoryDTO>> response = new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
+        List<PairingHistoryDTO> response = PairingHistoryTransformer.transform(pairingHistoryList);
         Instant end = Instant.now();
 
         log.info("Pairing history endpoint took {} to respond.", Duration.between(start, end).toMillis());
