@@ -1,7 +1,7 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.1.12.RELEASE"
-    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "org.springframework.boot" version "2.4.4"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "org.flywaydb.flyway" version "6.3.1"
 }
 
@@ -20,6 +20,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-devtools"
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
     implementation 'org.flywaydb:flyway-core'
@@ -28,11 +29,23 @@ dependencies {
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
+
+    testRuntime("org.junit.jupiter:junit-jupiter-engine")
+
+    // Enable use of the JUnitPlatform Runner within the IDE
+    testCompile("org.junit.platform:junit-platform-runner")
+}
+
+test {
+    useJUnitPlatform() {
+        includeEngines 'junit-jupiter'
+        excludeEngines 'junit-vintage'
+    }
 }
 
 version "1.1.0"
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 // *** Database Tasks *** //
 

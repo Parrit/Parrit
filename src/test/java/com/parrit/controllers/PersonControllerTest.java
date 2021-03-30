@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parrit.DTOs.PersonDTO;
 import com.parrit.DTOs.PersonPositionDTO;
 import com.parrit.DTOs.ProjectDTO;
+import com.parrit.configurations.WebSecurityConfiguration;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
@@ -11,13 +12,14 @@ import com.parrit.repositories.PersonRepository;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.PersonTransformer;
 import com.parrit.transformers.ProjectTransformer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -32,8 +34,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = PersonController.class, secure = false)
+@WebMvcTest(controllers = PersonController.class,
+        excludeFilters = {
+                @ComponentScan.Filter(classes = WebSecurityConfiguration.class, type = FilterType.ASSIGNABLE_TYPE)
+        })
+@AutoConfigureMockMvc(addFilters = false)
 public class PersonControllerTest {
 
     @Autowired

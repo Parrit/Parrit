@@ -4,10 +4,12 @@ import com.parrit.DTOs.PairingHistoryDTO;
 import com.parrit.entities.PairingHistory;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class PairingHistoryTransformer {
 
@@ -26,10 +28,10 @@ public class PairingHistoryTransformer {
     }
 
     public static List<PairingHistoryDTO> transform(List<PairingHistory> pairingHistories) {
-        if(pairingHistories == null || pairingHistories.isEmpty()) return Collections.emptyList();
+        if (isEmpty(pairingHistories)) return emptyList();
         return pairingHistories.stream()
-            .map(PairingHistoryTransformer::transform)
-            .collect(Collectors.toList());
+                .map(PairingHistoryTransformer::transform)
+                .collect(toList());
     }
 
 }

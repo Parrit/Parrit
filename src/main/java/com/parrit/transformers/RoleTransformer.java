@@ -3,9 +3,11 @@ package com.parrit.transformers;
 import com.parrit.DTOs.RoleDTO;
 import com.parrit.entities.Role;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class RoleTransformer {
 
@@ -17,10 +19,10 @@ public class RoleTransformer {
     }
 
     public static List<RoleDTO> transform(List<Role> roles) {
-        if(roles == null || roles.isEmpty()) return Collections.emptyList();
+        if (isEmpty(roles)) return emptyList();
         return roles.stream()
                 .map(RoleTransformer::transform)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public static Role reverse(RoleDTO roleDTO) {
@@ -31,10 +33,10 @@ public class RoleTransformer {
     }
 
     public static List<Role> reverse(List<RoleDTO> roleDTOs) {
-        if(roleDTOs == null || roleDTOs.isEmpty()) return Collections.emptyList();
+        if (isEmpty(roleDTOs)) return emptyList();
         return roleDTOs.stream()
-            .map(RoleTransformer::reverse)
-            .collect(Collectors.toList());
+                .map(RoleTransformer::reverse)
+                .collect(toList());
     }
 
 }

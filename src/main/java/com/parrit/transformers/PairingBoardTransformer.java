@@ -3,9 +3,11 @@ package com.parrit.transformers;
 import com.parrit.DTOs.PairingBoardDTO;
 import com.parrit.entities.PairingBoard;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class PairingBoardTransformer {
 
@@ -20,10 +22,10 @@ public class PairingBoardTransformer {
     }
 
     public static List<PairingBoardDTO> transform(List<PairingBoard> pairingBoards) {
-        if(pairingBoards == null || pairingBoards.isEmpty()) return Collections.emptyList();
+        if (isEmpty(pairingBoards)) return emptyList();
         return pairingBoards.stream()
                 .map(PairingBoardTransformer::transform)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public static PairingBoard reverse(PairingBoardDTO pairingBoardDTO) {
@@ -37,9 +39,9 @@ public class PairingBoardTransformer {
     }
 
     public static List<PairingBoard> reverse(List<PairingBoardDTO> pairingBoardDTOs) {
-        if(pairingBoardDTOs == null || pairingBoardDTOs.isEmpty()) return Collections.emptyList();
+        if (isEmpty(pairingBoardDTOs)) return emptyList();
         return pairingBoardDTOs.stream()
-            .map(PairingBoardTransformer::reverse)
-            .collect(Collectors.toList());
+                .map(PairingBoardTransformer::reverse)
+                .collect(toList());
     }
 }
