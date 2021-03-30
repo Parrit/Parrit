@@ -1,5 +1,6 @@
 import Axios, { AxiosError } from "axios";
 import React from "react";
+import { Project } from "../../project/classes/Project";
 import { IPairingBoard } from "../../project/interfaces/IPairingBoard";
 import { IPerson } from "../../project/interfaces/IPerson";
 import { IProject } from "../../project/interfaces/IProject";
@@ -47,6 +48,7 @@ export interface IApiContext {
   ): Promise<void>;
   postProjectPairing(projectId: number): Promise<PairingHistoryDTO[]>;
   getPairingHistory(projectId: number): Promise<PairingHistoryDTO[]>;
+  updateProject(project: IProject): Promise<IProject>;
 }
 
 export const ApiContext = React.createContext({} as IApiContext);
@@ -242,6 +244,14 @@ export const ApiProvider: React.FC = (props) => {
     });
   };
 
+  const updateProject = (project: IProject): Promise<IProject> => {
+    return Axios.put<IProject>("/api/project/update", project).then(
+      (response) => {
+        return response.data;
+      }
+    );
+  };
+
   const value = {
     postLoginAndRedirect,
     postLogout,
@@ -258,6 +268,7 @@ export const ApiProvider: React.FC = (props) => {
     putRolePosition,
     postProjectPairing,
     getPairingHistory,
+    updateProject,
   };
 
   return (

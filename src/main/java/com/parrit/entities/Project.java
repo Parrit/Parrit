@@ -48,10 +48,6 @@ public class Project {
         this.people = people;
     }
 
-    public void updateWithDTO(ProjectDTO dto) {
-
-    }
-
     public long getId() {
         return id;
     }

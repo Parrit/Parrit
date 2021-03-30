@@ -49,6 +49,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     deletePerson,
     postProjectPairing,
     resetProject,
+    updateProject,
   } = useContext(ApiContext);
 
   const people = project.people;
@@ -212,6 +213,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     const recommendedConfiguration = recommendPairs(project, pairingHistory);
     console.log("recommended", recommendedConfiguration);
     setProject(recommendedConfiguration);
+    updateProject(recommendedConfiguration);
   };
 
   const savePairing = () => {

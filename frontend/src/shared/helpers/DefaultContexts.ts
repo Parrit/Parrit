@@ -25,6 +25,7 @@ export const DefaultContexts: IDefaultContexts = {
       postProjectPairing: jest.fn(),
       getRecommendedPairing: jest.fn(),
       getPairingHistory: jest.fn(),
+      updateProject: jest.fn(),
     };
   },
 
