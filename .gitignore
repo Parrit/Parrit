@@ -6,5 +6,4 @@ src/main/resources/static/
 
 .DS_Store
 *.iml
-.gradle
 *.patch
