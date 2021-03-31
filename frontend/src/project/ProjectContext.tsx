@@ -88,11 +88,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
     console.log("setting project post deletion", copy);
     setProject(copy);
-    return deletePairingBoard(project.id, pairingBoard.id).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    return deletePairingBoard(project.id, pairingBoard.id);
   };
 
   const removeRole = (
@@ -151,17 +147,15 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     let proj = removeRole(role, project, currentRoleBoard);
     proj = addRole(role, proj, position);
     setProject(proj);
-    putRolePosition(project.id, currentRoleBoard, role, position).then(
-      (updatedProject) => {
-        setProject(updatedProject);
-      }
-    );
+    putRolePosition(project.id, currentRoleBoard, role, position);
   };
 
   const destroyRole = (role: IRole) => {
     const currentPB = currentRolePairingBoard(role);
 
     if (currentPB) {
+      const update = removeRole(role, project, currentPB);
+      setProject(update);
       return deleteRole(project.id, currentPB, role);
     }
 
@@ -180,10 +174,18 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     person: IPerson,
     proj: IProject,
     position?: IPairingBoard
-  ): IProject => new Project(proj).removePerson(person, proj, position);
+  ): IProject => {
+    const updatedProject = new Project(proj).removePerson(
+      person,
+      proj,
+      position
+    );
+    setProject(updatedProject);
+    return updatedProject;
+  };
 
   const movePerson = (person: IPerson, position?: IPairingBoard) =>
-    new Project(project).movePerson(person, position);
+    setProject(new Project(project).movePerson(person, position));
 
   const destroyPerson = (person: IPerson) => {
     const updatedProject = removePerson(
@@ -192,7 +194,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
       currentPersonPairingBoard(person)
     );
     setProject(updatedProject);
-    return deletePerson(project.id, person.id).then((proj) => setProject(proj));
+    return deletePerson(project.id, person.id);
   };
 
   const resetPairs = () => {

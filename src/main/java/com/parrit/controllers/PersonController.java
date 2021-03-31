@@ -11,17 +11,14 @@ import com.parrit.exceptions.PersonNotFoundException;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Stream;
 
-@Controller
+@RestController
 public class PersonController {
 
     private final ProjectRepository projectRepository;
@@ -32,21 +29,19 @@ public class PersonController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
+    @PostMapping(path = "/api/project/{projectId}/person")
+    public ProjectDTO addPerson(@PathVariable long projectId, @RequestBody @Valid PersonDTO personDTO) {
         Project savedProject = projectRepository.findById(projectId).get();
 
         savedProject.getPeople().add(new Person(personDTO.getName()));
 
         Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+        return ProjectTransformer.transform(updatedProject);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person/{personId}/position", method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> movePerson(@PathVariable long projectId, @PathVariable long personId, @RequestBody @Valid PersonPositionDTO personPositionDTO) {
+    @PutMapping(path = "/api/project/{projectId}/person/{personId}/position")
+    public ProjectDTO movePerson(@PathVariable long projectId, @PathVariable long personId, @RequestBody @Valid PersonPositionDTO personPositionDTO) {
         Project savedProject = projectRepository.findById(projectId).get();
 
         Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
@@ -62,7 +57,7 @@ public class PersonController {
                 .get();
         listWithPerson.remove(person);
 
-        if(personPositionDTO.isFloating()) {
+        if (personPositionDTO.isFloating()) {
             savedProject.getPeople().add(person);
         } else {
             PairingBoard matchingPairingBoard = savedProject.getPairingBoards().stream()
@@ -74,13 +69,12 @@ public class PersonController {
         }
 
         Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+        return ProjectTransformer.transform(updatedProject);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/person/{personId}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> deletePerson(@PathVariable long projectId, @PathVariable long personId) {
+    @DeleteMapping(path = "/api/project/{projectId}/person/{personId}")
+    public ProjectDTO deletePerson(@PathVariable long projectId, @PathVariable long personId) {
         Project savedProject = projectRepository.findById(projectId).get();
 
         Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
@@ -93,7 +87,7 @@ public class PersonController {
         listWithPerson.removeIf(p -> p.getId() == personId);
 
         Project updatedProject = projectRepository.save(savedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+        return ProjectTransformer.transform(updatedProject);
     }
 
 }

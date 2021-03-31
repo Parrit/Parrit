@@ -56,7 +56,9 @@ export const Workspace: React.FC = (props) => {
     if (!newRoleBoard) {
       throw new Error("creating a new role without a pairing board");
     }
-    createRole(name, newRoleBoard);
+    createRole(name, newRoleBoard)
+      .then((_) => setNewRoleOpen(false))
+      .catch((error) => setNewRoleError(error));
   };
 
   const handleSetNewRoleOpen = (

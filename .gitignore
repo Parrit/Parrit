@@ -2,7 +2,8 @@
 build/
 frontend/node_modules/
 out/
+src/main/resources/static/
 
 .DS_Store
 *.iml
-.gradle
+*.patch

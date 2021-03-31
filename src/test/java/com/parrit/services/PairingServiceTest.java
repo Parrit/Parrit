@@ -6,11 +6,11 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.PairingHistoryRepository;
 import com.parrit.utilities.CurrentTimeProvider;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PairingServiceTest {
 
     private PairingService pairingService;
@@ -39,9 +39,9 @@ public class PairingServiceTest {
     @Mock
     private CurrentTimeProvider mockCurrentTimeProvider;
 
-    private Timestamp currentTime = new Timestamp(1456364985548L);
+    private final Timestamp currentTime = new Timestamp(1456364985548L);
 
-    @Before
+    @BeforeEach
     public void setup() {
         pairingService = new PairingService(mockPairingHistoryRepository, mockRecommendationService, mockCurrentTimeProvider);
 
@@ -172,7 +172,7 @@ public class PairingServiceTest {
         assertThat(result, equalTo(Collections.emptyList()));
 
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
-        verifyZeroInteractions(mockPairingHistoryRepository);
+        verifyNoInteractions(mockPairingHistoryRepository);
     }
 
     @Test
@@ -203,16 +203,18 @@ public class PairingServiceTest {
 
         Project recommendedProject = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
 
-        when(mockPairingHistoryRepository.findByProjectAndTimestampAfter(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        when(mockPairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
+        when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
         when(mockRecommendationService.get(any(Project.class), anyList())).thenReturn(recommendedProject);
 
         Project returnedProject = pairingService.getRecommendation(project);
 
         assertThat(returnedProject, equalTo(recommendedProject));
 
-        Timestamp twoMonthsAgoTime = new Timestamp(1451105499548L);
+        Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
 
-        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfter(project, twoMonthsAgoTime);
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
         verify(mockRecommendationService).get(project, pairingHistories);
     }
 
@@ -225,12 +227,15 @@ public class PairingServiceTest {
                 new PairingHistory(project, "Pairing Board 2", new ArrayList<>(), new Timestamp(50))
         );
 
-        when(mockPairingHistoryRepository.findByProjectOrderByTimestampDesc(any(Project.class))).thenReturn(pairingHistories);
+        when(mockPairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(any(Project.class), any(Timestamp.class))).thenReturn(pairingHistories);
+        Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
+        when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
 
         List<PairingHistory> result = pairingService.getSortedPairingHistory(project);
 
         assertThat(result, equalTo(pairingHistories));
 
-        verify(mockPairingHistoryRepository).findByProjectOrderByTimestampDesc(project);
+        Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
+        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
     }
 }
