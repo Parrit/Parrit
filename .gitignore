@@ -3,6 +3,7 @@ build/
 frontend/node_modules/
 out/
 src/main/resources/static/
+.gradle
 
 .DS_Store
 *.iml
