@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,4 +81,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new DelegatingPasswordEncoder("bcrypt", encoders);
     }
 
+    @Bean
+    public StrictHttpFirewall httpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowedHeaderNames((header) -> true);
+        firewall.setAllowedHeaderValues((header) -> true);
+        firewall.setAllowedParameterNames((parameter) -> true);
+        return firewall;
+    }
 }
