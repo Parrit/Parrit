@@ -81,6 +81,7 @@ export class ProjectHelper {
         } else {
           // we know top pair is floating because they have no pairing board
           const emptyPairingBoard = copy.emptyPairingBoard;
+          console.log("empty", emptyPairingBoard);
           if (emptyPairingBoard) {
             let proj = new Project(
               copy.movePerson(floating, emptyPairingBoard)

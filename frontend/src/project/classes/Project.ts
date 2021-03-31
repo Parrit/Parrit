@@ -34,7 +34,9 @@ export class Project implements IProject {
   }
 
   get emptyPairingBoard() {
-    return this.pairingBoards.find((pb) => pb.people.length === 0);
+    return this.pairingBoards.find(
+      (pb) => pb.people.length === 0 && !pb.exempt
+    );
   }
 
   get currentUnpairedStickingPeople(): IPerson[] {

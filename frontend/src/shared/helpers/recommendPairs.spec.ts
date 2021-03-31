@@ -70,6 +70,18 @@ describe("recommending pairs", () => {
     });
   });
 
+  describe("empty pairing board", () => {
+    it("does not include exempt boards", () => {
+      expect(new Project(project).emptyPairingBoard).toEqual({
+        exempt: false,
+        id: 4,
+        name: "Truffle-hunter",
+        people: [],
+        roles: [],
+      });
+    });
+  });
+
   describe("iterateMatch", () => {
     let firstIteration: Project;
 
@@ -121,9 +133,9 @@ describe("recommending pairs", () => {
               roles: [],
             },
             {
-              exempt: false,
-              id: 3,
-              name: "Truffle-hunter",
+              exempt: true,
+              id: 4,
+              name: "Out of Office",
               people: [
                 {
                   id: 2,
@@ -134,6 +146,13 @@ describe("recommending pairs", () => {
                   name: "Michael",
                 },
               ],
+              roles: [],
+            },
+            {
+              exempt: false,
+              id: 4,
+              name: "Truffle-hunter",
+              people: [],
               roles: [],
             },
           ],

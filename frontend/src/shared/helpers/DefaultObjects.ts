@@ -7,7 +7,8 @@ interface IDefaultObjects {
   project(): IProject;
   pairingBoard1(): IPairingBoard;
   pairingBoard2(): IPairingBoard;
-  pairingBoard3(): IPairingBoard;
+  pairingBoard4(): IPairingBoard;
+  exemptPairingBoard(): IPairingBoard;
   person1(): IPerson;
   person2(): IPerson;
   person3(): IPerson;
@@ -26,7 +27,8 @@ export const DefaultObjects: IDefaultObjects = {
       pairingBoards: [
         DefaultObjects.pairingBoard1(),
         DefaultObjects.pairingBoard2(),
-        DefaultObjects.pairingBoard3(),
+        DefaultObjects.exemptPairingBoard(),
+        DefaultObjects.pairingBoard4(),
       ],
       people: [
         DefaultObjects.person2(),
@@ -57,11 +59,21 @@ export const DefaultObjects: IDefaultObjects = {
     };
   },
 
-  pairingBoard3: () => {
+  pairingBoard4: () => {
     return {
-      id: 3,
+      id: 4,
       name: "Truffle-hunter",
       exempt: false,
+      people: [],
+      roles: [],
+    };
+  },
+
+  exemptPairingBoard: () => {
+    return {
+      id: 4,
+      name: "Out of Office",
+      exempt: true,
       people: [],
       roles: [],
     };
