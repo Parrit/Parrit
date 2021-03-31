@@ -184,8 +184,11 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     return updatedProject;
   };
 
-  const movePerson = (person: IPerson, position?: IPairingBoard) =>
-    setProject(new Project(project).movePerson(person, position));
+  const movePerson = (person: IPerson, position?: IPairingBoard) => {
+    const updatedProject = new Project(project).movePerson(person, position);
+    updateProject(updatedProject);
+    setProject(updatedProject);
+  };
 
   const destroyPerson = (person: IPerson) => {
     const updatedProject = removePerson(

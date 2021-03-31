@@ -245,11 +245,12 @@ export const ApiProvider: React.FC = (props) => {
   };
 
   const updateProject = (project: IProject): Promise<IProject> => {
-    return Axios.put<IProject>("/api/project/update", project).then(
-      (response) => {
-        return response.data;
-      }
-    );
+    return Axios.put<IProject>(
+      "/api/project/" + encodeURIComponent(project.id) + "/update",
+      project
+    ).then((response) => {
+      return response.data;
+    });
   };
 
   const value = {
