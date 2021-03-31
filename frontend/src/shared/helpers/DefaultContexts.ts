@@ -1,7 +1,9 @@
+import { IAppContext } from "../../project/components/App";
 import { IApiContext } from "./ApiContext";
 
 interface IDefaultContexts {
   apiContext(): IApiContext;
+  appContext(): IAppContext;
 }
 
 export const DefaultContexts: IDefaultContexts = {
@@ -23,6 +25,15 @@ export const DefaultContexts: IDefaultContexts = {
       postProjectPairing: jest.fn(),
       getRecommendedPairing: jest.fn(),
       getPairingHistory: jest.fn(),
+      updateProject: jest.fn(),
+    };
+  },
+
+  appContext: () => {
+    return {
+      pairingHistoryOpen: false,
+      setPairingHistoryOpen: jest.fn(),
+      setSystemAlert: jest.fn(),
     };
   },
 };

@@ -1,5 +1,6 @@
 package com.parrit.entities;
 
+import com.parrit.DTOs.ProjectDTO;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;

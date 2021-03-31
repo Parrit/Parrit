@@ -8,6 +8,7 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
+import com.parrit.services.ProjectService;
 import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class ProjectController {
 
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
+    @Autowired ProjectService projectService;
 
     @Autowired
     public ProjectController(ProjectRepository projectRepository, PasswordEncoder passwordEncoder) {
@@ -103,6 +105,14 @@ public class ProjectController {
 
         Project updatedProject = projectRepository.save(existingProject);
         return ProjectTransformer.transform(updatedProject);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/update", method = RequestMethod.PUT)
+    @ResponseBody
+    public ProjectDTO updateProject(@RequestBody ProjectDTO body, @PathVariable long projectId) {
+        Project project = projectService.updateProjectFromDTO(body);
+        return ProjectTransformer.transform(project);
     }
 
 }

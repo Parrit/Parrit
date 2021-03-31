@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { ApiContext } from "../shared/helpers/ApiContext";
+import { recommendPairs } from "../shared/helpers/recommendPairs";
+import { Project } from "./classes/Project";
 import { AppContext } from "./components/App";
 import { IPairingBoard } from "./interfaces/IPairingBoard";
 import { IPerson } from "./interfaces/IPerson";
@@ -19,9 +21,9 @@ export interface IProjectContext {
   destroyPerson: (person: IPerson) => Promise<any>;
   destroyRole: (role: IRole) => Promise<any>;
   destroyPairingBoard: (pairingBoard: IPairingBoard) => Promise<any>;
-  resetPairs: VoidFunction;
-  getRecommendedPairs: VoidFunction;
-  savePairing: VoidFunction;
+  resetPairs: () => void;
+  getRecommendedPairs: () => void;
+  savePairing: () => void;
   projectId: number;
 }
 
@@ -43,11 +45,10 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     postRole,
     putRolePosition,
     deleteRole,
-    putPersonPosition,
     deletePerson,
     postProjectPairing,
-    getRecommendedPairing,
     resetProject,
+    updateProject,
   } = useContext(ApiContext);
 
   const people = project.people;
@@ -172,62 +173,19 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     proj: IProject,
     position?: IPairingBoard
   ): IProject => {
-    const copy = { ...proj };
-    const arr: IPerson[] = [];
-    if (!position) {
-      // we're removing this person from floating
-      copy.people.forEach((p) => {
-        if (p.id !== person.id) {
-          arr.push(p);
-        }
-      });
-      copy.people = arr;
-    } else {
-      const board = copy.pairingBoards.find((pb) => pb.id === position.id);
-      if (!board) {
-        throw new Error("AWK! Totally Broken!");
-      }
-      const index = copy.pairingBoards.indexOf(board);
-      position.people.forEach((p) => {
-        if (p.id !== person.id) {
-          arr.push(p);
-        }
-      });
-      copy.pairingBoards[index] = { ...board, people: arr };
-    }
-
-    return copy;
-  };
-
-  const addPerson = (
-    person: IPerson,
-    proj: IProject,
-    position?: IPairingBoard
-  ): IProject => {
-    const copy = { ...proj };
-    if (!position) {
-      // we're adding this person to floating
-      copy.people.push(person);
-      setProject(copy);
-    } else {
-      const board = copy.pairingBoards.find((pb) => pb.id === position.id);
-      if (!board) {
-        throw new Error("AWK! Totally Broken!");
-      }
-      const index = copy.pairingBoards.indexOf(board);
-      board.people.push(person);
-      copy.pairingBoards[index] = board;
-      setProject(copy);
-    }
-
-    return copy;
+    const updatedProject = new Project(proj).removePerson(
+      person,
+      proj,
+      position
+    );
+    setProject(updatedProject);
+    return updatedProject;
   };
 
   const movePerson = (person: IPerson, position?: IPairingBoard) => {
-    let proj = removePerson(person, project, currentPersonPairingBoard(person));
-    proj = addPerson(person, proj, position);
-    setProject(proj);
-    putPersonPosition(project.id, person, position);
+    const updatedProject = new Project(project).movePerson(person, position);
+    updateProject(updatedProject);
+    setProject(updatedProject);
   };
 
   const destroyPerson = (person: IPerson) => {
@@ -255,9 +213,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const getRecommendedPairs = () => {
-    getRecommendedPairing(project.id).then((recommended) => {
-      setProject(recommended);
-    });
+    const recommendedConfiguration = recommendPairs(project, pairingHistory);
+    setProject(recommendedConfiguration);
+    updateProject(recommendedConfiguration);
   };
 
   const savePairing = () => {
