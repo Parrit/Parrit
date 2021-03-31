@@ -45,7 +45,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     postRole,
     putRolePosition,
     deleteRole,
-    // putPersonPosition,
     deletePerson,
     postProjectPairing,
     resetProject,
@@ -57,7 +56,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getPairingHistory(project.id).then((history) => {
-      console.log("history", history);
       setPairingHistory(history);
     });
     //run only once
@@ -216,7 +214,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
 
   const getRecommendedPairs = () => {
     const recommendedConfiguration = recommendPairs(project, pairingHistory);
-    console.log("recommended", recommendedConfiguration);
     setProject(recommendedConfiguration);
     updateProject(recommendedConfiguration);
   };
