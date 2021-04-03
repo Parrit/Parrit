@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "pairing_history",
         indexes = {
@@ -27,7 +29,7 @@ public class PairingHistory {
     @GeneratedValue(generator = "pairing_history_id_gen", strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "project_id_fk"))
     private Project project;
 
