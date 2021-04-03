@@ -4,16 +4,23 @@ import com.parrit.DTOs.ProjectDTO;
 import com.parrit.entities.Project;
 import com.parrit.exceptions.ProjectNotFoundException;
 import com.parrit.repositories.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class ProjectService {
-    @Autowired ProjectRepository projectRepository;
-    @Autowired PairingBoardService pairingBoardService;
-    @Autowired PersonService personService;
+    final ProjectRepository projectRepository;
+    final PairingBoardService pairingBoardService;
+    final PersonService personService;
+
+    public ProjectService(ProjectRepository projectRepository,
+                          PairingBoardService pairingBoardService,
+                          PersonService personService) {
+        this.projectRepository = projectRepository;
+        this.pairingBoardService = pairingBoardService;
+        this.personService = personService;
+    }
 
     public Project updateProjectFromDTO(ProjectDTO dto) {
         Optional<Project> oProject = projectRepository.findById(dto.getId());

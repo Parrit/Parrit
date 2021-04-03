@@ -9,6 +9,7 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.ProjectRepository;
+import com.parrit.services.ProjectService;
 import com.parrit.transformers.ProjectTransformer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class ProjectControllerTest {
 
     @MockBean
     private PasswordEncoder passwordEncoder;
+
+    @MockBean
+    private ProjectService projectService;
 
     //*********************//
     //******  Views  ******//

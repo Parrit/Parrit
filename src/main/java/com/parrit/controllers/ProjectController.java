@@ -29,12 +29,17 @@ public class ProjectController {
 
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
-    @Autowired ProjectService projectService;
+    private final ProjectService projectService;
 
     @Autowired
-    public ProjectController(ProjectRepository projectRepository, PasswordEncoder passwordEncoder) {
+    public ProjectController(
+            ProjectRepository projectRepository,
+            PasswordEncoder passwordEncoder,
+            ProjectService projectService
+    ) {
         this.projectRepository = projectRepository;
         this.passwordEncoder = passwordEncoder;
+        this.projectService = projectService;
     }
 
     //*********************//
