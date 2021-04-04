@@ -18,6 +18,9 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
+@AllArgsConstructor
+@With
 public class PairingHistory {
 
     @Id
