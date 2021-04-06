@@ -1,9 +1,6 @@
 package com.parrit.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -18,6 +15,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 public class Person {
 
     @Id

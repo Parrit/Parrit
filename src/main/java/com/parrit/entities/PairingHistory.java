@@ -20,6 +20,9 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
+@AllArgsConstructor
+@With
 public class PairingHistory {
 
     @Id

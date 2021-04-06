@@ -52,13 +52,14 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='**********'" +
-                ", pairingBoards=" + pairingBoards +
-                ", people=" + people +
-                '}';
+        return String.format(
+                "Project{" +
+                        "id=%d, " +
+                        "name='%s', " +
+                        "password='**********', " +
+                        "pairingBoards=%s, " +
+                        "people=%s" +
+                        "}", id, name, pairingBoards, people);
     }
 
 }
