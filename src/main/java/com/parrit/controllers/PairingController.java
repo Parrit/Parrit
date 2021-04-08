@@ -26,7 +26,6 @@ public class PairingController {
 
     private final PairingService pairingService;
     private final ProjectRepository projectRepository;
-    private static final Logger log = LoggerFactory.getLogger(PairingController.class);
 
     @Autowired
     public PairingController(PairingService pairingService, ProjectRepository projectRepository) {
@@ -58,13 +57,9 @@ public class PairingController {
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
     @GetMapping(path = "/api/project/{projectId}/pairing/history")
     public List<PairingHistoryDTO> getPairingHistory(@PathVariable long projectId) {
-        Instant start = Instant.now();
         Project project = projectRepository.findById(projectId).get();
         List<PairingHistory> pairingHistoryList = pairingService.getSortedPairingHistory(project);
-        List<PairingHistoryDTO> response = PairingHistoryTransformer.transform(pairingHistoryList);
-        Instant end = Instant.now();
 
-        log.info("Pairing history endpoint took {} to respond.", Duration.between(start, end).toMillis());
-        return response;
+        return PairingHistoryTransformer.transform(pairingHistoryList);
     }
 }
