@@ -1,10 +1,10 @@
 package com.parrit.entities;
 
 import lombok.*;
-import com.parrit.DTOs.PairingBoardDTO;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,11 +35,11 @@ public class PairingBoard {
 
     @OneToMany
     @JoinColumn(name = "pairing_board_id", nullable = true, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
-    private List<Person> people;
+    private List<Person> people = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pairing_board_id", nullable = false, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     public PairingBoard(String name, boolean exempt, List<Person> people, List<Role> roles) {
         this.name = name;

@@ -23,15 +23,13 @@ public class ProjectService {
     }
 
     public Project updateProjectFromDTO(ProjectDTO dto) {
-        Optional<Project> oProject = projectRepository.findById(dto.getId());
-        if (oProject.isPresent()) {
-            Project project = oProject.get();
-            project.setPairingBoards(pairingBoardService.updatePairingBoardsBasedOnList(dto.getPairingBoards()));
-            project.setPeople(personService.peopleFromDTOList(dto.getPeople()));
-            projectRepository.save(project);
-            return project;
-        } else {
-            throw new ProjectNotFoundException("While updating, could not find project with id: " + dto.getId());
-        }
+        return projectRepository.findById(dto.getId())
+                .map(project -> {
+                    project.setPairingBoards(pairingBoardService.updatePairingBoardsBasedOnList(dto.getPairingBoards()));
+                    project.setPeople(personService.peopleFromDTOList(dto.getPeople()));
+                    projectRepository.save(project);
+                    return project;
+                })
+                .orElseThrow(() -> new ProjectNotFoundException("While updating, could not find project with id: " + dto.getId()));
     }
 }

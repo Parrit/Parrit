@@ -4,25 +4,26 @@ import com.parrit.DTOs.RoleDTO;
 import com.parrit.entities.Role;
 import com.parrit.exceptions.RoleNotFoundException;
 import com.parrit.repositories.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class RoleService {
-    @Autowired RoleRepository roleRepository;
+    final RoleRepository roleRepository;
+
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     public List<Role> rolesFromDTOList(List<RoleDTO> roleList) {
-        return roleList.stream().map(roleDto -> {
-            Optional<Role> oRole = roleRepository.findById(roleDto.getId());
-            if (oRole.isPresent()) {
-                return oRole.get();
-            } else {
-                throw new RoleNotFoundException("While updating could not find role id: " + roleDto.getId());
-            }
-        }).collect(Collectors.toList());
+        return roleList.stream()
+                .map(roleDto -> roleRepository
+                        .findById(roleDto.getId())
+                        .orElseThrow(() -> new RoleNotFoundException("While updating could not find role id: " + roleDto.getId()))
+                )
+                .collect(toList());
     }
 }
