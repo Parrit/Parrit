@@ -2,14 +2,11 @@ package com.parrit.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parrit.DTOs.LoginDTO;
-import com.parrit.configurations.WebSecurityConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,12 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = LoginController.class,
-        excludeFilters = {
-                @ComponentScan.Filter(classes = WebSecurityConfiguration.class, type = FilterType.ASSIGNABLE_TYPE)
-        })
+@WebMvcTest(controllers = LoginController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class LoginControllerTest {
+public class LoginControllerTest extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parrit.DTOs.ChangePasswordDTO;
 import com.parrit.DTOs.NewProjectDTO;
 import com.parrit.DTOs.ProjectDTO;
-import com.parrit.configurations.WebSecurityConfiguration;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,12 +29,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = ProjectController.class,
-        excludeFilters = {
-                @ComponentScan.Filter(classes = WebSecurityConfiguration.class, type = FilterType.ASSIGNABLE_TYPE)
-        })
+@WebMvcTest(controllers = ProjectController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class ProjectControllerTest {
+public class ProjectControllerTest extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

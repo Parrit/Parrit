@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parrit.DTOs.ProjectDTO;
 import com.parrit.DTOs.RoleDTO;
 import com.parrit.DTOs.RolePositionDTO;
-import com.parrit.configurations.WebSecurityConfiguration;
 import com.parrit.entities.PairingBoard;
 import com.parrit.entities.Project;
 import com.parrit.entities.Role;
@@ -17,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,12 +32,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = RoleController.class,
-        excludeFilters = {
-                @ComponentScan.Filter(classes = WebSecurityConfiguration.class, type = FilterType.ASSIGNABLE_TYPE)
-        })
+@WebMvcTest(controllers = RoleController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class RoleControllerTest {
+public class RoleControllerTest extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
