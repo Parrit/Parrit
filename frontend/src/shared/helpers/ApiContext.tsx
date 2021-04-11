@@ -70,7 +70,7 @@ export const ApiProvider: React.FC = (props) => {
 
   const postLogout = () => {
     Axios.post("/api/logout").then((response) => {
-      window.location.href = location.origin;
+      window.location.href = "https://" + location.host;
     });
   };
 
