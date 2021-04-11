@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -34,7 +36,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .logoutUrl("/api/logout")
-                .logoutSuccessUrl("/")
+                .logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) ->
+                        httpServletResponse.setStatus(HttpServletResponse.SC_OK)
+                )
                 .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/", "/login", "/error").permitAll()
