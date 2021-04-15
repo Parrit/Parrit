@@ -199,7 +199,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const resetPairs = () => {
-    const people: IPerson[] = [];
+    const people: IPerson[] = [...project.people];
     const pbs: IPairingBoard[] = [];
     project.pairingBoards.forEach((pb) => {
       pb.people.forEach((p) => people.push(p));
