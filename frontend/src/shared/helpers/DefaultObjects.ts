@@ -71,7 +71,7 @@ export const DefaultObjects: IDefaultObjects = {
 
   exemptPairingBoard: () => {
     return {
-      id: 4,
+      id: 3,
       name: "Out of Office",
       exempt: true,
       people: [],
