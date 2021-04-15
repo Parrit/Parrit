@@ -82,6 +82,70 @@ describe("recommending pairs", () => {
     });
   });
 
+  it("looks like the expected structure initially", () => {
+    expect(project.pairingBoards[0]).toEqual({
+      exempt: false,
+      id: 1,
+      name: "Cockatiel",
+      people: [
+        {
+          id: 1,
+          name: "Anthony",
+        },
+      ],
+      roles: [
+        {
+          id: 1,
+          name: "The only one",
+        },
+      ],
+    });
+    expect(project.pairingBoards[1]).toEqual({
+      exempt: false,
+      id: 2,
+      name: "Trubador",
+      people: [
+        {
+          id: 3,
+          name: "Cat",
+        },
+      ],
+      roles: [],
+    });
+    expect(project.pairingBoards[2]).toEqual({
+      exempt: true,
+      id: 3,
+      name: "Out of Office",
+      people: [],
+      roles: [],
+    });
+    expect(project.pairingBoards[3]).toEqual({
+      exempt: false,
+      id: 4,
+      name: "Truffle-hunter",
+      people: [],
+      roles: [],
+    });
+    expect(project.people).toEqual([
+      {
+        id: 2,
+        name: "Hanchen",
+      },
+      {
+        id: 4,
+        name: "Darcie",
+      },
+      {
+        id: 5,
+        name: "Joe",
+      },
+      {
+        id: 6,
+        name: "Michael",
+      },
+    ]);
+  });
+
   describe("iterateMatch", () => {
     let firstIteration: Project;
 
@@ -99,74 +163,68 @@ describe("recommending pairs", () => {
       });
 
       it("makes the iteration", () => {
-        expect(firstIteration).toEqual({
+        expect(firstIteration.pairingBoards[0]).toEqual({
+          exempt: false,
           id: 1,
-          name: "Test",
-          pairingBoards: [
-            {
-              exempt: false,
-              id: 1,
-              name: "Cockatiel",
-              people: [
-                {
-                  id: 1,
-                  name: "Anthony",
-                },
-              ],
-              roles: [
-                {
-                  id: 1,
-                  name: "The only one",
-                },
-              ],
-            },
-            {
-              exempt: false,
-              id: 2,
-              name: "Trubador",
-              people: [
-                {
-                  id: 3,
-                  name: "Cat",
-                },
-              ],
-              roles: [],
-            },
-            {
-              exempt: true,
-              id: 4,
-              name: "Out of Office",
-              people: [
-                {
-                  id: 2,
-                  name: "Hanchen",
-                },
-                {
-                  id: 6,
-                  name: "Michael",
-                },
-              ],
-              roles: [],
-            },
-            {
-              exempt: false,
-              id: 4,
-              name: "Truffle-hunter",
-              people: [],
-              roles: [],
-            },
-          ],
+          name: "Cockatiel",
           people: [
             {
-              id: 4,
-              name: "Darcie",
+              id: 1,
+              name: "Anthony",
             },
+          ],
+          roles: [
             {
-              id: 5,
-              name: "Joe",
+              id: 1,
+              name: "The only one",
             },
           ],
         });
+        expect(firstIteration.pairingBoards[1]).toEqual({
+          exempt: false,
+          id: 2,
+          name: "Trubador",
+          people: [
+            {
+              id: 3,
+              name: "Cat",
+            },
+          ],
+          roles: [],
+        });
+        expect(firstIteration.pairingBoards[2]).toEqual({
+          exempt: true,
+          id: 3,
+          name: "Out of Office",
+          people: [],
+          roles: [],
+        });
+        expect(firstIteration.pairingBoards[3]).toEqual({
+          exempt: false,
+          id: 4,
+          name: "Truffle-hunter",
+          people: [
+            {
+              id: 2,
+              name: "Hanchen",
+            },
+            {
+              id: 6,
+              name: "Michael",
+            },
+          ],
+          roles: [],
+        });
+        expect(firstIteration.people).toEqual([
+          {
+            id: 4,
+            name: "Darcie",
+          },
+          {
+            id: 5,
+            name: "Joe",
+          },
+        ]);
       });
 
       describe("the second iteration", () => {
@@ -177,141 +235,7 @@ describe("recommending pairs", () => {
 
         it("makes the iteration", () => {
           expect(secondIteration).not.toEqual(firstIteration);
-          expect(secondIteration).toEqual({
-            id: 1,
-            name: "Test",
-            pairingBoards: [
-              {
-                exempt: false,
-                id: 1,
-                name: "Cockatiel",
-                people: [
-                  {
-                    id: 1,
-                    name: "Anthony",
-                  },
-                  {
-                    id: 4,
-                    name: "Darcie",
-                  },
-                ],
-                roles: [
-                  {
-                    id: 1,
-                    name: "The only one",
-                  },
-                ],
-              },
-              {
-                exempt: false,
-                id: 2,
-                name: "Trubador",
-                people: [
-                  {
-                    id: 3,
-                    name: "Cat",
-                  },
-                ],
-                roles: [],
-              },
-              {
-                exempt: false,
-                id: 3,
-                name: "Truffle-hunter",
-                people: [
-                  {
-                    id: 2,
-                    name: "Hanchen",
-                  },
-                  {
-                    id: 6,
-                    name: "Michael",
-                  },
-                ],
-                roles: [],
-              },
-            ],
-            people: [
-              {
-                id: 5,
-                name: "Joe",
-              },
-            ],
-          });
-        });
-      });
-    });
-  });
-
-  describe("resulting project", () => {
-    it("starts out in an expected shape", () => {
-      expect(project).toEqual({
-        id: 1,
-        name: "Test",
-        pairingBoards: [
-          {
-            exempt: false,
-            id: 1,
-            name: "Cockatiel",
-            people: [
-              {
-                id: 1,
-                name: "Anthony",
-              },
-            ],
-            roles: [
-              {
-                id: 1,
-                name: "The only one",
-              },
-            ],
-          },
-          {
-            exempt: false,
-            id: 2,
-            name: "Trubador",
-            people: [
-              {
-                id: 3,
-                name: "Cat",
-              },
-            ],
-            roles: [],
-          },
-          {
-            exempt: false,
-            id: 3,
-            name: "Truffle-hunter",
-            people: [],
-            roles: [],
-          },
-        ],
-        people: [
-          {
-            id: 2,
-            name: "Hanchen",
-          },
-          {
-            id: 4,
-            name: "Darcie",
-          },
-          {
-            id: 5,
-            name: "Joe",
-          },
-          {
-            id: 6,
-            name: "Michael",
-          },
-        ],
-      });
-    });
-    it("returns a project of the expected shape", () => {
-      expect(subject.recommendedConfiguration()).toEqual({
-        id: 1,
-        name: "Test",
-        pairingBoards: [
-          {
+          expect(secondIteration.pairingBoards[0]).toEqual({
             exempt: false,
             id: 1,
             name: "Cockatiel",
@@ -331,8 +255,8 @@ describe("recommending pairs", () => {
                 name: "The only one",
               },
             ],
-          },
-          {
+          });
+          expect(secondIteration.pairingBoards[1]).toEqual({
             exempt: false,
             id: 2,
             name: "Trubador",
@@ -341,16 +265,19 @@ describe("recommending pairs", () => {
                 id: 3,
                 name: "Cat",
               },
-              {
-                id: 5,
-                name: "Joe",
-              },
             ],
             roles: [],
-          },
-          {
-            exempt: false,
+          });
+          expect(secondIteration.pairingBoards[2]).toEqual({
+            exempt: true,
             id: 3,
+            name: "Out of Office",
+            people: [],
+            roles: [],
+          });
+          expect(secondIteration.pairingBoards[3]).toEqual({
+            exempt: false,
+            id: 4,
             name: "Truffle-hunter",
             people: [
               {
@@ -363,10 +290,82 @@ describe("recommending pairs", () => {
               },
             ],
             roles: [],
+          });
+          expect(secondIteration.people).toEqual([
+            {
+              id: 5,
+              name: "Joe",
+            },
+          ]);
+        });
+      });
+    });
+  });
+
+  describe("resulting project", () => {
+    it("returns a project of the expected shape", () => {
+      const result = subject.recommendedConfiguration();
+      expect(result.pairingBoards[0]).toEqual({
+        exempt: false,
+        id: 1,
+        name: "Cockatiel",
+        people: [
+          {
+            id: 1,
+            name: "Anthony",
+          },
+          {
+            id: 4,
+            name: "Darcie",
           },
         ],
-        people: [],
+        roles: [
+          {
+            id: 1,
+            name: "The only one",
+          },
+        ],
       });
+      expect(result.pairingBoards[1]).toEqual({
+        exempt: false,
+        id: 2,
+        name: "Trubador",
+        people: [
+          {
+            id: 3,
+            name: "Cat",
+          },
+          {
+            id: 5,
+            name: "Joe",
+          },
+        ],
+        roles: [],
+      });
+      expect(result.pairingBoards[2]).toEqual({
+        exempt: true,
+        id: 3,
+        name: "Out of Office",
+        people: [],
+        roles: [],
+      });
+      expect(result.pairingBoards[3]).toEqual({
+        exempt: false,
+        id: 4,
+        name: "Truffle-hunter",
+        people: [
+          {
+            id: 2,
+            name: "Hanchen",
+          },
+          {
+            id: 6,
+            name: "Michael",
+          },
+        ],
+        roles: [],
+      });
+      expect(result.people).toEqual([]);
     });
   });
 });
