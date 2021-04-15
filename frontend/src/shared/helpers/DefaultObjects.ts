@@ -15,6 +15,7 @@ interface IDefaultObjects {
   person4(): IPerson;
   person5(): IPerson;
   person6(): IPerson;
+  person7(): IPerson;
   role(): IRole;
   history(): PairingHistoryDTO[];
 }
@@ -74,7 +75,7 @@ export const DefaultObjects: IDefaultObjects = {
       id: 3,
       name: "Out of Office",
       exempt: true,
-      people: [],
+      people: [DefaultObjects.person7()],
       roles: [],
     };
   },
@@ -118,6 +119,13 @@ export const DefaultObjects: IDefaultObjects = {
     return {
       id: 6,
       name: "Michael",
+    };
+  },
+
+  person7: () => {
+    return {
+      id: 7,
+      name: "Sylvia",
     };
   },
 

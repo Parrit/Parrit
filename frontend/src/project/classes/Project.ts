@@ -42,7 +42,7 @@ export class Project implements IProject {
   get currentUnpairedStickingPeople(): IPerson[] {
     const val: IPerson[] = [];
     return this.pairingBoards.flatMap((board) => {
-      if (board.people.length === 1) {
+      if (board.people.length === 1 && !board.exempt) {
         return board.people;
       } else {
         return [];
