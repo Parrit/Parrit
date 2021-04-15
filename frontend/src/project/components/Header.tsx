@@ -1,26 +1,22 @@
 import React, { useContext } from "react";
 import classNames from "classnames";
 import { ApiContext } from "../../shared/helpers/ApiContext";
+import { AppContext } from "./App";
 
-interface Props {
-  isPairingHistoryPanelOpen: boolean;
-  setPairingHistoryPanelOpen: (isOpen: boolean) => void;
-}
-
-export const Header: React.FC<Props> = (props) => {
+export const Header: React.FC = (props) => {
   const { postLogout } = useContext(ApiContext);
-  const pairingHistoryOpen = props.isPairingHistoryPanelOpen;
+  const { pairingHistoryOpen, setPairingHistoryOpen } = useContext(AppContext);
   const classes = classNames({
     history: true,
     open: pairingHistoryOpen,
   });
 
   const openPairingHistoryPanel = () => {
-    props.setPairingHistoryPanelOpen(true);
+    setPairingHistoryOpen(true);
   };
 
   const closePairingHistoryPanel = () => {
-    props.setPairingHistoryPanelOpen(false);
+    setPairingHistoryOpen(false);
   };
 
   return (

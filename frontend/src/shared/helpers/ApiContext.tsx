@@ -1,5 +1,6 @@
 import Axios, { AxiosError } from "axios";
 import React from "react";
+import { Project } from "../../project/classes/Project";
 import { IPairingBoard } from "../../project/interfaces/IPairingBoard";
 import { IPerson } from "../../project/interfaces/IPerson";
 import { IProject } from "../../project/interfaces/IProject";
@@ -9,7 +10,7 @@ Axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export interface IApiContext {
   postLoginAndRedirect: (name: string, password: string) => Promise<any>;
-  postLogout: VoidFunction;
+  postLogout: () => void;
   postProject: (name: string, password: string) => Promise<any>;
   resetProject: (projectId: number) => Promise<IProject>;
   postPerson: (projectId: number, name: string) => Promise<IProject>;
@@ -46,8 +47,8 @@ export interface IApiContext {
     role: IRole
   ): Promise<void>;
   postProjectPairing(projectId: number): Promise<PairingHistoryDTO[]>;
-  getRecommendedPairing(projectId: number): Promise<IProject>;
   getPairingHistory(projectId: number): Promise<PairingHistoryDTO[]>;
+  updateProject(project: IProject): Promise<IProject>;
 }
 
 export const ApiContext = React.createContext({} as IApiContext);
@@ -69,7 +70,7 @@ export const ApiProvider: React.FC = (props) => {
 
   const postLogout = () => {
     Axios.post("/api/logout").then((response) => {
-      window.location.href = "/";
+      window.location.href = location.origin;
     });
   };
 
@@ -227,17 +228,26 @@ export const ApiProvider: React.FC = (props) => {
     ).then((response) => response.data);
   };
 
-  const getRecommendedPairing = (projectId: number): Promise<IProject> => {
-    return Axios.get<IProject>(
-      "/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend"
-    ).then((response) => response.data);
-  };
+  // const getRecommendedPairing = (projectId: number): Promise<IProject> => {
+  //   return Axios.get<IProject>(
+  //     "/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend"
+  //   ).then((response) => response.data);
+  // };
 
   const getPairingHistory = (
     projectId: number
   ): Promise<PairingHistoryDTO[]> => {
     return Axios.get<PairingHistoryDTO[]>(
       "/api/project/" + encodeURIComponent(projectId) + "/pairing/history"
+    ).then((response) => {
+      return response.data;
+    });
+  };
+
+  const updateProject = (project: IProject): Promise<IProject> => {
+    return Axios.put<IProject>(
+      "/api/project/" + encodeURIComponent(project.id) + "/update",
+      project
     ).then((response) => {
       return response.data;
     });
@@ -258,8 +268,8 @@ export const ApiProvider: React.FC = (props) => {
     postRole,
     putRolePosition,
     postProjectPairing,
-    getRecommendedPairing,
     getPairingHistory,
+    updateProject,
   };
 
   return (

@@ -8,19 +8,20 @@ import com.parrit.repositories.ProjectRepository;
 import com.parrit.services.PairingService;
 import com.parrit.transformers.PairingHistoryTransformer;
 import com.parrit.transformers.ProjectTransformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
-@Controller
+@RestController
 public class PairingController {
 
     private final PairingService pairingService;
@@ -37,30 +38,28 @@ public class PairingController {
     //********************//
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairing", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<List<PairingHistoryDTO>> savePairing(@PathVariable long projectId) {
+    @PostMapping(path = "/api/project/{projectId}/pairing")
+    public List<PairingHistoryDTO> savePairing(@PathVariable long projectId) {
         Project project = projectRepository.findById(projectId).get();
         List<PairingHistory> pairingHistoryList = pairingService.savePairing(project);
-        return new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
+        return PairingHistoryTransformer.transform(pairingHistoryList);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairing/recommend", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<ProjectDTO> getRecommendation(@PathVariable long projectId) {
+    @GetMapping(path = "/api/project/{projectId}/pairing/recommend")
+    public ProjectDTO getRecommendation(@PathVariable long projectId) {
         Project project = projectRepository.findById(projectId).get();
         Project recommendedProject = pairingService.getRecommendation(project);
         Project updatedProject = projectRepository.save(recommendedProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+        return ProjectTransformer.transform(updatedProject);
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/pairing/history", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<List<PairingHistoryDTO>> getPairingHistory(@PathVariable long projectId) {
+    @GetMapping(path = "/api/project/{projectId}/pairing/history")
+    public List<PairingHistoryDTO> getPairingHistory(@PathVariable long projectId) {
         Project project = projectRepository.findById(projectId).get();
         List<PairingHistory> pairingHistoryList = pairingService.getSortedPairingHistory(project);
-        return new ResponseEntity<>(PairingHistoryTransformer.transform(pairingHistoryList), HttpStatus.OK);
+
+        return PairingHistoryTransformer.transform(pairingHistoryList);
     }
 }

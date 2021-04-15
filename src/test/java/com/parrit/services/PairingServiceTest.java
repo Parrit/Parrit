@@ -6,11 +6,11 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.repositories.PairingHistoryRepository;
 import com.parrit.utilities.CurrentTimeProvider;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class PairingServiceTest {
 
     private PairingService pairingService;
@@ -41,7 +41,7 @@ public class PairingServiceTest {
 
     private final Timestamp currentTime = new Timestamp(1456364985548L);
 
-    @Before
+    @BeforeEach
     public void setup() {
         pairingService = new PairingService(mockPairingHistoryRepository, mockRecommendationService, mockCurrentTimeProvider);
 
@@ -172,7 +172,7 @@ public class PairingServiceTest {
         assertThat(result, equalTo(Collections.emptyList()));
 
         verify(mockCurrentTimeProvider, times(1)).getCurrentTime();
-        verifyZeroInteractions(mockPairingHistoryRepository);
+        verifyNoInteractions(mockPairingHistoryRepository);
     }
 
     @Test

@@ -4,10 +4,10 @@ import com.parrit.entities.PairingBoard;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class RecommendationServiceTest {
 
     private RecommendationService recommendationService;
@@ -42,7 +42,7 @@ public class RecommendationServiceTest {
         return new Timestamp(today - days);
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         recommendationService = new RecommendationService();
 

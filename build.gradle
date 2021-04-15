@@ -1,7 +1,7 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "2.1.12.RELEASE"
-    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "org.springframework.boot" version "2.4.4"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "org.flywaydb.flyway" version "6.3.1"
 }
 
@@ -20,19 +20,44 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-devtools"
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
     implementation 'org.flywaydb:flyway-core'
 
     runtimeOnly "org.postgresql:postgresql"
 
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
+
+    def junitJupiterVersion = '5.8.0-M1'
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+    testCompile "org.testcontainers:testcontainers:1.15.2"
+    testCompile "org.testcontainers:junit-jupiter:1.15.2"
+    testCompile "org.testcontainers:postgresql:1.15.2"
+
+    // Enable use of the JUnitPlatform Runner within the IDE
+    testCompile("org.junit.platform:junit-platform-runner")
+}
+
+test {
+    useJUnitPlatform() {
+        includeEngines 'junit-jupiter'
+        excludeEngines 'junit-vintage'
+    }
 }
 
 version "1.1.0"
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 // *** Database Tasks *** //
 

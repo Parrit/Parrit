@@ -13,16 +13,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -40,7 +36,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .logoutUrl("/api/logout")
-                .logoutSuccessUrl("/")
+                .logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) ->
+                        httpServletResponse.setStatus(HttpServletResponse.SC_OK)
+                )
                 .and()
             .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/", "/login", "/error").permitAll()
@@ -52,32 +50,34 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().mvcMatchers("/favicon.ico", "/built/**", "/img/**");
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationProvider authenticationProvider) {
-        List<AuthenticationProvider> providers = new ArrayList<>();
-        providers.add(authenticationProvider);
-        return new ProviderManager(providers);
+        return new ProviderManager(authenticationProvider);
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
         return daoAuthenticationProvider;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put("bcrypt", new BCryptPasswordEncoder());
-        encoders.put("sha256", new MessageDigestPasswordEncoder("SHA-256"));
-        return new DelegatingPasswordEncoder("bcrypt", encoders);
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    public StrictHttpFirewall httpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowedHeaderNames((header) -> true);
+        firewall.setAllowedHeaderValues((header) -> true);
+        firewall.setAllowedParameterNames((parameter) -> true);
+        return firewall;
+    }
 }

@@ -11,13 +11,12 @@ import com.parrit.repositories.PersonRepository;
 import com.parrit.repositories.ProjectRepository;
 import com.parrit.transformers.PersonTransformer;
 import com.parrit.transformers.ProjectTransformer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -32,9 +31,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(controllers = PersonController.class, secure = false)
-public class PersonControllerTest {
+@WebMvcTest(controllers = PersonController.class)
+@AutoConfigureMockMvc(addFilters = false)
+public class PersonControllerTest extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -184,20 +183,6 @@ public class PersonControllerTest {
 
         verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(expectedProject);
-    }
-
-    @Test
-    public void movePerson_whenPersonPositionIsFloatingIsNull_returnsError() throws Exception {
-        PersonPositionDTO personPositionDTO = new PersonPositionDTO();
-        personPositionDTO.setFloating(null);
-        personPositionDTO.setPairingBoardId(88L);
-
-        mockMvc.perform(put("/api/project/1/person/76/position")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(personPositionDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", equalTo(null)))
-                .andExpect(jsonPath("$.fieldErrors.floating", equalTo("Where are you trying to go? Floating or a pairing board?")));
     }
 
     @Test

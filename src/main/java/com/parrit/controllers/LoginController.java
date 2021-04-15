@@ -13,10 +13,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +36,7 @@ public class LoginController {
     //******  Views  ******//
     //*********************//
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @GetMapping(path = "/")
     public String getDashboard() {
         return "dashboard";
     }
@@ -51,7 +48,7 @@ public class LoginController {
      *
      *  @returns: login page with the project name as a model attribute
      */
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    @GetMapping(path = "/login")
     public String loginProject(final HttpServletRequest request, final HttpServletResponse response, Model model) {
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
 
@@ -64,7 +61,7 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(path = "/error", method = RequestMethod.GET)
+    @GetMapping(path = "/error")
     public String error() {
         return "error";
     }
@@ -79,7 +76,7 @@ public class LoginController {
      *  @returns: href string for the project that was logged into
      *  @throws: InternalAuthenticationServiceException if somehow the user does not get authenticated and nothing else throws an exception
      */
-    @RequestMapping(path = "/api/login", method = RequestMethod.POST)
+    @PostMapping(path = "/api/login")
     @ResponseBody
     public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO) throws InternalAuthenticationServiceException {
         String name = loginDTO.getName();

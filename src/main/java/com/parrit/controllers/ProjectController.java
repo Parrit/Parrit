@@ -8,6 +8,7 @@ import com.parrit.entities.Person;
 import com.parrit.entities.Project;
 import com.parrit.exceptions.ProjectNameAlreadyExistsException;
 import com.parrit.repositories.ProjectRepository;
+import com.parrit.services.ProjectService;
 import com.parrit.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,17 @@ public class ProjectController {
 
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProjectService projectService;
 
     @Autowired
-    public ProjectController(ProjectRepository projectRepository, PasswordEncoder passwordEncoder) {
+    public ProjectController(
+            ProjectRepository projectRepository,
+            PasswordEncoder passwordEncoder,
+            ProjectService projectService
+    ) {
         this.projectRepository = projectRepository;
         this.passwordEncoder = passwordEncoder;
+        this.projectService = projectService;
     }
 
     //*********************//
@@ -40,7 +47,7 @@ public class ProjectController {
     //*********************//
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectName)")
-    @RequestMapping(path = "/{projectName:.+}", method = RequestMethod.GET)
+    @GetMapping(path = "/{projectName:.+}")
     public String getProject(@PathVariable String projectName, Model model) {
         Project project = projectRepository.findByName(projectName).get();
         model.addAttribute("project", ProjectTransformer.transform(project));
@@ -51,7 +58,7 @@ public class ProjectController {
     //******  APIs  ******//
     //********************//
 
-    @RequestMapping(path = "/api/project", method = RequestMethod.POST)
+    @PostMapping(path = "/api/project")
     @ResponseBody
     public void createProject(@RequestBody @Valid NewProjectDTO newProjectDTO) {
         String projectName = newProjectDTO.getName();
@@ -73,7 +80,7 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/password", method = RequestMethod.PUT)
+    @PutMapping(path = "/api/project/{projectId}/password")
     @ResponseBody
     public void changePassword(@PathVariable long projectId, @RequestBody @Valid ChangePasswordDTO changePasswordDTO) {
         Project existingProject = projectRepository.findById(projectId).get();
@@ -85,9 +92,9 @@ public class ProjectController {
     }
 
     @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
-    @RequestMapping(path = "/api/project/{projectId}/reset", method = RequestMethod.PUT)
+    @PutMapping(path = "/api/project/{projectId}/reset")
     @ResponseBody
-    public ResponseEntity<ProjectDTO> resetProject(@PathVariable long projectId) {
+    public ProjectDTO resetProject(@PathVariable long projectId) {
         Project existingProject = projectRepository.findById(projectId).get();
 
         List<PairingBoard> nonExemptPairingBoards = existingProject.getPairingBoards().stream()
@@ -102,7 +109,15 @@ public class ProjectController {
         existingProject.getPeople().addAll(allPeopleInNonExemptPairingBoards);
 
         Project updatedProject = projectRepository.save(existingProject);
-        return new ResponseEntity<>(ProjectTransformer.transform(updatedProject), HttpStatus.OK);
+        return ProjectTransformer.transform(updatedProject);
+    }
+
+    @PreAuthorize("@authorizationService.canAccessProject(principal, #projectId)")
+    @RequestMapping(path = "/api/project/{projectId}/update", method = RequestMethod.PUT)
+    @ResponseBody
+    public ProjectDTO updateProject(@RequestBody ProjectDTO body, @PathVariable long projectId) {
+        Project project = projectService.updateProjectFromDTO(body);
+        return ProjectTransformer.transform(project);
     }
 
 }
