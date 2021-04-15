@@ -14,7 +14,7 @@ describe("recommending pairs", () => {
     subject = new ProjectHelper(project, history);
   });
 
-  it("returns solo people on pairing boards", () => {
+  it("returns solo people on non-exempt pairing boards", () => {
     expect(project.currentUnpairedStickingPeople).toEqual([
       {
         id: 1,
@@ -116,7 +116,12 @@ describe("recommending pairs", () => {
       exempt: true,
       id: 3,
       name: "Out of Office",
-      people: [],
+      people: [
+        {
+          id: 7,
+          name: "Sylvia",
+        },
+      ],
       roles: [],
     });
     expect(project.pairingBoards[3]).toEqual({
@@ -196,7 +201,12 @@ describe("recommending pairs", () => {
           exempt: true,
           id: 3,
           name: "Out of Office",
-          people: [],
+          people: [
+            {
+              id: 7,
+              name: "Sylvia",
+            },
+          ],
           roles: [],
         });
         expect(firstIteration.pairingBoards[3]).toEqual({
@@ -272,7 +282,12 @@ describe("recommending pairs", () => {
             exempt: true,
             id: 3,
             name: "Out of Office",
-            people: [],
+            people: [
+              {
+                id: 7,
+                name: "Sylvia",
+              },
+            ],
             roles: [],
           });
           expect(secondIteration.pairingBoards[3]).toEqual({
@@ -346,7 +361,12 @@ describe("recommending pairs", () => {
         exempt: true,
         id: 3,
         name: "Out of Office",
-        people: [],
+        people: [
+          {
+            id: 7,
+            name: "Sylvia",
+          },
+        ],
         roles: [],
       });
       expect(result.pairingBoards[3]).toEqual({
