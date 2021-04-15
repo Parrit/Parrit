@@ -211,9 +211,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
     const updated = { ...project, pairingBoards: pbs, people };
     setProject(updated);
-    resetProject(project.id).then((updatedProject) => {
-      setProject(updatedProject);
-    });
+    updateProject(updated);
   };
 
   const getRecommendedPairs = () => {
