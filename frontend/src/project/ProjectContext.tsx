@@ -202,8 +202,12 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     const people: IPerson[] = [...project.people];
     const pbs: IPairingBoard[] = [];
     project.pairingBoards.forEach((pb) => {
-      pb.people.forEach((p) => people.push(p));
-      pbs.push({ ...pb, people: [] });
+      if (pb.exempt) {
+        pbs.push({ ...pb });
+      } else {
+        pb.people.forEach((p) => people.push(p));
+        pbs.push({ ...pb, people: [] });
+      }
     });
     const updated = { ...project, pairingBoards: pbs, people };
     setProject(updated);
