@@ -1,5 +1,6 @@
 package com.parrit.services;
 
+import com.parrit.entities.PairingArrangement;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Project;
 import com.parrit.repositories.PairingHistoryRepository;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PairingService {
@@ -18,36 +18,27 @@ public class PairingService {
     private static final long ONE_MONTH_IN_MILLISECONDS = 30 * 24 * 60 * 60 * 1000L;
 
     private final PairingHistoryRepository pairingHistoryRepository;
-    private final RecommendationService recommendationService;
     private final CurrentTimeProvider currentTimeProvider;
 
     @Autowired
-    PairingService(PairingHistoryRepository pairingHistoryRepository,
-                   RecommendationService recommendationService,
-                   CurrentTimeProvider currentTimeProvider) {
+    PairingService(
+            PairingHistoryRepository pairingHistoryRepository,
+            CurrentTimeProvider currentTimeProvider
+    ) {
         this.pairingHistoryRepository = pairingHistoryRepository;
-        this.recommendationService = recommendationService;
         this.currentTimeProvider = currentTimeProvider;
     }
 
-    public List<PairingHistory> savePairing(Project project) {
+    public void savePairing(Project project) {
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
 
-        return project.getPairingBoards().stream()
-                .filter(pb -> !pb.getPeople().isEmpty())
-                .map(pb -> new PairingHistory(project, pb.getName(), new ArrayList<>(pb.getPeople()), currentTime))
-                .map(pairingHistoryRepository::save)
-                .collect(Collectors.toList());
+        project.getPairingBoards().stream()
+                .filter(board -> !board.getPeople().isEmpty())
+                .map(board -> new PairingHistory(project, board.getName(), new ArrayList<>(board.getPeople()), currentTime))
+                .forEach(pairingHistoryRepository::save);
     }
 
-    public Project getRecommendation(Project project) {
-        Timestamp currentTime = currentTimeProvider.getCurrentTime();
-        Timestamp thirtyDaysAgo = new Timestamp(currentTime.getTime() - ONE_MONTH_IN_MILLISECONDS);
-        List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
-        return recommendationService.get(project, pairingHistory);
-    }
-
-    public List<PairingHistory> getSortedPairingHistory(Project project) {
+    public List<PairingArrangement> getSortedPairingHistory(Project project) {
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
         Timestamp thirtyDaysAgo = new Timestamp(currentTime.getTime() - ONE_MONTH_IN_MILLISECONDS);
         return pairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);

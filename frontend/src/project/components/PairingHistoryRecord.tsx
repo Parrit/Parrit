@@ -1,34 +1,28 @@
 import moment from "moment";
-import React, { useMemo } from "react";
-import { IPerson } from "../interfaces/IPerson";
+import React from "react";
+import {PairingArrangementDTO} from "../interfaces/PairingArrangementDTO";
 
 interface Props {
-  dateString: string;
-  boardNames: string[];
-  boardsWithPeople: { [key: string]: IPerson[] };
+  pairingArrangement: PairingArrangementDTO;
 }
 
-export const PairingHistoryRecord: React.FC<Props> = (props) => {
-  const { boardsWithPeople, dateString } = props;
-
-  const displayString = useMemo(() => {
-    const m = moment(dateString);
-    return m.format("MMMM Do YYYY, h:mm a");
-  }, [dateString, moment]);
+const PairingHistoryRecord: React.FC<Props> = (props) => {
+  const { pairingArrangement } = props;
+  const formattedDate = moment(pairingArrangement.pairingTime).format("MMMM Do YYYY, h:mm a");
 
   return (
     <div className="pairing-history-record">
       <div className="pairing-history-record-clock" />
-      <h3 className="pairing-time">{displayString}</h3>
+      <h3 className="pairing-time">{formattedDate}</h3>
 
       <div className="pairing-boards-with-people">
-        {props.boardNames.map((boardName, idx) => {
+        {pairingArrangement.pairingHistories.map((history, idx) => {
           return (
             <div key={idx} className="pairing-board-with-people">
-              <div className="pairing-board-name">{boardName}:</div>
-              {boardsWithPeople[boardName].map((person, idx) => {
+              <div className="pairing-board-name">{history.pairingBoardName}:</div>
+              {history.people.map((person) => {
                 return (
-                  <span key={idx} className="person-name">
+                  <span key={person.id} className="person-name">
                     {person.name}
                     <span className="person-names-plus-sign">+</span>
                   </span>

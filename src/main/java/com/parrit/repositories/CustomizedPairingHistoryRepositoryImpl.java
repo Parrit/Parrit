@@ -1,5 +1,6 @@
 package com.parrit.repositories;
 
+import com.parrit.entities.PairingArrangement;
 import com.parrit.entities.PairingHistory;
 import com.parrit.entities.Person;
 import com.parrit.entities.Project;
@@ -21,19 +22,28 @@ public class CustomizedPairingHistoryRepositoryImpl implements CustomizedPairing
     private final PersonRepository personRepository;
 
     @Autowired
-    public CustomizedPairingHistoryRepositoryImpl(JdbcTemplate jdbcTemplate, PersonRepository personRepository) {
+    public CustomizedPairingHistoryRepositoryImpl(
+            JdbcTemplate jdbcTemplate,
+            PersonRepository personRepository
+    ) {
         this.jdbcTemplate = jdbcTemplate;
         this.personRepository = personRepository;
     }
 
     @Override
-    public List<PairingHistory> findByProjectAndTimestampAfterOrderByTimestampDesc(Project project, Timestamp timestamp) {
+    public List<PairingArrangement> findByProjectAndTimestampAfterOrderByTimestampDesc(Project project, Timestamp timestamp) {
         Map<PairingHistory, Set<Long>> pairingHistoriesToPersonIds = getPairingHistoriesToPersonIds(project, timestamp);
         Map<Long, Person> peopleInHistory = getPeople(getPersonIdsInHistory(pairingHistoriesToPersonIds));
 
         return pairingHistoriesToPersonIds.entrySet().stream()
                 .map(entry -> entry.getKey().withPeople(getPersonsForHistory(peopleInHistory, entry.getValue())))
-                .sorted((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()))
+                .collect(groupingBy(PairingHistory::getTimestamp))
+                .entrySet().stream().map(entry -> PairingArrangement.builder()
+                        .pairingTime(entry.getKey())
+                        .project(project)
+                        .pairingHistories(new HashSet<>(entry.getValue()))
+                        .build())
+                .sorted((a, b) -> b.getPairingTime().compareTo(a.getPairingTime()))
                 .collect(toList());
     }
 

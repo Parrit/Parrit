@@ -1,18 +1,18 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { ApiContext } from "../shared/helpers/ApiContext";
-import { recommendPairs } from "../shared/helpers/recommendPairs";
-import { Project } from "./classes/Project";
-import { AppContext } from "./components/App";
-import { IPairingBoard } from "./interfaces/IPairingBoard";
-import { IPerson } from "./interfaces/IPerson";
-import { IProject } from "./interfaces/IProject";
-import { PairingHistoryDTO } from "./interfaces/PairingHistoryDTO";
+import React, {createContext, useContext, useEffect, useState} from "react";
+import {ApiContext} from "../shared/helpers/ApiContext";
+import {recommendPairs} from "../shared/helpers/recommendPairs";
+import {Project} from "./classes/Project";
+import {AppContext} from "./components/App";
+import {IPairingBoard} from "./interfaces/IPairingBoard";
+import {IPerson} from "./interfaces/IPerson";
+import {IProject} from "./interfaces/IProject";
+import {PairingArrangementDTO} from "./interfaces/PairingArrangementDTO";
 
 export interface IProjectContext {
   project: IProject;
   people: IPerson[];
   pairingBoards: IPairingBoard[];
-  pairingHistory: PairingHistoryDTO[];
+  pairingHistory: PairingArrangementDTO[];
   createPerson: (name: string) => Promise<void>;
   createPairingBoard: (name: string) => Promise<void>;
   createRole: (name: string, pairingBoard: IPairingBoard) => Promise<void>;
@@ -36,7 +36,7 @@ interface Props {
 export const ProjectProvider: React.FC<Props> = (props) => {
   const { setSystemAlert } = useContext(AppContext);
   const [project, setProject] = useState(props.project);
-  const [pairingHistory, setPairingHistory] = useState<PairingHistoryDTO[]>([]);
+  const [pairingArrangements, setPairingArrangements] = useState<PairingArrangementDTO[]>([]);
   const {
     getPairingHistory,
     postPerson,
@@ -56,7 +56,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
 
   useEffect(() => {
     getPairingHistory(project.id).then((history) => {
-      setPairingHistory(history);
+      setPairingArrangements(history);
     });
     //run only once
   }, []);
@@ -215,16 +215,25 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const getRecommendedPairs = () => {
-    const recommendedConfiguration = recommendPairs(project, pairingHistory);
+    const pairingHistories = pairingArrangements.flatMap(arrangement => {
+      return arrangement.pairingHistories.map(history => {
+        return {
+          pairingBoardName: history.pairingBoardName,
+          people: history.people,
+          pairingTime: history.pairingTime
+        }
+      });
+    });
+    const recommendedConfiguration = recommendPairs(project, pairingHistories);
     setProject(recommendedConfiguration);
     updateProject(recommendedConfiguration);
   };
 
   const savePairing = () => {
     postProjectPairing(project.id).then((newPairingRecords) => {
-      setPairingHistory((oldValue) => {
+      setPairingArrangements(() => {
         setSystemAlert("Hello. We just recorded your pairs.");
-        return [...oldValue, ...newPairingRecords];
+        return newPairingRecords;
       });
     });
   };
@@ -241,7 +250,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     resetPairs,
     getRecommendedPairs,
     savePairing,
-    pairingHistory,
+    pairingHistory: pairingArrangements,
     project,
     people,
     pairingBoards,

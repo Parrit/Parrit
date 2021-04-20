@@ -1,10 +1,9 @@
-import Axios, { AxiosError } from "axios";
+import Axios, {AxiosError} from "axios";
 import React from "react";
-import { Project } from "../../project/classes/Project";
-import { IPairingBoard } from "../../project/interfaces/IPairingBoard";
-import { IPerson } from "../../project/interfaces/IPerson";
-import { IProject } from "../../project/interfaces/IProject";
-import { PairingHistoryDTO } from "../../project/interfaces/PairingHistoryDTO";
+import {IPairingBoard} from "../../project/interfaces/IPairingBoard";
+import {IPerson} from "../../project/interfaces/IPerson";
+import {IProject} from "../../project/interfaces/IProject";
+import {PairingArrangementDTO} from "../../project/interfaces/PairingArrangementDTO";
 
 Axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -46,8 +45,8 @@ export interface IApiContext {
     pairingBoard: IPairingBoard,
     role: IRole
   ): Promise<void>;
-  postProjectPairing(projectId: number): Promise<PairingHistoryDTO[]>;
-  getPairingHistory(projectId: number): Promise<PairingHistoryDTO[]>;
+  postProjectPairing(projectId: number): Promise<PairingArrangementDTO[]>;
+  getPairingHistory(projectId: number): Promise<PairingArrangementDTO[]>;
   updateProject(project: IProject): Promise<IProject>;
 }
 
@@ -69,7 +68,7 @@ export const ApiProvider: React.FC = (props) => {
   };
 
   const postLogout = () => {
-    Axios.post("/api/logout").then((response) => {
+    Axios.post("/api/logout").then(() => {
       window.location.href = location.origin;
     });
   };
@@ -222,22 +221,16 @@ export const ApiProvider: React.FC = (props) => {
 
   const postProjectPairing = (
     projectId: number
-  ): Promise<PairingHistoryDTO[]> => {
-    return Axios.post<PairingHistoryDTO[]>(
+  ): Promise<PairingArrangementDTO[]> => {
+    return Axios.post<PairingArrangementDTO[]>(
       "/api/project/" + encodeURIComponent(projectId) + "/pairing"
     ).then((response) => response.data);
   };
 
-  // const getRecommendedPairing = (projectId: number): Promise<IProject> => {
-  //   return Axios.get<IProject>(
-  //     "/api/project/" + encodeURIComponent(projectId) + "/pairing/recommend"
-  //   ).then((response) => response.data);
-  // };
-
   const getPairingHistory = (
     projectId: number
-  ): Promise<PairingHistoryDTO[]> => {
-    return Axios.get<PairingHistoryDTO[]>(
+  ): Promise<PairingArrangementDTO[]> => {
+    return Axios.get<PairingArrangementDTO[]>(
       "/api/project/" + encodeURIComponent(projectId) + "/pairing/history"
     ).then((response) => {
       return response.data;
