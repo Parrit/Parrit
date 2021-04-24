@@ -16,9 +16,9 @@ const PairingHistoryRecord: React.FC<Props> = (props) => {
       <h3 className="pairing-time">{formattedDate}</h3>
 
       <div className="pairing-boards-with-people">
-        {pairingArrangement.pairingHistories.map((history, idx) => {
+        {pairingArrangement.pairingHistories.map((history) => {
           return (
-            <div key={idx} className="pairing-board-with-people">
+            <div key={`${pairingArrangement.pairingTime}${history.pairingBoardName}`} className="pairing-board-with-people">
               <div className="pairing-board-name">{history.pairingBoardName}:</div>
               {history.people.map((person) => {
                 return (

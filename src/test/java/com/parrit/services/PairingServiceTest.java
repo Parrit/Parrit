@@ -33,9 +33,6 @@ public class PairingServiceTest {
     private PairingHistoryRepository mockPairingHistoryRepository;
 
     @Mock
-    private RecommendationService mockRecommendationService;
-
-    @Mock
     private CurrentTimeProvider mockCurrentTimeProvider;
 
     private final Timestamp currentTime = new Timestamp(1456364985548L);

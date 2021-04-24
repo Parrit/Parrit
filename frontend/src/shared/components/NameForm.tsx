@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import classNames from "classnames";
 
 interface Props {
   formTitle: string;
@@ -10,20 +11,19 @@ interface Props {
 export const NameForm: React.FC<Props> = (props) => {
   const [name, setName] = useState("");
 
-  const handleChange = (event: any) => {
-    setName(event.target.value);
-  };
+  const inputClasses = classNames({
+      "form-control": true,
+      "error": props.errorMessage != undefined
+  })
 
-  const submit = (e: any) => {
-    e.preventDefault();
-    props.confirmFunction(name);
-  };
-
-  let inputClasses = "form-control";
-  inputClasses += props.errorMessage ? " error" : "";
+  const onKeyDownHandler = (event: any) => {
+      if (event.key === 'Enter') {
+        props.confirmFunction(name);
+      }
+  }
 
   return (
-    <form onSubmit={submit.bind(this)}>
+    <form onSubmit={(e) => {e.preventDefault()}}>
       <div className="form-header">
         <h2 className="form-title">{props.formTitle}</h2>
         <div className="form-cancel" onClick={props.cancelFunction} />
@@ -37,11 +37,12 @@ export const NameForm: React.FC<Props> = (props) => {
         type="text"
         placeholder="Name"
         value={name}
-        onChange={handleChange.bind(this)}
+        onChange={(event) => setName(event.target.value)}
+        onKeyDown={onKeyDownHandler}
       />
 
       <div className="buttons">
-        <button type="submit" className="button-blue">
+        <button type="button" className="button-blue" onClick={() => props.confirmFunction(name)}>
           OK
         </button>
         <button

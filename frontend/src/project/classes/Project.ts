@@ -1,5 +1,6 @@
-import { IPairingBoard } from "../interfaces/IPairingBoard";
-import { IPerson } from "../interfaces/IPerson";
+import {add, IPairingBoard} from "../interfaces/IPairingBoard";
+import {IPerson} from "../interfaces/IPerson";
+import {append, assoc, findIndex, Lens, lensIndex, lensProp, map, over, reject} from "ramda";
 
 export interface IProject {
   name: string;
@@ -33,66 +34,38 @@ export class Project implements IProject {
     );
   }
 
-  get emptyPairingBoard() {
+  get emptyPairingBoard(): IPairingBoard | undefined {
     return this.pairingBoards.find(
       (pb) => pb.people.length === 0 && !pb.exempt
     );
   }
 
   get currentUnpairedStickingPeople(): IPerson[] {
-    const val: IPerson[] = [];
-    return this.pairingBoards.flatMap((board) => {
-      if (board.people.length === 1 && !board.exempt) {
-        return board.people;
-      } else {
-        return [];
-      }
-    });
+    return this.pairingBoards
+        .filter(board => !board.exempt)
+        .filter(board => board.people.length === 1)
+        .flatMap(board => board.people);
   }
 
-  currentPersonPairingBoard(person: IPerson) {
+  currentPersonPairingBoard(person: IPerson): IPairingBoard | undefined {
     return this.pairingBoards.find((pb) =>
       pb.people.find((p) => p.id === person.id)
     );
   }
 
-  movePerson(person: IPerson, position?: IPairingBoard) {
-    const currentBoard = this.currentPersonPairingBoard(person);
-    let proj: Project = this.removePerson(person, this, currentBoard);
+  movePerson(person: IPerson, position?: IPairingBoard): IProject {
+    let proj: Project = this.removePerson(person);
     proj = proj.addPerson(person, proj, position);
     return proj;
   }
 
-  removePerson(
-    person: IPerson,
-    proj: IProject,
-    position?: IPairingBoard
-  ): Project {
-    const copy = new Project(proj);
-    const arr: IPerson[] = [];
-    if (!position) {
-      // we're removing this person from floating
-      copy.people.forEach((p) => {
-        if (p.id !== person.id) {
-          arr.push(p);
-        }
-      });
-      copy.people = arr;
-    } else {
-      const board = copy.pairingBoards.find((pb) => pb.id === position.id);
-      if (!board) {
-        throw new Error("AWK! Totally Broken!");
-      }
-      const index = copy.pairingBoards.indexOf(board);
-      position.people.forEach((p) => {
-        if (p.id !== person.id) {
-          arr.push(p);
-        }
-      });
-      copy.pairingBoards[index] = { ...board, people: arr };
-    }
-
-    return new Project(copy);
+  removePerson(person: IPerson): Project {
+      const boardsLens: Lens<IProject, IPairingBoard[]> = lensProp<IProject, 'pairingBoards'>('pairingBoards');
+      return new Project(
+          over<IProject, IPairingBoard[]>(boardsLens, map(board => {
+              return assoc('people', reject<IPerson>(p => p.id === person.id, board.people), board);
+          }), assoc('people', reject<IPerson>(p => p.id === person.id, this.people), this))
+      );
   }
 
   addPerson(
@@ -100,20 +73,14 @@ export class Project implements IProject {
     proj: IProject,
     position?: IPairingBoard
   ): Project {
-    const copy = new Project(proj);
     if (!position) {
-      // we're adding this person to floating
-      copy.people.push(person);
+      return new Project(assoc('people', append(person, proj.people), proj));
     } else {
-      const board = copy.pairingBoards.find((pb) => pb.id === position.id);
-      if (!board) {
-        throw new Error("AWK! Totally Broken!");
-      }
-      const index = copy.pairingBoards.indexOf(board);
-      board.people.push(person);
-      copy.pairingBoards[index] = board;
-    }
+      const targetBoardIndex = findIndex<IPairingBoard>(board => board.id === position.id, proj.pairingBoards);
+      const boardsLens: Lens<IPairingBoard[], IPairingBoard> = lensIndex<IPairingBoard>(targetBoardIndex);
+      const updatedPairingBoards = over(boardsLens, (board: IPairingBoard) => add(person, board), proj.pairingBoards);
 
-    return new Project(copy);
+      return new Project(assoc('pairingBoards', updatedPairingBoards, proj));
+    }
   }
 }

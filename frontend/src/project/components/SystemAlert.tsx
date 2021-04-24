@@ -11,9 +11,9 @@ export const SystemAlert: React.FC = () => {
   });
 
   return (
-    <div className={classes}>
+    <div className={classes} data-testid="system-alert">
       <div className="message">{systemAlert}</div>
-      <div className="close" onClick={() => setSystemAlert(undefined)}>
+      <div role='button' className="close" onClick={() => setSystemAlert(undefined)}>
         <div className="icon" />
       </div>
     </div>

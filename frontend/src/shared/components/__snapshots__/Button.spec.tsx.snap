@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button/> should render correctly 1`] = `
+<button
+  aria-label="button"
+  className="ooga-booga"
+  type="button"
+>
+  <span
+    className="name"
+  >
+    button
+  </span>
+  <span
+    className="short-name"
+  >
+    button
+  </span>
+</button>
+`;
+
+exports[`<Button/> should use the passed in button type and short name if provided 1`] = `
+<button
+  aria-label="button"
+  className="ooga-booga"
+  type="submit"
+>
+  <span
+    className="name"
+  >
+    button
+  </span>
+  <span
+    className="short-name"
+  >
+    short
+  </span>
+</button>
+`;

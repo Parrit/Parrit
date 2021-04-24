@@ -18,6 +18,7 @@ export const Button: React.FC<Props> = (props) => {
       title={props.tooltip}
       className={props.className}
       onClick={props.clickFunction}
+      aria-label={props.name}
     >
       <span className="name">{props.name}</span>
       <span className="short-name">{props.shortName || props.name}</span>

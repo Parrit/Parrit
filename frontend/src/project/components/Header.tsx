@@ -11,14 +11,6 @@ export const Header: React.FC = (props) => {
     open: pairingHistoryOpen,
   });
 
-  const openPairingHistoryPanel = () => {
-    setPairingHistoryOpen(true);
-  };
-
-  const closePairingHistoryPanel = () => {
-    setPairingHistoryOpen(false);
-  };
-
   return (
     <header>
       <a href="/" className="header-logo" />
@@ -36,18 +28,15 @@ export const Header: React.FC = (props) => {
           </a>
         </h3>
         <h3
-          className={classes}
-          onClick={
-            pairingHistoryOpen
-              ? closePairingHistoryPanel
-              : openPairingHistoryPanel
-          }
+            className={classes}
+            onClick={() => {
+              setPairingHistoryOpen(!pairingHistoryOpen);
+            }}
         >
           HISTORY
           <div
-            className={
-              pairingHistoryOpen ? "history-caret-right" : "history-caret-left"
-            }
+            aria-label={pairingHistoryOpen ? "close history panel" : "open history panel"}
+            className={pairingHistoryOpen ? "history-caret-right" : "history-caret-left"}
           />
         </h3>
       </div>

@@ -11,7 +11,6 @@ import {PairingArrangementDTO} from "./interfaces/PairingArrangementDTO";
 export interface IProjectContext {
   project: IProject;
   people: IPerson[];
-  pairingBoards: IPairingBoard[];
   pairingHistory: PairingArrangementDTO[];
   createPerson: (name: string) => Promise<void>;
   createPairingBoard: (name: string) => Promise<void>;
@@ -47,7 +46,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     deleteRole,
     deletePerson,
     postProjectPairing,
-    resetProject,
     updateProject,
   } = useContext(ApiContext);
 
@@ -170,14 +168,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
 
   const removePerson = (
     person: IPerson,
-    proj: IProject,
-    position?: IPairingBoard
+    proj: IProject
   ): IProject => {
-    const updatedProject = new Project(proj).removePerson(
-      person,
-      proj,
-      position
-    );
+    const updatedProject = new Project(proj).removePerson(person);
     setProject(updatedProject);
     return updatedProject;
   };
@@ -191,8 +184,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   const destroyPerson = (person: IPerson) => {
     const updatedProject = removePerson(
       person,
-      project,
-      currentPersonPairingBoard(person)
+      project
     );
     setProject(updatedProject);
     return deletePerson(project.id, person.id);

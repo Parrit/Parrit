@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NameForm/> should render correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="form-header"
+  >
+    <h2
+      className="form-title"
+    >
+      Form Title
+    </h2>
+    <div
+      className="form-cancel"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="error-message"
+  >
+    ERROR
+  </div>
+  <input
+    autoFocus={true}
+    className="form-control error"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Name"
+    type="text"
+    value=""
+  />
+  <div
+    className="buttons"
+  >
+    <button
+      className="button-blue"
+      onClick={[Function]}
+      type="button"
+    >
+      OK
+    </button>
+    <button
+      className="button-red"
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</form>
+`;

@@ -9,12 +9,10 @@ interface Props {
 }
 
 export const Person: React.FC<Props> = ({ person }) => {
-  const [{ isDragging }, drag] = useDrag({
+  const [_, drag] = useDrag({
     item: { ...person, type: DragType.Person },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
   });
+
   return (
     <div ref={drag} className="person">
       {person.name}

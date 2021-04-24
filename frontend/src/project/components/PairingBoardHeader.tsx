@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, {useContext} from "react";
 import classNames from "classnames";
-import { WorkspaceContext } from "./Workspace";
-import { IPairingBoard } from "../interfaces/IPairingBoard";
+import {WorkspaceContext} from "./Workspace";
+import {IPairingBoard} from "../interfaces/IPairingBoard";
 
 interface Props {
   name: string;
@@ -16,14 +16,12 @@ interface Props {
 
 export const PairingBoardHeader: React.FC<Props> = (props) => {
   const { name, exempt, editMode, editErrorMessage } = props;
-  const [localName, setLocalName] = useState(name);
   const { setNewRoleOpen } = useContext(WorkspaceContext);
 
   let pairingBoardNameSection;
 
   const onKeyDownHandler = (event: any) => {
-    const EnterKeyCode = 13;
-    if (event.keyCode === EnterKeyCode) {
+    if (event.key === 'Enter') {
       renamePairingBoard(event);
     }
   };
@@ -41,13 +39,14 @@ export const PairingBoardHeader: React.FC<Props> = (props) => {
     pairingBoardNameSection = (
       <div className="pairing-board-name-wrapper">
         <input
+          aria-label="pairing board name"
           className={nameInputClasses}
           autoFocus
-          defaultValue={localName}
+          defaultValue={name}
           onBlur={renamePairingBoard}
           onKeyDown={onKeyDownHandler}
         />
-        <div className="error-message">{editErrorMessage}</div>
+        <div className="error-message" aria-label="pairing board name error">{editErrorMessage}</div>
       </div>
     );
   } else {
@@ -56,9 +55,10 @@ export const PairingBoardHeader: React.FC<Props> = (props) => {
         className="pairing-board-name-wrapper"
         onClick={() => props.setEditing(true)}
       >
-        <h3 className="pairing-board-name">{name}</h3>
-        <div className="rename-pairing-board" />
+        <h3 aria-label="pairing board name" className="pairing-board-name">{name}</h3>
+        <div aria-label="rename pairing board" className="rename-pairing-board" />
         <div
+          aria-label="add role to pairing board"
           className="add-role-to-pairing-board"
           onClick={() => setNewRoleOpen(true, props.pairingBoard)}
         />
@@ -72,6 +72,7 @@ export const PairingBoardHeader: React.FC<Props> = (props) => {
 
       {!exempt && (
         <div
+          aria-label="delete pairing board"
           className="delete-pairing-board"
           onClick={props.deletePairingBoard}
         />

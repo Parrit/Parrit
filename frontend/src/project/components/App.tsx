@@ -1,13 +1,13 @@
-import React, { createContext, useState } from "react";
-import { SystemAlert } from "./SystemAlert";
-import { Header } from "./Header";
-import { Project } from "./Project";
-import { PairingHistory } from "./PairingHistory.js";
-import { Footer } from "../../shared/components/Footer";
-import { ProjectProvider } from "../ProjectContext";
-import { IProject } from "../interfaces/IProject";
+import React, {createContext, useState} from "react";
+import {SystemAlert} from "./SystemAlert";
+import {Header} from "./Header";
+import {Project} from "./Project";
+import {Footer} from "../../shared/components/Footer";
+import {ProjectProvider} from "../ProjectContext";
+import {IProject} from "../interfaces/IProject";
 import classNames from "classnames";
-import { ApiProvider } from "../../shared/helpers/ApiContext";
+import {ApiProvider} from "../../shared/helpers/ApiContext";
+import {PairingHistory} from "./PairingHistory";
 
 interface Props {
   project: IProject;

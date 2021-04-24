@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Role } from "./Role";
+import {Role} from "./Role";
 
 interface Props {
   roles: IRole[];

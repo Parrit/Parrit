@@ -10,7 +10,7 @@ interface Props {
 export const PairingBoardList: React.FC<Props> = (props) => {
   return (
     <div className="pairing-boards">
-      {props.pairingBoards.map((pairingBoard, idx) => {
+      {props.pairingBoards.map((pairingBoard) => {
         return (
           <PairingBoard
             key={`pairing-board-${pairingBoard.id}`}

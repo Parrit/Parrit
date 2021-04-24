@@ -17,6 +17,7 @@ import javax.persistence.*;
 @ToString
 @Builder
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Person {
 
     @Id
@@ -31,24 +32,6 @@ public class Person {
 
     public Person(String name) {
         this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
-
-        Person person = (Person) o;
-
-        if (getId() != person.getId()) return false;
-        return getName() != null ? getName().equals(person.getName()) : person.getName() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        return result;
     }
 
 }

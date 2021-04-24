@@ -8,11 +8,8 @@ interface Props {
 }
 
 export const Role: React.FC<Props> = ({ role }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { ...role, type: DragType.Role },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+  const [_, drag] = useDrag({
+    item: { ...role, type: DragType.Role }
   });
 
   return (

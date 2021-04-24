@@ -34,7 +34,7 @@ export const Workspace: React.FC = (props) => {
 
   const {
     people,
-    pairingBoards,
+    project,
     createPerson,
     createPairingBoard,
     createRole,
@@ -89,7 +89,7 @@ export const Workspace: React.FC = (props) => {
           <div className="dotted-line" />
           <div className="pairing-boards-container">
             <h2 className="pairing-boards-title">Pairing Boards</h2>
-            <PairingBoardList pairingBoards={pairingBoards} />
+            <PairingBoardList pairingBoards={project.pairingBoards} />
             <div
               className="add-board-button"
               onClick={() => setNewPairingBoardOpen(true)}

@@ -8,14 +8,7 @@ import { ProjectContext } from "../ProjectContext";
 
 export const PairingHistory: React.FC = () => {
   const { pairingHistory } = useContext(ProjectContext);
-
-  console.log(pairingHistory);
-
   const { pairingHistoryOpen, setPairingHistoryOpen } = useContext(AppContext);
-
-  const closePairingHistoryPanel = () => {
-    setPairingHistoryOpen(false);
-  };
 
   const classes = classNames({
     "pairing-history-panel": true,
@@ -37,25 +30,26 @@ export const PairingHistory: React.FC = () => {
                 <h3>History is stored for 30 days.</h3>
             </div>
             <div
+              aria-label="close history"
               className="cancel"
-              onClick={closePairingHistoryPanel.bind(this)}
+              onClick={() => {
+                  setPairingHistoryOpen(false);
+              }}
             />
           </div>
 
           <div className="body">
-            {pairingHistory.length === 0 && (
-              <div className="no-history">
-                <div className="clock" />
-                <div className="no-history-content">
-                  ‘Record Pairs’ to track daily rotation history. The more you
-                  record, the better the recommendation engine becomes.
-                </div>
-              </div>
-            )}
-
-            {pairingHistory.length > 0 && (
-              <PairingHistoryRecordList pairingHistoryList={pairingHistory} />
-            )}
+            {
+              pairingHistory.length === 0 ? (
+                  <div className="no-history">
+                    <div className="clock"/>
+                    <div className="no-history-content">
+                      ‘Record Pairs’ to track daily rotation history. The more you
+                      record, the better the recommendation engine becomes.
+                    </div>
+                  </div>
+              ) : <PairingHistoryRecordList pairingHistoryList={pairingHistory}/>
+            }
           </div>
         </div>
       </Scrollbars>
