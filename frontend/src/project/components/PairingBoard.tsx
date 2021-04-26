@@ -1,15 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useState} from "react";
 import classNames from "classnames";
 
-import { PairingBoardHeader } from "./PairingBoardHeader";
-import { RoleList } from "./RoleList";
-import { PersonList } from "./PersonList";
-import { ProjectContext } from "../ProjectContext";
-import { useDrop } from "react-dnd";
-import { DragType } from "../interfaces/DragAndDrop";
-import { IPairingBoard } from "../interfaces/IPairingBoard";
-import { ApiContext } from "../../shared/helpers/ApiContext";
-import { IPerson } from "../interfaces/IPerson";
+import {PairingBoardHeader} from "./PairingBoardHeader";
+import {RoleList} from "./RoleList";
+import {PersonList} from "./PersonList";
+import {ProjectContext} from "../ProjectContext";
+import {useDrop} from "react-dnd";
+import {DragType} from "../interfaces/DragAndDrop";
+import {IPairingBoard} from "../interfaces/IPairingBoard";
+import {IPerson} from "../interfaces/IPerson";
 
 interface Props {
   pairingBoard: IPairingBoard;
@@ -44,8 +43,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
   const [editing, setEditing] = useState(false);
   const [editingError, setEditingError] = useState<string>();
 
-  const { projectId, destroyPairingBoard } = useContext(ProjectContext);
-  const { putPairingBoard } = useContext(ApiContext);
+  const { destroyPairingBoard, renamePairingBoard } = useContext(ProjectContext);
 
   const pairingBoardClasses = classNames({
     "pairing-board": true,
@@ -54,14 +52,14 @@ export const PairingBoard: React.FC<Props> = (props) => {
     "drop-target": isOver,
   });
 
-  const renamePairingBoard = (name: string) => {
-    putPairingBoard(projectId, props.pairingBoard.id, name)
-      .then(() => setEditing(false))
-      .catch((error) => {
-        console.log("rename error", error);
-        setEditingError(error);
-      });
-  };
+  const handleRename = async (name: string) => {
+    renamePairingBoard(name, props.pairingBoard.id)
+        .then(() => setEditing(false))
+        .catch((error) => {
+          console.log("rename error", error);
+          setEditingError(error);
+        });
+  }
 
   return (
     <div ref={drop} className={pairingBoardClasses}>
@@ -70,7 +68,7 @@ export const PairingBoard: React.FC<Props> = (props) => {
         exempt={exempt}
         editMode={editing}
         editErrorMessage={editingError}
-        renamePairingBoard={renamePairingBoard}
+        renamePairingBoard={handleRename}
         deletePairingBoard={() => destroyPairingBoard(props.pairingBoard)}
         setEditing={setEditing}
         pairingBoard={props.pairingBoard}

@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import {ApiContext} from "../shared/helpers/ApiContext";
 import {recommendPairs} from "../shared/helpers/recommendPairs";
-import {Project} from "./classes/Project";
+import {Project, removePerson, renamePairingBoard as renameBoard} from "./classes/Project";
 import {AppContext} from "./components/App";
 import {IPairingBoard} from "./interfaces/IPairingBoard";
 import {IPerson} from "./interfaces/IPerson";
@@ -10,10 +10,10 @@ import {PairingArrangementDTO} from "./interfaces/PairingArrangementDTO";
 
 export interface IProjectContext {
   project: IProject;
-  people: IPerson[];
   pairingHistory: PairingArrangementDTO[];
   createPerson: (name: string) => Promise<void>;
   createPairingBoard: (name: string) => Promise<void>;
+  renamePairingBoard:(name: string, pairingBoardId: number) => Promise<void>;
   createRole: (name: string, pairingBoard: IPairingBoard) => Promise<void>;
   movePerson: (person: IPerson, position?: IPairingBoard) => void;
   moveRole: (role: IRole, position: IPairingBoard) => void;
@@ -23,7 +23,6 @@ export interface IProjectContext {
   resetPairs: () => void;
   getRecommendedPairs: () => void;
   savePairing: () => void;
-  projectId: number;
 }
 
 export const ProjectContext = createContext({} as IProjectContext);
@@ -34,13 +33,14 @@ interface Props {
 
 export const ProjectProvider: React.FC<Props> = (props) => {
   const { setSystemAlert } = useContext(AppContext);
-  const [project, setProject] = useState(props.project);
+  const [project, setProject] = useState<IProject>(props.project);
   const [pairingArrangements, setPairingArrangements] = useState<PairingArrangementDTO[]>([]);
   const {
     getPairingHistory,
     postPerson,
     postPairingBoard,
     deletePairingBoard,
+    putPairingBoard,
     postRole,
     putRolePosition,
     deleteRole,
@@ -48,9 +48,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     postProjectPairing,
     updateProject,
   } = useContext(ApiContext);
-
-  const people = project.people;
-  const pairingBoards = project.pairingBoards;
 
   useEffect(() => {
     getPairingHistory(project.id).then((history) => {
@@ -84,7 +81,10 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
     console.log("setting project post deletion", copy);
     setProject(copy);
-    return deletePairingBoard(project.id, pairingBoard.id);
+    return deletePairingBoard(project.id, pairingBoard.id)
+        .then(updatedProject => {
+          setProject(updatedProject)
+        });
   };
 
   const removeRole = (
@@ -134,7 +134,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const moveRole = (role: IRole, position: IPairingBoard) => {
-    const currentRoleBoard = currentRolePairingBoard(role);
+    const currentRoleBoard = findPairingBoardByRole(role);
     if (!currentRoleBoard) {
       throw new Error(
         "AWK! Totally broken, can't move role from a place it doesn't exist"
@@ -143,16 +143,18 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     let proj = removeRole(role, project, currentRoleBoard);
     proj = addRole(role, proj, position);
     setProject(proj);
-    putRolePosition(project.id, currentRoleBoard, role, position);
+
+    putRolePosition(project.id, currentRoleBoard, role, position)
+        .then(updatedProject => setProject(updatedProject));
   };
 
   const destroyRole = (role: IRole) => {
-    const currentPB = currentRolePairingBoard(role);
+    const currentPB = findPairingBoardByRole(role);
 
     if (currentPB) {
       const update = removeRole(role, project, currentPB);
       setProject(update);
-      return deleteRole(project.id, currentPB, role);
+      return deleteRole(project.id, currentPB, role).then(updatedProject => setProject(updatedProject));
     }
 
     return Promise.reject(
@@ -160,20 +162,8 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     );
   };
 
-  const currentRolePairingBoard = (role: IRole) =>
-    pairingBoards.find((pb) => pb.roles.find((r) => r.id === role.id));
-
-  const currentPersonPairingBoard = (person: IPerson) =>
-    pairingBoards.find((pb) => pb.people.find((p) => p.id === person.id));
-
-  const removePerson = (
-    person: IPerson,
-    proj: IProject
-  ): IProject => {
-    const updatedProject = new Project(proj).removePerson(person);
-    setProject(updatedProject);
-    return updatedProject;
-  };
+  const findPairingBoardByRole = (role: IRole): IPairingBoard | undefined =>
+    project.pairingBoards.find((pb) => pb.roles.find((r) => r.id === role.id));
 
   const movePerson = (person: IPerson, position?: IPairingBoard) => {
     const updatedProject = new Project(project).movePerson(person, position);
@@ -182,12 +172,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const destroyPerson = (person: IPerson) => {
-    const updatedProject = removePerson(
-      person,
-      project
-    );
+    const updatedProject = removePerson(person, project);
     setProject(updatedProject);
-    return deletePerson(project.id, person.id);
+    return deletePerson(project.id, person.id).then(updatedProject => setProject(updatedProject));
   };
 
   const resetPairs = () => {
@@ -230,10 +217,17 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
   };
 
+  const renamePairingBoard = (name: string, pairingBoardId: number): Promise<void> => {
+    return putPairingBoard(project.id, pairingBoardId, name).then(() => {
+      setProject(renameBoard(name, pairingBoardId, project));
+    });
+  }
+
   const value = {
     createPerson,
     createPairingBoard,
     destroyPairingBoard,
+    renamePairingBoard,
     createRole,
     movePerson,
     moveRole,
@@ -244,9 +238,6 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     savePairing,
     pairingHistory: pairingArrangements,
     project,
-    people,
-    pairingBoards,
-    projectId: project.id,
   };
 
   return (

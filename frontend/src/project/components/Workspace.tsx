@@ -23,7 +23,7 @@ interface IWorkspaceContext {
 
 export const WorkspaceContext = React.createContext({} as IWorkspaceContext);
 
-export const Workspace: React.FC = (props) => {
+export const Workspace: React.FC = () => {
   const [newPersonOpen, setNewPersonOpen] = useState(false);
   const [newPairingBoardOpen, setNewPairingBoardOpen] = useState(false);
   const [newRoleOpen, setNewRoleOpen] = useState(false);
@@ -33,7 +33,6 @@ export const Workspace: React.FC = (props) => {
   const [newRoleBoard, setNewRoleBoard] = useState<IPairingBoard>();
 
   const {
-    people,
     project,
     createPerson,
     createPairingBoard,
@@ -85,7 +84,7 @@ export const Workspace: React.FC = (props) => {
     <WorkspaceContext.Provider value={value}>
       <DndProvider backend={HTML5Backend}>
         <div className="workspace">
-          <FloatingParrits people={people} />
+          <FloatingParrits people={project.people} />
           <div className="dotted-line" />
           <div className="pairing-boards-container">
             <h2 className="pairing-boards-title">Pairing Boards</h2>

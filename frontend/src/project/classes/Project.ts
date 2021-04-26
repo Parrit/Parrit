@@ -1,6 +1,6 @@
 import {add, IPairingBoard} from "../interfaces/IPairingBoard";
 import {IPerson} from "../interfaces/IPerson";
-import {append, assoc, findIndex, Lens, lensIndex, lensProp, map, over, reject} from "ramda";
+import {append, assoc, findIndex, Lens, lensIndex, lensProp, map, over, propEq, reject, when} from "ramda";
 
 export interface IProject {
   name: string;
@@ -27,7 +27,7 @@ export class Project implements IProject {
     const atLeast1Floater = this.people.length >= 1;
     const atLeast1EmptyBoard = this.emptyPairingBoard !== undefined;
     const atLeast1UnpairedSticker =
-      this.currentUnpairedStickingPeople.length >= 1;
+      this.unpairedStickingPeople.length >= 1;
     return (
       (atLeast1Floater && atLeast1UnpairedSticker) ||
       (atLeast2Floaters && atLeast1EmptyBoard)
@@ -40,47 +40,55 @@ export class Project implements IProject {
     );
   }
 
-  get currentUnpairedStickingPeople(): IPerson[] {
+  get unpairedStickingPeople(): IPerson[] {
     return this.pairingBoards
         .filter(board => !board.exempt)
         .filter(board => board.people.length === 1)
         .flatMap(board => board.people);
   }
 
-  currentPersonPairingBoard(person: IPerson): IPairingBoard | undefined {
+  findPairingBoardByPerson(person: IPerson): IPairingBoard | undefined {
     return this.pairingBoards.find((pb) =>
       pb.people.find((p) => p.id === person.id)
     );
   }
 
   movePerson(person: IPerson, position?: IPairingBoard): IProject {
-    let proj: Project = this.removePerson(person);
-    proj = proj.addPerson(person, proj, position);
-    return proj;
+    const updatedProject = removePerson(person, this);
+    return addPerson(person, updatedProject, position);
   }
+}
 
-  removePerson(person: IPerson): Project {
-      const boardsLens: Lens<IProject, IPairingBoard[]> = lensProp<IProject, 'pairingBoards'>('pairingBoards');
-      return new Project(
-          over<IProject, IPairingBoard[]>(boardsLens, map(board => {
-              return assoc('people', reject<IPerson>(p => p.id === person.id, board.people), board);
-          }), assoc('people', reject<IPerson>(p => p.id === person.id, this.people), this))
-      );
-  }
-
-  addPerson(
+export function addPerson(
     person: IPerson,
     proj: IProject,
     position?: IPairingBoard
-  ): Project {
-    if (!position) {
-      return new Project(assoc('people', append(person, proj.people), proj));
-    } else {
-      const targetBoardIndex = findIndex<IPairingBoard>(board => board.id === position.id, proj.pairingBoards);
-      const boardsLens: Lens<IPairingBoard[], IPairingBoard> = lensIndex<IPairingBoard>(targetBoardIndex);
-      const updatedPairingBoards = over(boardsLens, (board: IPairingBoard) => add(person, board), proj.pairingBoards);
+): Project {
+  if (!position) {
+    return new Project(assoc('people', append(person, proj.people), proj));
+  } else {
+    const targetBoardIndex = findIndex<IPairingBoard>(board => board.id === position.id, proj.pairingBoards);
+    const boardsLens: Lens<IPairingBoard[], IPairingBoard> = lensIndex<IPairingBoard>(targetBoardIndex);
+    const updatedPairingBoards = over(boardsLens, (board: IPairingBoard) => add(person, board), proj.pairingBoards);
 
-      return new Project(assoc('pairingBoards', updatedPairingBoards, proj));
-    }
+    return new Project(assoc('pairingBoards', updatedPairingBoards, proj));
   }
+}
+
+export function removePerson(person: IPerson, project: IProject): Project {
+  const boardsLens: Lens<IProject, IPairingBoard[]> = lensProp<IProject, 'pairingBoards'>('pairingBoards');
+  return new Project(
+      over<IProject, IPairingBoard[]>(boardsLens, map(board => {
+        return assoc('people', reject<IPerson>(p => p.id === person.id, board.people), board);
+      }), assoc('people', reject<IPerson>(p => p.id === person.id, project.people), project))
+  );
+}
+
+export function renamePairingBoard(name: string, pairingBoardId: number, project: IProject): IProject {
+  const updatedPairingBoards = updateFieldById('name', name, pairingBoardId, project.pairingBoards);
+  return assoc('pairingBoards', updatedPairingBoards, project);
+}
+
+function updateFieldById(field: string, value: string, key: number, items: any[]): any[] {
+  return map(when(propEq('id', key), assoc(field, value)), items)
 }

@@ -24,7 +24,7 @@ export interface IApiContext {
     projectId: number,
     pairingBoardId: number,
     name: string
-  ) => Promise<void>;
+  ) => Promise<IProject>;
   deletePairingBoard: (
     projectId: number,
     pairingBoardId: number
@@ -44,7 +44,7 @@ export interface IApiContext {
     projectId: number,
     pairingBoard: IPairingBoard,
     role: IRole
-  ): Promise<void>;
+  ): Promise<IProject>;
   postProjectPairing(projectId: number): Promise<PairingArrangementDTO[]>;
   getPairingHistory(projectId: number): Promise<PairingArrangementDTO[]>;
   updateProject(project: IProject): Promise<IProject>;
@@ -142,14 +142,14 @@ export const ApiProvider: React.FC = (props) => {
     projectId: number,
     pairingBoardId: number,
     name: string
-  ): Promise<void> => {
+  ): Promise<IProject> => {
     return Axios.put(
       "/api/project/" +
         encodeURIComponent(projectId) +
         "/pairingBoard/" +
         encodeURIComponent(pairingBoardId),
       { name }
-    );
+    ).then(response => response.data);
   };
 
   const deletePairingBoard = (
@@ -208,7 +208,7 @@ export const ApiProvider: React.FC = (props) => {
     projectId: number,
     pairingBoard: IPairingBoard,
     role: IRole
-  ): Promise<void> => {
+  ): Promise<IProject> => {
     return Axios.delete(
       "/api/project/" +
         encodeURIComponent(projectId) +
@@ -216,7 +216,7 @@ export const ApiProvider: React.FC = (props) => {
         encodeURIComponent(pairingBoard.id) +
         "/role/" +
         encodeURIComponent(role.id)
-    );
+    ).then(response => response.data);
   };
 
   const postProjectPairing = (

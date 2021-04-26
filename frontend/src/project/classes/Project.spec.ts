@@ -1,4 +1,4 @@
-import {Project} from "./Project";
+import {addPerson, Project, removePerson, renamePairingBoard} from "./Project";
 
 describe("Project", () => {
     describe('when remove person', () => {
@@ -13,7 +13,7 @@ describe("Project", () => {
                 people: [michael, jim, pam]
             });
 
-            const updatedProject = project.removePerson({id: 2, name: 'do not care'});
+            const updatedProject = removePerson({id: 2, name: 'do not care'}, project);
 
             expect(updatedProject.people).toHaveLength(2);
             expect(updatedProject.people).toContainEqual(michael);
@@ -31,7 +31,7 @@ describe("Project", () => {
                 people: [jim, pam]
             });
 
-            const updatedProject = project.removePerson({id: 1, name: 'do not care'});
+            const updatedProject = removePerson({id: 1, name: 'do not care'}, project);
 
             expect(updatedProject.people).toHaveLength(2);
             expect(updatedProject.people).toContainEqual(jim);
@@ -50,7 +50,7 @@ describe("Project", () => {
             });
             const jim = {id: 2, name: "Jim"};
 
-            const updatedProject = project.addPerson(jim, project);
+            const updatedProject = addPerson(jim, project);
 
             expect(updatedProject.people).toHaveLength(1);
             expect(updatedProject.people).toContainEqual(jim);
@@ -70,7 +70,7 @@ describe("Project", () => {
                 people: [jim]
             });
 
-            const updatedProject = project.addPerson(pam, project, targetBoard);
+            const updatedProject = addPerson(pam, project, targetBoard);
 
             expect(updatedProject.pairingBoards).toHaveLength(2);
             const targetBoardPeople = updatedProject.pairingBoards[1].people;
@@ -96,7 +96,7 @@ describe("Project", () => {
                 people: [dwight]
             });
 
-            const actual = project.currentUnpairedStickingPeople;
+            const actual = project.unpairedStickingPeople;
             expect(actual).toHaveLength(1);
             expect(actual).toContainEqual(michael);
         })
@@ -172,5 +172,23 @@ describe("Project", () => {
             expect(updatedProject.pairingBoards[1].people).toHaveLength(1);
             expect(updatedProject.pairingBoards[1].people).toContainEqual(pam);
         })
+    })
+
+    describe('renames pairing board', () => {
+        const board1 = {people: [], id: 1, name: 'Scraton', roles: [], exempt: false};
+        const board2 = {people: [], id: 2, name: 'New York', roles: [], exempt: false};
+
+        const project = new Project({
+            name: 'Dunder Mifflin',
+            id: 10,
+            pairingBoards: [board1, board2],
+            people: []
+        });
+
+        const actual = renamePairingBoard('Utica', 1, project);
+
+        expect(actual.pairingBoards).toHaveLength(2);
+        expect(actual.pairingBoards[0].name).toEqual('Utica');
+        expect(actual.pairingBoards[1].name).toEqual('New York');
     })
 })

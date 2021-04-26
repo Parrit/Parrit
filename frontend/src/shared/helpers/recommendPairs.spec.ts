@@ -15,7 +15,7 @@ describe("recommending pairs", () => {
   });
 
   it("returns solo people on non-exempt pairing boards", () => {
-    expect(project.currentUnpairedStickingPeople).toEqual([
+    expect(project.unpairedStickingPeople).toEqual([
       {
         id: 1,
         name: "Anthony",

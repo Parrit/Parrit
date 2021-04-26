@@ -75,7 +75,7 @@ export class ProjectHelper {
       topPair = this.pairFor(floating, copy, i);
 
       if (topPair) {
-        const targetPairingBoard = copy.currentPersonPairingBoard(topPair);
+        const targetPairingBoard = copy.findPairingBoardByPerson(topPair);
         if (targetPairingBoard) {
           return new Project(copy.movePerson(floating, targetPairingBoard));
         } else {
@@ -100,7 +100,7 @@ export class ProjectHelper {
     // 0-indexed number from the last most recent paired
     const allAvailable = [
       ...project.people,
-      ...project.currentUnpairedStickingPeople,
+      ...project.unpairedStickingPeople,
     ];
     const partnerDates = allAvailable
       .map((p) => {
