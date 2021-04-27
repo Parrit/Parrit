@@ -218,8 +218,9 @@ export const ProjectProvider: React.FC<Props> = (props) => {
   };
 
   const renamePairingBoard = (name: string, pairingBoardId: number): Promise<void> => {
-    return putPairingBoard(project.id, pairingBoardId, name).then(() => {
-      setProject(renameBoard(name, pairingBoardId, project));
+    setProject(renameBoard(name, pairingBoardId, project));
+    return putPairingBoard(project.id, pairingBoardId, name).then((updatedProject) => {
+      setProject(updatedProject);
     });
   }
 

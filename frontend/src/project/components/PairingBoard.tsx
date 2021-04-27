@@ -53,11 +53,11 @@ export const PairingBoard: React.FC<Props> = (props) => {
   });
 
   const handleRename = async (name: string) => {
+    setEditing(false)
     renamePairingBoard(name, props.pairingBoard.id)
-        .then(() => setEditing(false))
         .catch((error) => {
           console.log("rename error", error);
-          setEditingError(error);
+          setEditingError('rename failed');
         });
   }
 
