@@ -1,7 +1,7 @@
 package com.parrit.services;
 
 import com.parrit.entities.*;
-import com.parrit.repositories.PairingHistoryRepository;
+import com.parrit.repositories.PairingArrangementRepository;
 import com.parrit.utilities.CurrentTimeProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -30,16 +30,16 @@ public class PairingServiceTest {
     private PairingService pairingService;
 
     @Mock
-    private PairingHistoryRepository mockPairingHistoryRepository;
+    private CurrentTimeProvider mockCurrentTimeProvider;
 
     @Mock
-    private CurrentTimeProvider mockCurrentTimeProvider;
+    private PairingArrangementRepository mockPairingArrangementRepository;
 
     private final Timestamp currentTime = new Timestamp(1456364985548L);
 
     @BeforeEach
     public void setup() {
-        pairingService = new PairingService(mockPairingHistoryRepository, mockCurrentTimeProvider);
+        pairingService = new PairingService(mockPairingArrangementRepository, mockCurrentTimeProvider);
 
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(currentTime);
     }
@@ -57,13 +57,17 @@ public class PairingServiceTest {
 
             Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-            when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
-
             pairingService.savePairing(project);
 
-            PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", List.of(p1, p2), currentTime);
+            PairingHistory expectedPairingHistory = new PairingHistory(null, "The Pairing Board", List.of(p1, p2), null);
 
-            verify(mockPairingHistoryRepository).save(expectedPairingHistory);
+            PairingArrangement expectedPairingArrangement = PairingArrangement.builder()
+                    .pairingHistories(Set.of(expectedPairingHistory))
+                    .project(project)
+                    .pairingTime(currentTime)
+                    .build();
+
+            verify(mockPairingArrangementRepository).save(expectedPairingArrangement);
         }
 
         @Test
@@ -82,15 +86,17 @@ public class PairingServiceTest {
 
             Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-            when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
-
             pairingService.savePairing(project);
 
-            PairingHistory expectedPairingHistory1 = new PairingHistory(project, "The Pairing Board", Arrays.asList(p1, p2), currentTime);
-            PairingHistory expectedPairingHistory2 = new PairingHistory(project, "The Second Pairing Board", Arrays.asList(p3, p4), currentTime);
+            PairingHistory expectedPairingHistory1 = new PairingHistory(null, "The Pairing Board", Arrays.asList(p1, p2), null);
+            PairingHistory expectedPairingHistory2 = new PairingHistory(null, "The Second Pairing Board", Arrays.asList(p3, p4), null);
 
-            verify(mockPairingHistoryRepository).save(expectedPairingHistory1);
-            verify(mockPairingHistoryRepository).save(expectedPairingHistory2);
+            PairingArrangement expectedPairingArrangement = PairingArrangement.builder()
+                    .pairingHistories(Set.of(expectedPairingHistory1, expectedPairingHistory2))
+                    .pairingTime(currentTime)
+                    .project(project)
+                    .build();
+            verify(mockPairingArrangementRepository).save(expectedPairingArrangement);
         }
 
         @Test
@@ -106,13 +112,16 @@ public class PairingServiceTest {
 
             Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-            when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
-
             pairingService.savePairing(project);
 
-            PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", List.of(p1, p2, p3), currentTime);
+            PairingHistory expectedPairingHistory = new PairingHistory(null, "The Pairing Board", List.of(p1, p2, p3), null);
 
-            verify(mockPairingHistoryRepository).save(expectedPairingHistory);
+            PairingArrangement expectedPairingArrangement = PairingArrangement.builder()
+                    .pairingHistories(Set.of(expectedPairingHistory))
+                    .pairingTime(currentTime)
+                    .project(project)
+                    .build();
+            verify(mockPairingArrangementRepository).save(expectedPairingArrangement);
         }
 
         @Test
@@ -126,13 +135,16 @@ public class PairingServiceTest {
 
             Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-            when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
-
             pairingService.savePairing(project);
 
-            PairingHistory expectedPairingHistory = new PairingHistory(project, "The Pairing Board", singletonList(p1), currentTime);
+            PairingHistory expectedPairingHistory = new PairingHistory(null, "The Pairing Board", singletonList(p1), null);
 
-            verify(mockPairingHistoryRepository).save(expectedPairingHistory);
+            PairingArrangement expectedPairingArrangement = PairingArrangement.builder()
+                    .pairingHistories(Set.of(expectedPairingHistory))
+                    .pairingTime(currentTime)
+                    .project(project)
+                    .build();
+            verify(mockPairingArrangementRepository).save(expectedPairingArrangement);
         }
 
         @Test
@@ -146,7 +158,7 @@ public class PairingServiceTest {
 
             pairingService.savePairing(project);
 
-            verifyNoInteractions(mockPairingHistoryRepository);
+            verifyNoInteractions(mockPairingArrangementRepository);
         }
 
         @Test
@@ -162,14 +174,14 @@ public class PairingServiceTest {
 
             Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
 
-            when(mockPairingHistoryRepository.save(any(PairingHistory.class))).thenAnswer(i -> i.getArguments()[0]);
-
             pairingService.savePairing(project);
 
-            ArgumentCaptor<PairingHistory> pairingHistoryArgumentCaptor = ArgumentCaptor.forClass(PairingHistory.class);
-            verify(mockPairingHistoryRepository).save(pairingHistoryArgumentCaptor.capture());
-            PairingHistory savedPairingHistory = pairingHistoryArgumentCaptor.getValue();
-            assertThat(savedPairingHistory.getPeople(), not(sameInstance(pairingBoard.getPeople())));
+            ArgumentCaptor<PairingArrangement> pairingHistoryArgumentCaptor = ArgumentCaptor.forClass(PairingArrangement.class);
+            verify(mockPairingArrangementRepository).save(pairingHistoryArgumentCaptor.capture());
+
+            PairingArrangement savedPairingHistory = pairingHistoryArgumentCaptor.getValue();
+            savedPairingHistory.getPairingHistories()
+                    .forEach(history -> assertThat(history.getPeople(), not(sameInstance(pairingBoard.getPeople()))));
         }
     }
 
@@ -190,7 +202,7 @@ public class PairingServiceTest {
                         .build()
         );
 
-        when(mockPairingHistoryRepository.findByProjectAndTimestampAfterOrderByTimestampDesc(any(Project.class), any(Timestamp.class))).thenReturn(arrangements);
+        when(mockPairingArrangementRepository.findByProjectAndPairingTimeAfterOrderByPairingTimeDesc(any(Project.class), any(Timestamp.class))).thenReturn(arrangements);
         Timestamp mockNow = Timestamp.valueOf("2020-06-30 00:00:00.000000000");
         when(mockCurrentTimeProvider.getCurrentTime()).thenReturn(mockNow);
 
@@ -199,6 +211,6 @@ public class PairingServiceTest {
         assertThat(result, equalTo(arrangements));
 
         Timestamp thirtyDaysAgo = Timestamp.valueOf("2020-05-31 00:00:00.000000000");
-        verify(mockPairingHistoryRepository).findByProjectAndTimestampAfterOrderByTimestampDesc(project, thirtyDaysAgo);
+        verify(mockPairingArrangementRepository).findByProjectAndPairingTimeAfterOrderByPairingTimeDesc(project, thirtyDaysAgo);
     }
 }

@@ -31,7 +31,10 @@ public class CustomizedPairingHistoryRepositoryImpl implements CustomizedPairing
     }
 
     @Override
-    public List<PairingArrangement> findByProjectAndTimestampAfterOrderByTimestampDesc(Project project, Timestamp timestamp) {
+    public List<PairingArrangement> findByProjectAndTimestampAfterOrderByTimestampDesc(
+            Project project,
+            Timestamp timestamp
+    ) {
         Map<PairingHistory, Set<Long>> pairingHistoriesToPersonIds = getPairingHistoriesToPersonIds(project, timestamp);
         Map<Long, Person> peopleInHistory = getPeople(getPersonIdsInHistory(pairingHistoriesToPersonIds));
 
