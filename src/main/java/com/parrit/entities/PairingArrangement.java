@@ -12,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class PairingArrangement {
@@ -19,14 +20,14 @@ public class PairingArrangement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pairing_arrangement_id", foreignKey = @ForeignKey(name = "FK_pairing_history__pairing_arrangement"))
     Set<PairingHistory> pairingHistories;
 
     @Column(name = "pairing_time", nullable = false)
-    private final Timestamp pairingTime;
+    private Timestamp pairingTime;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "FK_pairing__arrangement_project"))
-    private final Project project;
+    private Project project;
 }
