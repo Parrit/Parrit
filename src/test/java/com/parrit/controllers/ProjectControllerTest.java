@@ -19,10 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
@@ -54,7 +51,7 @@ public class ProjectControllerTest extends BaseControllerTest {
 
     @Test
     public void getProject_returnsProjectView_withProjectData() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(), new HashSet<>());
         existingProject.setId(1L);
 
         ProjectDTO existingProjectDTO = ProjectTransformer.transform(existingProject);
@@ -75,7 +72,7 @@ public class ProjectControllerTest extends BaseControllerTest {
 
     @Test
     public void createProject_savesTheNewProject() throws Exception {
-        Project persistedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project persistedProject = new Project("Henry", "henrypass", new HashSet<>(), new HashSet<>());
         persistedProject.setId(1L);
 
         NewProjectDTO newProjectDTO = new NewProjectDTO();
@@ -90,12 +87,12 @@ public class ProjectControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isOk());
 
-        Project expectedNewProject = new Project("bob", "encodedBobpass", new ArrayList<>(), new ArrayList<>());
+        Project expectedNewProject = new Project("bob", "encodedBobpass", new HashSet<>(), new HashSet<>());
 
-        expectedNewProject.getPairingBoards().add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
-        expectedNewProject.getPairingBoards().add(new PairingBoard("MACAW", false, new ArrayList<>(), new ArrayList<>()));
-        expectedNewProject.getPairingBoards().add(new PairingBoard("DESIGN", false, new ArrayList<>(), new ArrayList<>()));
-        expectedNewProject.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>(), new ArrayList<>()));
+        expectedNewProject.getPairingBoards().add(new PairingBoard("COCKATOO", false, new HashSet<>(), new ArrayList<>()));
+        expectedNewProject.getPairingBoards().add(new PairingBoard("MACAW", false, new HashSet<>(), new ArrayList<>()));
+        expectedNewProject.getPairingBoards().add(new PairingBoard("DESIGN", false, new HashSet<>(), new ArrayList<>()));
+        expectedNewProject.getPairingBoards().add(new PairingBoard("OUT OF OFFICE", true, new HashSet<>(), new ArrayList<>()));
 
         verify(mockProjectRepository).save(eq(expectedNewProject));
     }
@@ -203,7 +200,7 @@ public class ProjectControllerTest extends BaseControllerTest {
 
     @Test
     public void changePassword_encodesPassword_andSetsItOnTheProject() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
@@ -217,7 +214,7 @@ public class ProjectControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(changePasswordDTO)))
                 .andExpect(status().isOk());
 
-        Project expectedProject = new Project("Henry", "encodedBobpass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "encodedBobpass", new HashSet<>(), new HashSet<>());
         expectedProject.setId(1L);
 
         verify(mockProjectRepository).findById(1L);
@@ -265,34 +262,34 @@ public class ProjectControllerTest extends BaseControllerTest {
         Person existingPerson4 = new Person("Alexa");
         existingPerson4.setId(10L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(Arrays.asList(existingPerson1, existingPerson2)), new ArrayList<>());
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(Arrays.asList(existingPerson1, existingPerson2)), new ArrayList<>());
         existingPairingBoard1.setId(88L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
         existingPairingBoard2.setId(99L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
-                new ArrayList<>(Collections.singleton(existingPerson4)));
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
+                new HashSet<>(Collections.singleton(existingPerson4)));
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         expectedPairingBoard1.setId(88L);
 
-        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         expectedPairingBoard2.setId(99L);
 
-        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
-                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2, existingPerson3)));
+        Project expectedProject = new Project("Henry", "henrypass", new HashSet<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
+                new HashSet<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2, existingPerson3)));
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
 
         mockMvc.perform(put("/api/project/1/reset"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
+                .andExpect(content().json(objectMapper.writeValueAsString(updatedProjectDTO)));
 
         verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(eq(expectedProject));
@@ -312,34 +309,34 @@ public class ProjectControllerTest extends BaseControllerTest {
         Person existingPerson4 = new Person("Alexa");
         existingPerson4.setId(10L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(Arrays.asList(existingPerson1, existingPerson2)), new ArrayList<>());
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(Arrays.asList(existingPerson1, existingPerson2)), new ArrayList<>());
         existingPairingBoard1.setId(88L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", true, new ArrayList<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", true, new HashSet<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
         existingPairingBoard2.setId(99L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
-                new ArrayList<>(Collections.singleton(existingPerson4)));
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
+                new HashSet<>(Collections.singleton(existingPerson4)));
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         expectedPairingBoard1.setId(88L);
 
-        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", true, new ArrayList<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
+        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", true, new HashSet<>(Collections.singletonList(existingPerson3)), new ArrayList<>());
         expectedPairingBoard2.setId(99L);
 
-        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
-                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2)));
+        Project expectedProject = new Project("Henry", "henrypass", new HashSet<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
+                new HashSet<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2)));
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
 
         mockMvc.perform(put("/api/project/1/reset"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
+                .andExpect(content().json(objectMapper.writeValueAsString(updatedProjectDTO)));
 
         verify(mockProjectRepository).findById(1L);
         verify(mockProjectRepository).save(eq(expectedProject));

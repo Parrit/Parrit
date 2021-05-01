@@ -1,11 +1,15 @@
 package com.parrit.entities;
 
-import lombok.*;
-import com.parrit.DTOs.ProjectDTO;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "project",
@@ -37,13 +41,15 @@ public class Project {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "project_id_fk"))
-    private List<PairingBoard> pairingBoards;
+    @Fetch(FetchMode.JOIN)
+    private Set<PairingBoard> pairingBoards;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", nullable = true, foreignKey = @ForeignKey(name = "project_id_fk"))
-    private List<Person> people;
+    @Fetch(FetchMode.JOIN)
+    private Set<Person> people;
 
-    public Project(String name, String password, List<PairingBoard> pairingBoards, List<Person> people) {
+    public Project(String name, String password, Set<PairingBoard> pairingBoards, Set<Person> people) {
         this.name = name;
         this.password = password;
         this.pairingBoards = pairingBoards;

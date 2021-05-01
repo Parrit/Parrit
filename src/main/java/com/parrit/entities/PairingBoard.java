@@ -2,10 +2,14 @@ package com.parrit.entities;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "pairing_board",
@@ -35,13 +39,14 @@ public class PairingBoard {
 
     @OneToMany
     @JoinColumn(name = "pairing_board_id", nullable = true, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
-    private List<Person> people = new ArrayList<>();
+    @Fetch(FetchMode.JOIN)
+    private Set<Person> people = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pairing_board_id", nullable = false, foreignKey = @ForeignKey(name = "pairing_board_id_fk"))
     private List<Role> roles = new ArrayList<>();
 
-    public PairingBoard(String name, boolean exempt, List<Person> people, List<Role> roles) {
+    public PairingBoard(String name, boolean exempt, Set<Person> people, List<Role> roles) {
         this.name = name;
         this.exempt = exempt;
         this.people = people;

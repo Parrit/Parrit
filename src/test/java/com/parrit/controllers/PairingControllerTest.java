@@ -38,18 +38,14 @@ public class PairingControllerTest extends BaseControllerTest {
     private ProjectRepository mockProjectRepository;
 
     private Project exampleProject;
-    private String exampleProjectString;
 
     @BeforeEach
     public void setUp() {
-        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard pairingBoard = new PairingBoard("Super Pairing Board", false, new HashSet<>(), new ArrayList<>());
         pairingBoard.setId(1L);
 
-        exampleProject = new Project("Nancy", "nancypass", Collections.singletonList(pairingBoard), new ArrayList<>());
+        exampleProject = new Project("Nancy", "nancypass", Set.of(pairingBoard), new HashSet<>());
         exampleProject.setId(2L);
-
-        String pairingBoardString = "{\"id\":1,\"name\":\"Super Pairing Board\",\"exempt\":false,\"people\":[],\"roles\":[]}";
-        exampleProjectString = "{\"id\":2,\"name\":\"Nancy\",\"pairingBoards\":[" + pairingBoardString + "],\"people\":[]}";
     }
 
     //********************//
@@ -58,9 +54,9 @@ public class PairingControllerTest extends BaseControllerTest {
 
     @Test
     public void savePairing_passesTheProjectToThePairingHistoryService_andReturnsTheResultingPairingHistories() throws Exception {
-        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, "Pairing Board 1", new ArrayList<>(), new Timestamp(120000));
-        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new ArrayList<>(), new Timestamp(60000));
-        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new ArrayList<>(), new Timestamp(60000));
+        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, "Pairing Board 1", new HashSet<>(), new Timestamp(120000));
+        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new HashSet<>(), new Timestamp(60000));
+        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new HashSet<>(), new Timestamp(60000));
 
         PairingArrangement pairingArrangement1 = PairingArrangement.builder()
                 .pairingHistories(Set.of(pairingHistory1))
@@ -96,9 +92,9 @@ public class PairingControllerTest extends BaseControllerTest {
 
     @Test
     public void getPairingHistory_callsPairingHistoryService_andReturnsPairingArrangements() throws Exception {
-        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, "Pairing Board 1", new ArrayList<>(), new Timestamp(120000));
-        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new ArrayList<>(), new Timestamp(60000));
-        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new ArrayList<>(), new Timestamp(60000));
+        PairingHistory pairingHistory1 = new PairingHistory(exampleProject, "Pairing Board 1", new HashSet<>(), new Timestamp(120000));
+        PairingHistory pairingHistory2 = new PairingHistory(exampleProject, "Pairing Board 2", new HashSet<>(), new Timestamp(60000));
+        PairingHistory pairingHistory3 = new PairingHistory(exampleProject, "Pairing Board 3", new HashSet<>(), new Timestamp(60000));
 
         PairingArrangement pairingArrangement1 = PairingArrangement.builder()
                 .pairingHistories(Set.of(pairingHistory1))

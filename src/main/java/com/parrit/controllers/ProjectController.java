@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -67,13 +69,13 @@ public class ProjectController {
 
         String hashedPassword = passwordEncoder.encode(newProjectDTO.getPassword());
 
-        List<PairingBoard> defaultPairingBoards = new ArrayList<>();
-        defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("MACAW", false, new ArrayList<>(), new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>(), new ArrayList<>()));
-        defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>(), new ArrayList<>()));
+        Set<PairingBoard> defaultPairingBoards = new HashSet<>();
+        defaultPairingBoards.add(new PairingBoard("COCKATOO", false, new HashSet<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("MACAW", false, new HashSet<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("DESIGN", false, new HashSet<>(), new ArrayList<>()));
+        defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new HashSet<>(), new ArrayList<>()));
 
-        Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new ArrayList<>());
+        Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new HashSet<>());
         projectRepository.save(project);
     }
 

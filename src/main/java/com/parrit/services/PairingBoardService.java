@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Component
 public class PairingBoardService {
@@ -40,7 +41,7 @@ public class PairingBoardService {
                 .orElseThrow(() -> new PairingBoardNotFoundException("While updating, could not find pairing board with id: " + dto.getId()));
     }
 
-    public List<PairingBoard> updatePairingBoardsBasedOnList(List<PairingBoardDTO> dtoList) {
-        return dtoList.stream().map(this::updatePairingBoardWithDTO).collect(toList());
+    public Set<PairingBoard> updatePairingBoardsBasedOnList(List<PairingBoardDTO> dtoList) {
+        return dtoList.stream().map(this::updatePairingBoardWithDTO).collect(toSet());
     }
 }

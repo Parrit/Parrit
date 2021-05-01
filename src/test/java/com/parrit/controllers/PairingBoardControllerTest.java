@@ -18,9 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,17 +46,17 @@ public class PairingBoardControllerTest extends BaseControllerTest {
 
     @Test
     public void addPairingBoard_createsAPairingBoardWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(), new HashSet<>());
         existingProject.setId(1L);
 
-        PairingBoard newPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard newPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
 
         PairingBoardDTO pairingBoardDTO = PairingBoardTransformer.transform(newPairingBoard);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(newPairingBoard), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", Set.of(newPairingBoard), new HashSet<>());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -101,13 +99,13 @@ public class PairingBoardControllerTest extends BaseControllerTest {
 
     @Test
     public void updatePairingBoard_updatesMatchingPairingBoardById_andReturnsTheUpdatedProject() throws Exception {
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard.setId(2L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
-        PairingBoard updatedPairingBoard = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard updatedPairingBoard = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         updatedPairingBoard.setId(2L);
 
         PairingBoardDTO updatedPairingBoardDTO = PairingBoardTransformer.transform(updatedPairingBoard);
@@ -115,7 +113,7 @@ public class PairingBoardControllerTest extends BaseControllerTest {
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(updatedPairingBoard), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", Set.of(updatedPairingBoard), new HashSet<>());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -158,10 +156,10 @@ public class PairingBoardControllerTest extends BaseControllerTest {
 
     @Test
     public void updatePairingBoard_whenNameNoPairingBoardMatchesGivenId_returnsError() throws Exception {
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard.setId(99L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
         PairingBoardDTO updatedPairingBoardDTO = new PairingBoardDTO();
@@ -181,16 +179,16 @@ public class PairingBoardControllerTest extends BaseControllerTest {
 
     @Test
     public void deletePairingBoard_removesMatchingPairingBoardFromProject_andReturnsTheUpdatedProject() throws Exception {
-        PairingBoard existingPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Ka-Boom", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard.setId(55L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Collections.singletonList(existingPairingBoard)), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(Collections.singletonList(existingPairingBoard)), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", new HashSet<>(), new HashSet<>());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -199,7 +197,7 @@ public class PairingBoardControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        PairingBoard expectedDeletedPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard expectedDeletedPairingBoard = new PairingBoard("Ka-Boom", false, new HashSet<>(), new ArrayList<>());
         expectedDeletedPairingBoard.setId(55L);
 
         verify(mockParingBoardRepository).delete(expectedDeletedPairingBoard);
@@ -212,16 +210,16 @@ public class PairingBoardControllerTest extends BaseControllerTest {
         Person existingPerson = new Person("Billy");
         existingPerson.setId(99L);
 
-        PairingBoard existingPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(Collections.singletonList(existingPerson)), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Ka-Boom", false, new HashSet<>(Collections.singletonList(existingPerson)), new ArrayList<>());
         existingPairingBoard.setId(55L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Collections.singletonList(existingPairingBoard)), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(Collections.singletonList(existingPairingBoard)), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)));
+        Project expectedProject = new Project("Henry", "henrypass", new HashSet<>(), new HashSet<>(Collections.singletonList(existingPerson)));
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -230,7 +228,7 @@ public class PairingBoardControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updatedProjectDTO)));
 
-        PairingBoard expectedDeletedPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(Collections.singletonList(existingPerson)), new ArrayList<>());
+        PairingBoard expectedDeletedPairingBoard = new PairingBoard("Ka-Boom", false, new HashSet<>(Collections.singletonList(existingPerson)), new ArrayList<>());
         expectedDeletedPairingBoard.setId(55L);
 
         verify(mockParingBoardRepository).delete(expectedDeletedPairingBoard);
@@ -240,10 +238,10 @@ public class PairingBoardControllerTest extends BaseControllerTest {
 
     @Test
     public void deletePairingBoard_whenNoPairingBoardMatchesGivenId_returnsError() throws Exception {
-        PairingBoard existingPairingBoard = new PairingBoard("Ka-Boom", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Ka-Boom", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard.setId(55L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Collections.singletonList(existingPairingBoard)), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new HashSet<>(Collections.singletonList(existingPairingBoard)), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));

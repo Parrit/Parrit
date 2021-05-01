@@ -19,10 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,10 +47,10 @@ public class RoleControllerTest extends BaseControllerTest {
 
     @Test
     public void addRole_createsARoleWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard.setId(2L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
         Role newRole = new Role("Ballers");
@@ -63,10 +60,10 @@ public class RoleControllerTest extends BaseControllerTest {
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), Collections.singletonList(newRole));
+        PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), List.of(newRole));
         expectedPairingBoard.setId(2L);
 
-        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(expectedPairingBoard), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", Set.of(expectedPairingBoard), new HashSet<>());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -122,10 +119,10 @@ public class RoleControllerTest extends BaseControllerTest {
 
     @Test
     public void addRole_whenNoPairingBoardMatchesGivenId_returnsError() throws Exception {
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard.setId(2L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
         Role newRole = new Role("Ballers");
@@ -149,13 +146,13 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard1.setId(2L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard2.setId(4L);
 
-        Project existingProject = new Project("Henry", "henrypass", Arrays.asList(existingPairingBoard1, existingPairingBoard2), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard1, existingPairingBoard2), new HashSet<>());
         existingProject.setId(1L);
 
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
@@ -167,13 +164,13 @@ public class RoleControllerTest extends BaseControllerTest {
         Role expectedRole = new Role("Ballers");
         expectedRole.setId(3L);
 
-        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard expectedPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         expectedPairingBoard1.setId(2L);
 
-        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(expectedRole)));
+        PairingBoard expectedPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>(Set.of(expectedRole)));
         expectedPairingBoard2.setId(4L);
 
-        Project expectedProject = new Project("Henry", "henrypass", Arrays.asList(expectedPairingBoard1, expectedPairingBoard2), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", Set.of(expectedPairingBoard1, expectedPairingBoard2), new HashSet<>());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -193,13 +190,13 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard1.setId(2L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard2.setId(4L);
 
-        Project existingProject = new Project("Henry", "henrypass", Arrays.asList(existingPairingBoard1, existingPairingBoard2), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard1, existingPairingBoard2), new HashSet<>());
         existingProject.setId(1L);
 
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
@@ -218,13 +215,13 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard1.setId(2L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard2.setId(4L);
 
-        Project existingProject = new Project("Henry", "henrypass", Arrays.asList(existingPairingBoard1, existingPairingBoard2), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard1, existingPairingBoard2), new HashSet<>());
         existingProject.setId(1L);
 
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
@@ -247,13 +244,13 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard1.setId(2L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard2.setId(4L);
 
-        Project existingProject = new Project("Henry", "henrypass", Arrays.asList(existingPairingBoard1, existingPairingBoard2), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard1, existingPairingBoard2), new HashSet<>());
         existingProject.setId(1L);
 
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
@@ -276,13 +273,13 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard1 = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard1.setId(2L);
 
-        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard existingPairingBoard2 = new PairingBoard("Lame Kids", false, new HashSet<>(), new ArrayList<>());
         existingPairingBoard2.setId(4L);
 
-        Project existingProject = new Project("Henry", "henrypass", Arrays.asList(existingPairingBoard1, existingPairingBoard2), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard1, existingPairingBoard2), new HashSet<>());
         existingProject.setId(1L);
 
         RolePositionDTO rolePositionDTO = new RolePositionDTO();
@@ -305,19 +302,19 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard.setId(2L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
+        PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>());
         expectedPairingBoard.setId(2L);
 
-        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(expectedPairingBoard), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", Set.of(expectedPairingBoard), new HashSet<>());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -339,10 +336,10 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard.setId(2L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
@@ -360,10 +357,10 @@ public class RoleControllerTest extends BaseControllerTest {
         Role existingRole = new Role("Ballers");
         existingRole.setId(3L);
 
-        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingRole)));
+        PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new HashSet<>(), new ArrayList<>(Set.of(existingRole)));
         existingPairingBoard.setId(2L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Set.of(existingPairingBoard), new HashSet<>());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
