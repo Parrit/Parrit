@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-public interface PairingArrangementRepository extends JpaRepository<PairingArrangement, Long> {
+public interface PairingArrangementRepository extends JpaRepository<PairingArrangement, Long>, CustomizedPairingHistoryRepository {
     List<PairingArrangement> findByProjectAndPairingTimeAfterOrderByPairingTimeDesc(Project project, Timestamp timestamp);
 
 }

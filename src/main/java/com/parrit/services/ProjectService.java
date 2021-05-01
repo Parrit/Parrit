@@ -6,8 +6,6 @@ import com.parrit.exceptions.ProjectNotFoundException;
 import com.parrit.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class ProjectService {
     final ProjectRepository projectRepository;

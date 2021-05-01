@@ -7,6 +7,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface CustomizedPairingHistoryRepository {
-    List<PairingArrangement> findByProjectAndTimestampAfterOrderByTimestampDesc(Project project, Timestamp timestamp);
+    List<PairingArrangement> findByProjectAndPairingTimeAfterOrderByPairingTimeDesc(Project project, Timestamp timestamp);
 
 }
