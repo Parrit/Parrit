@@ -2,6 +2,7 @@ import moment from "moment";
 import React, {useContext} from "react";
 import {PairingArrangementDTO} from "../interfaces/PairingArrangementDTO";
 import {ProjectContext} from "../ProjectContext";
+import {TrashIcon} from "../../shared/components/TrashIcon";
 
 interface Props {
   pairingArrangement: PairingArrangementDTO;
@@ -20,7 +21,7 @@ const PairingHistoryRecord: React.FC<Props> = (props) => {
       <div className="pairing-boards-with-people">
         {pairingArrangement.pairingHistories.map((history) => {
           return (
-            <div key={`${pairingArrangement.pairingTime}${history.pairingBoardName}`} className="pairing-board-with-people">
+            <div key={pairingArrangement.id} className="pairing-board-with-people">
               <div className="pairing-board-name">{history.pairingBoardName}:</div>
               {history.people.map((person) => {
                 return (
@@ -34,10 +35,10 @@ const PairingHistoryRecord: React.FC<Props> = (props) => {
           );
         })}
       </div>
-      <div
-        className="delete-pairing-arrangement"
-        onClick={() => {deletePairingArrangement(pairingArrangement.id)}}
-      />
+        <div className="delete-pairing-arrangement"
+             onClick={() => {deletePairingArrangement(pairingArrangement.id)}}>
+            <TrashIcon/>
+        </div>
       <div className="dotted-line" />
     </div>
   );

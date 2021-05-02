@@ -77,10 +77,16 @@
       grid-column-start: 3;
       grid-row-start: 1;
 
-      background-repeat: no-repeat;
-      width: 20px;
-      height: 20px;
-      background-image: url("./images/trash.svg");
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+      fill: $coolGrey;
+    }
+
+    .delete-pairing-arrangement:hover {
+      fill: $salmon;
+      cursor: pointer;
     }
   }
 }
