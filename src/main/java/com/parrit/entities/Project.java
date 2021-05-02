@@ -1,10 +1,13 @@
 package com.parrit.entities;
 
-import lombok.*;
-import com.parrit.DTOs.ProjectDTO;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,11 +46,15 @@ public class Project {
     @JoinColumn(name = "project_id", nullable = true, foreignKey = @ForeignKey(name = "project_id_fk"))
     private List<Person> people;
 
-    public Project(String name, String password, List<PairingBoard> pairingBoards, List<Person> people) {
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PairingArrangement> pairingArrangements = new ArrayList<>();
+
+    public Project(String name, String password, List<PairingBoard> pairingBoards, List<Person> people, List<PairingArrangement> pairingArrangements) {
         this.name = name;
         this.password = password;
         this.pairingBoards = pairingBoards;
         this.people = people;
+        this.pairingArrangements = pairingArrangements;
     }
 
     @Override

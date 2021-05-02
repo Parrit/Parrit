@@ -23,6 +23,7 @@ export interface IProjectContext {
   resetPairs: () => void;
   getRecommendedPairs: () => void;
   savePairing: () => void;
+  deletePairingArrangement: (pairingArrangementId: number) => void;
 }
 
 export const ProjectContext = createContext({} as IProjectContext);
@@ -47,6 +48,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     deletePerson,
     postProjectPairing,
     updateProject,
+    deletePairingArrangementRequest
   } = useContext(ApiContext);
 
   useEffect(() => {
@@ -224,6 +226,14 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     });
   }
 
+  const deletePairingArrangement = (pairingArrangementId: number): void => {
+    setPairingArrangements(pairingArrangements.filter(pa => pa.id !=pairingArrangementId));
+
+    deletePairingArrangementRequest(project.id, pairingArrangementId).then((updatedPairingArrangement) => {
+      setPairingArrangements(updatedPairingArrangement);
+    });
+  }
+
   const value = {
     createPerson,
     createPairingBoard,
@@ -239,6 +249,7 @@ export const ProjectProvider: React.FC<Props> = (props) => {
     savePairing,
     pairingHistory: pairingArrangements,
     project,
+    deletePairingArrangement
   };
 
   return (

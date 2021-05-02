@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -49,7 +50,7 @@ public class PersonControllerTest extends BaseControllerTest {
 
     @Test
     public void addPerson_createsAPersonWithTheGivenName_andReturnsTheUpdatedProject() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(), List.of());
         existingProject.setId(1L);
 
         Person newPerson = new Person("Steve");
@@ -59,7 +60,7 @@ public class PersonControllerTest extends BaseControllerTest {
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), Collections.singletonList(newPerson));
+        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), Collections.singletonList(newPerson), List.of());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -121,7 +122,7 @@ public class PersonControllerTest extends BaseControllerTest {
         PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(Collections.singletonList(existingPerson)), new ArrayList<>());
         existingPairingBoard.setId(88L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>(), List.of());
         existingProject.setId(1L);
 
         PersonPositionDTO personPositionDTO = new PersonPositionDTO();
@@ -134,7 +135,7 @@ public class PersonControllerTest extends BaseControllerTest {
         PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
         expectedPairingBoard.setId(88L);
 
-        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(expectedPairingBoard), Collections.singletonList(existingPerson));
+        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(expectedPairingBoard), Collections.singletonList(existingPerson), List.of());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -157,7 +158,7 @@ public class PersonControllerTest extends BaseControllerTest {
         PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
         existingPairingBoard.setId(88L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>(Collections.singletonList(existingPerson)));
+        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>(Collections.singletonList(existingPerson)), List.of());
         existingProject.setId(1L);
 
         PersonPositionDTO personPositionDTO = new PersonPositionDTO();
@@ -170,7 +171,7 @@ public class PersonControllerTest extends BaseControllerTest {
         PairingBoard expectedPairingBoard = new PairingBoard("Cool Kids", false, Collections.singletonList(existingPerson), new ArrayList<>());
         expectedPairingBoard.setId(88L);
 
-        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(expectedPairingBoard), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", Collections.singletonList(expectedPairingBoard), new ArrayList<>(), List.of());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -204,7 +205,7 @@ public class PersonControllerTest extends BaseControllerTest {
         PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
         existingPairingBoard.setId(88L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>(), List.of());
         existingProject.setId(1L);
 
         PersonPositionDTO personPositionDTO = new PersonPositionDTO();
@@ -231,7 +232,7 @@ public class PersonControllerTest extends BaseControllerTest {
         PairingBoard existingPairingBoard = new PairingBoard("Cool Kids", false, new ArrayList<>(), new ArrayList<>());
         existingPairingBoard.setId(88L);
 
-        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>(Collections.singletonList(existingPerson)));
+        Project existingProject = new Project("Henry", "henrypass", Collections.singletonList(existingPairingBoard), new ArrayList<>(Collections.singletonList(existingPerson)), List.of());
         existingProject.setId(1L);
 
         PersonPositionDTO personPositionDTO = new PersonPositionDTO();
@@ -255,13 +256,13 @@ public class PersonControllerTest extends BaseControllerTest {
         Person existingPerson = new Person("Ahh Ohh");
         existingPerson.setId(76L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)));
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)), List.of());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
         when(mockProjectRepository.save(any(Project.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(), List.of());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -279,7 +280,7 @@ public class PersonControllerTest extends BaseControllerTest {
         Person existingPerson = new Person("Ahh Ohh");
         existingPerson.setId(76L);
 
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)));
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(Collections.singletonList(existingPerson)), List.of());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));

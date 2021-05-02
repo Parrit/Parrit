@@ -8,10 +8,7 @@ import com.parrit.services.PairingService;
 import com.parrit.transformers.PairingHistoryTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,5 +44,23 @@ public class PairingController {
         List<PairingArrangement> pairingHistoryList = pairingService.getSortedPairingHistory(project);
 
         return PairingHistoryTransformer.transform(pairingHistoryList);
+    }
+
+    @DeleteMapping(path = "/api/project/{projectId}/pairing/history/{pairingArrangementId}")
+    public List<PairingArrangementDTO> deletePairingArrangement(
+            @PathVariable long projectId,
+            @PathVariable long pairingArrangementId
+    ) {
+        Project project = projectRepository.findById(projectId).get();
+
+        project.getPairingArrangements().stream()
+                .filter(pairingArrangement -> pairingArrangement.getId() == pairingArrangementId)
+                .findFirst()
+                .ifPresent(pairingArrangement -> {
+                    project.getPairingArrangements().remove(pairingArrangement);
+                    projectRepository.save(project);
+                });
+
+        return PairingHistoryTransformer.transform(pairingService.getSortedPairingHistory(project));
     }
 }

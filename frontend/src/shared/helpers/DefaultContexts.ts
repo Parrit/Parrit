@@ -26,6 +26,7 @@ export const DefaultContexts: IDefaultContexts = {
       getRecommendedPairing: jest.fn(),
       getPairingHistory: jest.fn(),
       updateProject: jest.fn(),
+      deletePairingArrangementRequest: jest.fn(),
     };
   },
 

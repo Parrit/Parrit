@@ -10,4 +10,5 @@ import java.util.Set;
 public class PairingArrangementDTO {
     Set<PairingHistoryDTO> pairingHistories;
     String pairingTime;
+    Long id;
 }

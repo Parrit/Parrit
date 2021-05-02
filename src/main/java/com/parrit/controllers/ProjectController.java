@@ -73,7 +73,7 @@ public class ProjectController {
         defaultPairingBoards.add(new PairingBoard("DESIGN", false, new ArrayList<>(), new ArrayList<>()));
         defaultPairingBoards.add(new PairingBoard("OUT OF OFFICE", true, new ArrayList<>(), new ArrayList<>()));
 
-        Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new ArrayList<>());
+        Project project = new Project(projectName, hashedPassword, defaultPairingBoards, new ArrayList<>(), List.of());
         projectRepository.save(project);
     }
 

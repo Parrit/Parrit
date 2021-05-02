@@ -48,6 +48,7 @@ export interface IApiContext {
   postProjectPairing(projectId: number): Promise<PairingArrangementDTO[]>;
   getPairingHistory(projectId: number): Promise<PairingArrangementDTO[]>;
   updateProject(project: IProject): Promise<IProject>;
+  deletePairingArrangementRequest(projectId: number, pairingArrangementId: number): Promise<PairingArrangementDTO[]>;
 }
 
 export const ApiContext = React.createContext({} as IApiContext);
@@ -246,6 +247,14 @@ export const ApiProvider: React.FC = (props) => {
     });
   };
 
+  const deletePairingArrangementRequest = (projectId: number, pairingArrangementId: number): Promise<PairingArrangementDTO[]> => {
+    return Axios.delete<PairingArrangementDTO[]>(
+        "/api/project/" + encodeURIComponent(projectId) + "/pairing/history/" + encodeURIComponent(pairingArrangementId)
+    ).then((response) => {
+      return response.data;
+    });
+  }
+
   const value = {
     postLoginAndRedirect,
     postLogout,
@@ -263,6 +272,7 @@ export const ApiProvider: React.FC = (props) => {
     postProjectPairing,
     getPairingHistory,
     updateProject,
+    deletePairingArrangementRequest
   };
 
   return (

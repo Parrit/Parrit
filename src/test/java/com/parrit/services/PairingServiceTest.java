@@ -12,10 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -55,7 +52,7 @@ public class PairingServiceTest {
             pairingBoard.setId(1L);
             List<PairingBoard> pairingBoards = singletonList(pairingBoard);
 
-            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>(), List.of());
 
             pairingService.savePairing(project);
 
@@ -84,7 +81,7 @@ public class PairingServiceTest {
 
             List<PairingBoard> pairingBoards = List.of(pairingBoard1, pairingBoard2);
 
-            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>(), List.of());
 
             pairingService.savePairing(project);
 
@@ -110,7 +107,7 @@ public class PairingServiceTest {
 
             List<PairingBoard> pairingBoards = singletonList(pairingBoard);
 
-            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>(), List.of());
 
             pairingService.savePairing(project);
 
@@ -133,7 +130,7 @@ public class PairingServiceTest {
 
             List<PairingBoard> pairingBoards = singletonList(pairingBoard);
 
-            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>(), List.of());
 
             pairingService.savePairing(project);
 
@@ -154,7 +151,7 @@ public class PairingServiceTest {
 
             List<PairingBoard> pairingBoards = singletonList(pairingBoard);
 
-            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>(), List.of());
 
             pairingService.savePairing(project);
 
@@ -172,7 +169,7 @@ public class PairingServiceTest {
             pairingBoard.setId(1L);
             List<PairingBoard> pairingBoards = singletonList(pairingBoard);
 
-            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>());
+            Project project = new Project("One", "onepass", pairingBoards, new ArrayList<>(), List.of());
 
             pairingService.savePairing(project);
 
@@ -186,8 +183,8 @@ public class PairingServiceTest {
     }
 
     @Test
-    public void getSortedPairingHistory_getsThePairingHistoriesForAProject_sortedByMostRecentPairingHistory() {
-        Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>());
+    void getSortedPairingHistory_getsThePairingHistoriesForAProject_sortedByMostRecentPairingHistory() {
+        Project project = new Project("One", "onepass", new ArrayList<>(), new ArrayList<>(), List.of());
 
         List<PairingArrangement> arrangements = List.of(
                 PairingArrangement.builder()

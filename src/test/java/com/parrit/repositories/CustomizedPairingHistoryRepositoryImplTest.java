@@ -60,13 +60,13 @@ public class CustomizedPairingHistoryRepositoryImplTest {
         List<Person> scrantonOfficePeople = setupPeople();
         String password1 = "12345678";
 
-        Project project1 = new Project("Scranton", password1, emptyList(), scrantonOfficePeople);
+        Project project1 = new Project("Scranton", password1, emptyList(), scrantonOfficePeople, List.of());
         PairingHistory expectedHistory = new PairingHistory(null, "scranton board", scrantonOfficePeople.subList(0, 3), null);
 
         List<Person> nashuaPeople = List.of(new Person("Holly"));
         String password = "12345678";
 
-        Project project2 = new Project("Nashua", password, emptyList(), nashuaPeople);
+        Project project2 = new Project("Nashua", password, emptyList(), nashuaPeople, List.of());
         PairingHistory irrelevantHistory = new PairingHistory(null, "nashua board", nashuaPeople, null);
 
         PairingArrangement expectedPairingArrangement = PairingArrangement.builder()
@@ -97,7 +97,7 @@ public class CustomizedPairingHistoryRepositoryImplTest {
     @Test
     void shouldReturnHistoryAfterTimestamp_NotAtOrBeforeTimestamp() {
         List<Person> scrantonOfficePeople = setupPeople();
-        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople);
+        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople, List.of());
         PairingHistory expectedHistory1 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
         PairingHistory expectedHistory2 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
         PairingHistory unexpectedHistory = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
@@ -131,7 +131,7 @@ public class CustomizedPairingHistoryRepositoryImplTest {
     @Test
     void shouldReturnHistoryInOrder_withLatestRecordFirst() {
         List<Person> scrantonOfficePeople = setupPeople();
-        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople);
+        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople, List.of());
         PairingHistory expectedHistory1 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(1, 2), null);
         PairingHistory expectedHistory2 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(2, 3), null);
         PairingHistory expectedHistory3 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(2, 4), null);
@@ -181,7 +181,7 @@ public class CustomizedPairingHistoryRepositoryImplTest {
     @Test
     void shouldGroupHistoryByTimestamp() {
         List<Person> scrantonOfficePeople = setupPeople();
-        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople);
+        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople, List.of());
         PairingHistory expectedHistory1 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
         PairingHistory expectedHistory2 = new PairingHistory(null, "board2", scrantonOfficePeople.subList(2, 4), null);
         PairingHistory expectedHistory3 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);

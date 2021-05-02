@@ -19,10 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
@@ -54,7 +51,7 @@ public class ProjectControllerTest extends BaseControllerTest {
 
     @Test
     public void getProject_returnsProjectView_withProjectData() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(), List.of());
         existingProject.setId(1L);
 
         ProjectDTO existingProjectDTO = ProjectTransformer.transform(existingProject);
@@ -75,7 +72,7 @@ public class ProjectControllerTest extends BaseControllerTest {
 
     @Test
     public void createProject_savesTheNewProject() throws Exception {
-        Project persistedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project persistedProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(), List.of());
         persistedProject.setId(1L);
 
         NewProjectDTO newProjectDTO = new NewProjectDTO();
@@ -90,7 +87,7 @@ public class ProjectControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(newProjectDTO)))
                 .andExpect(status().isOk());
 
-        Project expectedNewProject = new Project("bob", "encodedBobpass", new ArrayList<>(), new ArrayList<>());
+        Project expectedNewProject = new Project("bob", "encodedBobpass", new ArrayList<>(), new ArrayList<>(), List.of());
 
         expectedNewProject.getPairingBoards().add(new PairingBoard("COCKATOO", false, new ArrayList<>(), new ArrayList<>()));
         expectedNewProject.getPairingBoards().add(new PairingBoard("MACAW", false, new ArrayList<>(), new ArrayList<>()));
@@ -203,7 +200,7 @@ public class ProjectControllerTest extends BaseControllerTest {
 
     @Test
     public void changePassword_encodesPassword_andSetsItOnTheProject() throws Exception {
-        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>());
+        Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(), new ArrayList<>(), List.of());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
@@ -217,7 +214,7 @@ public class ProjectControllerTest extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(changePasswordDTO)))
                 .andExpect(status().isOk());
 
-        Project expectedProject = new Project("Henry", "encodedBobpass", new ArrayList<>(), new ArrayList<>());
+        Project expectedProject = new Project("Henry", "encodedBobpass", new ArrayList<>(), new ArrayList<>(), List.of());
         expectedProject.setId(1L);
 
         verify(mockProjectRepository).findById(1L);
@@ -272,7 +269,7 @@ public class ProjectControllerTest extends BaseControllerTest {
         existingPairingBoard2.setId(99L);
 
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
-                new ArrayList<>(Collections.singleton(existingPerson4)));
+                new ArrayList<>(Collections.singleton(existingPerson4)), List.of());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
@@ -285,7 +282,7 @@ public class ProjectControllerTest extends BaseControllerTest {
         expectedPairingBoard2.setId(99L);
 
         Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
-                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2, existingPerson3)));
+                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2, existingPerson3)), List.of());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);
@@ -319,7 +316,7 @@ public class ProjectControllerTest extends BaseControllerTest {
         existingPairingBoard2.setId(99L);
 
         Project existingProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(existingPairingBoard1, existingPairingBoard2)),
-                new ArrayList<>(Collections.singleton(existingPerson4)));
+                new ArrayList<>(Collections.singleton(existingPerson4)), List.of());
         existingProject.setId(1L);
 
         when(mockProjectRepository.findById(anyLong())).thenReturn(Optional.of(existingProject));
@@ -332,7 +329,7 @@ public class ProjectControllerTest extends BaseControllerTest {
         expectedPairingBoard2.setId(99L);
 
         Project expectedProject = new Project("Henry", "henrypass", new ArrayList<>(Arrays.asList(expectedPairingBoard1, expectedPairingBoard2)),
-                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2)));
+                new ArrayList<>(Arrays.asList(existingPerson4, existingPerson1, existingPerson2)), List.of());
         expectedProject.setId(1L);
 
         ProjectDTO updatedProjectDTO = ProjectTransformer.transform(expectedProject);

@@ -1,6 +1,7 @@
 import moment from "moment";
-import React from "react";
+import React, {useContext} from "react";
 import {PairingArrangementDTO} from "../interfaces/PairingArrangementDTO";
+import {ProjectContext} from "../ProjectContext";
 
 interface Props {
   pairingArrangement: PairingArrangementDTO;
@@ -9,6 +10,7 @@ interface Props {
 const PairingHistoryRecord: React.FC<Props> = (props) => {
   const { pairingArrangement } = props;
   const formattedDate = moment(pairingArrangement.pairingTime).format("MMMM Do YYYY, h:mm a");
+  const { deletePairingArrangement } = useContext(ProjectContext);
 
   return (
     <div className="pairing-history-record">
@@ -32,7 +34,10 @@ const PairingHistoryRecord: React.FC<Props> = (props) => {
           );
         })}
       </div>
-
+      <div
+        className="delete-pairing-arrangement"
+        onClick={() => {deletePairingArrangement(pairingArrangement.id)}}
+      />
       <div className="dotted-line" />
     </div>
   );

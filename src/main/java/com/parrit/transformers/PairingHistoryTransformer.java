@@ -23,6 +23,7 @@ public class PairingHistoryTransformer {
 
     public static PairingArrangementDTO transform(PairingArrangement pairingHistory) {
         return PairingArrangementDTO.builder()
+                .id(pairingHistory.getId())
                 .pairingHistories(
                         pairingHistory.getPairingHistories().stream()
                                 .map(history -> PairingHistoryDTO.builder()
