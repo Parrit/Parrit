@@ -19,11 +19,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static java.util.Collections.emptySet;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
@@ -61,13 +60,13 @@ public class CustomizedPairingHistoryRepositoryImplTest {
         List<Person> scrantonOfficePeople = setupPeople();
         String password1 = "12345678";
 
-        Project project1 = new Project("Scranton", password1, emptySet(), new HashSet<>(scrantonOfficePeople));
-        PairingHistory expectedHistory = new PairingHistory(null, "scranton board", new HashSet<>(scrantonOfficePeople.subList(0, 3)), null);
+        Project project1 = new Project("Scranton", password1, emptyList(), scrantonOfficePeople);
+        PairingHistory expectedHistory = new PairingHistory(null, "scranton board", scrantonOfficePeople.subList(0, 3), null);
 
-        Set<Person> nashuaPeople = Set.of(new Person("Holly"));
+        List<Person> nashuaPeople = List.of(new Person("Holly"));
         String password = "12345678";
 
-        Project project2 = new Project("Nashua", password, emptySet(), nashuaPeople);
+        Project project2 = new Project("Nashua", password, emptyList(), nashuaPeople);
         PairingHistory irrelevantHistory = new PairingHistory(null, "nashua board", nashuaPeople, null);
 
         PairingArrangement expectedPairingArrangement = PairingArrangement.builder()
@@ -98,10 +97,10 @@ public class CustomizedPairingHistoryRepositoryImplTest {
     @Test
     void shouldReturnHistoryAfterTimestamp_NotAtOrBeforeTimestamp() {
         List<Person> scrantonOfficePeople = setupPeople();
-        Project project = new Project("Scranton", "password", emptySet(), new HashSet<>(scrantonOfficePeople));
-        PairingHistory expectedHistory1 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(0, 2)), null);
-        PairingHistory expectedHistory2 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(0, 2)), null);
-        PairingHistory unexpectedHistory = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(0, 2)), null);
+        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople);
+        PairingHistory expectedHistory1 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
+        PairingHistory expectedHistory2 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
+        PairingHistory unexpectedHistory = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
         PairingArrangement expectedPairingArrangement1 = PairingArrangement.builder()
                 .pairingHistories(Set.of(expectedHistory1))
                 .pairingTime(new Timestamp(102))
@@ -132,11 +131,11 @@ public class CustomizedPairingHistoryRepositoryImplTest {
     @Test
     void shouldReturnHistoryInOrder_withLatestRecordFirst() {
         List<Person> scrantonOfficePeople = setupPeople();
-        Project project = new Project("Scranton", "password", emptySet(), new HashSet<>(scrantonOfficePeople));
-        PairingHistory expectedHistory1 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(1, 2)), null);
-        PairingHistory expectedHistory2 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(2, 3)), null);
-        PairingHistory expectedHistory3 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(2, 4)), null);
-        PairingHistory expectedHistory4 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(0, 2)), null);
+        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople);
+        PairingHistory expectedHistory1 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(1, 2), null);
+        PairingHistory expectedHistory2 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(2, 3), null);
+        PairingHistory expectedHistory3 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(2, 4), null);
+        PairingHistory expectedHistory4 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
 
         PairingArrangement pairingArrangement1 = PairingArrangement.builder()
                 .project(project)
@@ -182,10 +181,10 @@ public class CustomizedPairingHistoryRepositoryImplTest {
     @Test
     void shouldGroupHistoryByTimestamp() {
         List<Person> scrantonOfficePeople = setupPeople();
-        Project project = new Project("Scranton", "password", emptySet(), new HashSet<>(scrantonOfficePeople));
-        PairingHistory expectedHistory1 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(0, 2)), null);
-        PairingHistory expectedHistory2 = new PairingHistory(null, "board2", new HashSet<>(scrantonOfficePeople.subList(2, 4)), null);
-        PairingHistory expectedHistory3 = new PairingHistory(null, "board1", new HashSet<>(scrantonOfficePeople.subList(0, 2)), null);
+        Project project = new Project("Scranton", "password", emptyList(), scrantonOfficePeople);
+        PairingHistory expectedHistory1 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
+        PairingHistory expectedHistory2 = new PairingHistory(null, "board2", scrantonOfficePeople.subList(2, 4), null);
+        PairingHistory expectedHistory3 = new PairingHistory(null, "board1", scrantonOfficePeople.subList(0, 2), null);
 
         PairingArrangement expectedPairingArrangement1 = PairingArrangement.builder()
                 .pairingHistories(Set.of(expectedHistory1, expectedHistory2))

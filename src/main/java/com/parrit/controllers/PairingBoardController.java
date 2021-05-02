@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 @RestController
 public class PairingBoardController {
@@ -33,7 +32,7 @@ public class PairingBoardController {
     public ProjectDTO addPairingBoard(@PathVariable long projectId, @RequestBody @Valid PairingBoardDTO pairingBoardDTO) {
         Project savedProject = projectRepository.findById(projectId).get();
 
-        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new HashSet<>(), new ArrayList<>()));
+        savedProject.getPairingBoards().add(new PairingBoard(pairingBoardDTO.getName(), false, new ArrayList<>(), new ArrayList<>()));
 
         Project updatedProject = projectRepository.save(savedProject);
         return ProjectTransformer.transform(updatedProject);

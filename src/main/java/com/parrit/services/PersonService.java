@@ -7,9 +7,8 @@ import com.parrit.repositories.PersonRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class PersonService {
@@ -19,12 +18,12 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public Set<Person> peopleFromDTOList(List<PersonDTO> dtos) {
+    public List<Person> peopleFromDTOList(List<PersonDTO> dtos) {
         return dtos.stream()
                 .map(dto -> personRepository
                         .findById(dto.getId())
                         .orElseThrow(() -> new PersonNotFoundException("Could not find person with id " + dto.getId()))
                 )
-                .collect(toSet());
+                .collect(toList());
     }
 }

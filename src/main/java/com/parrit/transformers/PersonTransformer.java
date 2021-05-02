@@ -4,12 +4,9 @@ import com.parrit.DTOs.PersonDTO;
 import com.parrit.entities.Person;
 
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class PersonTransformer {
@@ -21,7 +18,7 @@ public class PersonTransformer {
         return personDTO;
     }
 
-    public static List<PersonDTO> transform(Set<Person> persons) {
+    public static List<PersonDTO> transform(List<Person> persons) {
         if (isEmpty(persons)) return emptyList();
         return persons.stream()
                 .map(PersonTransformer::transform)
@@ -35,11 +32,11 @@ public class PersonTransformer {
         return person;
     }
 
-    public static Set<Person> reverse(List<PersonDTO> personDTOs) {
-        if (isEmpty(personDTOs)) return emptySet();
+    public static List<Person> reverse(List<PersonDTO> personDTOs) {
+        if (isEmpty(personDTOs)) return emptyList();
         return personDTOs.stream()
                 .map(PersonTransformer::reverse)
-                .collect(toSet());
+                .collect(toList());
     }
 
 }

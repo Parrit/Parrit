@@ -5,7 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -44,12 +44,12 @@ public class PairingHistory {
             joinColumns = @JoinColumn(name = "pairing_history_id", nullable = false, foreignKey = @ForeignKey(name = "pairing_history_fk")),
             inverseJoinColumns = @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "person_id_fk"))
     )
-    private Set<Person> people;
+    private List<Person> people;
 
     @Column(name = "timestamp", nullable = false)
     private Timestamp timestamp;
 
-    public PairingHistory(Project project, String pairingBoardName, Set<Person> people, Timestamp timestamp) {
+    public PairingHistory(Project project, String pairingBoardName, List<Person> people, Timestamp timestamp) {
         this.project = project;
         this.pairingBoardName = pairingBoardName;
         this.people = people;

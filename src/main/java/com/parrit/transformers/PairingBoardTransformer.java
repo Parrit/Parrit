@@ -4,7 +4,6 @@ import com.parrit.DTOs.PairingBoardDTO;
 import com.parrit.entities.PairingBoard;
 
 import java.util.List;
-import java.util.Set;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -22,7 +21,7 @@ public class PairingBoardTransformer {
         return pairingBoardDTO;
     }
 
-    public static List<PairingBoardDTO> transform(Set<PairingBoard> pairingBoards) {
+    public static List<PairingBoardDTO> transform(List<PairingBoard> pairingBoards) {
         if (isEmpty(pairingBoards)) return emptyList();
         return pairingBoards.stream()
                 .map(PairingBoardTransformer::transform)

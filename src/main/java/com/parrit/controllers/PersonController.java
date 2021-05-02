@@ -15,7 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
@@ -44,9 +44,9 @@ public class PersonController {
     public ProjectDTO movePerson(@PathVariable long projectId, @PathVariable long personId, @RequestBody @Valid PersonPositionDTO personPositionDTO) {
         Project savedProject = projectRepository.findById(projectId).get();
 
-        Stream<Set<Person>> floatingPeople = Stream.of(savedProject.getPeople());
-        Stream<Set<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
-        Set<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
+        Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
+        Stream<List<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
+        List<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
                 .filter(ppl -> ppl.stream().anyMatch(p -> p.getId() == personId))
                 .findFirst()
                 .orElseThrow(() -> new PersonNotFoundException("Keeaa!? That person doesn't seem to exist."));
@@ -77,9 +77,9 @@ public class PersonController {
     public ProjectDTO deletePerson(@PathVariable long projectId, @PathVariable long personId) {
         Project savedProject = projectRepository.findById(projectId).get();
 
-        Stream<Set<Person>> floatingPeople = Stream.of(savedProject.getPeople());
-        Stream<Set<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
-        Set<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
+        Stream<List<Person>> floatingPeople = Stream.of(savedProject.getPeople());
+        Stream<List<Person>> pairingBoardPeople = savedProject.getPairingBoards().stream().map(PairingBoard::getPeople);
+        List<Person> listWithPerson = Stream.concat(floatingPeople, pairingBoardPeople)
                 .filter(ppl -> ppl.stream().anyMatch(p -> p.getId() == personId))
                 .findFirst()
                 .orElseThrow(() -> new PersonNotFoundException("Keeaa!? That person doesn't seem to exist."));

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class PairingService {
 
         Set<PairingHistory> pairingHistories = project.getPairingBoards().stream()
                 .filter(board -> !board.getPeople().isEmpty())
-                .map(board -> new PairingHistory(null, board.getName(), new HashSet<>(board.getPeople()), null))
+                .map(board -> new PairingHistory(null, board.getName(), new ArrayList<>(board.getPeople()), null))
                 .collect(toSet());
 
         if (pairingHistories.isEmpty()) {
