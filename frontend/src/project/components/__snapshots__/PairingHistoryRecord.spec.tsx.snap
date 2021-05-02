@@ -67,6 +67,10 @@ exports[`<PairingHistoryRecord/> should render correctly 1`] = `
     </div>
   </div>
   <div
+    className="delete-pairing-arrangement"
+    onClick={[Function]}
+  />
+  <div
     className="dotted-line"
   />
 </div>
