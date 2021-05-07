@@ -76,10 +76,11 @@
     .delete-pairing-arrangement {
       grid-column-start: 3;
       grid-row-start: 1;
+      display: flex;
 
       svg {
-        height: 20px;
-        width: 20px;
+        height: 15px;
+        width: auto;
       }
       fill: $coolGrey;
     }
