@@ -77,12 +77,13 @@
       grid-column-start: 3;
       grid-row-start: 1;
       display: flex;
+      margin-top: 2px;
+      fill: $coolGrey;
 
       svg {
-        height: 15px;
+        height: 12px;
         width: auto;
       }
-      fill: $coolGrey;
     }
 
     .delete-pairing-arrangement:hover {
