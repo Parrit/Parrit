@@ -15,7 +15,7 @@ Please submit a pull request when you are done!
 Make sure these are installed on your machine:
 
 * Java 8
-* Node 8 with NPM 5
+* Node 14 with NPM 6
 * PostgreSQL 9.6
 
 ## Installation
