@@ -1,10 +1,7 @@
 [![Codeship Status for Parrit/Parrit](https://app.codeship.com/projects/cf62bb07-9cfd-4217-8a94-564a4441f6c6/status?branch=master)](https://app.codeship.com/projects/424633)
 
-# 📣 UPDATE: The default hosted Parrit instance has changed addresses. We're now at https://parrit.io
-
 # Parrit
-A historical recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team.
-Visit the app: https://parrit.io/
+A historical recommendation engine for daily pair rotation management, with an interactive visual aide of each pairing team. The original https://parrit.io/ app has been archived, yet please join the new spiritual successor https://parrit.org/!
 
 ## Tech Stack
 - Spring Boot
